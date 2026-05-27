@@ -1,0 +1,70 @@
+.home {
+  width: 100%;
+  min-height: 100vh;
+
+  background: linear-gradient(
+    to bottom,
+    #b30086,
+    #d94bb5
+  );
+}
+
+.hero {
+  width: 100%;
+  min-height: calc(100vh - 80px);
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  padding: 40px;
+}
+
+.left-side {
+  color: white;
+}
+
+.left-side h1 {
+  font-size: 6rem;
+  margin-bottom: 20px;
+}
+
+.left-side p {
+  font-size: 1.5rem;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.right-side button {
+  width: 300px;
+  height: 70px;
+
+  border: none;
+  border-radius: 40px;
+
+  background-color: white;
+
+  color: #b30086;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.right-side button:hover {
+  transform: scale(1.05);
+}
+
+.right-side span {
+  text-align: center;
+  color: white;
+
+  cursor: pointer;
+}
