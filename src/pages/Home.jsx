@@ -1,32 +1,96 @@
 import "../styles/home.css"
-import logo from "../assets/logo.png"
 
-function Home() {
+import logob
+from "../assets/logob.png"
+
+function Home({
+
+  abrirLogin,
+  abrirCadastro
+
+}) {
+
   return (
-    <main className="home">
 
-      <div className="overlay"></div>
+    <main className="home-container">
 
-      <section className="content">
+      <header className="home-header">
 
-        <img src={logo} alt="Dentaline Logo" className="logo" />
+        <img
+          src={logob}
+          className="home-logo-topo"
+        />
 
-        <p>
-          Um lugar mágico para cuidar do seu sorriso ✨
-        </p>
+        <div className="home-botoes-topo">
 
-        <div className="buttons">
+          <button
+            onClick={abrirLogin}
+          >
+            Login
+          </button>
 
-          <button>Sou Dentista</button>
+          <button
+            onClick={abrirCadastro}
+          >
+            Cadastre-se
+          </button>
 
-          <button>Sou Paciente</button>
+        </div>
+
+      </header>
+
+      <section className="home-hero">
+
+        <div className="home-textos">
+
+          <h1>
+            Dentaline
+          </h1>
+
+          <p>
+
+            Plataforma odontológica
+            moderna para gestão de
+            pacientes, agenda,
+            evolução de tratamentos
+            e acompanhamento clínico.
+
+          </p>
+
+          <button
+            onClick={abrirLogin}
+          >
+            Entrar no sistema
+          </button>
 
         </div>
 
       </section>
 
+      <section className="sobre-container">
+
+        <h2>
+          Sobre a clínica
+        </h2>
+
+        <p>
+
+          A Dentaline busca unir
+          tecnologia, organização
+          e cuidado humanizado
+          para oferecer uma
+          experiência moderna
+          tanto para dentistas
+          quanto para pacientes.
+
+        </p>
+
+      </section>
+
     </main>
+
   )
+
 }
 
 export default Home

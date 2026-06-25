@@ -1,71 +1,93 @@
-import { useState } from "react"
-
-import { db } from "../services/firebase"
+import {
+  useState
+} from "react"
 
 import {
-  collection,
-  addDoc
+  createUserWithEmailAndPassword
+} from "firebase/auth"
+
+import {
+  addDoc,
+  collection
 } from "firebase/firestore"
 
-import "../styles/cadastro.css"
+import {
+  auth,
+  db
+} from "../services/firebase"
 
-function CadastroPaciente() {
+import "../styles/cadastroPaciente.css"
 
-  const [nome, setNome] = useState("")
-  const [idade, setIdade] = useState("")
-  const [tel, setTel] = useState("")
-  const [obs, setObs] = useState("")
-  const [proxConsulta, setProxConsulta] = useState("")
+function CadastroPaciente({
 
-  const [responsavel, setResponsavel] = useState("")
-  const [telResponsavel, setTelResponsavel] = useState("")
-  const [cpfResponsavel, setCpfResponsavel] = useState("")
+  voltar
 
-  async function cadastrarPaciente(e) {
+}) {
+
+  const [tipo,
+    setTipo] =
+    useState("paciente")
+
+  const [nome,
+    setNome] =
+    useState("")
+
+  const [email,
+    setEmail] =
+    useState("")
+
+  const [senha,
+    setSenha] =
+    useState("")
+
+  async function cadastrar(e) {
 
     e.preventDefault()
 
     try {
 
-      await addDoc(collection(db, "pacientes"), {
+      const usuario =
+        await createUserWithEmailAndPassword(
 
-        nome,
-        idade: Number(idade),
+          auth,
+          email,
+          senha
 
-        tel,
+        )
 
-        obs,
+      await addDoc(
 
-        proxConsulta,
+        collection(
+          db,
+          "usuarios"
+        ),
 
-        responsavel,
+        {
 
-        telResponsavel,
+          uid:
+            usuario.user.uid,
 
-        cpfResponsavel,
+          nome,
+          email,
+          tipo
 
-        timeline: [],
+        }
 
-        tipo: "paciente"
+      )
 
-      })
+      alert(
+        "Cadastro realizado!"
+      )
 
-      alert("Paciente cadastrado!")
-
-      setNome("")
-      setIdade("")
-      setTel("")
-      setObs("")
-      setProxConsulta("")
-      setResponsavel("")
-      setTelResponsavel("")
-      setCpfResponsavel("")
+      voltar()
 
     } catch (error) {
 
       console.log(error)
 
-      alert("Erro ao cadastrar")
+      alert(
+        "Erro ao cadastrar."
+      )
 
     }
 
@@ -76,121 +98,121 @@ function CadastroPaciente() {
     <main className="cadastro-container">
 
       <form
-        className="cadastro-form"
-        onSubmit={cadastrarPaciente}
+        className="cadastro-box"
+        onSubmit={cadastrar}
       >
 
-        <h1>Cadastro de Paciente</h1>
+        <button
+          type="button"
+          onClick={voltar}
+        >
 
-        <div className="input-group">
+          ← Voltar
 
-          <label>Nome do paciente</label>
+        </button>
 
-          <input
-            type="text"
-            placeholder="Digite o nome"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            required
-          />
+        <h1>
+          Cadastro de Paciente
+        </h1>
 
-        </div>
+        <div className="tipo-box">
 
-        <div className="input-group">
+          <button
 
-          <label>Idade</label>
+            type="button"
 
-          <input
-            type="number"
-            placeholder="Digite a idade"
-            value={idade}
-            onChange={(e) => setIdade(e.target.value)}
-            required
-          />
+            className={
+              tipo === "paciente"
+              ? "ativo"
+              : ""
+            }
 
-        </div>
+            onClick={() =>
+              setTipo(
+                "paciente"
+              )
+            }
 
-        <div className="input-group">
+          >
 
-          <label>Telefone do paciente (opcional)</label>
+            Paciente
 
-          <input
-            type="text"
-            placeholder="(92) 99999-9999"
-            value={tel}
-            onChange={(e) => setTel(e.target.value)}
-          />
+          </button>
 
-        </div>
+          <button
 
-        <div className="input-group">
+            type="button"
 
-          <label>Nome do responsável</label>
+            className={
+              tipo === "auxiliar"
+              ? "ativo"
+              : ""
+            }
 
-          <input
-            type="text"
-            placeholder="Digite o nome do responsável"
-            value={responsavel}
-            onChange={(e) => setResponsavel(e.target.value)}
-            required
-          />
+            onClick={() =>
+              setTipo(
+                "auxiliar"
+              )
+            }
 
-        </div>
+          >
 
-        <div className="input-group">
+            Auxiliar
 
-          <label>Telefone do responsável</label>
-
-          <input
-            type="text"
-            placeholder="(92) 99999-9999"
-            value={telResponsavel}
-            onChange={(e) => setTelResponsavel(e.target.value)}
-            required
-          />
+          </button>
 
         </div>
 
-        <div className="input-group">
+        <input
 
-          <label>CPF do responsável</label>
+          placeholder="Nome"
 
-          <input
-            type="text"
-            placeholder="000.000.000-00"
-            value={cpfResponsavel}
-            onChange={(e) => setCpfResponsavel(e.target.value)}
-            required
-          />
+          value={nome}
 
-        </div>
+          onChange={(e) =>
+            setNome(
+              e.target.value
+            )
+          }
 
-        <div className="input-group">
+        />
 
-          <label>Próxima consulta</label>
+        <input
 
-          <input
-            type="date"
-            value={proxConsulta}
-            onChange={(e) => setProxConsulta(e.target.value)}
-          />
+          type="email"
 
-        </div>
+          placeholder="E-mail"
 
-        <div className="input-group">
+          value={email}
 
-          <label>Observações</label>
+          onChange={(e) =>
+            setEmail(
+              e.target.value
+            )
+          }
 
-          <textarea
-            placeholder="Digite observações"
-            value={obs}
-            onChange={(e) => setObs(e.target.value)}
-          />
+        />
 
-        </div>
+        <input
+
+          type="password"
+
+          placeholder="Senha"
+
+          value={senha}
+
+          onChange={(e) =>
+            setSenha(
+              e.target.value
+            )
+          }
+
+        />
 
         <button type="submit">
-          Cadastrar paciente
+
+          Cadastrar
+
         </button>
 
       </form>
@@ -201,4 +223,4 @@ function CadastroPaciente() {
 
 }
 
-export default CadastroPaciente
+export default CadastroPaciente;

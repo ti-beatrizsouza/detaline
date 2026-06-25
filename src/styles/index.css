@@ -1,0 +1,166 @@
+* {
+
+  margin: 0;
+
+  padding: 0;
+
+  box-sizing: border-box;
+
+  font-family:
+    "Segoe UI",
+    sans-serif;
+
+}
+
+html,
+body,
+#root {
+
+  width: 100%;
+
+  min-height: 100vh;
+
+}
+
+body {
+
+  background: #ffffff;
+
+  color: #333;
+
+}
+
+/* Inputs globais */
+
+input,
+textarea,
+select {
+
+  font-family:
+    "Segoe UI",
+    sans-serif;
+
+  background: #f0ebef;
+
+  border: 2px solid #c14ca6;
+
+  color: #333;
+
+  outline: none;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+}
+
+/* Foco */
+
+input:focus,
+textarea:focus,
+select:focus {
+
+  background: #ffffff;
+
+  border-color: #b30086;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(
+      179,
+      0,
+      134,
+      0.18
+    );
+
+}
+
+/* Placeholder */
+
+input::placeholder,
+textarea::placeholder {
+
+  color: #777;
+
+}
+
+/* Botões */
+
+button {
+
+  font-family:
+    "Segoe UI",
+    sans-serif;
+
+  border: none;
+
+  border-radius: 999px;
+
+  background: #b30086;
+
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    box-shadow 0.2s ease;
+
+}
+
+button:hover {
+
+  opacity: 0.96;
+
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 4px 12px
+    rgba(
+      179,
+      0,
+      134,
+      0.25
+    );
+
+}
+
+button:active {
+
+  transform:
+    translateY(0);
+
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+
+  width: 10px;
+
+}
+
+::-webkit-scrollbar-track {
+
+  background: #f4edf3;
+
+}
+
+::-webkit-scrollbar-thumb {
+
+  background: #c14ca6;
+
+  border-radius: 20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+  background: #b30086;
+
+}

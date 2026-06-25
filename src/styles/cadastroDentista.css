@@ -1,0 +1,231 @@
+.cadastro-dentista-container {
+
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #b30086,
+      #e252c2
+    );
+
+  padding: 40px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+}
+
+.cadastro-dentista-box {
+
+  width: 100%;
+
+  max-width: 1200px;
+
+  background: white;
+
+  border-radius: 32px;
+
+  padding: 45px;
+
+  box-shadow:
+    0 15px 40px
+    rgba(0,0,0,0.12);
+
+}
+
+.cadastro-dentista-box h1 {
+
+  color: #b30086;
+
+  text-align: center;
+
+  margin-bottom: 30px;
+
+  font-size: 2rem;
+
+}
+
+/* Botão voltar */
+
+.voltar-btn {
+
+  background: #b30086;
+
+  color: white;
+
+  padding: 14px 24px;
+
+  border-radius: 999px;
+
+  font-weight: 600;
+
+  margin-bottom: 30px;
+
+}
+
+.voltar-btn:hover {
+
+  box-shadow:
+    0 5px 15px
+    rgba(
+      179,
+      0,
+      134,
+      0.3
+    );
+
+}
+
+/* Foto */
+
+.foto-box {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 35px;
+
+}
+
+.foto-preview {
+
+  width: 160px;
+
+  height: 160px;
+
+  border-radius: 50%;
+
+  background: #f4edf3;
+
+  border: 4px solid #b30086;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 4rem;
+
+  color: #b30086;
+
+}
+
+.foto-box input {
+
+  width: auto;
+
+}
+
+.foto-box small {
+
+  color: #666;
+
+}
+
+/* Campos */
+
+.form-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 20px;
+
+  margin-bottom: 25px;
+
+}
+
+.form-grid input {
+
+  height: 60px;
+
+  padding: 0 18px;
+
+  border-radius: 20px;
+
+  font-size: 1rem;
+
+}
+
+/* Observações */
+
+.obs-textarea {
+
+  width: 100%;
+
+  min-height: 220px;
+
+  padding: 18px;
+
+  border-radius: 20px;
+
+  font-size: 1rem;
+
+  resize: vertical;
+
+  margin-bottom: 25px;
+
+}
+
+/* Cadastrar */
+
+.cadastrar-btn {
+
+  width: 100%;
+
+  height: 65px;
+
+  border-radius: 999px;
+
+  background: #b30086;
+
+  color: white;
+
+  font-size: 1.05rem;
+
+  font-weight: bold;
+
+}
+
+.cadastrar-btn:hover {
+
+  box-shadow:
+    0 6px 18px
+    rgba(
+      179,
+      0,
+      134,
+      0.35
+    );
+
+}
+
+/* Mobile */
+
+@media (max-width: 900px) {
+
+  .cadastro-dentista-box {
+
+    padding: 25px;
+
+  }
+
+  .form-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+}

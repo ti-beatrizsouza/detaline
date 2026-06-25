@@ -1,76 +1,166 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.home-container {
+
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #b30086,
+      #e252c2
+    );
+
+  color: white;
+
 }
 
-.home {
+.home-header {
+
   width: 100%;
-  height: 100vh;
 
-  background: linear-gradient(
-    to bottom,
-    #b30086,
-    #d94bb5
-  );
+  padding: 20px 50px;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
 
-  position: relative;
-
-  overflow: hidden;
-}
-
-.content {
-  z-index: 2;
-
-  display: flex;
-  flex-direction: column;
+  justify-content: space-between;
 
   align-items: center;
 
-  gap: 20px;
 }
 
-.content h1 {
-  font-size: 6rem;
-  color: white;
+.home-logo-topo {
+
+  width: 160px;
+
 }
 
-.content p {
-  color: white;
-  font-size: 1.3rem;
-}
+.home-botoes-topo {
 
-.buttons {
   display: flex;
-  flex-direction: column;
 
-  gap: 20px;
+  gap: 15px;
 
-  margin-top: 20px;
 }
 
-.buttons button {
-  width: 300px;
-  height: 70px;
+.home-botoes-topo button {
+
+  width: 140px;
+
+  height: 45px;
 
   border: none;
-  border-radius: 40px;
 
-  font-size: 1.3rem;
-  font-weight: bold;
+  border-radius: 14px;
+
+  background: white;
 
   color: #b30086;
-  background-color: white;
+
+  font-weight: bold;
 
   cursor: pointer;
 
   transition: 0.3s;
+
 }
 
-.buttons button:hover {
+.home-botoes-topo button:hover {
+
   transform: scale(1.05);
+
+}
+
+.home-hero {
+
+  min-height: 70vh;
+
+  display: flex;
+
+  align-items: center;
+
+  padding: 0 80px;
+
+}
+
+.home-textos {
+
+  max-width: 650px;
+
+}
+
+.home-textos h1 {
+
+  font-size: 5rem;
+
+  margin-bottom: 20px;
+
+}
+
+.home-textos p {
+
+  font-size: 1.2rem;
+
+  line-height: 1.7;
+
+  margin-bottom: 30px;
+
+}
+
+.home-textos button {
+
+  width: 240px;
+
+  height: 60px;
+
+  border: none;
+
+  border-radius: 18px;
+
+  background: white;
+
+  color: #b30086;
+
+  font-size: 1rem;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+.home-textos button:hover {
+
+  transform: scale(1.05);
+
+}
+
+.sobre-container {
+
+  background: white;
+
+  color: #444;
+
+  padding: 70px;
+
+  border-top-left-radius: 40px;
+
+  border-top-right-radius: 40px;
+
+}
+
+.sobre-container h2 {
+
+  font-size: 2rem;
+
+  margin-bottom: 20px;
+
+}
+
+.sobre-container p {
+
+  line-height: 1.8;
+
+  font-size: 1.1rem;
+
 }

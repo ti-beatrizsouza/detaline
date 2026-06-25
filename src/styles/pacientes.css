@@ -1,0 +1,122 @@
+.pacientes-container {
+
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #b30086,
+      #e252c2
+    );
+
+  padding: 40px;
+
+}
+
+.pacientes-topo {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+
+  margin-bottom: 40px;
+
+}
+
+.pacientes-topo h1 {
+
+  color: white;
+
+}
+
+.pacientes-topo button {
+
+  width: 140px;
+
+  height: 50px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+}
+
+.pacientes-lista {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+
+}
+
+.paciente-card {
+
+  background: white;
+
+  border-radius: 24px;
+
+  padding: 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+.paciente-card:hover {
+
+  transform: scale(1.01);
+
+}
+
+.paciente-foto {
+
+  width: 80px;
+
+  height: 80px;
+
+  border-radius: 50%;
+
+  background: #f2d2ea;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 2rem;
+
+  font-weight: bold;
+
+  color: #b30086;
+
+}
+
+.paciente-info h2 {
+
+  color: #b30086;
+
+  margin-bottom: 10px;
+
+}
+
+.paciente-info p {
+
+  color: #555;
+
+  margin-bottom: 5px;
+
+}

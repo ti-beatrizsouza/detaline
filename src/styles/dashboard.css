@@ -1,0 +1,115 @@
+.dashboard-container {
+
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #b30086,
+      #e252c2
+    );
+
+  padding: 50px;
+
+}
+
+.dashboard-topo {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 40px;
+
+}
+
+.dashboard-topo h1 {
+
+  color: white;
+
+  font-size: 2.3rem;
+
+}
+
+.sair-btn {
+
+  width: 150px;
+
+  height: 55px;
+
+  border: none;
+
+  border-radius: 18px;
+
+  background: white;
+
+  color: #b30086;
+
+  font-weight: bold;
+
+  font-size: 1rem;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+  box-shadow:
+    0 5px 15px
+    rgba(0,0,0,0.12);
+
+}
+
+.sair-btn:hover {
+
+  transform: scale(1.03);
+
+}
+
+.dashboard-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 25px;
+
+}
+
+.dashboard-card {
+
+  height: 220px;
+
+  background: white;
+
+  border-radius: 30px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 1.5rem;
+
+  font-weight: bold;
+
+  color: #b30086;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0,0,0,0.08);
+
+}
+
+.dashboard-card:hover {
+
+  transform: scale(1.03);
+
+}
