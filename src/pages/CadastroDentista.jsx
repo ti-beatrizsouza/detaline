@@ -90,15 +90,21 @@ function CadastroDentista({
 
       voltar()
 
-    } catch (error) {
+    } 
+    
+    catch (error) {
 
-      console.log(error)
+  console.error(error)
 
-      alert(
-        "Erro ao cadastrar paciente."
-      )
+  alert(
+`Código:
+${error.code}
 
-    }
+Mensagem:
+${error.message}`
+  )
+
+}
 
   }
 
