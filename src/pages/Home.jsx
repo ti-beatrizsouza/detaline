@@ -60,7 +60,7 @@ function Home({
           <button
             onClick={abrirLogin}
           >
-            Entrar no sistema
+            Entrar
           </button>
 
         </div>

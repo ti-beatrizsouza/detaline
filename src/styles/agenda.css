@@ -623,3 +623,68 @@
   font-weight:bold;
   flex-shrink:0;
 }
+
+.ganho-label{
+
+    background:#b30086;
+
+    color:white;
+
+    font-weight:bold;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.ganho-cell{
+
+    background:#ffffff;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:bold;
+
+    color:#1b8c45;
+
+    border:1px solid #ececec;
+
+}
+
+.ganho-label{
+    background:#fff;
+    color:#b30086;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-top:2px solid #e7e7e7;
+}
+
+.ganho-cell{
+    background:#fdf3fa;
+    color:#27ae60;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-top:2px solid #e7e7e7;
+}
+
+.ganho-semana{
+    background:#b30086;
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-top:2px solid #e7e7e7;
+}

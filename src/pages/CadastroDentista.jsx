@@ -21,7 +21,10 @@ function CadastroDentista({
   const [telefone, setTelefone] =
     useState("")
 
-  const [idade, setIdade] =
+  const [cpf, setCpf] =
+    useState("")
+
+  const [nascimento, setNascimento] =
     useState("")
 
   const [
@@ -45,6 +48,83 @@ function CadastroDentista({
   const [fotoNome, setFotoNome] =
     useState("")
 
+    function formatarTelefone(valor) {
+
+  valor = valor.replace(/\D/g, "")
+
+  if (valor.startsWith("55")) {
+    valor = valor.substring(2)
+  }
+
+  valor = valor.substring(0, 11)
+
+  if (valor.length <= 2)
+    return "+55 (" + valor
+
+  if (valor.length <= 7)
+    return `+55 (${valor.slice(0,2)}) ${valor.slice(2)}`
+
+  return `+55 (${valor.slice(0,2)}) ${valor.slice(2,7)}-${valor.slice(7)}`
+}
+
+function formatarCPF(valor) {
+
+  valor = valor.replace(/\D/g,"")
+
+  valor = valor.substring(0,11)
+
+  valor = valor.replace(
+    /(\d{3})(\d)/,
+    "$1.$2"
+  )
+
+  valor = valor.replace(
+    /(\d{3})(\d)/,
+    "$1.$2"
+  )
+
+  valor = valor.replace(
+    /(\d{3})(\d{1,2})$/,
+    "$1-$2"
+  )
+
+  return valor
+}
+
+function calcularIdade(data){
+
+  if(!data) return 0
+
+  const hoje = new Date()
+
+  const nasc = new Date(data)
+
+  let idade = hoje.getFullYear() - nasc.getFullYear()
+
+  const mes = hoje.getMonth() - nasc.getMonth()
+
+  if(
+
+    mes < 0 ||
+
+    (
+
+      mes === 0 &&
+
+      hoje.getDate() < nasc.getDate()
+
+    )
+
+  ){
+
+    idade--
+
+  }
+
+  return idade
+
+}
+
   async function cadastrar(e) {
 
     e.preventDefault()
@@ -62,8 +142,12 @@ function CadastroDentista({
 
           foto: "",
 
-          idade:
-            Number(idade),
+          cpf,
+
+nascimento,
+
+idade:
+calcularIdade(nascimento),
 
           tel: telefone,
 
@@ -181,23 +265,22 @@ ${error.message}`
           <input
             placeholder="Telefone do paciente"
             value={telefone}
-            onChange={(e) =>
-              setTelefone(
-                e.target.value
-              )
-            }
+            onChange={(e)=>
+setTelefone(
+formatarTelefone(
+e.target.value
+)
+)}
           />
 
           <input
-            type="number"
-            placeholder="Idade"
-            value={idade}
-            onChange={(e) =>
-              setIdade(
-                e.target.value
-              )
-            }
-          />
+type="date"
+value={nascimento}
+onChange={(e)=>
+setNascimento(
+e.target.value
+)}
+/>
 
           <input
             placeholder="Nome do responsável"
@@ -216,11 +299,13 @@ ${error.message}`
             value={
               cpfResponsavel
             }
-            onChange={(e) =>
-              setCpfResponsavel(
-                e.target.value
-              )
-            }
+            onChange={(e)=>
+setCpfResponsavel(
+formatarCPF(
+e.target.value
+)
+)
+}
           />
 
           <input
@@ -228,12 +313,35 @@ ${error.message}`
             value={
               telefoneResponsavel
             }
-            onChange={(e) =>
-              setTelefoneResponsavel(
-                e.target.value
-              )
-            }
+            onChange={(e)=>
+
+setTelefoneResponsavel(
+
+formatarTelefone(
+
+e.target.value
+
+)
+
+)
+
+}
           />
+
+          <input
+
+placeholder="CPF"
+
+value={cpf}
+
+onChange={(e)=>
+setCpf(
+formatarCPF(
+e.target.value
+))
+}
+
+/>
 
         </div>
 

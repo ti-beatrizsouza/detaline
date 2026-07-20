@@ -201,7 +201,7 @@ function Pacientes({
 
                 <p>
 
-                  Obs:
+                  Observações:
                   {" "}
 
                   {

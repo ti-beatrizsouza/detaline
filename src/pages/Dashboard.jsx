@@ -15,7 +15,7 @@ function Dashboard({
       <div className="dashboard-topo">
 
         <h1>
-          Dashboard Dentaline
+          Dashboard
         </h1>
 
         <button

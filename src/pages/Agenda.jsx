@@ -477,6 +477,66 @@ async function salvarPagamento() {
   setFormaPagamento("")
 }
 
+ function ganhoDoDia(data) {
+
+  return consultas
+    .filter(c =>
+      c.data === data &&
+      c.status === "pagou"
+    )
+    .reduce(
+      (total, c) =>
+        total + Number(c.valorPago || 0),
+      0
+    )
+
+}
+
+function ganhoDaSemana() {
+
+  return consultas
+    .filter(c => {
+
+      const hoje = new Date()
+
+      const diaSemana = hoje.getDay()
+
+      const segunda = new Date(hoje)
+
+      const ajuste =
+        diaSemana === 0
+          ? -6
+          : 1 - diaSemana
+
+      segunda.setDate(
+        hoje.getDate() +
+        ajuste +
+        offsetSemana * 7
+      )
+
+      const domingo = new Date(segunda)
+      domingo.setDate(
+        segunda.getDate() + 6
+      )
+
+      const dataConsulta =
+        new Date(c.data + "T00:00:00")
+
+      return (
+        c.status === "pagou" &&
+        dataConsulta >= segunda &&
+        dataConsulta <= domingo
+      )
+
+    })
+    .reduce(
+      (total, c) =>
+        total + Number(c.valorPago || 0),
+      0
+    )
+
+}
+
 const pacienteModal = pacientes.find(
   p => p.id === selecionada?.pacienteId
 )
@@ -495,7 +555,7 @@ const pacienteModal = pacientes.find(
         </button>
 
         <h1>
-          Agenda
+          Agenda de Consultas
         </h1>
 
       </div>
@@ -594,7 +654,7 @@ const pacienteModal = pacientes.find(
     </option>
 
     <option value="pagou">
-      Pago
+      Pagaamento realizado
     </option>
 
     <option value="pendente">
@@ -884,7 +944,80 @@ const dataSlot =
 
         ))}
 
-      </div>
+      
+
+{}
+
+<div className="hora-cell ganho-label">
+  Ganho
+</div>
+
+{dias.map((dia, index) => {
+
+  const hoje = new Date()
+
+  const diaSemana = hoje.getDay()
+
+  const segunda = new Date(hoje)
+
+  const ajuste =
+    diaSemana === 0
+      ? -6
+      : 1 - diaSemana
+
+  segunda.setDate(
+    hoje.getDate() +
+    ajuste +
+    (offsetSemana * 7)
+  )
+
+  const dataAtual = new Date(segunda)
+
+  dataAtual.setDate(
+    segunda.getDate() + index
+  )
+
+  const dataSlot =
+    `${dataAtual.getFullYear()}-${String(dataAtual.getMonth()+1).padStart(2,"0")}-${String(dataAtual.getDate()).padStart(2,"0")}`
+
+  return (
+
+    <div
+      key={dataSlot}
+      className="ganho-cell"
+    >
+
+      <strong>
+        R$ {ganhoDoDia(dataSlot).toFixed(2)}
+      </strong>
+
+    </div>
+
+  )
+
+})}
+
+{}
+
+<div className="hora-cell ganho-label">
+  Semana
+</div>
+
+<div
+  className="ganho-semana"
+  style={{
+    gridColumn: "2 / span 6"
+  }}
+>
+
+  <strong>
+    R$ {ganhoDaSemana().toFixed(2)}
+  </strong>
+
+</div>
+
+</div>
+
 
       {selecionada && (
 

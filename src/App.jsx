@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
@@ -11,20 +11,131 @@ import PerfilPaciente from "./pages/PerfilPaciente"
 
 function App() {
 
-  const [pagina, setPagina] =
-    useState("home")
+  const [pagina, setPagina] = useState(() => {
+
+  const paginaSalva = localStorage.getItem("pagina")
+
+  return paginaSalva || "home"
+
+})
 
   const [ultimaPagina,
-    setUltimaPagina] =
-    useState("pacientes")
+  setUltimaPagina] =
+  useState(() =>
+
+    localStorage.getItem("ultimaPagina") ||
+
+    "pacientes"
+
+  )
 
   const [pacienteSelecionado,
-    setPacienteSelecionado] =
-    useState(null)
+setPacienteSelecionado] =
+
+useState(() => {
+
+  const salvo = localStorage.getItem(
+    "pacienteSelecionado"
+  )
+
+  return salvo
+
+    ? JSON.parse(salvo)
+
+    : null
+
+})
 
   const [paginaAnterior,
-    setPaginaAnterior] =
-    useState("pacientes")
+  setPaginaAnterior] =
+  useState(() =>
+
+    localStorage.getItem("paginaAnterior") ||
+
+    "pacientes"
+
+  )
+
+    useEffect(() => {
+
+  localStorage.setItem(
+
+    "paginaAtual",
+
+    pagina
+
+  )
+
+}, [pagina])
+
+    useEffect(() => {
+
+  localStorage.setItem(
+    "pagina",
+    pagina
+  )
+
+}, [pagina])
+
+useEffect(() => {
+
+  const logado = localStorage.getItem(
+    "logado"
+  )
+
+  if (
+
+    logado === "true" &&
+
+    pagina === "home"
+
+  ) {
+
+    setPagina(
+      "dashboard"
+    )
+
+  }
+
+}, [])
+
+useEffect(() => {
+
+  localStorage.setItem(
+
+    "pacienteSelecionado",
+
+    JSON.stringify(
+      pacienteSelecionado
+    )
+
+  )
+
+}, [pacienteSelecionado])
+
+useEffect(() => {
+
+  localStorage.setItem(
+
+    "ultimaPagina",
+
+    ultimaPagina
+
+  )
+
+}, [ultimaPagina])
+
+useEffect(() => {
+
+  localStorage.setItem(
+
+    "paginaAnterior",
+
+    paginaAnterior
+
+  )
+
+}, [paginaAnterior])
 
   function abrirPerfil(
     paciente,
@@ -93,11 +204,18 @@ function App() {
               setPagina("home")
             }
 
-            entrar={() =>
-              setPagina(
-                "dashboard"
-              )
-            }
+            entrar={() => {
+
+  localStorage.setItem(
+    "logado",
+    "true"
+  )
+
+  setPagina(
+    "dashboard"
+  )
+
+}}
 
           />
 
@@ -158,9 +276,19 @@ function App() {
               )
             }
 
-            sair={() =>
-              setPagina("home")
-            }
+            sair={() => {
+
+  localStorage.removeItem(
+    "logado"
+  )
+
+  localStorage.removeItem(
+    "pagina"
+  )
+
+  setPagina("home")
+
+}}
 
           />
 
@@ -229,23 +357,21 @@ function App() {
 
         pagina === "perfil" && (
 
-          <PerfilPaciente
+<PerfilPaciente
 
-            paciente={
-              pacienteSelecionado
-            }
+  paciente={pacienteSelecionado}
 
-            voltar={() =>
-              setPagina(
-                paginaAnterior
-              )
-            }
+  voltar={() =>
+    setPagina(paginaAnterior)
+  }
 
-            origem={
-              paginaAnterior
-            }
+  voltarPacientes={() =>
+    setPagina("pacientes")
+  }
 
-          />
+  origem={paginaAnterior}
+
+/>
 
         )
 

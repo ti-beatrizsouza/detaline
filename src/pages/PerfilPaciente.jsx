@@ -7,7 +7,12 @@ import {
 import {
 
   doc,
-  updateDoc
+  updateDoc,
+  deleteDoc,
+  collection,
+  query,
+  where,
+  getDocs
 
 } from "firebase/firestore"
 
@@ -23,6 +28,7 @@ function PerfilPaciente({
 
   paciente,
   voltar,
+  voltarPacientes,
   origem
 
 }) {
@@ -91,6 +97,84 @@ function PerfilPaciente({
     setEditando(false)
 
   }
+
+  async function excluirPaciente() {
+
+  const confirmar = window.confirm(
+
+    `Deseja realmente excluir ${dados.nome}?\n\nEsta ação não poderá ser desfeita.`
+
+  )
+
+  if (!confirmar) return
+
+  try {
+
+    const consultas = query(
+
+      collection(db, "agenda"),
+
+      where(
+
+        "pacienteId",
+
+        "==",
+
+        paciente.id
+
+      )
+
+    )
+
+    const snapshot = await getDocs(consultas)
+
+    for (const consulta of snapshot.docs) {
+
+      await deleteDoc(
+
+        doc(
+
+          db,
+
+          "agenda",
+
+          consulta.id
+
+        )
+
+      )
+
+    }
+
+    await deleteDoc(
+
+      doc(
+
+        db,
+
+        "pacientes",
+
+        paciente.id
+
+      )
+
+    )
+
+    alert("Paciente excluído com sucesso!")
+
+    voltarPacientes()
+
+  }
+
+  catch (erro) {
+
+    console.error(erro)
+
+    alert("Erro ao excluir paciente.")
+
+  }
+
+}
 
   return (
 
@@ -291,7 +375,7 @@ function PerfilPaciente({
 
                     ...dados,
 
-                    proximaConsulta:
+                    proxConsulta:
                       e.target.value
 
                   })
@@ -369,17 +453,16 @@ function PerfilPaciente({
               <p>
 
                 <strong>
-                  Idade:
-                </strong>{" "}
-
-                {dados.idade || "-"}
+  Idade:
+</strong>{" "}
+{dados.idade || "-"} anos
 
               </p>
 
               <p>
 
                 <strong>
-                  tel:
+                  Telefone:
                 </strong>{" "}
 
                 {dados.tel || "-"}
@@ -393,7 +476,7 @@ function PerfilPaciente({
                 </strong>{" "}
 
                 {
-                  dados.Responsavel || "-"
+                  dados.responsavel || "-"
                 }
 
               </p>
@@ -401,7 +484,7 @@ function PerfilPaciente({
               <p>
 
                 <strong>
-                  tel responsável:
+                  Telefone Responsável:
                 </strong>{" "}
 
                 {
@@ -495,6 +578,18 @@ function PerfilPaciente({
                 Editar Dados
 
               </button>
+
+              <button
+
+  className="remover-btn"
+
+  onClick={excluirPaciente}
+
+>
+
+  Excluir Paciente
+
+</button>
 
             </div>
 
