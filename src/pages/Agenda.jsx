@@ -1,5 +1,7 @@
 import { useState } from "react"
 
+import logor from "../assets/logor.png"
+
 import "../styles/agenda.css"
 
 import AgendaGrid from "../components/AgendaGrid"
@@ -113,6 +115,12 @@ function Agenda({
   return (
 
     <div className="agenda-container">
+
+      <img
+  src={logor}
+  alt=""
+  className="agenda-logo-fundo"
+/>
 
       <AgendaTopBar
         voltar={voltar}

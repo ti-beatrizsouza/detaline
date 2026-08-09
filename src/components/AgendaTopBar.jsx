@@ -1,4 +1,5 @@
     import "../styles/agenda.css"
+    import logob from "../assets/logob.png"
 
 function AgendaTopBar({
   voltar,
@@ -37,9 +38,19 @@ function AgendaTopBar({
           ← Dashboard
         </button>
 
-        <h1>
-          Agenda de Consultas
-        </h1>
+        <div className="agenda-titulo">
+
+  <h1>
+    Agenda de Consultas
+  </h1>
+
+  <img
+    src={logob}
+    alt="Dentaline"
+    className="agenda-logo-titulo"
+  />
+
+</div>
 
       </div>
 
