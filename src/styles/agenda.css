@@ -1,560 +1,350 @@
 .agenda-container {
-
   min-height: 100vh;
-
-  background:
-    linear-gradient(
-      180deg,
-      #b30086,
-      #e252c2
-    );
-
-  padding: 30px;
-
+  background: linear-gradient(180deg, #b30086, #e252c2);
+  padding: 16px 20px;
 }
 
 .agenda-topo {
-
   display: flex;
-
   justify-content: space-between;
-
   align-items: center;
-
   margin-bottom: 25px;
-
 }
 
 .agenda-topo h1 {
-
   color: white;
-
   font-size: 2rem;
-
 }
 
 .agenda-voltar {
-
   width: 180px;
-
   height: 55px;
-
   border: none;
-
   border-radius: 18px;
-
   background: white;
-
   color: #b30086;
-
   font-weight: bold;
-
   cursor: pointer;
-
   transition: 0.3s;
-
-  box-shadow:
-    0 5px 15px
-    rgba(0,0,0,0.1);
-
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .agenda-voltar:hover {
-
   transform: scale(1.03);
-
 }
 
 .nova-consulta {
-
   background: white;
-
-  padding: 25px;
-
-  border-radius: 30px;
-
+  padding: 16px;
+  border-radius: 20px;
   display: grid;
-
-  grid-template-columns:
-    2fr 1fr 1fr 1fr auto;
-
-  gap: 15px;
-
-  margin-bottom: 25px;
-
-  box-shadow:
-    0 10px 30px
-    rgba(0,0,0,0.08);
-
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
 }
 
 .nova-consulta select,
 .nova-consulta input,
 .nova-consulta button {
-
-  height: 55px;
-
+  height: 42px;
   border: none;
-
-  border-radius: 16px;
-
-  padding: 0 15px;
-
-  font-size: 1rem;
-
+  border-radius: 12px;
+  padding: 0 12px;
+  font-size: .90rem;
 }
 
 .nova-consulta select,
 .nova-consulta input {
-
   background: #f5f5f5;
-
   color: #444;
-
-  box-shadow:
-    inset 0 2px 8px
-    rgba(0,0,0,0.08);
-
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .nova-consulta button {
-
   background: #b30086;
-
   color: white;
-
   font-weight: bold;
-
   cursor: pointer;
-
   transition: 0.2s;
-
 }
 
 .nova-consulta button:hover {
-
   transform: scale(1.03);
-
 }
 
-/* ---------- GRID ---------- */
+.agenda-scroll {
+  max-height: 82vh;
+  overflow: auto;
+  border-radius: 20px;
+}
 
 .agenda-grid {
-
-  background: white;
-
-  border-radius: 30px;
-
-  overflow: hidden;
-
-  display: grid;
-
-  grid-template-columns:
-    90px repeat(6, 1fr);
-
-  box-shadow:
-    0 10px 30px
-    rgba(0,0,0,0.08);
-
+  background:white;
+  border-radius:20px;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:55px repeat(6,1fr);
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .agenda-header {
-
   background: #b30086;
-
   color: white;
-
   font-weight: bold;
-
-  padding: 15px;
-
+  padding: 8px;
   text-align: center;
+  border-right: 1px solid rgba(255,255,255,.15);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  font-size: .82rem;
+}
 
-  border-right:
-    1px solid rgba(255,255,255,0.2);
-
+.agenda-header small{
+    display:block;
+    margin-top:2px;
+    font-size:.68rem;
 }
 
 .hora-cell {
-
-  height: 52px;
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  font-size: 0.78rem;
-
-  font-weight: bold;
-
-  color: #666;
-
-  border-right:
-    1px solid #eee;
-
-  border-bottom:
-    1px solid #eee;
-
+  height: 27px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:.70rem;
+  font-weight:bold;
+  color:#666;
+  border-right:1px solid #eee;
+  border-bottom:1px solid #eee;
+  position:sticky;
+  left:0;
+  background:white;
+  z-index:20;
 }
 
 .agenda-slot {
-
-  height: 52px;
-
-  border-right:
-    1px solid #eee;
-
-  border-bottom:
-    1px solid #eee;
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  padding: 2px;
-
-  cursor: pointer;
-
+  height: 27px;
+  border-right:1px solid #eee;
+  border-bottom:1px solid #eee;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:1px;
 }
 
 .agenda-slot:hover {
-
   background: #fafafa;
-
 }
 
 .slot-vazio {
-
-  color: #dbdbdb;
-
-  font-size: 1.25rem;
-
-  font-weight: bold;
-
-  cursor: pointer;
-
-  user-select: none;
-
-  transition: 0.2s;
-
+  color:#d2d2d2;
+  font-size:1rem;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
 }
 
 .slot-vazio:hover {
-
   color: #a9a9a9;
-
   transform: scale(1.08);
-
 }
 
 .consulta-btn {
-
-  width: 100%;
-
-  height: 44px;
-
-  border: none;
-
-  border-radius: 10px;
-
-  color: white;
-
-  font-size: 0.72rem;
-
-  font-weight: bold;
-
-  cursor: pointer;
-
-  transition: 0.2s;
-
-  overflow: hidden;
-
-  white-space: nowrap;
-
-  text-overflow: ellipsis;
-
+  width:100%;
+  height:23px;
+  border:none;
+  border-radius:8px;
+  color:white;
+  font-size:.63rem;
+  font-weight:bold;
+  cursor:pointer;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
 }
 
 .consulta-btn:hover {
-
   transform: scale(1.03);
-
-}
-
-/* STATUS */
-
-.cinza .consulta-btn {
-
-  background: #8d8d8d;
-
-}
-
-.azul .consulta-btn {
-
-  background: #4c8bf5;
-
-}
-
-.verde .consulta-btn {
-
-  background: #35b56a;
-
-}
-
-.rosa .consulta-btn {
-
-  background: #ff5ca8;
-
-}
-
-.amarelo .consulta-btn {
-
-  background: #d8a400;
-
-}
-
-/* ---------- MODAL ---------- */
-
-.modal-bg {
-
-  position: fixed;
-
-  inset: 0;
-
-  background:
-    rgba(0,0,0,0.45);
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  z-index: 999;
-
-}
-
-.modal-box {
-
-  width: 500px;
-
-  background: white;
-
-  border-radius: 30px;
-
-  padding: 35px;
-
-}
-
-.modal-box h2 {
-
-  color: #b30086;
-
-  margin-bottom: 20px;
-
-}
-
-.modal-box p {
-
-  color: #555;
-
-  margin-bottom: 12px;
-
-}
-
-.obs-box {
-
-  margin-top: 15px;
-
-  background: #f4f4f4;
-
-  border-radius: 16px;
-
-  padding: 15px;
-
-  color: #555;
-
-  line-height: 1.5;
-
-}
-
-.modal-botoes {
-
-  margin-top: 25px;
-
-  display: grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap: 12px;
-
-}
-
-.modal-botoes button {
-
-  height: 50px;
-
-  border: none;
-
-  border-radius: 14px;
-
-  color: white;
-
-  font-weight: bold;
-
-  cursor: pointer;
-
-  transition: 0.2s;
-
-}
-
-.modal-botoes button:hover {
-
-  transform: scale(1.03);
-
-}
-
-.modal-botoes button:first-child {
-
-  background: #b30086;
-
-}
-
-.remover-btn {
-
-  background: #ff4d6d !important;
-
-}
-
-.voltar-btn {
-
-  background: #555 !important;
-
-}
-
-.valor-input {
-
-  width: 100%;
-
-  margin-top: 15px;
-
-  height: 50px;
-
-  border: none;
-
-  border-radius: 14px;
-
-  padding: 0 15px;
-
-  background: #f5f5f5;
-
-  font-size: 1rem;
-
-  box-shadow:
-    inset 0 2px 8px
-    rgba(0,0,0,0.08);
-
-}
-
-.valor-box {
-
-  display: flex;
-
-  gap: 10px;
-
-  margin-top: 15px;
-
-}
-
-.valor-input {
-
-  flex: 1;
-
-  height: 50px;
-
-  border: none;
-
-  border-radius: 14px;
-
-  padding: 0 15px;
-
-  background: #f5f5f5;
-
-}
-
-.enviar-valor-btn {
-
-  background: #35b56a;
-
-  color: white;
-
-  border: none;
-
-  border-radius: 14px;
-
-  padding: 0 20px;
-
-  cursor: pointer;
-
-  font-weight: bold;
-
 }
 
 .consulta-info {
-
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
   justify-content: center;
-
   width: 100%;
-
 }
 
 .consulta-info span {
-
-  font-size: 0.72rem;
-
-  font-weight: bold;
-
+  font-size:.55rem;
 }
 
 .consulta-info small {
+  display:none;
+}
 
-  font-size: 0.62rem;
+/* Status das consultas */
+.cinza .consulta-btn   { background: #8d8d8d; }
+.azul .consulta-btn    { background: #4c8bf5; }
+.verde .consulta-btn   { background: #35b56a; }
+.rosa .consulta-btn    { background: #ff5ca8; }
+.amarelo .consulta-btn { background: #d8a400; }
 
+.btn-agendado  { background: #8d8d8d !important; }
+.btn-confirmado { background: #4c8bf5 !important; }
+.btn-pago       { background: #35b56a !important; }
+.btn-debito     { background: #ff5ca8 !important; }
+.btn-faltou     { background: #d8a400 !important; }
+
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-box {
+  width: 500px;
+  background: white;
+  border-radius: 30px;
+  padding: 35px;
+}
+
+.modal-box h2 {
+  color: #b30086;
+  margin-bottom: 20px;
+}
+
+.modal-box p {
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.modal-paciente-topo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.modal-foto {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #b30086;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.obs-box {
+  margin-top: 15px;
+  background: #f4f4f4;
+  border-radius: 16px;
+  padding: 15px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.valor-box {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.valor-input {
+  flex: 1;
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 14px;
+  padding: 0 15px;
+  background: #f5f5f5;
+  font-size: 1rem;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.enviar-valor-btn {
+  background: #35b56a;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 0 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.salvar-obs-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #b30086;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.salvar-obs-btn:hover {
+  transform: translateY(-2px);
   opacity: 0.9;
+}
 
+/* Botões do Modal */
+.modal-botoes {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.modal-botoes button {
+  height: 50px;
+  border: none;
+  border-radius: 14px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.modal-botoes button:hover {
+  transform: scale(1.03);
+}
+
+.modal-botoes button:first-child {
+  background: #b30086;
+}
+
+.remover-btn {
+  background: #ff4d6d !important;
+}
+
+.voltar-btn {
+  background: #555 !important;
 }
 
 .fechar-modal-btn {
-
   background: #2f2f2f !important;
-
   color: white;
-
   height: 55px;
-
   border-radius: 16px;
-
   font-size: 1rem;
-
   font-weight: 700;
-
 }
 
 .fechar-modal-btn:hover {
-
   background: #1f1f1f !important;
-
 }
 
 .remover-valor-btn {
@@ -565,126 +355,195 @@
   background: #333 !important;
 }
 
-.salvar-obs-btn{
-  width:100%;
-  margin-top:10px;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  background:#b30086;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-  transition:0.2s;
+.ganho-label {
+  position: sticky;
+  left: 0;
+  background: #fff;
+  color: #b30086;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+  border-top: 2px solid #e7e7e7;
 }
 
-.salvar-obs-btn:hover{
-  transform:translateY(-2px);
-  opacity:0.9;
+.ganho-cell {
+  background: #fdf3fa;
+  color: #27ae60;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 2px solid #e7e7e7;
 }
 
-.btn-agendado{
-  background:#8d8d8d !important;
+.ganho-semana {
+  background: #b30086;
+  color: rgb(243, 201, 201);
+  font-size: 22px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 2px solid #e7e7e7;
 }
 
-.btn-confirmado{
-  background:#4c8bf5 !important;
+/* ============================= */
+/* NOVO AGENDAMENTO */
+/* ============================= */
+
+.novo-agendamento-modal {
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.btn-pago{
-  background:#35b56a !important;
+.novo-agendamento-modal h2 {
+  flex-shrink: 0;
 }
 
-.btn-debito{
-  background:#ff5ca8 !important;
+.novo-agendamento-modal p {
+  flex-shrink: 0;
 }
 
-.btn-faltou{
-  background:#d8a400 !important;
+.novo-agendamento-modal .valor-input {
+  flex-shrink: 0;
+  margin-bottom: 10px;
 }
 
-.modal-paciente-topo{
-  display:flex;
-  align-items:center;
-  gap:15px;
-  margin-bottom:20px;
+
+/* Lista de pacientes */
+
+.lista-pacientes-agendamento {
+  background: #f4f4f4;
+  border-radius: 16px;
+  padding: 10px;
+  margin-top: 5px;
+
+  max-height: 190px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  flex-shrink: 0;
 }
 
-.modal-foto{
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  background:#b30086;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:2rem;
-  font-weight:bold;
-  flex-shrink:0;
+
+/* Barra de rolagem */
+
+.lista-pacientes-agendamento::-webkit-scrollbar {
+  width: 7px;
 }
 
-.ganho-label{
-
-    background:#b30086;
-
-    color:white;
-
-    font-weight:bold;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
+.lista-pacientes-agendamento::-webkit-scrollbar-track {
+  background: #eeeeee;
+  border-radius: 10px;
 }
 
-.ganho-cell{
-
-    background:#ffffff;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    font-weight:bold;
-
-    color:#1b8c45;
-
-    border:1px solid #ececec;
-
+.lista-pacientes-agendamento::-webkit-scrollbar-thumb {
+  background: #b30086;
+  border-radius: 10px;
 }
 
-.ganho-label{
-    background:#fff;
-    color:#b30086;
-    font-weight:700;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-top:2px solid #e7e7e7;
+
+/* Botão de cada paciente */
+
+.paciente-agendamento-btn {
+  width: 100%;
+  min-height: 38px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #b30086;
+  color: white;
+
+  margin-bottom: 7px;
+  padding: 8px 12px;
+
+  font-size: .72rem;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: .2s;
 }
 
-.ganho-cell{
-    background:#fdf3fa;
-    color:#27ae60;
-    font-weight:700;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-top:2px solid #e7e7e7;
+.paciente-agendamento-btn:last-child {
+  margin-bottom: 0;
 }
 
-.ganho-semana{
-    background:#b30086;
-    color:white;
-    font-size:22px;
-    font-weight:bold;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    border-top:2px solid #e7e7e7;
+.paciente-agendamento-btn:hover {
+  background: #960071;
+  transform: scale(1.01);
+}
+
+.paciente-agendamento-btn.paciente-selecionado {
+  background: #35b56a;
+}
+
+
+/* Nenhum paciente */
+
+.nenhum-paciente {
+  text-align: center;
+  color: #777;
+  padding: 15px 5px;
+  font-size: .85rem;
+}
+
+
+/* Cadastrar paciente */
+
+.cadastrar-paciente-agendamento {
+  width: 100%;
+  min-height: 42px;
+
+  margin-top: 10px;
+
+  border: 2px dashed #b30086;
+  border-radius: 12px;
+
+  background: #fff;
+  color: #b30086;
+
+  font-size: .85rem;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: .2s;
+
+  flex-shrink: 0;
+}
+
+.cadastrar-paciente-agendamento:hover {
+  background: #fdf0fa;
+  transform: translateY(-1px);
+}
+
+
+/* Paciente escolhido */
+
+.paciente-escolhido {
+  margin-top: 10px;
+
+  padding: 10px 12px;
+
+  background: #f5f5f5;
+
+  border-radius: 12px;
+
+  color: #555;
+
+  font-size: .85rem;
+
+  flex-shrink: 0;
+}
+
+.paciente-escolhido strong {
+  margin-left: 5px;
+  color: #b30086;
 }
