@@ -49,51 +49,28 @@ export function ganhoDaSemana(
   offsetSemana
 ) {
 
-  const hoje = new Date()
-
-  const diaSemana = hoje.getDay()
-
-  const segunda = new Date(hoje)
-
-  const ajuste =
-
-    diaSemana === 0
-      ? -6
-      : 1 - diaSemana
-
-  segunda.setDate(
-
-    hoje.getDate() +
-
-    ajuste +
-
-    offsetSemana * 7
-
-  )
+  const segunda = getSegundaDaSemana(offsetSemana)
 
   const domingo = new Date(segunda)
 
   domingo.setDate(
-
     segunda.getDate() + 6
-
   )
+
+  const dataInicio =
+    gerarDataSlot(segunda)
+
+  const dataFim =
+    gerarDataSlot(domingo)
 
   return consultas
 
     .filter(c => {
 
-      const dataConsulta =
-        new Date(c.data + "T00:00:00")
-
       return (
-
         c.status === "pagou" &&
-
-        dataConsulta >= segunda &&
-
-        dataConsulta <= domingo
-
+        c.data >= dataInicio &&
+        c.data <= dataFim
       )
 
     })
@@ -101,7 +78,6 @@ export function ganhoDaSemana(
     .reduce(
 
       (total, c) =>
-
         total + Number(c.valorPago || 0),
 
       0
@@ -202,4 +178,47 @@ export function getHorarios() {
   }
 
   return horarios
+}
+
+export function getOffsetSemanaParaData(dataString) {
+
+  if (!dataString) {
+    return 0
+  }
+
+  const dataAlvo =
+    new Date(dataString + "T00:00:00")
+
+  if (isNaN(dataAlvo.getTime())) {
+    return 0
+  }
+
+  const hoje = new Date()
+
+  const diaSemana = hoje.getDay()
+
+  const segundaAtual = new Date(hoje)
+
+  const ajuste =
+    diaSemana === 0
+      ? -6
+      : 1 - diaSemana
+
+  segundaAtual.setDate(
+    hoje.getDate() + ajuste
+  )
+
+  segundaAtual.setHours(
+    0, 0, 0, 0
+  )
+
+  const diferenca =
+    Math.round(
+      (dataAlvo - segundaAtual) /
+      (1000 * 60 * 60 * 24)
+    )
+
+  return Math.floor(
+    diferenca / 7
+  )
 }

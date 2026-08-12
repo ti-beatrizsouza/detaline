@@ -1,74 +1,90 @@
 .agenda-container {
-  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
   background: linear-gradient(180deg, #b30086, #e252c2);
-  padding: 16px 20px;
-}
-
-.agenda-container {
-  min-height: 100vh;
-  background: linear-gradient(180deg, #b30086, #e252c2);
-  padding: 16px 20px;
+  padding: 12px 16px;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
-.agenda-titulo {
+/* ============================= */
+/* TOPO FINAL COM ESPAÇOS E LOGO */
+/* ============================= */
+
+.agenda-topo {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 14px;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 12px;
+  white-space: nowrap;
 }
 
-.agenda-titulo h1 {
-  color: white;
-  font-size: 2rem;
-  margin: 0;
+.agenda-bloco-esq {
+  display: flex;
+  align-items: center;
+  gap: 24px; /* Bem mais afastado do botão Dashboard */
+  flex-shrink: 0;
 }
 
-.agenda-logo-titulo {
-  width: 70px;
-  height: 70px;
+.agenda-bloco-dir {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0;
+}
+
+.agenda-logo-cantinho {
+  width: 60px; /* Logo maior na direita */
+  height: 60px;
   object-fit: contain;
 }
 
-.agenda-topo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-.agenda-topo h1 {
-  color: white;
-  font-size: 2rem;
-}
-
+/* Botão Voltar Dashboard */
 .agenda-voltar {
-  width: 180px;
-  height: 55px;
+  height: 42px;
+  padding: 0 16px;
   border: none;
-  border-radius: 18px;
+  border-radius: 12px;
   background: white;
   color: #b30086;
+  font-size: .75rem;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+  transition: .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .agenda-voltar:hover {
-  transform: scale(1.03);
+  transform: translateY(-1px);
 }
 
+/* Título Agenda */
+.agenda-titulo h1 {
+  margin: 0;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 42px;
+}
+
+/* Barra Central de Agendamento (Paciente bem maior) */
 .nova-consulta {
   background: white;
-  padding: 16px;
-  border-radius: 20px;
+  padding: 6px;
+  border-radius: 14px;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr auto;
-  gap: 10px;
-  margin-bottom: 15px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+  grid-template-columns: 400px 120px 80px 105px 75px;
+  gap: 6px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  align-items: center;
 }
 
 .nova-consulta select,
@@ -76,16 +92,17 @@
 .nova-consulta button {
   height: 42px;
   border: none;
-  border-radius: 12px;
-  padding: 0 12px;
-  font-size: .90rem;
+  border-radius: 10px;
+  padding: 0 10px;
+  font-size: .72rem;
+  box-sizing: border-box;
 }
 
 .nova-consulta select,
 .nova-consulta input {
   background: #f5f5f5;
   color: #444;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 2px 7px rgba(0,0,0,.06);
 }
 
 .nova-consulta button {
@@ -93,39 +110,232 @@
   color: white;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.2s;
+  transition: .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nova-consulta button:hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
+}
+
+/* Navegação da Semana e Data */
+.agenda-navegacao {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.agenda-navegacao > button {
+  height: 42px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 12px;
+  background: white;
+  color: #b30086;
+  font-size: .72rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,.12);
+  transition: .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.agenda-navegacao > button:hover {
+  transform: translateY(-1px);
+}
+
+/* Pesquisa de Data (Bloco Integrado) */
+.pesquisar-data-topo {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.12);
+  box-sizing: border-box;
+}
+
+.pesquisar-data-topo input {
+  width: 120px;
+  height: 34px;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  padding: 0 8px;
+  background: #f5f5f5;
+  color: #555;
+  font-size: .7rem;
+}
+
+.pesquisar-data-topo button {
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  padding: 0 10px;
+  background: #b30086;
+  color: white;
+  font-size: .7rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pesquisar-data-topo button:hover {
+  background: #960071;
+}
+
+.agenda-semana-inline button {
+
+  height: 36px;
+
+  padding: 0 10px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: white;
+
+  color: #b30086;
+
+  font-size: .70rem;
+
+  font-weight: bold;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 10px rgba(0,0,0,.12);
+
+  transition: .2s;
+}
+
+.agenda-semana-inline button:hover {
+  transform: translateY(-1px);
 }
 
 .agenda-scroll {
-  max-height: 82vh;
-  overflow: auto;
+  flex: 1;
+  height: calc(100vh - 100px);
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  overflow-x: hidden;
   border-radius: 20px;
 }
 
 .agenda-grid {
-  background:white;
-  border-radius:20px;
-  overflow:hidden;
-  display:grid;
-  grid-template-columns:55px repeat(6,1fr);
-  box-shadow:0 8px 20px rgba(0,0,0,.08);
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 55px repeat(6, 1fr);
+  /* Faz com que o cabeçalho tenha tamanho fixo e todas as linhas do grid dividam o espaço proporcionalmente */
+  grid-template-rows: 32px repeat(21, 1fr) 28px 32px; 
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+  position: relative;
+  box-sizing: border-box;
+}
+/* ============================= */
+/* MARCA D'ÁGUA DA AGENDA */
+/* ============================= */
+
+.agenda-grid {
+  position: relative;
+  isolation: isolate;
+  background: white;
+}
+
+/* Logo rosa como marca d'água */
+.agenda-grid::before {
+  content: "";
+  position: absolute;
+
+  width: 900px;
+  height: 900px;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background-image: url("../assets/logor.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+
+  opacity: 0.07;
+
+  pointer-events: none;
+
+  z-index: -1;
+}
+.hora-cell {
+  height: 31px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: .68rem;
+  font-weight: bold;
+  color: #555;
+
+  border-right: 1px solid #d6d6d6;
+  border-bottom: 1px solid #d6d6d6;
+
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 20;
 }
 
 .agenda-header {
   background: #b30086;
+
   color: white;
+
   font-weight: bold;
-  padding: 8px;
+  font-size: .78rem;
+
+  padding: 5px 4px;
+
   text-align: center;
+
   border-right: 1px solid rgba(255,255,255,.15);
+  border-bottom: 1px solid rgba(255,255,255,.15);
+
   position: sticky;
   top: 0;
+
   z-index: 50;
-  font-size: .82rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  line-height: 1.1;
+}
+
+.agenda-header small {
+  display: block;
+
+  margin-top: 4px;
+
+  font-size: .65rem;
+  font-weight: bold;
+
+  line-height: 1;
 }
 
 .agenda-header small{
@@ -135,29 +345,38 @@
 }
 
 .hora-cell {
-  height: 27px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:.70rem;
-  font-weight:bold;
-  color:#666;
-  border-right:1px solid #eee;
-  border-bottom:1px solid #eee;
-  position:sticky;
-  left:0;
-  background:white;
-  z-index:20;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: .70rem;
+  font-weight: bold;
+  color: #555;
+
+  border-right: 1px solid #d6d6d6;
+  border-bottom: 1px solid #d6d6d6;
+
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 20;
 }
 
 .agenda-slot {
-  height: 27px;
-  border-right:1px solid #eee;
-  border-bottom:1px solid #eee;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:1px;
+  height: auto;
+  min-height: 0;
+  border-right: 1px solid #d6d6d6;
+  border-bottom: 1px solid #d6d6d6;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px;
+  cursor: pointer;
+}
+
+.agenda-slot:hover {
+  background: #fafafa;
 }
 
 .agenda-slot:hover {
@@ -178,19 +397,27 @@
 }
 
 .consulta-btn {
-  width:100%;
-  height:23px;
-  border:none;
-  border-radius:8px;
-  color:white;
-  font-size:.63rem;
-  font-weight:bold;
-  cursor:pointer;
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-}
+  width: 100%;
+  height: 100%;
 
+  border: none;
+  border-radius: 0px;
+
+  color: white;
+
+  font-size: .63rem;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  opacity: 1 !important;
+  position: relative;
+  z-index: 5;
+}
 .consulta-btn:hover {
   transform: scale(1.03);
 }
@@ -212,12 +439,24 @@
 }
 
 /* Status das consultas */
-.cinza .consulta-btn   { background: #8d8d8d; }
-.azul .consulta-btn    { background: #4c8bf5; }
-.verde .consulta-btn   { background: #35b56a; }
-.rosa .consulta-btn    { background: #ff5ca8; }
+.cinza .consulta-btn {
+  background: #8d8d8d !important;
+}
+
+.azul .consulta-btn {
+  background: #4c8bf5 !important;
+}
+
+.verde .consulta-btn {
+  background: #35b56a !important;
+}
+
+.rosa .consulta-btn {
+  background: #ff5ca8 !important;
+}
+
 .amarelo .consulta-btn {
-  background: #e8c96a;
+  background: #e8c96a !important;
 }
 
 .btn-agendado {
@@ -497,24 +736,15 @@
 /* Lista de pacientes */
 
 .lista-pacientes-agendamento {
-  background: #f4f4f4;
-  border-radius: 16px;
-  padding: 10px;
-  margin-top: 5px;
-
-  max-height: 190px;
-
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  flex-shrink: 0;
+  background: #ffffff !important;
+  opacity: 1 !important;
 }
 
 
 /* Barra de rolagem */
 
-.lista-pacientes-agendamento::-webkit-scrollbar {
-  width: 7px;
+.lista-pacientes-agendamento * {
+  opacity: 1 !important;
 }
 
 .lista-pacientes-agendamento::-webkit-scrollbar-track {
@@ -537,7 +767,8 @@
   border: none;
   border-radius: 9px;
 
-  background: #b30086;
+  background-color: #b30086 !important;
+  opacity: 1 !important;
   color: white;
 
   margin-bottom: 7px;
@@ -547,8 +778,7 @@
   font-weight: bold;
 
   cursor: pointer;
-
-  transition: .2s;
+  transition: all 0.2s ease;
 }
 
 .paciente-agendamento-btn:last-child {
@@ -556,12 +786,16 @@
 }
 
 .paciente-agendamento-btn:hover {
-  background: #960071;
+  background-color: #1a1a1a !important;
+  color: white;
+  opacity: 1 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   transform: scale(1.01);
 }
 
 .paciente-agendamento-btn.paciente-selecionado {
-  background: #35b56a;
+  background-color: #35b56a !important;
+  opacity: 1 !important;
 }
 
 
@@ -628,29 +862,92 @@
   color: #b30086;
 }
 
-.agenda-logo-fundo {
-  position: fixed;
-  width: 500px;
-  height: 500px;
-  object-fit: contain;
+/* ============================= */
+/* NAVEGAÇÃO DA SEMANA */
+/* ============================= */
 
-  left: 50%;
-  top: 55%;
-
-  transform: translate(-50%, -50%);
-
-  opacity: 0.10;
-
-  pointer-events: none;
-  user-select: none;
-
-  z-index: 0;
+.semana-navegador {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
 }
 
-.agenda-topo,
-.nova-consulta,
-.agenda-scroll {
-  position: relative;
-  z-index: 2;
+.semana-navegador > button {
+  height: 45px;
+  padding: 0 20px;
+
+  background: #ffffff;
+  color: #b30086;
+
+  border: none;
+  border-radius: 14px;
+
+  font-weight: bold;
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.15);
+
+  transition: 0.2s;
 }
 
+.semana-navegador > button:hover {
+  transform: translateY(-2px);
+}
+
+
+/* Pesquisa de data */
+
+.pesquisar-data {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: white;
+  padding: 5px;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.15);
+}
+
+.pesquisar-data input {
+  height: 35px;
+
+  border: none;
+  outline: none;
+
+  border-radius: 10px;
+
+  padding: 0 10px;
+
+  background: #f5f5f5;
+
+  color: #555;
+}
+
+.pesquisar-data button {
+  height: 35px;
+
+  border: none;
+  border-radius: 10px;
+
+  padding: 0 14px;
+
+  background: #b30086;
+  color: white;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.pesquisar-data button:hover {
+  background: #960071;
+}

@@ -21,29 +21,50 @@ function AgendaGrid({
   ganhoDoDia,
   ganhoDaSemana
 }) {
+
+  const totalLinhas = 1 + horarios.length + 2
+
   return (
     <div className="agenda-scroll">
-      <div className="agenda-grid">
 
-        {/* Cabeçalho */}
+      <div
+        className="agenda-grid"
+        style={{
+          gridTemplateColumns: "55px repeat(6, minmax(0, 1fr))",
+          gridTemplateRows: `
+            48px
+            repeat(${horarios.length}, minmax(0, 1fr))
+            30px
+            34px
+          `
+        }}
+      >
+
+        {/* CABEÇALHO */}
+
         <div className="agenda-header">
           Horário
         </div>
 
         {dias.map((dia, index) => (
           <AgendaHeader
-  key={dia}
-  dia={dia}
-  index={index}
-  offsetSemana={offsetSemana ?? 0}
-/>
+            key={dia}
+            dia={dia}
+            index={index}
+            offsetSemana={offsetSemana ?? 0}
+          />
         ))}
 
-        {/* Horários */}
+
+        {/* HORÁRIOS */}
+
         {horarios.map((hora) => (
+
           <div
             key={hora}
-            style={{ display: "contents" }}
+            style={{
+              display: "contents"
+            }}
           >
 
             <div className="hora-cell">
@@ -80,9 +101,7 @@ function AgendaGrid({
                   key={`${dia}-${hora}`}
                   className={`agenda-slot ${
                     consulta
-                      ? getCor(
-                          consulta.status
-                        )
+                      ? getCor(consulta.status)
                       : ""
                   }`}
                 >
@@ -120,9 +139,11 @@ function AgendaGrid({
             })}
 
           </div>
+
         ))}
 
-        {/* Ganho do dia */}
+
+        {/* GANHO DO DIA */}
 
         <div className="hora-cell ganho-label">
           Ganho
@@ -159,7 +180,8 @@ function AgendaGrid({
 
         })}
 
-        {/* Ganho semanal */}
+
+        {/* GANHO DA SEMANA */}
 
         <div className="hora-cell ganho-label">
           Semana
@@ -168,21 +190,19 @@ function AgendaGrid({
         <div
           className="ganho-semana"
           style={{
-            gridColumn:
-              "2 / span 6"
+            gridColumn: "2 / span 6"
           }}
         >
 
           <strong>
             R${" "}
-            {ganhoDaSemana().toFixed(
-              2
-            )}
+            {ganhoDaSemana().toFixed(2)}
           </strong>
 
         </div>
 
       </div>
+
     </div>
   )
 }
