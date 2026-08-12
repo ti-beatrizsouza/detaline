@@ -17,12 +17,11 @@ function AgendaGrid({
   offsetSemana,
   setSelecionada,
   setNovoAgendamento,
+  setDataConsulta,
   setObsEditando,
   ganhoDoDia,
   ganhoDaSemana
 }) {
-
-  const totalLinhas = 1 + horarios.length + 2
 
   return (
     <div className="agenda-scroll">
@@ -30,7 +29,9 @@ function AgendaGrid({
       <div
         className="agenda-grid"
         style={{
-          gridTemplateColumns: "55px repeat(6, minmax(0, 1fr))",
+          gridTemplateColumns:
+            "55px repeat(6, minmax(0, 1fr))",
+
           gridTemplateRows: `
             48px
             repeat(${horarios.length}, minmax(0, 1fr))
@@ -40,7 +41,9 @@ function AgendaGrid({
         }}
       >
 
+        {/* ================================================= */}
         {/* CABEÇALHO */}
+        {/* ================================================= */}
 
         <div className="agenda-header">
           Horário
@@ -48,7 +51,7 @@ function AgendaGrid({
 
         {dias.map((dia, index) => (
           <AgendaHeader
-            key={dia}
+            key={`${dia}-${index}`}
             dia={dia}
             index={index}
             offsetSemana={offsetSemana ?? 0}
@@ -56,7 +59,9 @@ function AgendaGrid({
         ))}
 
 
+        {/* ================================================= */}
         {/* HORÁRIOS */}
+        {/* ================================================= */}
 
         {horarios.map((hora) => (
 
@@ -67,9 +72,14 @@ function AgendaGrid({
             }}
           >
 
+            {/* HORA */}
+
             <div className="hora-cell">
               {hora}
             </div>
+
+
+            {/* DIAS */}
 
             {dias.map((dia, index) => {
 
@@ -82,28 +92,26 @@ function AgendaGrid({
               const dataSlot =
                 gerarDataSlot(dataAtual)
 
+
               const consulta =
                 consultas.find(
-                  c =>
-                    (
-                      c.data === dataSlot ||
-                      (
-                        !c.data &&
-                        c.dia === dia
-                      )
-                    ) &&
+                  (c) =>
+                    c.data === dataSlot &&
                     c.hora === hora
                 )
+
+
+              const corConsulta =
+                consulta
+                  ? getCor(consulta.status)
+                  : ""
+
 
               return (
 
                 <div
-                  key={`${dia}-${hora}`}
-                  className={`agenda-slot ${
-                    consulta
-                      ? getCor(consulta.status)
-                      : ""
-                  }`}
+                  key={`${dataSlot}-${hora}`}
+                  className={`agenda-slot ${corConsulta}`}
                 >
 
                   {consulta ? (
@@ -117,18 +125,32 @@ function AgendaGrid({
 
                   ) : (
 
-                    <div
+                    <button
+                      type="button"
                       className="slot-vazio"
-                      onClick={() =>
+                      onClick={() => {
+
+                        /*
+                         * setDataConsulta é opcional.
+                         * Assim o + continua funcionando mesmo
+                         * se o componente pai não estiver passando
+                         * essa função.
+                         */
+
+                        if (setDataConsulta) {
+                          setDataConsulta(dataSlot)
+                        }
+
                         setNovoAgendamento({
                           dia,
                           hora,
                           data: dataSlot
                         })
-                      }
+
+                      }}
                     >
                       +
-                    </div>
+                    </button>
 
                   )}
 
@@ -143,7 +165,9 @@ function AgendaGrid({
         ))}
 
 
+        {/* ================================================= */}
         {/* GANHO DO DIA */}
+        {/* ================================================= */}
 
         <div className="hora-cell ganho-label">
           Ganho
@@ -160,18 +184,17 @@ function AgendaGrid({
           const dataSlot =
             gerarDataSlot(dataAtual)
 
+
           return (
 
             <div
-              key={dataSlot}
+              key={`ganho-${dataSlot}`}
               className="ganho-cell"
             >
 
               <strong>
                 R${" "}
-                {ganhoDoDia(
-                  dataSlot
-                ).toFixed(2)}
+                {ganhoDoDia(dataSlot).toFixed(2)}
               </strong>
 
             </div>
@@ -181,7 +204,9 @@ function AgendaGrid({
         })}
 
 
+        {/* ================================================= */}
         {/* GANHO DA SEMANA */}
+        {/* ================================================= */}
 
         <div className="hora-cell ganho-label">
           Semana

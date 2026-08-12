@@ -18,6 +18,8 @@ function AgendaModal({
   abrirPerfil,
   remover,
   setSelecionada,
+  pagamentoAberto,
+  setPagamentoAberto,
 }) {
 
   const [mostrarPagamento, setMostrarPagamento] =

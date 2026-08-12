@@ -177,58 +177,65 @@ export default function useAgendaActions({
 
   }
 
-  async function criarAgendamento() {
+async function criarAgendamento() {
 
-    if (!pacienteSelecionado) {
-
-      alert("Selecione um paciente")
-      return
-
-    }
-
-    await addDoc(
-      collection(db, "agenda"),
-      {
-
-        pacienteId:
-          pacienteSelecionado.id,
-
-        nome:
-          pacienteSelecionado.nome,
-
-        dia:
-          novoAgendamento.dia,
-
-        hora:
-          novoAgendamento.hora,
-
-        data:
-          dataConsulta,
-
-        status: "agendado",
-
-        valorPago: 0
-
-      }
-    )
-
-    await updateDoc(
-      doc(
-        db,
-        "pacientes",
-        pacienteSelecionado.id
-      ),
-      {
-        proxConsulta: dataConsulta
-      }
-    )
-
-    setNovoAgendamento(null)
-    setBuscaPaciente("")
-    setPacienteSelecionado(null)
-    setDataConsulta("")
-
+  if (!pacienteSelecionado) {
+    alert("Selecione um paciente")
+    return
   }
+
+  const dataFinal =
+    dataConsulta ||
+    novoAgendamento?.data ||
+    ""
+
+  if (!dataFinal) {
+    alert("Selecione uma data")
+    return
+  }
+
+  await addDoc(
+    collection(db, "agenda"),
+    {
+      pacienteId:
+        pacienteSelecionado.id,
+
+      nome:
+        pacienteSelecionado.nome,
+
+      dia:
+        novoAgendamento.dia,
+
+      hora:
+        novoAgendamento.hora,
+
+      data:
+        dataFinal,
+
+      status: "agendado",
+
+      valorPago: 0,
+
+      formaPagamento: ""
+    }
+  )
+
+  await updateDoc(
+    doc(
+      db,
+      "pacientes",
+      pacienteSelecionado.id
+    ),
+    {
+      proxConsulta: dataFinal
+    }
+  )
+
+  setNovoAgendamento(null)
+  setBuscaPaciente("")
+  setPacienteSelecionado(null)
+  setDataConsulta("")
+}
 
   async function agendarPeloTopo() {
 

@@ -51,6 +51,9 @@
     const [formaPagamento, setFormaPagamento] =
       useState("")
 
+    const [pagamentoAberto, setPagamentoAberto] =
+    useState(false)
+
     const [obsEditando, setObsEditando] =
       useState("")
 
@@ -189,33 +192,37 @@
   />
 
               {selecionada && (
-          <AgendaModal
-    selecionada={selecionada}
-    setSelecionada={setSelecionada}
+<AgendaModal
+  selecionada={selecionada}
+  setSelecionada={setSelecionada}
 
-    pacienteModal={pacienteModal}
-    pacientes={pacientes}
-    abrirPerfil={abrirPerfil}
+  pacienteModal={pacienteModal}
+  pacientes={pacientes}
+  abrirPerfil={abrirPerfil}
 
-    valorPago={valorPago}
-    setValorPago={setValorPago}
+  valorPago={valorPago}
+  setValorPago={setValorPago}
 
-    formaPagamento={formaPagamento}
-    setFormaPagamento={setFormaPagamento}
+  formaPagamento={formaPagamento}
+  setFormaPagamento={setFormaPagamento}
 
-    obsEditando={obsEditando}
-    setObsEditando={setObsEditando}
+  pagamentoAberto={pagamentoAberto}
+  setPagamentoAberto={setPagamentoAberto}
 
-    mudarStatus={actions.mudarStatus}
-    salvarObs={actions.salvarObs}
-    salvarPagamento={actions.salvarPagamento}
-    removerValor={actions.removerValor}
-    remover={actions.remover}
+  obsEditando={obsEditando}
+  setObsEditando={setObsEditando}
 
-    fechar={() =>
-      setSelecionada(null)
-    }
-  />
+  mudarStatus={actions.mudarStatus}
+  salvarObs={actions.salvarObs}
+  salvarPagamento={actions.salvarPagamento}
+  removerValor={actions.removerValor}
+  remover={actions.remover}
+
+  fechar={() => {
+    setSelecionada(null)
+    setPagamentoAberto(false)
+  }}
+/>
         )}
 
         {novoAgendamento && (

@@ -50,10 +50,8 @@ function NovoAgendamentoModal({
           type="date"
           className="valor-input"
           value={
-            dataConsulta ||
-            novoAgendamento.data ||
-            ""
-          }
+  dataConsulta || novoAgendamento.data || ""
+}
           onChange={(e) =>
             setDataConsulta(e.target.value)
           }

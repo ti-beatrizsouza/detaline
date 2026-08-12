@@ -40,58 +40,63 @@ function CadastroPaciente({
     setSenha] =
     useState("")
 
-  async function cadastrar(e) {
+async function cadastrar(e) {
 
-    e.preventDefault()
+  e.preventDefault()
 
-    try {
+  try {
 
-      const usuario =
-        await createUserWithEmailAndPassword(
+    const usuario =
+      await createUserWithEmailAndPassword(
+        auth,
+        email,
+        senha
+      )
 
-          auth,
-          email,
-          senha
+    // Cadastro do usuário
+    await addDoc(
+      collection(db, "usuarios"),
+      {
+        uid: usuario.user.uid,
+        nome,
+        email,
+        tipo
+      }
+    )
 
-        )
+    // Cadastro do paciente
+    if (tipo === "paciente") {
 
       await addDoc(
-
-        collection(
-          db,
-          "usuarios"
-        ),
-
+        collection(db, "pacientes"),
         {
-
-          uid:
-            usuario.user.uid,
-
           nome,
           email,
-          tipo
-
+          telefone: "",
+          foto: "",
+          obs: "",
+          proxConsulta: "",
+          totalPago: 0
         }
-
-      )
-
-      alert(
-        "Cadastro realizado!"
-      )
-
-      voltar()
-
-    } catch (error) {
-
-      console.log(error)
-
-      alert(
-        "Erro ao cadastrar."
       )
 
     }
 
+    alert("Cadastro realizado!")
+
+    voltar()
+
+  } catch (error) {
+
+    console.log(error)
+
+    alert(
+      "Erro ao cadastrar."
+    )
+
   }
+
+}
 
   return (
 
