@@ -216,13 +216,29 @@
 .azul .consulta-btn    { background: #4c8bf5; }
 .verde .consulta-btn   { background: #35b56a; }
 .rosa .consulta-btn    { background: #ff5ca8; }
-.amarelo .consulta-btn { background: #d8a400; }
+.amarelo .consulta-btn {
+  background: #e8c96a;
+}
 
-.btn-agendado  { background: #8d8d8d !important; }
-.btn-confirmado { background: #4c8bf5 !important; }
-.btn-pago       { background: #35b56a !important; }
-.btn-debito     { background: #ff5ca8 !important; }
-.btn-faltou     { background: #d8a400 !important; }
+.btn-agendado {
+  background: #8d8d8d !important;
+}
+
+.btn-confirmado {
+  background: #4c8bf5 !important;
+}
+
+.btn-pago {
+  background: #35b56a !important;
+}
+
+.btn-debito {
+  background: #ff5ca8 !important;
+}
+
+.btn-faltou {
+  background: #e8c96a !important;
+}
 
 .modal-bg {
   position: fixed;
@@ -285,6 +301,43 @@
   display: flex;
   gap: 10px;
   margin-top: 15px;
+}
+
+.pagamento-box {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f7f7f7;
+  border-radius: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.pagamento-box .valor-input {
+  height: 45px;
+  margin: 0;
+}
+
+.pagamento-box select {
+  grid-column: 1 / -1;
+}
+
+.pagamento-box .enviar-valor-btn {
+  height: 45px;
+}
+
+.cancelar-pagamento-btn {
+  height: 45px;
+  border: none;
+  border-radius: 14px;
+  background: #555;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cancelar-pagamento-btn:hover {
+  background: #333;
 }
 
 .valor-input {

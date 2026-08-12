@@ -71,7 +71,7 @@ function Agenda({
     )
 
   const [horaTopo, setHoraTopo] =
-    useState("07:00")
+    useState("08:00")
 
   const [statusTopo, setStatusTopo] =
     useState("agendado")
@@ -170,30 +170,32 @@ function Agenda({
 
             {selecionada && (
         <AgendaModal
-          selecionada={selecionada}
-          pacienteModal={pacienteModal}
-          pacientes={pacientes}
-          abrirPerfil={abrirPerfil}
+  selecionada={selecionada}
+  setSelecionada={setSelecionada}
 
-          valorPago={valorPago}
-          setValorPago={setValorPago}
+  pacienteModal={pacienteModal}
+  pacientes={pacientes}
+  abrirPerfil={abrirPerfil}
 
-          formaPagamento={formaPagamento}
-          setFormaPagamento={setFormaPagamento}
+  valorPago={valorPago}
+  setValorPago={setValorPago}
 
-          obsEditando={obsEditando}
-          setObsEditando={setObsEditando}
+  formaPagamento={formaPagamento}
+  setFormaPagamento={setFormaPagamento}
 
-          mudarStatus={actions.mudarStatus}
-          salvarObs={actions.salvarObs}
-          salvarPagamento={actions.salvarPagamento}
-          removerValor={actions.removerValor}
-          remover={actions.remover}
+  obsEditando={obsEditando}
+  setObsEditando={setObsEditando}
 
-          fechar={() =>
-            setSelecionada(null)
-          }
-        />
+  mudarStatus={actions.mudarStatus}
+  salvarObs={actions.salvarObs}
+  salvarPagamento={actions.salvarPagamento}
+  removerValor={actions.removerValor}
+  remover={actions.remover}
+
+  fechar={() =>
+    setSelecionada(null)
+  }
+/>
       )}
 
       {novoAgendamento && (

@@ -1,5 +1,7 @@
 // src/components/AgendaModal.jsx
 
+import { useState } from "react"
+
 function AgendaModal({
   selecionada,
   pacientes,
@@ -18,14 +20,74 @@ function AgendaModal({
   setSelecionada,
 }) {
 
+  const [mostrarPagamento, setMostrarPagamento] =
+    useState(false)
+
   if (!selecionada) return null
 
   const pacienteModal =
     pacientes.find(
       p =>
-        p.id ===
-        selecionada.pacienteId
+        p.id === selecionada.pacienteId
     )
+
+  function formatarData(data) {
+
+    if (!data) {
+      return "Data não informada"
+    }
+
+    const dataObj =
+      new Date(data + "T00:00:00")
+
+    if (isNaN(dataObj.getTime())) {
+      return "Data não informada"
+    }
+
+    return dataObj.toLocaleDateString(
+      "pt-BR"
+    )
+  }
+
+  function abrirPagamento() {
+
+    setMostrarPagamento(true)
+
+  }
+
+  function cancelarPagamento() {
+
+    setMostrarPagamento(false)
+    setFormaPagamento("")
+    setValorPago("")
+
+  }
+
+  async function confirmarPagamento() {
+
+    if (!formaPagamento) {
+
+      alert(
+        "Selecione a forma de pagamento"
+      )
+
+      return
+    }
+
+    if (!valorPago) {
+
+      alert(
+        "Informe o valor pago"
+      )
+
+      return
+    }
+
+    await salvarPagamento()
+
+    setMostrarPagamento(false)
+
+  }
 
   return (
 
@@ -67,83 +129,50 @@ function AgendaModal({
         </div>
 
         <p>
-
-          📅 {selecionada.dia} • {
-
-            new Date(
-              selecionada.data +
-              "T00:00:00"
-            ).toLocaleDateString(
-              "pt-BR"
-            )
-
-          }
-
+          📅 {selecionada.dia || "Dia não informado"} •{" "}
+          {formatarData(selecionada.data)}
         </p>
 
         <p>
-
-          ⏰ {selecionada.hora}
-
+          ⏰ {selecionada.hora || "Horário não informado"}
         </p>
 
         {selecionada.formaPagamento && (
 
           <p>
-
-            💳 {
-              selecionada.formaPagamento
-            }
-
+            💳 {selecionada.formaPagamento}
           </p>
 
         )}
 
         <textarea
-
           className="valor-input"
-
           rows="5"
-
           value={obsEditando}
-
           onChange={(e) =>
-            setObsEditando(
-              e.target.value
-            )
+            setObsEditando(e.target.value)
           }
-
         />
 
         <button
-
           className="salvar-obs-btn"
-
           onClick={salvarObs}
-
         >
-
           💾 Salvar Observação
-
         </button>
 
-        {selecionada.status ===
-          "pagou" && (
+        {mostrarPagamento && (
 
-          <div className="valor-box">
+          <div className="pagamento-box">
 
             <select
-
               className="valor-input"
-
               value={formaPagamento}
-
               onChange={(e) =>
                 setFormaPagamento(
                   e.target.value
                 )
               }
-
             >
 
               <option value="">
@@ -169,33 +198,29 @@ function AgendaModal({
             </select>
 
             <input
-
               type="number"
-
               className="valor-input"
-
               placeholder="Valor pago hoje"
-
               value={valorPago}
-
               onChange={(e) =>
                 setValorPago(
                   e.target.value
                 )
               }
-
             />
 
             <button
-
               className="enviar-valor-btn"
-
-              onClick={salvarPagamento}
-
+              onClick={confirmarPagamento}
             >
+              Salvar Pagamento
+            </button>
 
-              Enviar Valor
-
+            <button
+              className="cancelar-pagamento-btn"
+              onClick={cancelarPagamento}
+            >
+              Cancelar
             </button>
 
           </div>
@@ -204,7 +229,7 @@ function AgendaModal({
 
         <div className="modal-botoes">
 
-                  <button
+          <button
             onClick={() => {
 
               const paciente =
@@ -239,26 +264,10 @@ function AgendaModal({
 
           <button
             className="btn-pago"
-            onClick={() =>
-              setSelecionada({
-                ...selecionada,
-                status: "pagou"
-              })
-            }
+            onClick={abrirPagamento}
           >
             Pago
           </button>
-
-          {selecionada.valorPago > 0 && (
-
-            <button
-              className="remover-valor-btn"
-              onClick={removerValor}
-            >
-              Remover Valor
-            </button>
-
-          )}
 
           <button
             className="btn-debito"
@@ -287,6 +296,17 @@ function AgendaModal({
             Agendado
           </button>
 
+          {selecionada.valorPago > 0 && (
+
+            <button
+              className="remover-valor-btn"
+              onClick={removerValor}
+            >
+              Remover Valor
+            </button>
+
+          )}
+
           <button
             className="remover-btn"
             onClick={remover}
@@ -310,7 +330,6 @@ function AgendaModal({
     </div>
 
   )
-
 }
 
 export default AgendaModal
