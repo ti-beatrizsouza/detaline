@@ -1,5 +1,7 @@
 // src/components/AgendaGrid.jsx
 
+import { useEffect, useState } from "react"
+
 import AgendaHeader from "./AgendaHeader"
 import ConsultaCard from "./ConsultaCard"
 
@@ -9,7 +11,38 @@ import {
   gerarDataSlot
 } from "../utils/agendaUtils"
 
+function verificarTempoSlot(data, hora) {
+
+  const agora = new Date()
+
+  const dataHoraSlot =
+    new Date(`${data}T${hora}:00`)
+
+  if (isNaN(dataHoraSlot.getTime())) {
+    return {
+      passado: false,
+      atual: false
+    }
+  }
+
+  const fimSlot =
+    new Date(dataHoraSlot)
+
+  fimSlot.setMinutes(
+    fimSlot.getMinutes() + 30
+  )
+
+  return {
+    passado: fimSlot <= agora,
+    atual:
+      dataHoraSlot <= agora &&
+      fimSlot > agora
+  }
+}
+
 function AgendaGrid({
+
+  
   dias,
   horarios,
   consultas,
@@ -22,6 +55,8 @@ function AgendaGrid({
   ganhoDoDia,
   ganhoDaSemana
 }) {
+
+  
 
   return (
     <div className="agenda-scroll">
@@ -106,13 +141,25 @@ function AgendaGrid({
                   ? getCor(consulta.status)
                   : ""
 
+              const tempoSlot =
+  verificarTempoSlot(
+    dataSlot,
+    hora
+  )
+
+const classeTempo =
+  tempoSlot.passado
+    ? "slot-passado"
+    : tempoSlot.atual
+      ? "slot-atual"
+      : ""
 
               return (
 
-                <div
-                  key={`${dataSlot}-${hora}`}
-                  className={`agenda-slot ${corConsulta}`}
-                >
+<div
+  key={`${dataSlot}-${hora}`}
+  className={`agenda-slot ${corConsulta} ${classeTempo}`}
+>
 
                   {consulta ? (
 

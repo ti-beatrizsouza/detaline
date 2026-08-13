@@ -1754,7 +1754,7 @@
 
 /* Mantém apenas o hover suave da célula, sem círculo */
 .agenda-slot:hover {
-  background: #fad1f2 !important;
+  background: #fae9f4 !important;
 }
 
 
@@ -1777,4 +1777,16 @@
 .modal-botoes button::after {
   content: none !important;
   display: none !important;
+}
+
+/* ========================================================= */
+/* PROGRESSÃO DE TEMPO DA AGENDA                             */
+/* ========================================================= */
+
+.agenda-slot.slot-passado {
+  background: rgba(53, 53, 53, 0.14);
+}
+
+.agenda-slot.slot-passado:hover {
+  background: rgba(5, 5, 5, 0.18) !important;
 }
