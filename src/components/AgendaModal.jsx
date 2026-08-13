@@ -21,67 +21,58 @@ function AgendaModal({
   pagamentoAberto,
   setPagamentoAberto,
 }) {
-
   const [mostrarPagamento, setMostrarPagamento] =
     useState(false)
 
   if (!selecionada) return null
 
-  const pacienteModal =
-    pacientes.find(
-      p =>
-        p.id === selecionada.pacienteId
-    )
+  const pacienteModal = pacientes.find(
+    p => p.id === selecionada.pacienteId
+  )
 
   function formatarData(data) {
-
     if (!data) {
       return "Data não informada"
     }
 
-    const dataObj =
-      new Date(data + "T00:00:00")
+    const dataObj = new Date(
+      data + "T00:00:00"
+    )
 
     if (isNaN(dataObj.getTime())) {
       return "Data não informada"
     }
 
-    return dataObj.toLocaleDateString(
-      "pt-BR"
-    )
+    return dataObj.toLocaleDateString("pt-BR")
   }
 
   function abrirPagamento() {
-
     setMostrarPagamento(true)
 
+    if (setPagamentoAberto) {
+      setPagamentoAberto(true)
+    }
   }
 
   function cancelarPagamento() {
-
     setMostrarPagamento(false)
+
     setFormaPagamento("")
     setValorPago("")
 
+    if (setPagamentoAberto) {
+      setPagamentoAberto(false)
+    }
   }
 
   async function confirmarPagamento() {
-
     if (!formaPagamento) {
-
-      alert(
-        "Selecione a forma de pagamento"
-      )
-
+      alert("Selecione a forma de pagamento")
       return
     }
 
     if (!valorPago) {
-
-      alert(
-        "Informe o valor pago"
-      )
-
+      alert("Informe o valor pago")
       return
     }
 
@@ -89,134 +80,318 @@ function AgendaModal({
 
     setMostrarPagamento(false)
 
+    if (setPagamentoAberto) {
+      setPagamentoAberto(false)
+    }
+  }
+
+  function fecharModal() {
+    setMostrarPagamento(false)
+
+    if (setPagamentoAberto) {
+      setPagamentoAberto(false)
+    }
+
+    setSelecionada(null)
+  }
+
+  function verPerfil() {
+    const paciente = pacientes.find(
+      p => p.id === selecionada.pacienteId
+    )
+
+    if (paciente) {
+      abrirPerfil(paciente, "agenda")
+    }
   }
 
   return (
-
     <div className="modal-bg">
 
-      <div className="modal-box">
+      <div className="pagamento-layout">
 
-        <div className="modal-paciente-topo">
+        {/* ================================================= */}
+        {/* MODAL PRINCIPAL                                  */}
+        {/* ================================================= */}
 
-          <div className="modal-foto">
+        <div className="modal-box modal-box-principal">
 
-            {pacienteModal?.foto ? (
+          {/* CABEÇALHO DO PACIENTE */}
 
-              <img
-                src={pacienteModal.foto}
-                alt={pacienteModal.nome}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  borderRadius: "50%"
-                }}
-              />
+          <div className="modal-paciente-topo">
 
-            ) : (
+            <div className="modal-foto">
 
-              pacienteModal?.nome
-                ?.charAt(0)
-                ?.toUpperCase()
+              {pacienteModal?.foto ? (
 
-            )}
+                <img
+                  src={pacienteModal.foto}
+                  alt={pacienteModal.nome || "Paciente"}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                  }}
+                />
+
+              ) : (
+
+                pacienteModal?.nome
+                  ?.charAt(0)
+                  ?.toUpperCase() || "?"
+
+              )}
+
+            </div>
+
+            <h2>
+              {selecionada.nome}
+            </h2>
 
           </div>
 
-          <h2>
-            {selecionada.nome}
-          </h2>
+
+          {/* ================================================= */}
+          {/* INFORMAÇÕES DA CONSULTA                          */}
+          {/* ================================================= */}
+
+          <p>
+            📅 {selecionada.dia || "Dia não informado"} •{" "}
+            {formatarData(selecionada.data)}
+          </p>
+
+          <p>
+            ⏰ {selecionada.hora || "Horário não informado"}
+          </p>
+
+          {selecionada.formaPagamento && (
+            <p>
+              💳 {selecionada.formaPagamento}
+            </p>
+          )}
+
+          {selecionada.valorPago > 0 && (
+            <p>
+              💰 Valor pago: R${" "}
+              {Number(selecionada.valorPago)
+                .toFixed(2)
+                .replace(".", ",")}
+            </p>
+          )}
+
+
+          {/* ================================================= */}
+          {/* OBSERVAÇÃO                                       */}
+          {/* ================================================= */}
+
+          <textarea
+            className="valor-input"
+            rows="5"
+            placeholder="Observações da consulta..."
+            value={obsEditando}
+            onChange={e =>
+              setObsEditando(e.target.value)
+            }
+          />
+
+          <button
+            className="salvar-obs-btn"
+            onClick={salvarObs}
+          >
+            💾 Salvar Observação
+          </button>
+
+
+          {/* ================================================= */}
+          {/* BOTÕES                                           */}
+          {/* ================================================= */}
+
+          <div className="modal-botoes">
+
+            {/* PERFIL */}
+
+            <button
+              onClick={verPerfil}
+            >
+              Ver Perfil
+            </button>
+
+
+            {/* CONFIRMADO */}
+
+            <button
+              className="btn-confirmado"
+              onClick={() =>
+                mudarStatus("confirmado")
+              }
+            >
+              Confirmado
+            </button>
+
+
+            {/* PAGO */}
+
+            <button
+              className="btn-pago"
+              onClick={abrirPagamento}
+            >
+              Pago
+            </button>
+
+
+            {/* PENDENTE */}
+
+            <button
+              className="btn-debito"
+              onClick={() =>
+                mudarStatus("pendente")
+              }
+            >
+              Pagamento Pendente
+            </button>
+
+
+            {/* FALTOU */}
+
+            <button
+              className="btn-faltou"
+              onClick={() =>
+                mudarStatus("faltou")
+              }
+            >
+              Faltou
+            </button>
+
+
+            {/* AGENDADO */}
+
+            <button
+              className="btn-agendado"
+              onClick={() =>
+                mudarStatus("agendado")
+              }
+            >
+              Agendado
+            </button>
+
+
+            {/* REMOVER VALOR */}
+
+            {Number(selecionada.valorPago) > 0 && (
+
+              <button
+                className="remover-valor-btn"
+                onClick={removerValor}
+              >
+                Remover Valor
+              </button>
+
+            )}
+
+
+            {/* REMOVER CONSULTA */}
+
+            <button
+              className="remover-btn"
+              onClick={remover}
+            >
+              Remover
+            </button>
+
+
+            {/* FECHAR */}
+
+            <button
+              className="fechar-modal-btn"
+              onClick={fecharModal}
+            >
+              ✕ Fechar
+            </button>
+
+          </div>
 
         </div>
 
-        <p>
-          📅 {selecionada.dia || "Dia não informado"} •{" "}
-          {formatarData(selecionada.data)}
-        </p>
 
-        <p>
-          ⏰ {selecionada.hora || "Horário não informado"}
-        </p>
-
-        {selecionada.formaPagamento && (
-
-          <p>
-            💳 {selecionada.formaPagamento}
-          </p>
-
-        )}
-
-        <textarea
-          className="valor-input"
-          rows="5"
-          value={obsEditando}
-          onChange={(e) =>
-            setObsEditando(e.target.value)
-          }
-        />
-
-        <button
-          className="salvar-obs-btn"
-          onClick={salvarObs}
-        >
-          💾 Salvar Observação
-        </button>
+        {/* ================================================= */}
+        {/* PAINEL DE PAGAMENTO                               */}
+        {/* ================================================= */}
 
         {mostrarPagamento && (
 
           <div className="pagamento-box">
 
+            <h3>
+              💳 Registrar Pagamento
+            </h3>
+
+
+            {/* FORMA DE PAGAMENTO */}
+
+            <label>
+              Forma de pagamento
+            </label>
+
             <select
-              className="valor-input"
               value={formaPagamento}
-              onChange={(e) =>
-                setFormaPagamento(
-                  e.target.value
-                )
+              onChange={e =>
+                setFormaPagamento(e.target.value)
               }
             >
-
               <option value="">
-                Forma de pagamento
+                Selecione...
               </option>
 
-              <option value="pix">
-                PIX
+              <option value="Pix">
+                Pix
               </option>
 
-              <option value="dinheiro">
+              <option value="Dinheiro">
                 Dinheiro
               </option>
 
-              <option value="debito">
-                Débito
+              <option value="Cartão de Débito">
+                Cartão de Débito
               </option>
 
-              <option value="credito">
-                Crédito
+              <option value="Cartão de Crédito">
+                Cartão de Crédito
               </option>
 
             </select>
 
+
+            {/* VALOR */}
+
+            <label>
+              Valor pago
+            </label>
+
             <input
-              type="number"
               className="valor-input"
-              placeholder="Valor pago hoje"
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="R$ 0,00"
               value={valorPago}
-              onChange={(e) =>
-                setValorPago(
-                  e.target.value
-                )
+              onChange={e =>
+                setValorPago(e.target.value)
               }
             />
+
+
+            {/* CONFIRMAR */}
 
             <button
               className="enviar-valor-btn"
               onClick={confirmarPagamento}
             >
-              Salvar Pagamento
+              💰 Confirmar Pagamento
             </button>
+
+
+            {/* CANCELAR */}
 
             <button
               className="cancelar-pagamento-btn"
@@ -229,108 +404,9 @@ function AgendaModal({
 
         )}
 
-        <div className="modal-botoes">
-
-          <button
-            onClick={() => {
-
-              const paciente =
-                pacientes.find(
-                  p =>
-                    p.id ===
-                    selecionada.pacienteId
-                )
-
-              if (paciente) {
-
-                abrirPerfil(
-                  paciente,
-                  "agenda"
-                )
-
-              }
-
-            }}
-          >
-            Ver Perfil
-          </button>
-
-          <button
-            className="btn-confirmado"
-            onClick={() =>
-              mudarStatus("confirmado")
-            }
-          >
-            Confirmado
-          </button>
-
-          <button
-            className="btn-pago"
-            onClick={abrirPagamento}
-          >
-            Pago
-          </button>
-
-          <button
-            className="btn-debito"
-            onClick={() =>
-              mudarStatus("pendente")
-            }
-          >
-            Pagamento Pendente
-          </button>
-
-          <button
-            className="btn-faltou"
-            onClick={() =>
-              mudarStatus("faltou")
-            }
-          >
-            Faltou
-          </button>
-
-          <button
-            className="btn-agendado"
-            onClick={() =>
-              mudarStatus("agendado")
-            }
-          >
-            Agendado
-          </button>
-
-          {selecionada.valorPago > 0 && (
-
-            <button
-              className="remover-valor-btn"
-              onClick={removerValor}
-            >
-              Remover Valor
-            </button>
-
-          )}
-
-          <button
-            className="remover-btn"
-            onClick={remover}
-          >
-            Remover
-          </button>
-
-          <button
-            className="fechar-modal-btn"
-            onClick={() =>
-              setSelecionada(null)
-            }
-          >
-            ✕ Fechar
-          </button>
-
-        </div>
-
       </div>
 
     </div>
-
   )
 }
 

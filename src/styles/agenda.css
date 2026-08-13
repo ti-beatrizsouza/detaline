@@ -881,11 +881,14 @@
   align-items: flex-start;
   justify-content: center;
   gap: 12px;
-  width: 100%;
+  width: auto;
+  max-width: 100%;
 }
 
 .pagamento-layout .modal-box-principal {
-  flex: 1;
+  width: 500px;
+  max-width: calc(100vw - 40px);
+  flex: 0 1 500px;
   min-width: 0;
 }
 
@@ -1142,10 +1145,6 @@
   transition:
     transform .2s ease,
     background .2s ease;
-}
-
-.modal-botoes button:hover {
-  transform: translateY(-1px);
 }
 
 .modal-botoes button:first-child {
@@ -1672,4 +1671,110 @@
 
 .slot-vazio:active {
   transform: scale(.92);
+}
+
+/* ========================================================= */
+/* REMOVER COMPLETAMENTE O EFEITO DE HOVER DOS BOTÕES       */
+/* DO MODAL                                                  */
+/* ========================================================= */
+
+.modal-botoes button,
+.modal-botoes button:hover,
+.modal-botoes button:focus,
+.modal-botoes button:active {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+
+  width: 100% !important;
+  height: 48px !important;
+
+  border: none !important;
+  border-radius: 12px !important;
+
+  margin: 0 !important;
+  padding: 0 12px !important;
+
+  transform: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+
+  filter: none !important;
+
+  transition: background-color 0.2s ease !important;
+}
+
+/* ========================================================= */
+/* REMOVER EFEITOS DE CÍRCULO / HOVER INDESEJADO             */
+/* ========================================================= */
+
+/* Células da agenda */
+.agenda-slot,
+.agenda-slot:hover,
+.agenda-slot:focus,
+.agenda-slot:active {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  outline: none !important;
+}
+
+/* Remove possíveis efeitos criados por pseudo-elementos */
+.agenda-slot::before,
+.agenda-slot::after,
+.slot-vazio::before,
+.slot-vazio::after,
+.consulta-btn::before,
+.consulta-btn::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Botão + da célula */
+.slot-vazio,
+.slot-vazio:hover,
+.slot-vazio:focus,
+.slot-vazio:active {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transform: none !important;
+  background: transparent !important;
+}
+
+/* Consulta dentro da célula */
+.consulta-btn,
+.consulta-btn:hover,
+.consulta-btn:focus,
+.consulta-btn:active {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transform: none !important;
+}
+
+/* Mantém apenas o hover suave da célula, sem círculo */
+.agenda-slot:hover {
+  background: #fad1f2 !important;
+}
+
+
+/* ========================================================= */
+/* BOTÕES DO MODAL — SEM CÍRCULO / EFEITO ESTRANHO           */
+/* ========================================================= */
+
+.modal-botoes button,
+.modal-botoes button:hover,
+.modal-botoes button:focus,
+.modal-botoes button:active {
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  transform: none !important;
+  outline: none !important;
+}
+
+/* Remove qualquer pseudo-elemento que esteja criando círculo */
+.modal-botoes button::before,
+.modal-botoes button::after {
+  content: none !important;
+  display: none !important;
 }
