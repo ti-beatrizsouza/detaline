@@ -21,40 +21,66 @@ function AgendaModal({
   pagamentoAberto,
   setPagamentoAberto,
 }) {
+
   const [mostrarPagamento, setMostrarPagamento] =
     useState(false)
 
-  if (!selecionada) return null
 
-  const pacienteModal = pacientes.find(
-    p => p.id === selecionada.pacienteId
-  )
+  if (!selecionada) {
+    return null
+  }
+
+
+  const pacienteModal =
+    pacientes.find(
+      p =>
+        p.id ===
+        selecionada.pacienteId
+    )
+
 
   function formatarData(data) {
+
     if (!data) {
       return "Data não informada"
     }
 
-    const dataObj = new Date(
-      data + "T00:00:00"
-    )
 
-    if (isNaN(dataObj.getTime())) {
+    const dataObj =
+      new Date(
+        data + "T00:00:00"
+      )
+
+
+    if (
+      isNaN(
+        dataObj.getTime()
+      )
+    ) {
       return "Data não informada"
     }
 
-    return dataObj.toLocaleDateString("pt-BR")
+
+    return dataObj.toLocaleDateString(
+      "pt-BR"
+    )
+
   }
 
+
   function abrirPagamento() {
+
     setMostrarPagamento(true)
 
     if (setPagamentoAberto) {
       setPagamentoAberto(true)
     }
+
   }
 
+
   function cancelarPagamento() {
+
     setMostrarPagamento(false)
 
     setFormaPagamento("")
@@ -63,18 +89,31 @@ function AgendaModal({
     if (setPagamentoAberto) {
       setPagamentoAberto(false)
     }
+
   }
 
+
   async function confirmarPagamento() {
+
     if (!formaPagamento) {
-      alert("Selecione a forma de pagamento")
+
+      alert(
+        "Selecione a forma de pagamento"
+      )
+
       return
     }
 
+
     if (!valorPago) {
-      alert("Informe o valor pago")
+
+      alert(
+        "Informe o valor pago"
+      )
+
       return
     }
+
 
     await salvarPagamento()
 
@@ -83,9 +122,12 @@ function AgendaModal({
     if (setPagamentoAberto) {
       setPagamentoAberto(false)
     }
+
   }
 
+
   function fecharModal() {
+
     setMostrarPagamento(false)
 
     if (setPagamentoAberto) {
@@ -93,125 +135,206 @@ function AgendaModal({
     }
 
     setSelecionada(null)
+
   }
+
 
   function verPerfil() {
-    const paciente = pacientes.find(
-      p => p.id === selecionada.pacienteId
-    )
+
+    const paciente =
+      pacientes.find(
+        p =>
+          p.id ===
+          selecionada.pacienteId
+      )
+
 
     if (paciente) {
-      abrirPerfil(paciente, "agenda")
+
+      abrirPerfil(
+        paciente,
+        "agenda"
+      )
+
     }
+
   }
 
+
   return (
+
     <div className="modal-bg">
+
 
       <div className="pagamento-layout">
 
+
         {/* ================================================= */}
-        {/* MODAL PRINCIPAL                                  */}
+        {/* MODAL PRINCIPAL                                   */}
         {/* ================================================= */}
 
-        <div className="modal-box modal-box-principal">
+        <div
+          className="
+            modal-box
+            modal-box-principal
+          "
+        >
 
-          {/* CABEÇALHO DO PACIENTE */}
 
-          <div className="modal-paciente-topo">
+          {/* ================================================= */}
+          {/* TÍTULO                                             */}
+          {/* ================================================= */}
 
-            <div className="modal-foto">
-
-              {pacienteModal?.foto ? (
-
-                <img
-                  src={pacienteModal.foto}
-                  alt={pacienteModal.nome || "Paciente"}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    borderRadius: "50%",
-                  }}
-                />
-
-              ) : (
-
-                pacienteModal?.nome
-                  ?.charAt(0)
-                  ?.toUpperCase() || "?"
-
-              )}
-
-            </div>
+          <div className="modal-paciente-cabecalho">
 
             <h2>
-              {selecionada.nome}
+              Paciente Agendado
             </h2>
+
+            <h3>
+              {pacienteModal?.nome ||
+                selecionada.nome}
+            </h3>
 
           </div>
 
 
           {/* ================================================= */}
-          {/* INFORMAÇÕES DA CONSULTA                          */}
+          {/* INFORMAÇÕES DA CONSULTA                           */}
           {/* ================================================= */}
 
-          <p>
-            📅 {selecionada.dia || "Dia não informado"} •{" "}
-            {formatarData(selecionada.data)}
-          </p>
+          <div className="modal-consulta-info">
 
-          <p>
-            ⏰ {selecionada.hora || "Horário não informado"}
-          </p>
 
-          {selecionada.formaPagamento && (
             <p>
-              💳 {selecionada.formaPagamento}
-            </p>
-          )}
 
-          {selecionada.valorPago > 0 && (
+              <span className="modal-info-icone">
+                📅
+              </span>
+
+              <strong>
+                {selecionada.dia ||
+                  "Dia não informado"}
+              </strong>
+
+              <span>
+                •
+              </span>
+
+              <span>
+                {formatarData(
+                  selecionada.data
+                )}
+              </span>
+
+            </p>
+
+
             <p>
-              💰 Valor pago: R${" "}
-              {Number(selecionada.valorPago)
-                .toFixed(2)
-                .replace(".", ",")}
+
+              <span className="modal-info-icone">
+                ⏰
+              </span>
+
+              <span>
+                {selecionada.hora ||
+                  "Horário não informado"}
+              </span>
+
             </p>
-          )}
+
+
+            {selecionada.formaPagamento && (
+
+              <p>
+
+                <span className="modal-info-icone">
+                  💳
+                </span>
+
+                <span>
+                  {selecionada.formaPagamento}
+                </span>
+
+              </p>
+
+            )}
+
+
+            {selecionada.valorPago > 0 && (
+
+              <p>
+
+                <span className="modal-info-icone">
+                  💰
+                </span>
+
+                <span>
+                  Valor pago: R${" "}
+                  {Number(
+                    selecionada.valorPago
+                  )
+                    .toFixed(2)
+                    .replace(
+                      ".",
+                      ","
+                    )}
+                </span>
+
+              </p>
+
+            )}
+
+          </div>
 
 
           {/* ================================================= */}
-          {/* OBSERVAÇÃO                                       */}
+          {/* OBSERVAÇÃO                                        */}
           {/* ================================================= */}
 
-          <textarea
-            className="valor-input"
-            rows="5"
-            placeholder="Observações da consulta..."
-            value={obsEditando}
-            onChange={e =>
-              setObsEditando(e.target.value)
-            }
-          />
+          <div className="modal-observacao">
 
-          <button
-            className="salvar-obs-btn"
-            onClick={salvarObs}
-          >
-            💾 Salvar Observação
-          </button>
+            <label>
+              Observações
+            </label>
+
+            <textarea
+              className="valor-input"
+              rows="4"
+              placeholder="Observações da consulta..."
+              value={obsEditando}
+              onChange={e =>
+                setObsEditando(
+                  e.target.value
+                )
+              }
+              onBlur={() => {
+
+                if (
+                  typeof salvarObs ===
+                  "function"
+                ) {
+                  salvarObs()
+                }
+
+              }}
+            />
+
+          </div>
 
 
           {/* ================================================= */}
-          {/* BOTÕES                                           */}
+          {/* BOTÕES                                             */}
           {/* ================================================= */}
 
           <div className="modal-botoes">
 
+
             {/* PERFIL */}
 
             <button
+              type="button"
+              className="btn-perfil"
               onClick={verPerfil}
             >
               Ver Perfil
@@ -221,9 +344,12 @@ function AgendaModal({
             {/* CONFIRMADO */}
 
             <button
+              type="button"
               className="btn-confirmado"
               onClick={() =>
-                mudarStatus("confirmado")
+                mudarStatus(
+                  "confirmado"
+                )
               }
             >
               Confirmado
@@ -233,8 +359,11 @@ function AgendaModal({
             {/* PAGO */}
 
             <button
+              type="button"
               className="btn-pago"
-              onClick={abrirPagamento}
+              onClick={
+                abrirPagamento
+              }
             >
               Pago
             </button>
@@ -243,9 +372,12 @@ function AgendaModal({
             {/* PENDENTE */}
 
             <button
+              type="button"
               className="btn-debito"
               onClick={() =>
-                mudarStatus("pendente")
+                mudarStatus(
+                  "pendente"
+                )
               }
             >
               Pagamento Pendente
@@ -255,9 +387,12 @@ function AgendaModal({
             {/* FALTOU */}
 
             <button
+              type="button"
               className="btn-faltou"
               onClick={() =>
-                mudarStatus("faltou")
+                mudarStatus(
+                  "faltou"
+                )
               }
             >
               Faltou
@@ -267,9 +402,12 @@ function AgendaModal({
             {/* AGENDADO */}
 
             <button
+              type="button"
               className="btn-agendado"
               onClick={() =>
-                mudarStatus("agendado")
+                mudarStatus(
+                  "agendado"
+                )
               }
             >
               Agendado
@@ -278,11 +416,16 @@ function AgendaModal({
 
             {/* REMOVER VALOR */}
 
-            {Number(selecionada.valorPago) > 0 && (
+            {Number(
+              selecionada.valorPago
+            ) > 0 && (
 
               <button
+                type="button"
                 className="remover-valor-btn"
-                onClick={removerValor}
+                onClick={
+                  removerValor
+                }
               >
                 Remover Valor
               </button>
@@ -293,6 +436,7 @@ function AgendaModal({
             {/* REMOVER CONSULTA */}
 
             <button
+              type="button"
               className="remover-btn"
               onClick={remover}
             >
@@ -303,13 +447,18 @@ function AgendaModal({
             {/* FECHAR */}
 
             <button
+              type="button"
               className="fechar-modal-btn"
-              onClick={fecharModal}
+              onClick={
+                fecharModal
+              }
             >
               ✕ Fechar
             </button>
 
+
           </div>
+
 
         </div>
 
@@ -322,8 +471,9 @@ function AgendaModal({
 
           <div className="pagamento-box">
 
+
             <h3>
-              💳 Registrar Pagamento
+          Registrar Pagamento
             </h3>
 
 
@@ -334,11 +484,16 @@ function AgendaModal({
             </label>
 
             <select
-              value={formaPagamento}
+              value={
+                formaPagamento
+              }
               onChange={e =>
-                setFormaPagamento(e.target.value)
+                setFormaPagamento(
+                  e.target.value
+                )
               }
             >
+
               <option value="">
                 Selecione...
               </option>
@@ -374,9 +529,13 @@ function AgendaModal({
               min="0"
               step="0.01"
               placeholder="R$ 0,00"
-              value={valorPago}
+              value={
+                valorPago
+              }
               onChange={e =>
-                setValorPago(e.target.value)
+                setValorPago(
+                  e.target.value
+                )
               }
             />
 
@@ -384,8 +543,11 @@ function AgendaModal({
             {/* CONFIRMAR */}
 
             <button
+              type="button"
               className="enviar-valor-btn"
-              onClick={confirmarPagamento}
+              onClick={
+                confirmarPagamento
+              }
             >
               💰 Confirmar Pagamento
             </button>
@@ -394,20 +556,28 @@ function AgendaModal({
             {/* CANCELAR */}
 
             <button
+              type="button"
               className="cancelar-pagamento-btn"
-              onClick={cancelarPagamento}
+              onClick={
+                cancelarPagamento
+              }
             >
               Cancelar
             </button>
+
 
           </div>
 
         )}
 
+
       </div>
 
     </div>
+
   )
+
 }
+
 
 export default AgendaModal

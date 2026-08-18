@@ -6,136 +6,201 @@ import CadastroPaciente from "./pages/CadastroPaciente"
 import CadastroDentista from "./pages/CadastroDentista"
 import Dashboard from "./pages/Dashboard"
 import Agenda from "./pages/Agenda"
-import Pacientes from "./pages/Pacientes"
+import Pacientes from "./pages/ListaPacientes"
 import PerfilPaciente from "./pages/PerfilPaciente"
+import Financeiro from "./pages/Financeiro"
+
+import useConsultas from "./hooks/useConsultas"
+
 
 function App() {
 
+  /* ===================================================== */
+  /* CONSULTAS                                             */
+  /* ===================================================== */
+
+  const consultas = useConsultas()
+
+
+  /* ===================================================== */
+  /* PÁGINA ATUAL                                          */
+  /* ===================================================== */
+
   const [pagina, setPagina] = useState(() => {
 
-  const paginaSalva = localStorage.getItem("pagina")
+    const paginaSalva =
+      localStorage.getItem("pagina")
 
-  return paginaSalva || "home"
+    return paginaSalva || "home"
 
-})
+  })
 
-  const [ultimaPagina,
-  setUltimaPagina] =
-  useState(() =>
 
-    localStorage.getItem("ultimaPagina") ||
+  /* ===================================================== */
+  /* ÚLTIMA PÁGINA                                         */
+  /* ===================================================== */
 
-    "pacientes"
+  const [
+    ultimaPagina,
+    setUltimaPagina
+  ] = useState(() =>
 
-  )
-
-  const [pacienteSelecionado,
-setPacienteSelecionado] =
-
-useState(() => {
-
-  const salvo = localStorage.getItem(
-    "pacienteSelecionado"
-  )
-
-  return salvo
-
-    ? JSON.parse(salvo)
-
-    : null
-
-})
-
-  const [paginaAnterior,
-  setPaginaAnterior] =
-  useState(() =>
-
-    localStorage.getItem("paginaAnterior") ||
-
-    "pacientes"
+    localStorage.getItem(
+      "ultimaPagina"
+    ) || "pacientes"
 
   )
 
-    useEffect(() => {
 
-  localStorage.setItem(
+  /* ===================================================== */
+  /* PACIENTE SELECIONADO                                  */
+  /* ===================================================== */
 
-    "paginaAtual",
+  const [
+    pacienteSelecionado,
+    setPacienteSelecionado
+  ] = useState(() => {
 
-    pagina
+    const salvo =
+      localStorage.getItem(
+        "pacienteSelecionado"
+      )
+
+    return salvo
+      ? JSON.parse(salvo)
+      : null
+
+  })
+
+
+  /* ===================================================== */
+  /* PÁGINA ANTERIOR                                       */
+  /* ===================================================== */
+
+  const [
+    paginaAnterior,
+    setPaginaAnterior
+  ] = useState(() =>
+
+    localStorage.getItem(
+      "paginaAnterior"
+    ) || "pacientes"
 
   )
 
-}, [pagina])
 
-    useEffect(() => {
+  /* ===================================================== */
+  /* AGENDAMENTO PENDENTE                                  */
+  /* ===================================================== */
 
-  localStorage.setItem(
-    "pagina",
-    pagina
-  )
+  const [
+    agendamentoPendente,
+    setAgendamentoPendente
+  ] = useState(null)
 
-}, [pagina])
 
-useEffect(() => {
+  /* ===================================================== */
+  /* RETORNO DO CADASTRO                                   */
+  /* ===================================================== */
 
-  const logado = localStorage.getItem(
-    "logado"
-  )
+  const [
+    retornoAgendamento,
+    setRetornoAgendamento
+  ] = useState(null)
 
-  if (
 
-    logado === "true" &&
+  /* ===================================================== */
+  /* SALVAR PÁGINA                                         */
+  /* ===================================================== */
 
-    pagina === "home"
+  useEffect(() => {
 
-  ) {
-
-    setPagina(
-      "dashboard"
+    localStorage.setItem(
+      "paginaAtual",
+      pagina
     )
 
-  }
+  }, [pagina])
 
-}, [])
 
-useEffect(() => {
+  useEffect(() => {
 
-  localStorage.setItem(
-
-    "pacienteSelecionado",
-
-    JSON.stringify(
-      pacienteSelecionado
+    localStorage.setItem(
+      "pagina",
+      pagina
     )
 
-  )
+  }, [pagina])
 
-}, [pacienteSelecionado])
 
-useEffect(() => {
+  /* ===================================================== */
+  /* VERIFICAR LOGIN                                       */
+  /* ===================================================== */
 
-  localStorage.setItem(
+  useEffect(() => {
 
-    "ultimaPagina",
+    const logado =
+      localStorage.getItem("logado")
 
-    ultimaPagina
+    if (
+      logado === "true" &&
+      pagina === "home"
+    ) {
 
-  )
+      setPagina("dashboard")
 
-}, [ultimaPagina])
+    }
 
-useEffect(() => {
+  }, [])
 
-  localStorage.setItem(
 
-    "paginaAnterior",
+  /* ===================================================== */
+  /* SALVAR PACIENTE                                       */
+  /* ===================================================== */
 
-    paginaAnterior
+  useEffect(() => {
 
-  )
+    localStorage.setItem(
+      "pacienteSelecionado",
+      JSON.stringify(
+        pacienteSelecionado
+      )
+    )
 
-}, [paginaAnterior])
+  }, [pacienteSelecionado])
+
+
+  /* ===================================================== */
+  /* SALVAR ÚLTIMA PÁGINA                                  */
+  /* ===================================================== */
+
+  useEffect(() => {
+
+    localStorage.setItem(
+      "ultimaPagina",
+      ultimaPagina
+    )
+
+  }, [ultimaPagina])
+
+
+  /* ===================================================== */
+  /* SALVAR PÁGINA ANTERIOR                                */
+  /* ===================================================== */
+
+  useEffect(() => {
+
+    localStorage.setItem(
+      "paginaAnterior",
+      paginaAnterior
+    )
+
+  }, [paginaAnterior])
+
+
+  /* ===================================================== */
+  /* ABRIR PERFIL                                          */
+  /* ===================================================== */
 
   function abrirPerfil(
     paciente,
@@ -154,13 +219,43 @@ useEffect(() => {
 
   }
 
+
+  /* ===================================================== */
+  /* ABRIR CADASTRO DA DENTISTA                            */
+  /* ===================================================== */
+
   function abrirCadastroDentista(
-    origem
+    origem,
+    contexto = null
   ) {
 
     setUltimaPagina(
       origem
     )
+
+
+    /*
+      Se o cadastro foi aberto a partir
+      de um novo agendamento, guardamos
+      o horário original.
+    */
+
+    if (
+      contexto?.novoAgendamento
+    ) {
+
+      setAgendamentoPendente(
+        contexto.novoAgendamento
+      )
+
+    } else {
+
+      setAgendamentoPendente(
+        null
+      )
+
+    }
+
 
     setPagina(
       "cadastroDentista"
@@ -168,12 +263,52 @@ useEffect(() => {
 
   }
 
+
+  /* ===================================================== */
+  /* PACIENTE CADASTRADO DURANTE AGENDAMENTO               */
+  /* ===================================================== */
+
+  function pacienteCadastrado(
+    paciente
+  ) {
+
+    if (
+      agendamentoPendente
+    ) {
+
+      setRetornoAgendamento({
+
+        novoAgendamento:
+          agendamentoPendente,
+
+        paciente
+
+      })
+
+    }
+
+
+    setAgendamentoPendente(
+      null
+    )
+
+  }
+
+
+  /* ===================================================== */
+  /* RENDER                                                */
+  /* ===================================================== */
+
   return (
 
     <>
 
-      {
 
+      {/* ================================================= */}
+      {/* HOME                                              */}
+      {/* ================================================= */}
+
+      {
         pagina === "home" && (
 
           <Home
@@ -191,11 +326,14 @@ useEffect(() => {
           />
 
         )
-
       }
 
-      {
 
+      {/* ================================================= */}
+      {/* LOGIN                                             */}
+      {/* ================================================= */}
+
+      {
         pagina === "login" && (
 
           <Login
@@ -206,25 +344,28 @@ useEffect(() => {
 
             entrar={() => {
 
-  localStorage.setItem(
-    "logado",
-    "true"
-  )
+              localStorage.setItem(
+                "logado",
+                "true"
+              )
 
-  setPagina(
-    "dashboard"
-  )
+              setPagina(
+                "dashboard"
+              )
 
-}}
+            }}
 
           />
 
         )
-
       }
 
-      {
 
+      {/* ================================================= */}
+      {/* CADASTRO PACIENTE                                  */}
+      {/* ================================================= */}
+
+      {
         pagina ===
           "cadastroPaciente" && (
 
@@ -237,11 +378,14 @@ useEffect(() => {
           />
 
         )
-
       }
 
-      {
 
+      {/* ================================================= */}
+      {/* CADASTRO DA DENTISTA                              */}
+      {/* ================================================= */}
+
+      {
         pagina ===
           "cadastroDentista" && (
 
@@ -253,18 +397,29 @@ useEffect(() => {
               )
             }
 
+            aoCadastrarPaciente={
+              pacienteCadastrado
+            }
+
           />
 
         )
-
       }
 
-      {
 
+      {/* ================================================= */}
+      {/* DASHBOARD                                         */}
+      {/* ================================================= */}
+
+      {
         pagina ===
           "dashboard" && (
 
           <Dashboard
+
+            voltarHome={() =>
+              setPagina("home")
+            }
 
             abrirAgenda={() =>
               setPagina("agenda")
@@ -276,28 +431,37 @@ useEffect(() => {
               )
             }
 
+            abrirFinanceiro={() =>
+              setPagina(
+                "financeiro"
+              )
+            }
+
             sair={() => {
 
-  localStorage.removeItem(
-    "logado"
-  )
+              localStorage.removeItem(
+                "logado"
+              )
 
-  localStorage.removeItem(
-    "pagina"
-  )
+              localStorage.removeItem(
+                "pagina"
+              )
 
-  setPagina("home")
+              setPagina("home")
 
-}}
+            }}
 
           />
 
         )
-
       }
 
-      {
 
+      {/* ================================================= */}
+      {/* AGENDA                                            */}
+      {/* ================================================= */}
+
+      {
         pagina === "agenda" && (
 
           <Agenda
@@ -318,14 +482,37 @@ useEffect(() => {
               )
             }
 
+            abrirCadastroPaciente={
+              (
+                novoAgendamento
+              ) =>
+                abrirCadastroDentista(
+                  "agenda",
+                  {
+                    novoAgendamento
+                  }
+                )
+            }
+
+            retornoAgendamento={
+              retornoAgendamento
+            }
+
+            limparRetornoAgendamento={() =>
+              setRetornoAgendamento(null)
+            }
+
           />
 
         )
-
       }
 
-      {
 
+      {/* ================================================= */}
+      {/* PACIENTES                                         */}
+      {/* ================================================= */}
+
+      {
         pagina ===
           "pacientes" && (
 
@@ -350,37 +537,74 @@ useEffect(() => {
           />
 
         )
-
       }
+
+
+      {/* ================================================= */}
+      {/* PERFIL                                            */}
+      {/* ================================================= */}
 
       {
-
         pagina === "perfil" && (
 
-<PerfilPaciente
+          <PerfilPaciente
 
-  paciente={pacienteSelecionado}
+            paciente={
+              pacienteSelecionado
+            }
 
-  voltar={() =>
-    setPagina(paginaAnterior)
-  }
+            voltar={() =>
+              setPagina(
+                paginaAnterior
+              )
+            }
 
-  voltarPacientes={() =>
-    setPagina("pacientes")
-  }
+            voltarPacientes={() =>
+              setPagina(
+                "pacientes"
+              )
+            }
 
-  origem={paginaAnterior}
+            origem={
+              paginaAnterior
+            }
 
-/>
+          />
 
         )
-
       }
+
+
+      {/* ================================================= */}
+      {/* FINANCEIRO                                        */}
+      {/* ================================================= */}
+
+      {
+        pagina === "financeiro" && (
+
+          <Financeiro
+
+            consultas={
+              consultas
+            }
+
+            voltar={() =>
+              setPagina(
+                "dashboard"
+              )
+            }
+
+          />
+
+        )
+      }
+
 
     </>
 
   )
 
 }
+
 
 export default App

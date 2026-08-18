@@ -1,369 +1,746 @@
-import { useState } from "react"
+import {
+  useState
+} from "react"
 
 import {
   addDoc,
-  collection
+  collection,
+  getDocs,
+  serverTimestamp
 } from "firebase/firestore"
 
-import { db } from "../services/firebase"
+import {
+  db
+} from "../services/firebase"
+
+import logoDentaline from "../assets/logob.png"
 
 import "../styles/cadastroDentista.css"
 
+
 function CadastroDentista({
 
-  voltar
+  voltar,
+  aoCadastrarPaciente
 
 }) {
 
-  const [nome, setNome] =
-    useState("")
+  const [
+    nome,
+    setNome
+  ] = useState("")
 
-  const [telefone, setTelefone] =
-    useState("")
 
-  const [cpf, setCpf] =
-    useState("")
+  const [
+    telefone,
+    setTelefone
+  ] = useState("")
 
-  const [nascimento, setNascimento] =
-    useState("")
+
+  const [
+    cpf,
+    setCpf
+  ] = useState("")
+
+
+  const [
+    nascimento,
+    setNascimento
+  ] = useState("")
+
+
+  const [
+    nascimentoFocado,
+    setNascimentoFocado
+  ] = useState(false)
+
 
   const [
     nomeResponsavel,
     setNomeResponsavel
   ] = useState("")
 
+
   const [
     cpfResponsavel,
     setCpfResponsavel
   ] = useState("")
+
 
   const [
     telefoneResponsavel,
     setTelefoneResponsavel
   ] = useState("")
 
-  const [obs, setObs] =
-    useState("")
 
-  const [fotoNome, setFotoNome] =
-    useState("")
+  const [
+    obs,
+    setObs
+  ] = useState("")
 
-    function formatarTelefone(valor) {
 
-  valor = valor.replace(/\D/g, "")
+  const [
+    fotoNome,
+    setFotoNome
+  ] = useState("")
 
-  if (valor.startsWith("55")) {
-    valor = valor.substring(2)
-  }
 
-  valor = valor.substring(0, 11)
+  /* ===================================================== */
+  /* TELEFONE                                              */
+  /* ===================================================== */
 
-  if (valor.length <= 2)
-    return "+55 (" + valor
+  function formatarTelefone(valor) {
 
-  if (valor.length <= 7)
-    return `+55 (${valor.slice(0,2)}) ${valor.slice(2)}`
+    valor =
+      valor.replace(
+        /\D/g,
+        ""
+      )
 
-  return `+55 (${valor.slice(0,2)}) ${valor.slice(2,7)}-${valor.slice(7)}`
-}
 
-function formatarCPF(valor) {
+    if (
+      valor.startsWith("55")
+    ) {
 
-  valor = valor.replace(/\D/g,"")
+      valor =
+        valor.substring(2)
 
-  valor = valor.substring(0,11)
+    }
 
-  valor = valor.replace(
-    /(\d{3})(\d)/,
-    "$1.$2"
-  )
 
-  valor = valor.replace(
-    /(\d{3})(\d)/,
-    "$1.$2"
-  )
+    valor =
+      valor.substring(
+        0,
+        11
+      )
 
-  valor = valor.replace(
-    /(\d{3})(\d{1,2})$/,
-    "$1-$2"
-  )
 
-  return valor
-}
+    if (
+      valor.length <= 2
+    ) {
 
-function calcularIdade(data){
+      return (
+        "+55 (" +
+        valor
+      )
 
-  if(!data) return 0
+    }
 
-  const hoje = new Date()
 
-  const nasc = new Date(data)
+    if (
+      valor.length <= 7
+    ) {
 
-  let idade = hoje.getFullYear() - nasc.getFullYear()
+      return (
+        `+55 (${valor.slice(0, 2)}) ${valor.slice(2)}`
+      )
 
-  const mes = hoje.getMonth() - nasc.getMonth()
+    }
 
-  if(
 
-    mes < 0 ||
-
-    (
-
-      mes === 0 &&
-
-      hoje.getDate() < nasc.getDate()
-
+    return (
+      `+55 (${valor.slice(0, 2)}) ${valor.slice(2, 7)}-${valor.slice(7)}`
     )
 
-  ){
+  }
 
-    idade--
+
+  /* ===================================================== */
+  /* CPF                                                     */
+  /* ===================================================== */
+
+  function formatarCPF(valor) {
+
+    valor =
+      valor.replace(
+        /\D/g,
+        ""
+      )
+
+
+    valor =
+      valor.substring(
+        0,
+        11
+      )
+
+
+    valor =
+      valor.replace(
+        /(\d{3})(\d)/,
+        "$1.$2"
+      )
+
+
+    valor =
+      valor.replace(
+        /(\d{3})(\d)/,
+        "$1.$2"
+      )
+
+
+    valor =
+      valor.replace(
+        /(\d{3})(\d{1,2})$/,
+        "$1-$2"
+      )
+
+
+    return valor
 
   }
 
-  return idade
 
-}
+  /* ===================================================== */
+  /* IDADE                                                  */
+  /* ===================================================== */
+
+  function calcularIdade(data) {
+
+    if (!data) {
+      return 0
+    }
+
+
+    const hoje =
+      new Date()
+
+
+    const nasc =
+      new Date(data)
+
+
+    let idade =
+      hoje.getFullYear() -
+      nasc.getFullYear()
+
+
+    const mes =
+      hoje.getMonth() -
+      nasc.getMonth()
+
+
+    if (
+      mes < 0 ||
+      (
+        mes === 0 &&
+        hoje.getDate() <
+          nasc.getDate()
+      )
+    ) {
+
+      idade--
+
+    }
+
+
+    return idade
+
+  }
+
+
+  /* ===================================================== */
+  /* PRÓXIMA TAG                                            */
+  /* ===================================================== */
+
+  async function descobrirProximaTag() {
+
+    const snapshot =
+      await getDocs(
+        collection(
+          db,
+          "pacientes"
+        )
+      )
+
+
+    let maiorTag = 0
+
+
+    snapshot.forEach(
+      (documento) => {
+
+        const dados =
+          documento.data()
+
+
+        const numero =
+          parseInt(
+            String(
+              dados.tag || ""
+            ).replace(
+              "#",
+              ""
+            ),
+            10
+          )
+
+
+        if (
+          !Number.isNaN(numero) &&
+          numero > maiorTag
+        ) {
+
+          maiorTag =
+            numero
+
+        }
+
+      }
+    )
+
+
+    return `#${maiorTag + 1}`
+
+  }
+
+
+  /* ===================================================== */
+  /* CADASTRAR                                              */
+  /* ===================================================== */
 
   async function cadastrar(e) {
 
     e.preventDefault()
 
+
     try {
 
-      await addDoc(
-        collection(
-          db,
-          "pacientes"
-        ),
-        {
+      const novaTag =
+        await descobrirProximaTag()
 
-          nome,
 
-          foto: "",
+      const pacienteData = {
 
-          cpf,
+        nome,
 
-nascimento,
+        foto: "",
 
-idade:
-calcularIdade(nascimento),
+        cpf,
 
-          tel: telefone,
+        nascimento,
 
-          responsavel:
-            nomeResponsavel,
+        idade:
+          calcularIdade(
+            nascimento
+          ),
 
-          telResponsavel:
-            telefoneResponsavel,
+        tel:
+          telefone,
 
-          cpfResponsavel,
+        responsavel:
+          nomeResponsavel,
 
-          obs,
+        telResponsavel:
+          telefoneResponsavel,
 
-          totalPago: 0,
+        cpfResponsavel,
 
-          timeline: []
+        obs,
 
-        }
-      )
+        totalPago: 0,
+
+        timeline: [],
+
+        tag:
+          novaTag,
+
+        criadoEm:
+          serverTimestamp()
+
+      }
+
+
+      /* ================================================= */
+      /* SALVAR NO FIREBASE                                */
+      /* ================================================= */
+
+      const novoPaciente =
+        await addDoc(
+          collection(
+            db,
+            "pacientes"
+          ),
+          pacienteData
+        )
+
+
+      /* ================================================= */
+      /* PACIENTE COMPLETO                                 */
+      /* ================================================= */
+
+      const pacienteCriado = {
+
+        id:
+          novoPaciente.id,
+
+        ...pacienteData
+
+      }
+
+
+      /* ================================================= */
+      /* DEVOLVER PARA O AGENDAMENTO                       */
+      /* ================================================= */
+
+      if (
+        aoCadastrarPaciente
+      ) {
+
+        aoCadastrarPaciente(
+          pacienteCriado
+        )
+
+      }
+
 
       alert(
-        "Paciente cadastrado!"
+        `Paciente cadastrado com a tag ${novaTag}!`
       )
+
 
       voltar()
 
-    } 
-    
+    }
+
     catch (error) {
 
-  console.error(error)
+      console.error(
+        error
+      )
 
-  alert(
-`Código:
+
+      alert(
+        `Código:
 ${error.code}
 
 Mensagem:
 ${error.message}`
-  )
+      )
 
-}
+    }
 
   }
+
+
+  /* ===================================================== */
+  /* RENDER                                                */
+  /* ===================================================== */
 
   return (
 
     <main className="cadastro-dentista-container">
+
+
+      {/* ================================================= */}
+      {/* TOPO                                              */}
+      {/* ================================================= */}
+
+      <div className="cadastro-topo">
+
+        <button
+          className="voltar-btn"
+          type="button"
+          onClick={voltar}
+        >
+          ← Voltar para Pacientes
+        </button>
+
+
+        <div className="cadastro-titulo-logo">
+
+          <h1>
+            CADASTRO DE PACIENTE
+          </h1>
+
+
+          <img
+            src={logoDentaline}
+            alt="Dentaline"
+            className="cadastro-logo-topo"
+          />
+
+        </div>
+
+      </div>
+
+
+      {/* ================================================= */}
+      {/* CARD PRINCIPAL                                    */}
+      {/* ================================================= */}
 
       <form
         className="cadastro-dentista-box"
         onSubmit={cadastrar}
       >
 
-        <button
-          type="button"
-          className="voltar-btn"
-          onClick={voltar}
-        >
 
-          ← Voltar
+        {/* ================================================= */}
+        {/* CABEÇALHO                                         */}
+        {/* ================================================= */}
 
-        </button>
+        <div className="cadastro-identificacao">
 
-        <h1>
-          Cadastro de Paciente
-        </h1>
 
-        <div className="foto-box">
+          <div className="foto-box">
 
-          <div className="foto-preview">
+            <div className="foto-preview">
 
-            {fotoNome
-              ? "📷"
-              : "👤"}
+              {
+                fotoNome
+                  ? "📷"
+                  : "👤"
+              }
+
+            </div>
+
+
+            <label className="foto-btn">
+
+              Escolher foto
+
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) =>
+                  setFotoNome(
+                    e.target
+                      .files?.[0]
+                      ?.name || ""
+                  )
+                }
+              />
+
+            </label>
+
+
+            {
+              fotoNome && (
+
+                <small>
+                  {fotoNome}
+                </small>
+
+              )
+            }
 
           </div>
 
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) =>
-              setFotoNome(
-                e.target
-                  .files?.[0]
-                  ?.name || ""
-              )
-            }
-          />
 
-          {fotoNome && (
+          <div className="cadastro-nome-area">
 
-            <small>
+            <span>
+              NOVO PACIENTE
+            </span>
 
-              {fotoNome}
 
-            </small>
+            <h2>
+              Cadastro
+            </h2>
 
-          )}
+
+            <p>
+              Preencha as informações do paciente
+              para criar seu cadastro.
+            </p>
+
+          </div>
 
         </div>
 
-        <div className="form-grid">
 
-          <input
-            placeholder="Nome do paciente"
-            value={nome}
-            onChange={(e) =>
-              setNome(
-                e.target.value
-              )
-            }
-            required
-          />
+        {/* ================================================= */}
+        {/* DADOS DO PACIENTE                                 */}
+        {/* ================================================= */}
 
-          <input
-            placeholder="Telefone do paciente"
-            value={telefone}
-            onChange={(e)=>
-setTelefone(
-formatarTelefone(
-e.target.value
-)
-)}
-          />
+        <div className="cadastro-secao">
 
-          <input
-type="date"
-value={nascimento}
-onChange={(e)=>
-setNascimento(
-e.target.value
-)}
-/>
+          <div className="cadastro-secao-titulo">
+            Dados do paciente
+          </div>
 
-          <input
-            placeholder="Nome do responsável"
-            value={
-              nomeResponsavel
-            }
-            onChange={(e) =>
-              setNomeResponsavel(
-                e.target.value
-              )
-            }
-          />
 
-          <input
-            placeholder="CPF do responsável"
-            value={
-              cpfResponsavel
-            }
-            onChange={(e)=>
-setCpfResponsavel(
-formatarCPF(
-e.target.value
-)
-)
-}
-          />
+          <div className="form-grid">
 
-          <input
-            placeholder="Telefone do responsável"
-            value={
-              telefoneResponsavel
-            }
-            onChange={(e)=>
+            <input
+              placeholder="Nome do paciente"
+              value={nome}
+              onChange={(e) =>
+                setNome(
+                  e.target.value
+                )
+              }
+              required
+            />
 
-setTelefoneResponsavel(
 
-formatarTelefone(
+            <input
+              placeholder="Telefone do paciente"
+              value={telefone}
+              onChange={(e) =>
+                setTelefone(
+                  formatarTelefone(
+                    e.target.value
+                  )
+                )
+              }
+            />
 
-e.target.value
 
-)
+            <input
+              className="campo-nascimento"
+              type={
+                nascimentoFocado ||
+                nascimento
+                  ? "date"
+                  : "text"
+              }
+              placeholder="Data de nascimento"
+              value={nascimento}
+              onFocus={() =>
+                setNascimentoFocado(true)
+              }
+              onBlur={() => {
 
-)
+                if (!nascimento) {
 
-}
-          />
+                  setNascimentoFocado(false)
 
-          <input
+                }
 
-placeholder="CPF"
+              }}
+              onChange={(e) =>
+                setNascimento(
+                  e.target.value
+                )
+              }
+            />
 
-value={cpf}
 
-onChange={(e)=>
-setCpf(
-formatarCPF(
-e.target.value
-))
-}
+            <input
+              placeholder="CPF do paciente"
+              value={cpf}
+              onChange={(e) =>
+                setCpf(
+                  formatarCPF(
+                    e.target.value
+                  )
+                )
+              }
+            />
 
-/>
+          </div>
 
         </div>
 
-        <textarea
-          className="obs-textarea"
-          placeholder="Observações"
-          value={obs}
-          onChange={(e) =>
-            setObs(
-              e.target.value
-            )
-          }
-        />
+
+        {/* ================================================= */}
+        {/* RESPONSÁVEL                                       */}
+        {/* ================================================= */}
+
+        <div className="cadastro-secao">
+
+          <div className="cadastro-secao-titulo">
+            Dados do responsável
+          </div>
+
+
+          <div className="form-grid">
+
+            <input
+              placeholder="Nome do responsável"
+              value={nomeResponsavel}
+              onChange={(e) =>
+                setNomeResponsavel(
+                  e.target.value
+                )
+              }
+            />
+
+
+            <input
+              placeholder="Telefone do responsável"
+              value={telefoneResponsavel}
+              onChange={(e) =>
+                setTelefoneResponsavel(
+                  formatarTelefone(
+                    e.target.value
+                  )
+                )
+              }
+            />
+
+
+            <input
+              placeholder="CPF do responsável"
+              value={cpfResponsavel}
+              onChange={(e) =>
+                setCpfResponsavel(
+                  formatarCPF(
+                    e.target.value
+                  )
+                )
+              }
+            />
+
+          </div>
+
+        </div>
+
+
+        {/* ================================================= */}
+        {/* OBSERVAÇÕES                                       */}
+        {/* ================================================= */}
+
+        <div className="cadastro-obs">
+
+          <div className="cadastro-obs-topo">
+
+            <div>
+
+              <span>
+                ANOTAÇÕES
+              </span>
+
+              <strong>
+                Observações
+              </strong>
+
+            </div>
+
+
+            <span className="cadastro-obs-info">
+              Informações adicionais sobre o paciente
+            </span>
+
+          </div>
+
+
+          <textarea
+            className="obs-textarea"
+            placeholder="Adicione observações sobre o paciente..."
+            value={obs}
+            onChange={(e) =>
+              setObs(
+                e.target.value
+              )
+            }
+          />
+
+        </div>
+
+
+        {/* ================================================= */}
+        {/* CADASTRAR                                         */}
+        {/* ================================================= */}
 
         <button
           type="submit"
           className="cadastrar-btn"
         >
-
           Cadastrar Paciente
-
         </button>
+
 
       </form>
 
@@ -372,5 +749,6 @@ e.target.value
   )
 
 }
+
 
 export default CadastroDentista

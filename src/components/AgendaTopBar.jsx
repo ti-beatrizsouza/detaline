@@ -129,14 +129,33 @@ function AgendaTopBar({
             Hoje
           </button>
 
-          <div className="pesquisar-data-topo">
-            <input
-              type="date"
-              value={dataPesquisa}
-              onChange={(e) => setDataPesquisa(e.target.value)}
-            />
-            <button onClick={pesquisarData}>Ir</button>
-          </div>
+<div
+  className={`pesquisar-data-topo ${
+    dataPesquisa ? "tem-data" : ""
+  }`}
+>
+  {!dataPesquisa && (
+    <span className="placeholder-data">
+      Pesquisar data
+    </span>
+  )}
+
+  <input
+    type="date"
+    value={dataPesquisa}
+    onChange={(e) =>
+      setDataPesquisa(e.target.value)
+    }
+    aria-label="Pesquisar data"
+  />
+
+  <button
+    type="button"
+    onClick={pesquisarData}
+  >
+    Ir
+  </button>
+</div>
 
           <button
             onClick={() => setOffsetSemana(offsetSemana + 1)}

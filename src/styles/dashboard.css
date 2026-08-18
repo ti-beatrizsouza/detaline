@@ -1,115 +1,901 @@
+/* ===================================================== */
+/* FONTE WONDERLAND                                      */
+/* ===================================================== */
+
+@font-face {
+
+  font-family: "AliceWonderland";
+
+  src:
+    url("../assets/fonts/Alice_in_Wonderland.ttf")
+    format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+
+  font-display: swap;
+
+}
+
+
+/* ===================================================== */
+/* CONTAINER                                             */
+/* ===================================================== */
+
 .dashboard-container {
 
   min-height: 100vh;
 
+  position: relative;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  padding: 32px 34px 24px;
+
   background:
     linear-gradient(
-      180deg,
-      #b30086,
-      #e252c2
+      115deg,
+      #a9007c 0%,
+      #c00092 42%,
+      #e052c2 100%
     );
 
-  padding: 50px;
+  color: #555;
 
 }
+
+
+/* ===================================================== */
+/* DECORAÇÕES                                            */
+/* ===================================================== */
+
+.wonderland-decoracao {
+
+  position: absolute;
+
+  pointer-events: none;
+
+  user-select: none;
+
+  z-index: 0;
+
+}
+
+
+/* Relógio */
+
+.decor-relogio {
+
+  left: -10px;
+
+  bottom: -18px;
+
+  width: 280px;
+
+  opacity: 0.42;
+
+}
+
+
+/* Cartas */
+
+.decor-cartas {
+
+  top: -35px;
+
+  right: -5px;
+
+  width: 270px;
+
+  opacity: 0.32;
+
+}
+
+
+/* Xícara */
+
+.decor-xicara {
+
+  right: -5px;
+
+  bottom: -10px;
+
+  width: 300px;
+
+  opacity: 0.45;
+
+}
+
+
+/* Xadrez */
+
+.decor-xadrez {
+
+  left: -15px;
+
+  top: 120px;
+
+  width: 170px;
+
+  opacity: 0.07;
+
+}
+
+
+/* ===================================================== */
+/* TOPO                                                  */
+/* ===================================================== */
 
 .dashboard-topo {
 
-  display: flex;
+  width: 100%;
 
-  justify-content: space-between;
+  height: 74px;
+
+  display: flex;
 
   align-items: center;
 
-  margin-bottom: 40px;
+  justify-content: space-between;
+
+  position: relative;
+
+  z-index: 10;
 
 }
 
-.dashboard-topo h1 {
 
-  color: white;
+/* ===================================================== */
+/* BOTÃO VOLTAR                                          */
+/* ===================================================== */
 
-  font-size: 2.3rem;
+.dashboard-voltar {
 
-}
+  height: 48px;
 
-.sair-btn {
-
-  width: 150px;
-
-  height: 55px;
+  padding: 0 22px;
 
   border: none;
 
-  border-radius: 18px;
+  border-radius: 15px;
 
   background: white;
 
   color: #b30086;
 
-  font-weight: bold;
+  font-family: Arial, sans-serif;
 
-  font-size: 1rem;
+  font-size: 14px;
+
+  font-weight: 600;
 
   cursor: pointer;
 
-  transition: 0.3s;
-
   box-shadow:
-    0 5px 15px
-    rgba(0,0,0,0.12);
+    0 5px 18px
+    rgba(0, 0, 0, 0.10);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 
 }
+
+
+.dashboard-voltar:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 22px
+    rgba(0, 0, 0, 0.14);
+
+}
+
+
+/* ===================================================== */
+/* LADO DIREITO                                          */
+/* ===================================================== */
+
+.dashboard-topo-direita {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  height: 100%;
+
+}
+
+
+/* ===================================================== */
+/* USUÁRIO                                               */
+/* ===================================================== */
+
+.dashboard-usuario {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+}
+
+
+.dashboard-usuario-icone {
+
+  width: 44px;
+
+  height: 44px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    rgba(255, 255, 255, 0.12);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.35);
+
+  color: white;
+
+  font-size: 16px;
+
+}
+
+
+.dashboard-usuario-info {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2px;
+
+}
+
+
+.dashboard-usuario-info span {
+
+  color: white;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+}
+
+
+.dashboard-usuario-info small {
+
+  color:
+    rgba(255, 255, 255, 0.75);
+
+  font-family: Arial, sans-serif;
+
+  font-size: 11px;
+
+}
+
+
+/* ===================================================== */
+/* BOTÃO SAIR                                            */
+/* ===================================================== */
+
+.sair-btn {
+
+  height: 48px;
+
+  min-width: 64px;
+
+  padding: 0 20px;
+
+  border: none;
+
+  border-radius: 15px;
+
+  background: white;
+
+  color: #b30086;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  box-shadow:
+    0 5px 18px
+    rgba(0, 0, 0, 0.10);
+
+}
+
 
 .sair-btn:hover {
 
-  transform: scale(1.03);
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 22px
+    rgba(0, 0, 0, 0.14);
 
 }
+
+
+/* ===================================================== */
+/* LOGO                                                  */
+/* ===================================================== */
+
+.dashboard-marca {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  height: 100%;
+
+}
+
+
+.dashboard-logo {
+
+  width: 135px;
+
+  height: auto;
+
+  display: block;
+
+  object-fit: contain;
+
+}
+
+
+/* ===================================================== */
+/* CONTEÚDO                                              */
+/* ===================================================== */
+
+.dashboard-conteudo {
+
+  width: min(1120px, 100%);
+
+  margin: 48px auto 0;
+
+  position: relative;
+
+  z-index: 5;
+
+}
+
+
+/* ===================================================== */
+/* BOAS-VINDAS                                           */
+/* ===================================================== */
+
+.dashboard-boas-vindas {
+
+  margin-bottom: 20px;
+
+}
+
+
+.dashboard-eyebrow {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  color:
+    rgba(255, 255, 255, 0.82);
+
+  font-family: Arial, sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+}
+
+
+.dashboard-boas-vindas h1 {
+
+  margin: 0;
+
+  color: white;
+
+  font-family:
+    "AliceWonderland",
+    Georgia,
+    serif;
+
+  font-size: 70px;
+
+  line-height: 1.05;
+
+  font-weight: normal;
+
+  letter-spacing: 0.5px;
+
+}
+
+
+.dashboard-boas-vindas p {
+
+  margin: 9px 0 0;
+
+  color:
+    rgba(255, 255, 255, 0.88);
+
+  font-family: Arial, sans-serif;
+
+  font-size: 15px;
+
+  line-height: 1.5;
+
+}
+
+
+/* ===================================================== */
+/* GRID                                                  */
+/* ===================================================== */
 
 .dashboard-grid {
 
   display: grid;
 
   grid-template-columns:
-    repeat(2, 1fr);
+    repeat(2, minmax(0, 1fr));
 
-  gap: 25px;
+  gap: 18px;
 
 }
+
+
+/* ===================================================== */
+/* CARDS                                                 */
+/* ===================================================== */
 
 .dashboard-card {
 
-  height: 220px;
+  min-height: 190px;
 
-  background: white;
-
-  border-radius: 30px;
+  position: relative;
 
   display: flex;
 
-  justify-content: center;
+  align-items: flex-start;
 
-  align-items: center;
+  gap: 20px;
 
-  font-size: 1.5rem;
+  padding: 30px;
 
-  font-weight: bold;
+  border: none;
 
-  color: #b30086;
+  border-radius: 25px;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  text-align: left;
+
+  background:
+    rgba(255, 250, 253, 0.97);
 
   cursor: pointer;
 
-  transition: 0.3s;
-
   box-shadow:
-    0 10px 30px
-    rgba(0,0,0,0.08);
+    0 8px 25px
+    rgba(75, 0, 50, 0.10);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 
 }
 
+
+.dashboard-card::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 145px;
+
+  height: 145px;
+
+  right: -48px;
+
+  top: -48px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(183, 0, 134, 0.055);
+
+}
+
+
 .dashboard-card:hover {
 
-  transform: scale(1.03);
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 14px 32px
+    rgba(75, 0, 50, 0.16);
+
+}
+
+
+/* ===================================================== */
+/* ÍCONE                                                 */
+/* ===================================================== */
+
+.dashboard-card-icone {
+
+  width: 62px;
+
+  height: 62px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 18px;
+
+  font-size: 29px;
+
+  position: relative;
+
+  z-index: 2;
+
+}
+
+
+.dashboard-card-agenda
+.dashboard-card-icone {
+
+  background: #fae8f6;
+
+}
+
+
+.dashboard-card-pacientes
+.dashboard-card-icone {
+
+  background: #ecebff;
+
+}
+
+
+.dashboard-card-financeiro
+.dashboard-card-icone {
+
+  background: #e7f7ef;
+
+}
+
+
+.dashboard-card-configuracoes
+.dashboard-card-icone {
+
+  background: #eeeeee;
+
+}
+
+
+/* ===================================================== */
+/* CONTEÚDO DO CARD                                      */
+/* ===================================================== */
+
+.dashboard-card-conteudo {
+
+  position: relative;
+
+  z-index: 2;
+
+  flex: 1;
+
+  min-width: 0;
+
+}
+
+
+.dashboard-card-label {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #999;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+}
+
+
+.dashboard-card h2 {
+
+  margin: 0 0 8px;
+
+  color: #b30086;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 23px;
+
+  font-weight: 600;
+
+  line-height: 1.2;
+
+}
+
+
+.dashboard-card p {
+
+  max-width: 440px;
+
+  margin: 0;
+
+  color: #666;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 14px;
+
+  line-height: 1.55;
+
+}
+
+
+/* ===================================================== */
+/* SETA                                                 */
+/* ===================================================== */
+
+.dashboard-card-seta {
+
+  width: 40px;
+
+  height: 40px;
+
+  flex-shrink: 0;
+
+  align-self: flex-end;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  position: relative;
+
+  z-index: 2;
+
+  font-size: 18px;
+
+  transition:
+    transform 0.2s ease;
+
+}
+
+
+.dashboard-card:hover
+.dashboard-card-seta {
+
+  transform: translateX(4px);
+
+}
+
+
+.dashboard-card-agenda
+.dashboard-card-seta {
+
+  background: #fae8f6;
+
+  color: #c00092;
+
+}
+
+
+.dashboard-card-pacientes
+.dashboard-card-seta {
+
+  background: #ecebff;
+
+  color: #7268df;
+
+}
+
+
+.dashboard-card-financeiro
+.dashboard-card-seta {
+
+  background: #e7f7ef;
+
+  color: #37a96e;
+
+}
+
+
+.dashboard-card-configuracoes
+.dashboard-card-seta {
+
+  background: #eeeeee;
+
+  color: #777;
+
+}
+
+
+/* ===================================================== */
+/* RODAPÉ                                                */
+/* ===================================================== */
+
+.dashboard-footer {
+
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 18px;
+
+  transform: translateX(-50%);
+
+  width: min(1120px, calc(100% - 68px));
+
+  display: flex;
+
+  justify-content: space-between;
+
+  color:
+    rgba(255, 255, 255, 0.65);
+
+  font-family: Arial, sans-serif;
+
+  font-size: 10px;
+
+  z-index: 5;
+
+}
+
+
+/* ===================================================== */
+/* RESPONSIVO                                            */
+/* ===================================================== */
+
+@media (max-width: 900px) {
+
+  .dashboard-conteudo {
+
+    margin-top: 35px;
+
+  }
+
+
+  .dashboard-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .dashboard-card {
+
+    min-height: 170px;
+
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .dashboard-container {
+
+    padding:
+      20px;
+
+  }
+
+
+  .dashboard-topo {
+
+    height: auto;
+
+    align-items: flex-start;
+
+  }
+
+
+  .dashboard-topo-direita {
+
+    gap: 8px;
+
+  }
+
+
+  .dashboard-usuario-info {
+
+    display: none;
+
+  }
+
+
+  .dashboard-logo {
+
+    width: 100px;
+
+  }
+
+
+  .dashboard-voltar {
+
+    padding: 0 15px;
+
+    font-size: 12px;
+
+  }
+
+
+  .dashboard-boas-vindas h1 {
+
+    font-size: 38px;
+
+  }
+
+
+  .dashboard-card {
+
+    padding: 24px;
+
+  }
+
+
+  .dashboard-card-icone {
+
+    width: 54px;
+
+    height: 54px;
+
+    font-size: 24px;
+
+  }
 
 }

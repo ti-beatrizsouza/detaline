@@ -1,414 +1,859 @@
 /* ========================================================= */
-/* AGENDA - ESTILO GERAL                                     */
+/* DENTALINE - AGENDA                                        */
+/* ========================================================= */
+
+
+/* ========================================================= */
+/* FONTE                                                      */
+/* ========================================================= */
+
+@font-face {
+  font-family: "AliceWonderland";
+  src: url("../assets/fonts/Alice_in_Wonderland.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+/* ========================================================= */
+/* CONTAINER PRINCIPAL                                        */
 /* ========================================================= */
 
 .agenda-container {
+  width: 100%;
   height: 100vh;
-  max-height: 100vh;
+  min-height: 100vh;
 
-  background: linear-gradient(
-    180deg,
-    #a9007d 0%,
-    #d946b5 100%
-  );
-
-  padding: 12px 16px;
-
-  position: relative;
-  overflow: hidden;
+  padding: 16px 24px 18px;
+  box-sizing: border-box;
 
   display: flex;
   flex-direction: column;
 
-  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 92% 0%,
+      rgba(255, 255, 255, .14),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 0% 90%,
+      rgba(255, 255, 255, .07),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #8f006b 0%,
+      #b00083 50%,
+      #df58c0 100%
+    );
 }
 
 
 /* ========================================================= */
-/* TOPO                                                      */
+/* DECORAÇÃO DO FUNDO                                         */
+/* ========================================================= */
+
+.agenda-container::before {
+  content: "";
+
+  position: absolute;
+
+  width: 620px;
+  height: 620px;
+
+  top: -420px;
+  right: -170px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, .07);
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+.agenda-container::after {
+  content: "";
+
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  bottom: -300px;
+  left: -180px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, .045);
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+/* ========================================================= */
+/* TOPO                                                        */
 /* ========================================================= */
 
 .agenda-topo {
   width: 100%;
+  height: 60px;
+  min-height: 60px;
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
-  gap: 15px;
-  margin-bottom: 12px;
+  gap: 14px;
+  margin-bottom: 10px;
+
+  position: relative;
+  z-index: 20;
 
   white-space: nowrap;
+  flex-shrink: 0;
 }
+
+
+/* ========================================================= */
+/* BLOCO ESQUERDO                                             */
+/* ========================================================= */
 
 .agenda-bloco-esq {
   display: flex;
   align-items: center;
 
-  gap: 24px;
+  gap: 14px;
 
   flex-shrink: 0;
-}
-
-.agenda-bloco-dir {
-  display: flex;
-  align-items: center;
-
-  gap: 15px;
-
-  flex-shrink: 0;
-}
-
-.agenda-logo-cantinho {
-  width: 60px;
-  height: 60px;
-
-  object-fit: contain;
 }
 
 
 /* ========================================================= */
-/* BOTÃO VOLTAR                                              */
+/* BOTÃO DASHBOARD                                            */
 /* ========================================================= */
 
 .agenda-voltar {
-  height: 42px;
+  height: 44px;
 
-  padding: 0 16px;
+  padding: 0 17px;
 
   border: none;
   border-radius: 12px;
 
-  background: white;
+  background: #ffffff;
   color: #a9007d;
 
-  font-size: .75rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .80rem;
   font-weight: 700;
 
   cursor: pointer;
 
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, .12);
-
-  transition: .2s;
-
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
-.agenda-voltar:hover {
-  transform: translateY(-2px);
+  white-space: nowrap;
 
   box-shadow:
-    0 6px 16px rgba(0, 0, 0, .16);
+    0 5px 14px rgba(50, 0, 40, .13);
+
+  transition:
+    background .18s ease,
+    transform .18s ease;
+}
+
+
+.agenda-voltar:hover {
+  background: #fff7fc;
+  transform: translateY(-1px);
 }
 
 
 /* ========================================================= */
-/* TÍTULO                                                     */
+/* TÍTULO DA AGENDA                                           */
 /* ========================================================= */
+
+.agenda-titulo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  flex-shrink: 0;
+}
+
 
 .agenda-titulo h1 {
   margin: 0;
 
-  color: white;
+  color: #ffffff;
 
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-family:
+    "AliceWonderland",
+    Georgia,
+    serif;
 
-  line-height: 42px;
+  font-size: 3rem;
+  font-weight: normal;
+
+  line-height: .95;
+}
+
+
+.agenda-titulo::after {
+  content: "Controle de consultas";
+
+  margin-top: 5px;
+
+  color: rgba(255, 255, 255, .72);
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .62rem;
+  font-weight: 500;
 }
 
 
 /* ========================================================= */
-/* BARRA DE NOVA CONSULTA                                    */
+/* NOVA CONSULTA                                              */
 /* ========================================================= */
 
 .nova-consulta {
-  background: white;
+  flex: 1;
+
+  min-width: 500px;
+  max-width: 680px;
+
+  height: 54px;
 
   padding: 6px;
-
-  border-radius: 14px;
+  box-sizing: border-box;
 
   display: grid;
 
   grid-template-columns:
-    400px
-    120px
-    80px
-    105px
-    75px;
+    minmax(210px, 1fr)
+    110px
+    72px
+    100px
+    76px;
 
-  gap: 6px;
-
-  box-shadow:
-    0 5px 15px rgba(0, 0, 0, .10);
+  gap: 7px;
 
   align-items: center;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  background: #ffffff;
+
+  border: 1px solid #eadfea;
+  border-radius: 15px;
+
+  box-shadow:
+    0 7px 20px rgba(50, 0, 40, .14);
 }
+
+
+/* ========================================================= */
+/* CAMPOS DA NOVA CONSULTA                                    */
+/* ========================================================= */
 
 .nova-consulta select,
 .nova-consulta input,
 .nova-consulta button {
+  width: 100%;
   height: 42px;
 
-  border: none;
-  border-radius: 10px;
-
-  padding: 0 10px;
-
-  font-size: .72rem;
+  min-width: 0;
 
   box-sizing: border-box;
+
+  border-radius: 10px;
+
+  padding: 0 11px;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .68rem;
 }
+
+
+/* ========================================================= */
+/* SELECTS E INPUTS                                           */
+/* ========================================================= */
 
 .nova-consulta select,
 .nova-consulta input {
-  background: #f5f2f5;
+  border: 1px solid #e3dbe2;
 
-  color: #444;
-
-  box-shadow:
-    inset 0 2px 7px rgba(0, 0, 0, .06);
+  background: #f7f4f7;
+  color: #51474e;
 
   outline: none;
+
+  transition:
+    border-color .15s ease,
+    background .15s ease,
+    box-shadow .15s ease;
 }
+
+
+.nova-consulta select:hover,
+.nova-consulta input:hover {
+  background: #ffffff;
+  border-color: #d4c5d0;
+}
+
 
 .nova-consulta select:focus,
 .nova-consulta input:focus {
+  background: #ffffff;
+
+  border-color: #c00091;
+
   box-shadow:
-    0 0 0 2px rgba(169, 0, 125, .18);
+    0 0 0 2px rgba(192, 0, 145, .10);
 }
 
+
+/* ========================================================= */
+/* BOTÃO AGENDAR                                              */
+/* ========================================================= */
+
 .nova-consulta button {
+  border: none;
+
   background: #a9007d;
+  color: #ffffff;
 
-  color: white;
-
-  font-weight: bold;
+  font-weight: 700;
 
   cursor: pointer;
 
-  transition: .2s;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition:
+    background .15s ease,
+    transform .15s ease;
 }
 
-.nova-consulta button:hover {
-  background: #870065;
 
+.nova-consulta button:hover {
+  background: #850063;
   transform: translateY(-1px);
 }
 
 
 /* ========================================================= */
-/* NAVEGAÇÃO                                                 */
+/* BLOCO DIREITO DO TOPO                                      */
+/* ========================================================= */
+
+.agenda-bloco-dir {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-left: auto;
+
+  flex-shrink: 0;
+
+  height: 58px;
+
+  box-sizing: border-box;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* ========================================================= */
+/* NAVEGAÇÃO DA SEMANA                                        */
 /* ========================================================= */
 
 .agenda-navegacao {
+  position: relative;
+  z-index: 2;
+
+  width: 540px;
+  height: 56px;
+
   display: flex;
   align-items: center;
 
-  gap: 6px;
+  gap: 8px;
+
+  padding: 6px;
+
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, .14);
+
+  border: 1px solid rgba(255, 255, 255, .62);
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 0 8px rgba(255, 220, 247, .55),
+    0 0 18px rgba(255, 90, 200, .28);
+
+  flex-shrink: 0;
 }
+
+/* ========================================================= */
+/* BOTÕES DE NAVEGAÇÃO                                        */
+/* ========================================================= */
 
 .agenda-navegacao > button {
   height: 42px;
 
-  padding: 0 12px;
+  flex-shrink: 0;
 
-  border: none;
-  border-radius: 12px;
+  padding: 0;
 
-  background: white;
+  border: 1px solid #eadfea;
+  border-radius: 11px;
+
+  background: #ffffff;
   color: #a9007d;
 
-  font-size: .72rem;
-  font-weight: bold;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .69rem;
+  font-weight: 700;
 
   cursor: pointer;
-
-  box-shadow:
-    0 4px 10px rgba(0, 0, 0, .12);
-
-  transition: .2s;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.agenda-navegacao > button:hover {
-  transform: translateY(-1px);
-
-  box-shadow:
-    0 6px 14px rgba(0, 0, 0, .16);
-}
-
-
-/* ========================================================= */
-/* PESQUISA DE DATA                                          */
-/* ========================================================= */
-
-.pesquisar-data-topo {
-  height: 42px;
-
-  display: flex;
-  align-items: center;
-
-  gap: 4px;
-
-  padding: 4px;
-
-  background: white;
-
-  border-radius: 12px;
-
-  box-shadow:
-    0 4px 10px rgba(0, 0, 0, .12);
-
-  box-sizing: border-box;
-}
-
-.pesquisar-data-topo input {
-  width: 120px;
-  height: 34px;
-
-  border: none;
-  outline: none;
-
-  border-radius: 8px;
-
-  padding: 0 8px;
-
-  background: #f5f2f5;
-
-  color: #555;
-
-  font-size: .7rem;
-}
-
-.pesquisar-data-topo button {
-  height: 34px;
-
-  border: none;
-  border-radius: 8px;
-
-  padding: 0 10px;
-
-  background: #a9007d;
-  color: white;
-
-  font-size: .7rem;
-  font-weight: bold;
-
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transition: .2s;
-}
-
-.pesquisar-data-topo button:hover {
-  background: #870065;
-}
-
-
-/* ========================================================= */
-/* BOTÃO SEMANA                                              */
-/* ========================================================= */
-
-.agenda-semana-inline button {
-  height: 36px;
-
-  padding: 0 10px;
-
-  border: none;
-  border-radius: 10px;
-
-  background: white;
-  color: #a9007d;
-
-  font-size: .70rem;
-  font-weight: bold;
 
   white-space: nowrap;
 
-  cursor: pointer;
+  box-sizing: border-box;
 
   box-shadow:
-    0 4px 10px rgba(0, 0, 0, .12);
+    0 2px 5px rgba(50, 0, 40, .08);
 
-  transition: .2s;
+  transition:
+    background .15s ease,
+    transform .15s ease,
+    box-shadow .15s ease;
 }
 
-.agenda-semana-inline button:hover {
+.agenda-navegacao > button:first-child {
+  width: 130px;
+  min-width: 130px;
+}
+
+.agenda-navegacao > button:nth-child(2) {
+  width: 55px;
+  min-width: 55px;
+}
+
+.agenda-navegacao > button:last-child {
+  width: 130px;
+  min-width: 130px;
+}
+
+.agenda-navegacao > button:hover {
+  background: #fff7fc;
+
   transform: translateY(-1px);
+
+  box-shadow:
+    0 4px 10px rgba(50, 0, 40, .13);
+}
+
+/* ========================================================= */
+/* PESQUISA DE DATA                                           */
+/* ========================================================= */
+
+/* ========================================================= */
+/* PESQUISA DE DATA - TOPO                                    */
+/* ========================================================= */
+
+.pesquisar-data-topo {
+  width: 179px;
+  min-width: 179px;
+  height: 42px;
+
+  flex: 0 0 179px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 0;
+  margin: 0;
+
+  position: relative;
+
+  box-sizing: border-box;
+
+  flex-shrink: 0;
 }
 
 
 /* ========================================================= */
-/* ÁREA DA AGENDA                                            */
+/* PLACEHOLDER "PESQUISAR DATA"                               */
+/* ========================================================= */
+
+.placeholder-data {
+  position: absolute;
+
+  left: 11px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  z-index: 2;
+
+  color: #51474e;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .70rem;
+
+  pointer-events: none;
+
+  white-space: nowrap;
+}
+
+
+/* ========================================================= */
+/* CAMPO DE DATA                                              */
+/* ========================================================= */
+
+.pesquisar-data-topo input[type="date"] {
+  width: 128px;
+  min-width: 128px;
+  height: 42px;
+
+  flex: 0 0 128px;
+
+  box-sizing: border-box;
+
+  padding: 0 10px;
+
+  border: 1px solid #ddd0da;
+  border-radius: 11px;
+
+  background: #ffffff;
+  color: #51474e;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .70rem;
+
+  outline: none;
+
+  box-shadow:
+    0 2px 6px rgba(50, 0, 40, .08);
+
+  transition:
+    border-color .15s ease,
+    box-shadow .15s ease,
+    background .15s ease;
+}
+
+
+/* Quando não há data, deixa o texto nativo invisível */
+.pesquisar-data-topo:not(.tem-data)
+input[type="date"] {
+  color: transparent;
+}
+
+
+/* Ao clicar, deixa a data aparecer */
+.pesquisar-data-topo input[type="date"]:focus {
+  color: #51474e;
+}
+
+
+/* ========================================================= */
+/* GLOW DO CAMPO DE DATA                                      */
+/* ========================================================= */
+
+.pesquisar-data-topo input[type="date"]:hover {
+  background: #fffaff;
+
+  border-color: #c00091;
+
+  box-shadow:
+    0 0 7px rgba(255, 120, 210, .40);
+}
+
+
+.pesquisar-data-topo input[type="date"]:focus {
+  background: #ffffff;
+
+  border-color: #b00083;
+
+  box-shadow:
+    0 0 0 2px rgba(192, 0, 145, .12),
+    0 0 13px rgba(255, 85, 200, .45);
+}
+
+
+/* ========================================================= */
+/* BOTÃO IR                                                   */
+/* ========================================================= */
+
+.pesquisar-data-topo button {
+  width: 43px;
+  min-width: 43px;
+  height: 42px;
+
+  flex: 0 0 43px;
+
+  padding: 0;
+
+  border: 1px solid #eadfea;
+  border-radius: 11px;
+
+  background: #ffffff;
+  color: #a9007d;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .69rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 2px 5px rgba(50, 0, 40, .08);
+
+  transition:
+    background .15s ease,
+    transform .15s ease,
+    box-shadow .15s ease;
+}
+
+
+.pesquisar-data-topo button:hover {
+  background: #fff7fc;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 4px 10px rgba(50, 0, 40, .14);
+}
+
+/* ========================================================= */
+/* CAMPO MM/DD/YYYY                                           */
+/* ========================================================= */
+
+.pesquisar-data input[type="date"],
+.agenda-bloco-dir input[type="date"] {
+  width: 128px;
+  min-width: 128px;
+  height: 42px;
+
+  flex: 0 0 128px;
+
+  box-sizing: border-box;
+
+  padding: 0 10px;
+
+  border: 1px solid #ddd0da;
+  border-radius: 11px;
+
+  background: #ffffff;
+  color: #51474e;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .70rem;
+
+  outline: none;
+
+  box-shadow:
+    0 2px 6px rgba(50, 0, 40, .08);
+
+  transition:
+    border-color .15s ease,
+    box-shadow .15s ease,
+    background .15s ease;
+}
+
+.pesquisar-data input[type="date"]:hover {
+  background: #fffaff;
+
+  border-color: #c00091;
+
+  box-shadow:
+    0 0 8px rgba(255, 120, 210, .35);
+}
+
+.pesquisar-data input[type="date"]:focus {
+  background: #ffffff;
+
+  border-color: #b00083;
+
+  box-shadow:
+    0 0 0 2px rgba(192, 0, 145, .10),
+    0 0 12px rgba(255, 85, 200, .40);
+}
+
+
+/* ========================================================= */
+/* BOTÃO IR                                                   */
+/* ========================================================= */
+
+.pesquisar-data button {
+  width: 43px;
+  min-width: 43px;
+  height: 42px;
+
+  flex: 0 0 43px;
+
+  padding: 0;
+
+  border: 1px solid #eadfea;
+  border-radius: 11px;
+
+  background: #ffffff;
+  color: #a9007d;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .69rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 2px 5px rgba(50, 0, 40, .08);
+
+  transition:
+    background .15s ease,
+    transform .15s ease,
+    box-shadow .15s ease;
+}
+
+.pesquisar-data button:hover {
+  background: #fff7fc;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 4px 9px rgba(50, 0, 40, .12);
+}
+
+/* ========================================================= */
+/* LOGO                                                       */
+/* ========================================================= */
+
+.agenda-logo-cantinho {
+  position: relative;
+  z-index: 5;
+
+  order: 999;
+
+  width: 66px;
+  height: 58px;
+
+  flex-shrink: 0;
+
+  object-fit: contain;
+
+  margin-left: 2px;
+  margin-right: 2px;
+
+  opacity: 1;
+
+  filter:
+    drop-shadow(
+      0 5px 12px rgba(50, 0, 40, .18)
+    );
+}
+
+/* ========================================================= */
+/* ÁREA DO GRID                                               */
 /* ========================================================= */
 
 .agenda-scroll {
-  flex: 1;
-  min-height: 0;
-
   width: 100%;
 
-  overflow-y: auto;
-  overflow-x: hidden;
+  height: calc(100vh - 92px);
 
-  border-radius: 18px;
+  min-height: 0;
+
+  flex: 1 1 auto;
+
+  overflow: hidden;
+
+  border-radius: 20px;
 
   box-shadow:
-    0 10px 25px rgba(0, 0, 0, .14);
+    0 15px 35px rgba(55, 0, 45, .17);
 
   box-sizing: border-box;
+
+  position: relative;
+  z-index: 2;
 }
 
 
 /* ========================================================= */
-/* GRID                                                       */
+/* GRID PRINCIPAL                                             */
 /* ========================================================= */
 
 .agenda-grid {
   position: relative;
-
   isolation: isolate;
 
-  background: #ffffff;
-
-  border-radius: 18px;
-
-  overflow: hidden;
-
   display: grid;
-
-  grid-template-columns:
-    55px repeat(6, minmax(0, 1fr));
 
   width: 100%;
   height: 100%;
 
-  min-height: 0;
+  min-height: 700px;
 
   box-sizing: border-box;
 
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, .08);
+  background: #ffffff;
+
+  border-radius: 20px;
+
+  overflow: hidden;
 }
 
 
 /* ========================================================= */
-/* MARCA D'ÁGUA                                              */
+/* MARCA D'ÁGUA                                               */
 /* ========================================================= */
 
 .agenda-grid::before {
@@ -416,65 +861,54 @@
 
   position: absolute;
 
-  width: 850px;
-  height: 850px;
-
-  left: 50%;
-  top: 50%;
-
-  transform:
-    translate(-50%, -50%);
+  inset: 0;
 
   background-image:
     url("../assets/logor.png");
 
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
 
-  opacity: .09;
+  background-position: center center;
+
+  background-size:
+    min(760px, 82%);
+
+  opacity: .13;
 
   pointer-events: none;
 
   z-index: 0;
 }
 
+
 .agenda-grid > * {
   position: relative;
-  z-index: 1;
+  z-index: 4;
 }
 
 
 /* ========================================================= */
-/* CABEÇALHO                                                  */
-/* ========================================================= */
-
-/* ========================================================= */
-/* CABEÇALHO                                                  */
+/* CABEÇALHO DOS DIAS                                         */
 /* ========================================================= */
 
 .agenda-header {
-  background: #8c0069;
+  min-height: 58px;
 
-  color: white;
+  padding: 6px 5px;
 
+  background: #81015d !important;
+
+  color: #ffffff;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .76rem;
   font-weight: 700;
-  font-size: .78rem;
-
-  padding: 5px 4px;
 
   text-align: center;
-
-  border-right:
-    1px solid rgba(255, 255, 255, .18);
-
-  border-bottom:
-    1px solid rgba(255, 255, 255, .18);
-
-  position: sticky;
-  top: 0;
-
-  z-index: 50;
 
   display: flex;
   flex-direction: column;
@@ -482,125 +916,140 @@
   align-items: center;
   justify-content: center;
 
-  line-height: 1.1;
+  line-height: 1.15;
 
   box-sizing: border-box;
+
+  border-right:
+    1px solid rgba(255, 255, 255, .40);
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, .35);
 }
+
 
 .agenda-header small {
   display: block;
 
-  margin-top: 3px;
+  margin-top: 4px;
 
-  font-size: .68rem;
-  font-weight: 700;
+  color: rgba(255, 255, 255, .92);
 
-  line-height: 1;
+  font-size: .63rem;
+  font-weight: 600;
 }
 
+
 /* ========================================================= */
-/* COLUNA DE HORÁRIOS                                        */
+/* CÉLULAS DE HORÁRIO                                         */
 /* ========================================================= */
 
 .hora-cell {
-  height: 100%;
-  min-height: 0;
+  background: #f0ecef;
+  color: #5d535a;
+
+  font-family:
+    "Trebuchet MS",
+    Arial,
+    sans-serif;
+
+  font-size: .69rem;
+  font-weight: 600;
 
   display: flex;
 
-  justify-content: center;
   align-items: center;
-
-  font-size: .70rem;
-  font-weight: 700;
-
-  color: #5b4f59;
-
-  background: #fbf8fb;
+  justify-content: center;
 
   border-right:
-    1px solid #c4bdc4;
+    1px solid #c5bdc4;
 
   border-bottom:
-    1px solid #c4bdc4;
-
-  position: sticky;
-  left: 0;
-
-  z-index: 20;
+    1px solid #cbc3ca;
 
   box-sizing: border-box;
 }
 
+
+
 /* ========================================================= */
-/* CÉLULAS DA AGENDA                                         */
+/* SLOTS                                                      */
 /* ========================================================= */
 
 .agenda-slot {
-  width: 100%;
-  height: 100%;
+  min-width: 0;
   min-height: 0;
 
-  background: rgba(255, 255, 255, .88);
+  background: rgba(255, 255, 255, .91);
 
-  border-right: 1px solid #d0c9d0;
-  border-bottom: 1px solid #d0c9d0;
+  border-right:
+    1px solid #c9c1c8;
 
-  display: flex;
-  align-items: stretch;
-  justify-content: stretch;
-
-  padding: 0;
-
-  cursor: pointer;
+  border-bottom:
+    1px solid #c9c1c8;
 
   box-sizing: border-box;
 
-  transition: background .15s ease;
+  display: flex;
+
+  align-items: stretch;
+  justify-content: stretch;
+
+  transition:
+    background .12s ease;
 }
 
-.agenda-slot:hover {
-  background: #f9edf7;
+
+.agenda-slot:not(.slot-passado):hover {
+  background: #f6e5f1 !important;
 }
 
 
 /* ========================================================= */
-/* BOTÃO +                                                   */
+/* BOTÃO +                                                    */
 /* ========================================================= */
 
 .slot-vazio {
   width: 100%;
   height: 100%;
+  min-height: 100%;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
   border: none;
+  border-radius: 0;
+
   background: transparent;
 
-  color: #c9c1c9;
+  color: #ce1f9f;
 
-  font-size: 1rem;
-  font-weight: 700;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .88rem;
+  font-weight: 500;
 
   cursor: pointer;
 
   padding: 0;
-
-  transition:
-    color .15s ease,
-    background .15s ease;
 }
+
 
 .slot-vazio:hover {
   color: #a9007d;
-  background: rgba(169, 0, 125, .04);
+
+  background:
+    rgba(169, 0, 125, .035);
 }
 
 
 /* ========================================================= */
-/* CARDS DAS CONSULTAS                                       */
+/* CONSULTAS                                                  */
 /* ========================================================= */
 
 .consulta-btn {
@@ -608,19 +1057,20 @@
   height: 100%;
   min-height: 100%;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   margin: 0;
-  padding: 0 6px;
+  padding: 0 10px;
 
   border: none;
   border-radius: 0;
 
-  color: white;
+  color: #ffffff;
 
-  font-size: .63rem;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .70rem;
   font-weight: 700;
 
   text-align: center;
@@ -628,6 +1078,7 @@
   cursor: pointer;
 
   overflow: hidden;
+
   white-space: nowrap;
   text-overflow: ellipsis;
 
@@ -635,28 +1086,15 @@
 
   position: relative;
   z-index: 5;
-
-  opacity: 1 !important;
-
-  box-shadow: none;
-
-  transition:
-    background-color .15s ease;
 }
 
-.consulta-btn:hover {
-  transform: none;
-}
-
-/* ========================================================= */
-/* NOME DO PACIENTE                                          */
-/* ========================================================= */
 
 .consulta-info {
   width: 100%;
   height: 100%;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -665,565 +1103,153 @@
   overflow: hidden;
 }
 
+
 .consulta-info span {
   width: 100%;
 
   display: block;
 
-  font-size: .63rem;
+  color: #ffffff;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .70rem;
+
+  /*
+    Nome dos pacientes:
+    normal, limpo e com bastante peso.
+  */
   font-weight: 700;
 
+  line-height: 1.15;
+
+  letter-spacing: .01em;
+
   white-space: nowrap;
+
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 
-/* Esconde qualquer informação secundária */
-.consulta-info small {
-  display: none !important;
-}
-
-
 /* ========================================================= */
-/* CORES DOS STATUS                                          */
+/* STATUS DAS CONSULTAS                                       */
 /* ========================================================= */
 
-/* AGENDADO */
 .cinza .consulta-btn,
 .btn-agendado {
-  background: #8d8d8d !important;
-  color: white !important;
+  background: #a7a7aa !important;
 }
 
-/* CONFIRMADO */
+
 .azul .consulta-btn,
 .btn-confirmado {
-  background: #4c8bf5 !important;
-  color: white !important;
+  background: #6f98e8 !important;
 }
 
-/* PAGO */
+
 .verde .consulta-btn,
 .btn-pago {
-  background: #35b56a !important;
-  color: white !important;
+  background: #65bd87 !important;
 }
 
-/* PAGAMENTO PENDENTE */
+
 .rosa .consulta-btn,
 .btn-debito {
-  background: #ff5ca8 !important;
-  color: white !important;
+  background: #e87bad !important;
 }
 
-/* FALTOU */
+
 .amarelo .consulta-btn,
 .btn-faltou {
-  background: #f0c94d !important;
-  color: white !important;
+  background: #e2c353 !important;
 }
 
 
 /* ========================================================= */
-/* HOVER DOS STATUS                                          */
+/* HOVER DOS STATUS                                           */
 /* ========================================================= */
 
 .cinza .consulta-btn:hover,
 .btn-agendado:hover {
-  background: #7d7d7d !important;
+  background: #77777a !important;
 }
+
 
 .azul .consulta-btn:hover,
 .btn-confirmado:hover {
-  background: #3d7eea !important;
+  background: #527bc8 !important;
 }
+
 
 .verde .consulta-btn:hover,
 .btn-pago:hover {
-  background: #2fa65f !important;
+  background: #4b9d69 !important;
 }
+
 
 .rosa .consulta-btn:hover,
 .btn-debito:hover {
-  background: #ed4c98 !important;
+  background: #c85d8e !important;
 }
+
 
 .amarelo .consulta-btn:hover,
 .btn-faltou:hover {
-  background: #dfb936 !important;
+  background: #b39a38 !important;
 }
 
-.modal-bg {
-  position: fixed;
 
-  inset: 0;
+/* ========================================================= */
+/* TEMPO PASSADO                                              */
+/* ========================================================= */
 
+.agenda-slot.slot-passado {
   background:
-    rgba(30, 10, 25, .48);
+    rgba(207, 202, 207, .78) !important;
 
-  display: flex;
+  border-right:
+    1px solid #bcb4bb !important;
 
-  justify-content: center;
-  align-items: center;
-
-  z-index: 999;
-
-  padding: 20px;
-
-  box-sizing: border-box;
-}
-
-.modal-box {
-  width: 500px;
-
-  max-width: 100%;
-
-  background: white;
-
-  border-radius: 24px;
-
-  padding: 30px;
-
-  box-sizing: border-box;
-
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, .25);
-}
-
-.modal-box h2 {
-  color: #a9007d;
-
-  margin-top: 0;
-  margin-bottom: 20px;
-}
-
-.modal-box p {
-  color: #555;
-
-  margin-bottom: 12px;
+  border-bottom:
+    1px solid #bcb4bb !important;
 }
 
 
 /* ========================================================= */
-/* MODAL PACIENTE                                            */
+/* HORÁRIO ATUAL                                              */
 /* ========================================================= */
 
-.modal-paciente-topo {
-  display: flex;
+.agenda-slot.slot-atual {
+  background: inherit;
 
-  align-items: center;
+  box-shadow: none;
 
-  gap: 15px;
+  border-right:
+    1px solid #c9c1c8;
 
-  margin-bottom: 20px;
-}
-
-.modal-foto {
-  width: 70px;
-  height: 70px;
-
-  border-radius: 50%;
-
-  background: #a9007d;
-
-  color: white;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  font-size: 2rem;
-  font-weight: bold;
-
-  flex-shrink: 0;
+  border-bottom:
+    1px solid #c9c1c8;
 }
 
 
 /* ========================================================= */
-/* OBSERVAÇÕES                                                */
-/* ========================================================= */
-
-.obs-box {
-  margin-top: 15px;
-
-  background: #f7f3f7;
-
-  border-radius: 14px;
-
-  padding: 15px;
-
-  color: #555;
-
-  line-height: 1.5;
-}
-
-
-/* ========================================================= */
-/* PAGAMENTO                                                  */
-/* ========================================================= */
-
-.valor-box {
-  display: flex;
-
-  gap: 10px;
-
-  margin-top: 15px;
-}
-
-/* ========================================================= */
-/* PAINEL LATERAL DE PAGAMENTO                               */
-/* ========================================================= */
-
-.pagamento-layout {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 12px;
-  width: auto;
-  max-width: 100%;
-}
-
-.pagamento-layout .modal-box-principal {
-  width: 500px;
-  max-width: calc(100vw - 40px);
-  flex: 0 1 500px;
-  min-width: 0;
-}
-
-.pagamento-box {
-  width: 230px;
-  flex-shrink: 0;
-
-  margin-top: 0;
-  padding: 18px;
-
-  background: #f7f3f7;
-
-  border: 1px solid #eadfea;
-  border-radius: 16px;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 10px;
-
-  box-sizing: border-box;
-
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, .08);
-}
-
-.pagamento-box h3 {
-  margin: 0 0 4px;
-
-  color: #a9007d;
-
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.pagamento-box label {
-  color: #665b63;
-
-  font-size: .75rem;
-  font-weight: 700;
-}
-
-.pagamento-box .valor-input {
-  width: 100%;
-  height: 45px;
-
-  margin: 0;
-}
-
-.pagamento-box select {
-  width: 100%;
-  height: 45px;
-
-  border: none;
-  border-radius: 12px;
-
-  padding: 0 12px;
-
-  background: white;
-
-  color: #444;
-
-  font-size: .85rem;
-
-  box-shadow:
-    inset 0 2px 7px rgba(0, 0, 0, .06);
-
-  outline: none;
-}
-
-.pagamento-box .enviar-valor-btn {
-  width: 100%;
-  height: 45px;
-
-  margin-top: 4px;
-}
-
-.pagamento-box .valor-input {
-  height: 45px;
-
-  margin: 0;
-}
-
-.pagamento-box select {
-  grid-column: 1 / -1;
-}
-
-.pagamento-box .enviar-valor-btn {
-  height: 45px;
-}
-
-.cancelar-pagamento-btn {
-  height: 45px;
-
-  border: none;
-
-  border-radius: 12px;
-
-  background: #555;
-
-  color: white;
-
-  font-weight: bold;
-
-  cursor: pointer;
-}
-
-.cancelar-pagamento-btn:hover {
-  background: #333;
-}
-
-
-/* ========================================================= */
-/* INPUTS                                                      */
-/* ========================================================= */
-
-.valor-input {
-  flex: 1;
-
-  width: 100%;
-  height: 50px;
-
-  border: none;
-
-  border-radius: 12px;
-
-  padding: 0 15px;
-
-  background: #f5f2f5;
-
-  color: #444;
-
-  font-size: 1rem;
-
-  box-shadow:
-    inset 0 2px 8px rgba(0, 0, 0, .07);
-
-  box-sizing: border-box;
-
-  outline: none;
-}
-
-.valor-input:focus {
-  box-shadow:
-    0 0 0 2px rgba(169, 0, 125, .18);
-}
-
-.enviar-valor-btn {
-  height: 45px;
-
-  background: #35b56a;
-
-  color: white;
-
-  border: none;
-
-  border-radius: 12px;
-
-  padding: 0 20px;
-
-  cursor: pointer;
-
-  font-weight: bold;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  box-sizing: border-box;
-
-  transition: .2s;
-}
-
-.enviar-valor-btn:hover {
-  background: #2fa65f;
-}
-
-
-/* ========================================================= */
-/* SALVAR OBSERVAÇÃO                                         */
-/* ========================================================= */
-
-.salvar-obs-btn {
-  width: 100%;
-
-  margin-top: 10px;
-
-  padding: 12px;
-
-  border: none;
-
-  border-radius: 12px;
-
-  background: #a9007d;
-
-  color: white;
-
-  font-weight: bold;
-
-  cursor: pointer;
-
-  transition: .2s;
-}
-
-.salvar-obs-btn:hover {
-  background: #870065;
-
-  transform: translateY(-1px);
-}
-
-.modal-botoes {
-  width: 100%;
-
-  margin-top: 20px;
-
-  display: grid;
-
-  grid-template-columns: 1fr 1fr;
-
-  gap: 10px;
-
-  align-items: stretch;
-
-  flex-shrink: 0;
-
-  box-sizing: border-box;
-}
-
-.modal-botoes button {
-  width: 100%;
-  height: 48px;
-
-  margin: 0;
-  padding: 0 12px;
-
-  border: none;
-  border-radius: 12px;
-
-  color: white;
-
-  font-weight: 700;
-  font-size: .9rem;
-
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  box-sizing: border-box;
-
-  line-height: 1;
-
-  transition:
-    transform .2s ease,
-    background .2s ease;
-}
-
-.modal-botoes button:first-child {
-  background: #a9007d;
-}
-
-.remover-btn {
-  background: #e54861 !important;
-}
-
-.remover-btn:hover {
-  background: #d63d55 !important;
-}
-
-.fechar-modal-btn {
-  background: #383838 !important;
-
-  height: 48px;
-
-  padding: 0 12px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  box-sizing: border-box;
-}
-
-.fechar-modal-btn:hover {
-  background: #242424 !important;
-}
-
-.voltar-btn {
-  background: #555 !important;
-}
-
-.remover-valor-btn {
-  background: #444 !important;
-}
-
-.remover-valor-btn:hover {
-  background: #333 !important;
-}
-
-
-/* ========================================================= */
-/* GANHOS                                                     */
+/* GANHO DO DIA                                               */
 /* ========================================================= */
 
 .ganho-label {
-  position: sticky;
+  background: #eee7ed;
+  color: #7d005f;
 
-  left: 0;
+  font-family:
+    "Trebuchet MS",
+    Arial,
+    sans-serif;
 
-  background: #f7f1f6;
-
-  color: #8c0069;
-
-  font-weight: 700;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  z-index: 25;
-
-  border-top:
-    2px solid #d8ccd6;
-
-  border-right:
-    1px solid #d4cdd4;
-}
-
-.ganho-cell {
-  background: #fff7fc;
-
-  color: #8c0069;
-
+  font-size: .69rem;
   font-weight: 700;
 
   display: flex;
@@ -1232,21 +1258,52 @@
   justify-content: center;
 
   border-top:
-    2px solid #d8ccd6;
+    2px solid #a9007d;
 
   border-right:
-    1px solid #e0d7df;
+    1px solid #bdb5bc;
 
   box-sizing: border-box;
 }
 
+
+.ganho-cell {
+  background: #fff4fb;
+  color: #8f006b;
+
+  font-family:
+    "Trebuchet MS",
+    Arial,
+    sans-serif;
+
+  font-size: .70rem;
+  font-weight: 600;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-top:
+    2px solid #a9007d;
+
+  border-right:
+    1px solid #cbc3ca;
+
+  box-sizing: border-box;
+}
+
+
 .ganho-semana {
-  background: #8c0069;
+  background: #980070;
+  color: #ffffff;
 
-  color: white;
+  font-family:
+    "Trebuchet MS",
+    Arial,
+    sans-serif;
 
-  font-size: 20px;
-
+  font-size: .78rem;
   font-weight: 700;
 
   display: flex;
@@ -1262,24 +1319,752 @@
 
 
 /* ========================================================= */
-/* NOVO AGENDAMENTO                                          */
+/* MODAIS                                                     */
+/* ========================================================= */
+
+.modal-bg {
+  position: fixed;
+  inset: 0;
+
+  background:
+    rgba(35, 8, 29, .55);
+
+  backdrop-filter: blur(5px);
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999;
+
+  padding: 20px;
+
+  box-sizing: border-box;
+}
+
+
+/* ========================================================= */
+/* MODAL PADRÃO                                               */
+/* ========================================================= */
+
+.modal-box {
+  width: 500px;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 40px);
+
+  overflow-y: auto;
+
+  background: #ffffff;
+
+  border-radius: 22px;
+
+  padding: 28px;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 25px 70px rgba(30, 0, 25, .28);
+}
+
+
+/* ========================================================= */
+/* TÍTULOS DOS MODAIS                                         */
+/* ========================================================= */
+
+.modal-box h2 {
+  margin: 0 0 12px;
+
+  color: #3f3940;
+
+  font-family:
+    "Trebuchet MS",
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 1.35rem;
+  font-weight: 500;
+
+  line-height: 1.2;
+}
+
+.novo-agendamento-modal h2 {
+  margin: 0 0 14px;
+
+  color: #b00083;
+
+  font-family:
+    "AliceWonderland",
+    Georgia,
+    serif;
+
+  font-size: 2.35rem;
+  font-weight: normal;
+
+  line-height: 1;
+}
+
+
+/* ========================================================= */
+/* CABEÇALHO DO PACIENTE                                      */
+/* ========================================================= */
+
+.modal-paciente-cabecalho {
+  width: 100%;
+  margin: 0 0 18px;
+}
+
+
+.modal-paciente-cabecalho h2 {
+  margin: 0 0 8px;
+
+  color: #b00083;
+
+  font-family:
+    "AliceWonderland",
+    Georgia,
+    serif;
+
+  font-size: 3rem;
+  font-weight: normal;
+
+  line-height: 1;
+}
+
+
+.modal-paciente-cabecalho h3 {
+  margin: 0;
+
+  color: #494249;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 1.4rem;
+  font-weight: 600;
+
+  line-height: 1.25;
+}
+
+
+/* ========================================================= */
+/* INFORMAÇÕES DA CONSULTA                                   */
+/* ========================================================= */
+
+.modal-consulta-info {
+  width: 100%;
+
+  margin: 0 0 16px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+
+.modal-consulta-info p {
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color: #51474e;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .82rem;
+
+  line-height: 1.3;
+}
+
+
+.modal-consulta-info p strong {
+  font-weight: 600;
+}
+
+
+.modal-info-icone {
+  width: 18px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ========================================================= */
+/* OBSERVAÇÕES                                                */
+/* ========================================================= */
+
+.modal-observacao {
+  width: 100%;
+  margin: 0 0 16px;
+}
+
+
+.modal-observacao label {
+  display: block;
+
+  margin: 0 0 7px;
+
+  color: #777078;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .72rem;
+  font-weight: 600;
+}
+
+
+.modal-observacao .valor-input {
+  margin: 0;
+
+  min-height: 82px;
+
+  resize: vertical;
+}
+
+
+/* ========================================================= */
+/* BOTÕES DO MODAL                                            */
+/* ========================================================= */
+
+.modal-botoes {
+  width: 100%;
+
+  margin: 14px 0 0;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 9px;
+}
+
+
+.modal-botoes button {
+  width: 100%;
+  height: 44px;
+
+  min-width: 0;
+
+  padding: 0 10px;
+
+  border: none;
+  border-radius: 11px;
+
+  color: #ffffff;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .75rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform .15s ease,
+    filter .15s ease;
+}
+
+
+.modal-botoes button:hover {
+  transform: translateY(-1px);
+  filter: brightness(.92);
+}
+
+
+.btn-perfil {
+  background: #b00083 !important;
+}
+
+
+.btn-confirmado {
+  background: #6f98e8 !important;
+}
+
+
+.btn-pago {
+  background: #65bd87 !important;
+}
+
+
+.btn-debito {
+  background: #e87bad !important;
+}
+
+
+.btn-faltou {
+  background: #e2c353 !important;
+}
+
+
+.btn-agendado {
+  background: #a5a5a8 !important;
+}
+
+
+.remover-valor-btn {
+  background: #d66b7c !important;
+}
+
+
+.remover-btn {
+  background: #df4058 !important;
+}
+
+
+.fechar-modal-btn {
+  background: #454545 !important;
+}
+
+
+/* ========================================================= */
+/* MODAL PRINCIPAL                                            */
+/* ========================================================= */
+
+.modal-box-principal {
+  width: 500px;
+  max-width: calc(100vw - 40px);
+
+  padding: 30px;
+
+  border-radius: 22px;
+}
+
+
+/* ========================================================= */
+/* PAGAMENTO                                                  */
+/* ========================================================= */
+
+.pagamento-layout {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  max-width: calc(100vw - 40px);
+}
+
+
+.pagamento-box {
+  width: 320px;
+
+  padding: 26px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 25px 70px rgba(30, 0, 25, .28);
+}
+
+
+.pagamento-box h3 {
+  margin: 0 0 18px;
+
+  color: #b00083;
+
+  font-family:
+    "AliceWonderland",
+    Georgia,
+    serif;
+
+  font-size: 2.45rem;
+  font-weight: normal;
+}
+
+
+.pagamento-box label {
+  display: block;
+
+  margin: 10px 0 6px;
+
+  color: #5b5359;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .72rem;
+  font-weight: 600;
+}
+
+
+.pagamento-box select {
+  width: 100%;
+  height: 42px;
+
+  padding: 0 10px;
+
+  border:
+    1px solid #e4dce2;
+
+  border-radius: 10px;
+
+  background: #f5f1f5;
+  color: #51454e;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .75rem;
+
+  outline: none;
+}
+
+
+.enviar-valor-btn,
+.cancelar-pagamento-btn {
+  width: 100%;
+  height: 43px;
+
+  margin-top: 10px;
+
+  border: none;
+  border-radius: 10px;
+
+  color: #ffffff;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .74rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.enviar-valor-btn {
+  background: #65bd87;
+}
+
+
+.cancelar-pagamento-btn {
+  background: #454545;
+}
+
+
+/* ========================================================= */
+/* INFORMAÇÕES DO AGENDAMENTO                                */
+/* ========================================================= */
+
+.modal-box > p {
+  margin: 4px 0 7px;
+
+  color: #51474e;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .78rem;
+}
+
+
+/* ========================================================= */
+/* INPUTS DOS MODAIS                                          */
+/* ========================================================= */
+
+.valor-input {
+  width: 100%;
+
+  min-height: 44px;
+
+  margin-bottom: 9px;
+
+  padding: 10px 12px;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid #e4dce2;
+
+  border-radius: 11px;
+
+  background: #f5f1f5;
+  color: #51454e;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .76rem;
+
+  outline: none;
+}
+
+
+.valor-input:focus {
+  background: #ffffff;
+
+  border-color:
+    rgba(169, 0, 125, .30);
+
+  box-shadow:
+    0 0 0 2px rgba(169, 0, 125, .12);
+}
+
+
+/* ========================================================= */
+/* LISTA DE PACIENTES                                         */
+/* ========================================================= */
+
+.obs-box,
+.lista-pacientes-agendamento {
+  width: 100%;
+
+  max-height: 190px;
+  min-height: 42px;
+
+  margin: 2px 0 0;
+
+  padding: 2px 5px 2px 0;
+
+  box-sizing: border-box;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: #ffffff;
+
+  scrollbar-width: thin;
+  scrollbar-color:
+    #a9007d
+    #eee5eb;
+}
+
+
+.obs-box::-webkit-scrollbar,
+.lista-pacientes-agendamento::-webkit-scrollbar {
+  width: 6px;
+}
+
+
+.obs-box::-webkit-scrollbar-track,
+.lista-pacientes-agendamento::-webkit-scrollbar-track {
+  background: #eee5eb;
+  border-radius: 10px;
+}
+
+
+.obs-box::-webkit-scrollbar-thumb,
+.lista-pacientes-agendamento::-webkit-scrollbar-thumb {
+  background: #a9007d;
+  border-radius: 10px;
+}
+
+
+.obs-box::-webkit-scrollbar-thumb:hover,
+.lista-pacientes-agendamento::-webkit-scrollbar-thumb:hover {
+  background: #870065;
+}
+
+
+/* ========================================================= */
+/* BOTÃO DE PACIENTE                                          */
+/* ========================================================= */
+
+.obs-box .consulta-btn,
+.paciente-agendamento-btn {
+  width: 100%;
+
+  min-height: 40px;
+  height: 40px;
+
+  margin: 0 0 7px;
+
+  padding: 0 12px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #b00083 !important;
+  color: #ffffff;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .72rem;
+  font-weight: 700;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+
+  transition:
+    background .15s ease,
+    transform .15s ease;
+}
+
+
+.obs-box .consulta-btn:last-child,
+.paciente-agendamento-btn:last-child {
+  margin-bottom: 0;
+}
+
+
+.obs-box .consulta-btn:hover,
+.paciente-agendamento-btn:hover {
+  background: #8f006b !important;
+
+  transform: translateY(-1px);
+}
+
+
+/* ========================================================= */
+/* NENHUM PACIENTE                                            */
+/* ========================================================= */
+
+.nenhum-paciente {
+  width: 100%;
+
+  padding: 12px 5px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  color: #777777;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .76rem;
+}
+
+
+/* ========================================================= */
+/* CADASTRAR NOVO PACIENTE                                    */
+/* ========================================================= */
+
+.cadastrar-paciente-agendamento {
+  width: 100%;
+
+  min-height: 40px;
+  height: 40px;
+
+  margin: 10px 0 0;
+
+  padding: 0 12px;
+
+  border:
+    2px dashed #c00091;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+  color: #b00083;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .74rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    transform .15s ease;
+}
+
+
+.cadastrar-paciente-agendamento:hover {
+  background: #fff5fc;
+
+  border-color: #a9007d;
+
+  color: #a9007d;
+
+  transform: translateY(-1px);
+}
+
+
+/* ========================================================= */
+/* PACIENTE SELECIONADO                                       */
+/* ========================================================= */
+
+.paciente-escolhido {
+  margin: 10px 0 0;
+
+  padding: 11px 12px;
+
+  background: #f5f1f5;
+
+  border:
+    1px solid #eadfea;
+
+  border-radius: 10px;
+
+  color: #51454e;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .76rem;
+}
+
+
+.paciente-escolhido strong {
+  color: #a9007d;
+}
+
+
+/* ========================================================= */
+/* NOVO AGENDAMENTO                                           */
 /* ========================================================= */
 
 .novo-agendamento-modal {
   width: 500px;
+  max-width: calc(100vw - 40px);
 
-  max-width:
-    calc(100vw - 40px);
-
-  height: min(760px, calc(100vh - 40px));
-
-  max-height:
-    calc(100vh - 40px);
+  min-height: 430px;
+  max-height: calc(100vh - 40px);
 
   overflow: hidden;
 
   display: flex;
-
   flex-direction: column;
 
   box-sizing: border-box;
@@ -1287,506 +2072,136 @@
   padding: 28px;
 }
 
-.novo-agendamento-modal h2 {
-  flex-shrink: 0;
-
-  margin-top: 0;
-  margin-bottom: 14px;
-}
-
-.novo-agendamento-modal p {
-  flex-shrink: 0;
-
-  margin: 4px 0 7px;
-}
-
-.novo-agendamento-modal .valor-input {
-  flex-shrink: 0;
-
-  margin-bottom: 8px;
-}
-
-.novo-agendamento-modal .cadastrar-paciente-agendamento {
-  flex-shrink: 0;
-}
-
-.novo-agendamento-modal .paciente-escolhido {
-  flex-shrink: 0;
-}
-
-.novo-agendamento-modal .modal-botoes {
-  flex-shrink: 0;
-
-  margin-top: 10px;
-}
 
 /* ========================================================= */
-/* LISTA DE PACIENTES                                        */
+/* RESPONSIVIDADE                                             */
 /* ========================================================= */
 
-.lista-pacientes-agendamento {
-  flex: 1 1 0;
+@media (max-width: 1400px) {
 
-  min-height: 0;
+  .agenda-container {
+    padding: 14px 18px 18px;
+  }
 
-  overflow-y: auto;
-  overflow-x: hidden;
+  .agenda-titulo h1 {
+    font-size: 2.05rem;
+  }
 
-  background: #ffffff !important;
+  .nova-consulta {
+    min-width: 450px;
+  }
 
-  padding-right: 6px;
+  .agenda-logo-cantinho {
+    width: 62px;
+  }
 
-  margin-top: 2px;
-
-  scrollbar-width: thin;
-
-  scrollbar-color:
-    #a9007d
-    #eee5eb;
-
-  box-sizing: border-box;
 }
 
 
-/* Chrome / Edge */
+@media (max-width: 1200px) {
 
-.lista-pacientes-agendamento::-webkit-scrollbar {
-  width: 7px;
-}
+  .agenda-container {
+    padding: 12px 14px 18px;
+  }
 
-.lista-pacientes-agendamento::-webkit-scrollbar-track {
-  background: #eee5eb;
+  .agenda-titulo h1 {
+    font-size: 1.85rem;
+  }
 
-  border-radius: 10px;
-}
+  .nova-consulta {
+    min-width: 370px;
 
-.lista-pacientes-agendamento::-webkit-scrollbar-thumb {
-  background: #a9007d;
+    grid-template-columns:
+      minmax(145px, 1fr)
+      90px
+      65px
+      85px
+      65px;
 
-  border-radius: 10px;
-}
+    gap: 5px;
+  }
 
-.lista-pacientes-agendamento::-webkit-scrollbar-thumb:hover {
-  background: #870065;
-}
+  .agenda-logo-cantinho {
+    width: 56px;
+  }
 
-/* ========================================================= */
-/* BOTÃO DE PACIENTE                                         */
-/* ========================================================= */
+  .agenda-bloco-dir {
+    gap: 10px;
+  }
 
-.paciente-agendamento-btn {
-  width: 100%;
+  .agenda-bloco-dir::before {
+    right: 64px;
+  }
 
-  min-height: 38px;
+  .pesquisar-data-topo {
+    gap: 8px;
+  }
 
-  border: none;
-
-  border-radius: 9px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #b40088,
-      #a00077
-    ) !important;
-
-  color: white;
-
-  margin-bottom: 7px;
-
-  padding: 8px 12px;
-
-  font-size: .72rem;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    transform .15s ease,
-    box-shadow .15s ease,
-    background .15s ease;
-
-  box-sizing: border-box;
-}
-
-.paciente-agendamento-btn:last-child {
-  margin-bottom: 0;
-}
-
-.paciente-agendamento-btn:hover {
-  background:
-    linear-gradient(
-      135deg,
-      #8f006b,
-      #79005a
-    ) !important;
-
-  color: white;
-
-  box-shadow:
-    0 4px 10px rgba(143, 0, 107, .22);
-
-  transform: translateY(-1px);
-}
-
-.paciente-agendamento-btn.paciente-selecionado {
-  background:
-    linear-gradient(
-      135deg,
-      #6941c6,
-      #5830af
-    ) !important;
-
-  box-shadow:
-    0 4px 10px rgba(105, 65, 198, .25);
 }
 
 
-/* ========================================================= */
-/* NENHUM PACIENTE                                           */
-/* ========================================================= */
+@media (max-width: 1000px) {
 
-.nenhum-paciente {
-  text-align: center;
+  .agenda-container {
+    height: 100vh;
+    min-height: 100vh;
 
-  color: #777;
+    overflow: hidden;
+  }
 
-  padding: 15px 5px;
+  .agenda-topo {
+    height: auto;
+    min-height: 58px;
 
-  font-size: .85rem;
+    flex-wrap: wrap;
+  }
+
+  .nova-consulta {
+    order: 3;
+
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+
+    flex-basis: 100%;
+  }
+
+  .agenda-scroll {
+    height: 700px;
+    min-height: 700px;
+
+    flex: none;
+
+    overflow: hidden;
+  }
+
+  .agenda-grid {
+    min-height: 700px;
+  }
+
 }
 
 
-/* ========================================================= */
-/* CADASTRAR NOVO PACIENTE                                   */
-/* ========================================================= */
+@media (max-width: 750px) {
 
-.cadastrar-paciente-agendamento {
-  width: 100%;
+  .agenda-container {
+    padding: 10px;
+  }
 
-  min-height: 42px;
+  .agenda-topo {
+    gap: 8px;
+  }
 
-  margin-top: 10px;
+  .agenda-titulo h1 {
+    font-size: 1.55rem;
+  }
 
-  border:
-    2px dashed #b00083;
+  .agenda-grid {
+    min-width: 0;
+  }
 
-  border-radius: 11px;
+  .agenda-scroll {
+    overflow: hidden;
+  }
 
-  background: #fff;
-
-  color: #a9007d;
-
-  font-size: .82rem;
-
-  font-weight: bold;
-
-  cursor: pointer;
-
-  transition: .2s;
-
-  flex-shrink: 0;
-}
-
-.cadastrar-paciente-agendamento:hover {
-  background: #fdf0fa;
-
-  border-color: #870065;
-
-  transform: translateY(-1px);
-}
-
-
-/* ========================================================= */
-/* PACIENTE ESCOLHIDO                                        */
-/* ========================================================= */
-
-.paciente-escolhido {
-  margin-top: 9px;
-
-  padding: 9px 12px;
-
-  background: #f5f1f5;
-
-  border-radius: 11px;
-
-  color: #555;
-
-  font-size: .82rem;
-
-  flex-shrink: 0;
-}
-
-.paciente-escolhido strong {
-  margin-left: 5px;
-
-  color: #a9007d;
-}
-
-
-/* ========================================================= */
-/* NAVEGADOR DA SEMANA                                       */
-/* ========================================================= */
-
-.semana-navegador {
-  display: flex;
-
-  justify-content: center;
-  align-items: center;
-
-  gap: 15px;
-
-  margin-bottom: 25px;
-
-  flex-wrap: wrap;
-}
-
-.semana-navegador > button {
-  height: 45px;
-
-  padding: 0 20px;
-
-  background: white;
-
-  color: #a9007d;
-
-  border: none;
-
-  border-radius: 14px;
-
-  font-weight: bold;
-
-  cursor: pointer;
-
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, .15);
-
-  transition: .2s;
-}
-
-.semana-navegador > button:hover {
-  transform: translateY(-2px);
-}
-
-
-/* ========================================================= */
-/* PESQUISA DE DATA                                          */
-/* ========================================================= */
-
-.pesquisar-data {
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  background: white;
-
-  padding: 5px;
-
-  border-radius: 14px;
-
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, .15);
-}
-
-.pesquisar-data input {
-  height: 35px;
-
-  border: none;
-
-  outline: none;
-
-  border-radius: 10px;
-
-  padding: 0 10px;
-
-  background: #f5f2f5;
-
-  color: #555;
-}
-
-.pesquisar-data button {
-  height: 35px;
-
-  border: none;
-
-  border-radius: 10px;
-
-  padding: 0 14px;
-
-  background: #a9007d;
-
-  color: white;
-
-  font-weight: bold;
-
-  cursor: pointer;
-
-  transition: .2s;
-}
-
-.pesquisar-data button:hover {
-  background: #870065;
-}
-
-/* ========================================================= */
-/* BOTÃO +                                                    */
-/* ========================================================= */
-
-.slot-vazio {
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: none;
-  background: transparent;
-
-  color: #c9c1c9;
-
-  font-size: 1rem;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    color .15s ease,
-    transform .15s ease,
-    background .15s ease;
-
-  padding: 0;
-}
-
-.slot-vazio:hover {
-  color: #a9007d;
-
-  background: rgba(169, 0, 125, .04);
-
-  transform: none;
-}
-
-.slot-vazio:active {
-  transform: scale(.92);
-}
-
-/* ========================================================= */
-/* REMOVER COMPLETAMENTE O EFEITO DE HOVER DOS BOTÕES       */
-/* DO MODAL                                                  */
-/* ========================================================= */
-
-.modal-botoes button,
-.modal-botoes button:hover,
-.modal-botoes button:focus,
-.modal-botoes button:active {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-
-  width: 100% !important;
-  height: 48px !important;
-
-  border: none !important;
-  border-radius: 12px !important;
-
-  margin: 0 !important;
-  padding: 0 12px !important;
-
-  transform: none !important;
-  box-shadow: none !important;
-  outline: none !important;
-
-  filter: none !important;
-
-  transition: background-color 0.2s ease !important;
-}
-
-/* ========================================================= */
-/* REMOVER EFEITOS DE CÍRCULO / HOVER INDESEJADO             */
-/* ========================================================= */
-
-/* Células da agenda */
-.agenda-slot,
-.agenda-slot:hover,
-.agenda-slot:focus,
-.agenda-slot:active {
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  transform: none !important;
-  outline: none !important;
-}
-
-/* Remove possíveis efeitos criados por pseudo-elementos */
-.agenda-slot::before,
-.agenda-slot::after,
-.slot-vazio::before,
-.slot-vazio::after,
-.consulta-btn::before,
-.consulta-btn::after {
-  content: none !important;
-  display: none !important;
-}
-
-/* Botão + da célula */
-.slot-vazio,
-.slot-vazio:hover,
-.slot-vazio:focus,
-.slot-vazio:active {
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
-  transform: none !important;
-  background: transparent !important;
-}
-
-/* Consulta dentro da célula */
-.consulta-btn,
-.consulta-btn:hover,
-.consulta-btn:focus,
-.consulta-btn:active {
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
-  transform: none !important;
-}
-
-/* Mantém apenas o hover suave da célula, sem círculo */
-.agenda-slot:hover {
-  background: #fae9f4 !important;
-}
-
-
-/* ========================================================= */
-/* BOTÕES DO MODAL — SEM CÍRCULO / EFEITO ESTRANHO           */
-/* ========================================================= */
-
-.modal-botoes button,
-.modal-botoes button:hover,
-.modal-botoes button:focus,
-.modal-botoes button:active {
-  border-radius: 12px !important;
-  box-shadow: none !important;
-  transform: none !important;
-  outline: none !important;
-}
-
-/* Remove qualquer pseudo-elemento que esteja criando círculo */
-.modal-botoes button::before,
-.modal-botoes button::after {
-  content: none !important;
-  display: none !important;
-}
-
-/* ========================================================= */
-/* PROGRESSÃO DE TEMPO DA AGENDA                             */
-/* ========================================================= */
-
-.agenda-slot.slot-passado {
-  background: rgba(53, 53, 53, 0.14);
-}
-
-.agenda-slot.slot-passado:hover {
-  background: rgba(5, 5, 5, 0.18) !important;
 }

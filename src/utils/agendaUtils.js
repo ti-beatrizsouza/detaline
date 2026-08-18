@@ -1,12 +1,73 @@
+/* ========================================================= */
+/* DIAS DA SEMANA                                            */
+/* ========================================================= */
+
+export function getDiasSemana() {
+
+  return [
+    "Segunda-Feira",
+    "Terça-Feira",
+    "Quarta-Feira",
+    "Quinta-Feira",
+    "Sexta-Feira",
+    "Sábado"
+  ]
+
+}
+
+
+/* ========================================================= */
+/* HORÁRIOS                                                  */
+/* ========================================================= */
+
+export function getHorarios() {
+
+  const horarios = []
+
+  for (
+    let hora = 8;
+    hora <= 19;
+    hora++
+  ) {
+
+    horarios.push(
+      `${String(hora).padStart(2, "0")}:00`
+    )
+
+    if (hora < 19) {
+
+      horarios.push(
+        `${String(hora).padStart(2, "0")}:30`
+      )
+
+    }
+
+  }
+
+  return horarios
+
+}
+
+
+/* ========================================================= */
+/* COR DO STATUS                                             */
+/* ========================================================= */
+
 export function getCor(status) {
 
   switch (status) {
+
+    case "agendado":
+      return "cinza"
 
     case "confirmado":
       return "azul"
 
     case "pagou":
       return "verde"
+
+    case "debito":
+      return "rosa"
 
     case "pendente":
       return "rosa"
@@ -21,110 +82,80 @@ export function getCor(status) {
 
 }
 
-export function ganhoDoDia(consultas, data) {
 
-  return consultas
+/* ========================================================= */
+/* DATA DA SEGUNDA-FEIRA                                    */
+/* ========================================================= */
 
-    .filter(c =>
-
-      c.data === data &&
-      c.status === "pagou"
-
-    )
-
-    .reduce(
-
-      (total, c) =>
-
-        total + Number(c.valorPago || 0),
-
-      0
-
-    )
-
-}
-
-export function ganhoDaSemana(
-  consultas,
-  offsetSemana
+export function getSegundaSemana(
+  offsetSemana = 0
 ) {
-
-  const segunda = getSegundaDaSemana(offsetSemana)
-
-  const domingo = new Date(segunda)
-
-  domingo.setDate(
-    segunda.getDate() + 6
-  )
-
-  const dataInicio =
-    gerarDataSlot(segunda)
-
-  const dataFim =
-    gerarDataSlot(domingo)
-
-  return consultas
-
-    .filter(c => {
-
-      return (
-        c.status === "pagou" &&
-        c.data >= dataInicio &&
-        c.data <= dataFim
-      )
-
-    })
-
-    .reduce(
-
-      (total, c) =>
-        total + Number(c.valorPago || 0),
-
-      0
-
-    )
-
-}
-
-export function getSegundaDaSemana(offsetSemana = 0) {
 
   const hoje = new Date()
 
-  const diaSemana = hoje.getDay()
+  const diaSemana =
+    hoje.getDay()
 
-  const segunda = new Date(hoje)
+  const segunda =
+    new Date(hoje)
 
   const ajuste =
-
     diaSemana === 0
       ? -6
       : 1 - diaSemana
 
   segunda.setDate(
-
     hoje.getDate() +
-
     ajuste +
+    (offsetSemana * 7)
+  )
 
-    offsetSemana * 7
-
+  segunda.setHours(
+    0,
+    0,
+    0,
+    0
   )
 
   return segunda
 
 }
 
-export function formatarData(data) {
 
-  return new Date(
+/* ========================================================= */
+/* DATA DE UM DIA DA SEMANA                                  */
+/* ========================================================= */
 
-    data + "T00:00:00"
+export function getDataDoDia(
+  index,
+  offsetSemana = 0
+) {
 
-  ).toLocaleDateString("pt-BR")
+  const segunda =
+    getSegundaSemana(
+      offsetSemana
+    )
+
+  const data =
+    new Date(segunda)
+
+  data.setDate(
+    segunda.getDate() +
+    index
+  )
+
+  return data
 
 }
 
-export function gerarDataSlot(data) {
+
+/* ========================================================= */
+/* DATA YYYY-MM-DD                                           */
+/* ========================================================= */
+
+export function formatarDataAgenda(
+  data
+) {
 
   const ano =
     data.getFullYear()
@@ -143,61 +174,131 @@ export function gerarDataSlot(data) {
 
 }
 
-export function getDataDaColuna(index, offsetSemana = 0) {
 
-  const segunda = getSegundaDaSemana(offsetSemana)
+/* ========================================================= */
+/* GANHO DO DIA                                              */
+/* ========================================================= */
 
-  const data = new Date(segunda)
+export function ganhoDoDia(
+  consultas,
+  data
+) {
 
-  data.setDate(data.getDate() + index)
+  return consultas
 
-  return data
+    .filter(
+      consulta =>
+        consulta.data === data &&
+        consulta.status === "pagou"
+    )
+
+    .reduce(
+      (total, consulta) =>
+        total +
+        Number(
+          consulta.valorPago || 0
+        ),
+      0
+    )
 
 }
 
-export function getDiasSemana() {
-  return [
-    "Segunda",
-    "Terça",
-    "Quarta",
-    "Quinta",
-    "Sexta",
-    "Sábado"
-  ]
+
+/* ========================================================= */
+/* GANHO DA SEMANA                                           */
+/* ========================================================= */
+
+export function ganhoDaSemana(
+  consultas,
+  offsetSemana = 0
+) {
+
+  const segunda =
+    getSegundaSemana(
+      offsetSemana
+    )
+
+  const domingo =
+    new Date(segunda)
+
+  domingo.setDate(
+    segunda.getDate() + 6
+  )
+
+  domingo.setHours(
+    23,
+    59,
+    59,
+    999
+  )
+
+  return consultas
+
+    .filter(
+      consulta => {
+
+        if (
+          consulta.status !==
+          "pagou"
+        ) {
+          return false
+        }
+
+        if (!consulta.data) {
+          return false
+        }
+
+        const dataConsulta =
+          new Date(
+            consulta.data +
+            "T00:00:00"
+          )
+
+        return (
+          dataConsulta >= segunda &&
+          dataConsulta <= domingo
+        )
+
+      }
+    )
+
+    .reduce(
+      (total, consulta) =>
+        total +
+        Number(
+          consulta.valorPago || 0
+        ),
+      0
+    )
+
 }
 
-export function getHorarios() {
-  const horarios = []
 
-  for (let h = 8; h <= 19; h++) {
-    horarios.push(`${String(h).padStart(2, "0")}:00`)
+/* ========================================================= */
+/* OFFSET DE UMA DATA                                       */
+/* ========================================================= */
 
-    if (h !== 19) {
-      horarios.push(`${String(h).padStart(2, "0")}:30`)
-    }
-  }
+export function getOffsetSemanaParaData(
+  data
+) {
 
-  return horarios
-}
-
-export function getOffsetSemanaParaData(dataString) {
-
-  if (!dataString) {
+  if (!data) {
     return 0
   }
 
-  const dataAlvo =
-    new Date(dataString + "T00:00:00")
+  const dataSelecionada =
+    new Date(
+      data + "T00:00:00"
+    )
 
-  if (isNaN(dataAlvo.getTime())) {
-    return 0
-  }
+  const hoje =
+    new Date()
 
-  const hoje = new Date()
+  const diaSemana =
+    hoje.getDay()
 
-  const diaSemana = hoje.getDay()
-
-  const segundaAtual = new Date(hoje)
+  const segundaAtual =
+    new Date(hoje)
 
   const ajuste =
     diaSemana === 0
@@ -205,20 +306,97 @@ export function getOffsetSemanaParaData(dataString) {
       : 1 - diaSemana
 
   segundaAtual.setDate(
-    hoje.getDate() + ajuste
+    hoje.getDate() +
+    ajuste
   )
 
   segundaAtual.setHours(
-    0, 0, 0, 0
+    0,
+    0,
+    0,
+    0
   )
 
   const diferenca =
-    Math.round(
-      (dataAlvo - segundaAtual) /
-      (1000 * 60 * 60 * 24)
-    )
+    dataSelecionada.getTime() -
+    segundaAtual.getTime()
+
+  const dias =
+    diferenca /
+    (1000 * 60 * 60 * 24)
 
   return Math.floor(
-    diferenca / 7
+    dias / 7
   )
+
+}
+
+/* ========================================================= */
+/* DATA DA COLUNA DA AGENDA                                  */
+/* ========================================================= */
+
+export function getDataDaColuna(
+  index,
+  offsetSemana = 0
+) {
+
+  const hoje = new Date()
+
+  const diaSemana = hoje.getDay()
+
+  const segunda = new Date(hoje)
+
+  const ajuste =
+    diaSemana === 0
+      ? -6
+      : 1 - diaSemana
+
+  segunda.setDate(
+    hoje.getDate() +
+    ajuste +
+    (offsetSemana * 7)
+  )
+
+  segunda.setHours(
+    0,
+    0,
+    0,
+    0
+  )
+
+  const data = new Date(segunda)
+
+  data.setDate(
+    segunda.getDate() + index
+  )
+
+  return data
+
+}
+
+/* ========================================================= */
+/* GERAR DATA DO SLOT                                        */
+/* ========================================================= */
+
+export function gerarDataSlot(data) {
+
+  if (!(data instanceof Date)) {
+    return ""
+  }
+
+  const ano =
+    data.getFullYear()
+
+  const mes =
+    String(
+      data.getMonth() + 1
+    ).padStart(2, "0")
+
+  const dia =
+    String(
+      data.getDate()
+    ).padStart(2, "0")
+
+  return `${ano}-${mes}-${dia}`
+
 }

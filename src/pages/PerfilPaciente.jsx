@@ -1,11 +1,8 @@
 import {
-
   useState
-
 } from "react"
 
 import {
-
   doc,
   updateDoc,
   deleteDoc,
@@ -13,16 +10,16 @@ import {
   query,
   where,
   getDocs
-
 } from "firebase/firestore"
 
 import {
-
   db
-
 } from "../services/firebase"
 
-import "../styles/perfil.css"
+import logoDentaline from "../assets/logob.png"
+
+import "../styles/perfilPaciente.css"
+
 
 function PerfilPaciente({
 
@@ -33,154 +30,194 @@ function PerfilPaciente({
 
 }) {
 
-  const [editando,
-    setEditando] =
-    useState(false)
+  const [
+    dados,
+    setDados
+  ] = useState({
+    ...paciente
+  })
 
-  const [dados,
-    setDados] =
-    useState({
 
-      ...paciente
-
-    })
-
-  async function salvarEdicao() {
-
- await updateDoc(
-  doc(
-    db,
-    "pacientes",
-    paciente.id
-  ),
-  {
-    nome:
-      dados.nome || "",
-
-    idade:
-      Number(
-        dados.idade || 0
-      ),
-
-    tel:
-      dados.tel || "",
-
-    responsavel:
-      dados.responsavel || "",
-
-    telResponsavel:
-      dados.telResponsavel || "",
-
-    cpfResponsavel:
-      dados.cpfResponsavel || "",
-
-    proxConsulta:
-      dados.proxConsulta || "",
-
-    ultimaConsulta:
-      dados.ultimaConsulta || "",
-
-    obs:
-      dados.obs || "",
-
-    totalPago:
-      Number(
-        dados.totalPago || 0
-      )
-  }
-)
-
-    alert(
-      "Paciente atualizado!"
-    )
-
-    setEditando(false)
-
-  }
-
-  async function excluirPaciente() {
-
-  const confirmar = window.confirm(
-
-    `Deseja realmente excluir ${dados.nome}?\n\nEsta ação não poderá ser desfeita.`
-
+  const [
+    observacoes,
+    setObservacoes
+  ] = useState(
+    paciente.obs || ""
   )
 
-  if (!confirmar) return
 
-  try {
+  const [
+    salvandoObs,
+    setSalvandoObs
+  ] = useState(false)
 
-    const consultas = query(
 
-      collection(db, "agenda"),
+  async function salvarObservacoes() {
 
-      where(
+    if (
+      observacoes === (
+        dados.obs || ""
+      )
+    ) {
+      return
+    }
 
-        "pacienteId",
 
-        "==",
+    try {
 
-        paciente.id
+      setSalvandoObs(true)
+
+
+      await updateDoc(
+
+        doc(
+          db,
+          "pacientes",
+          paciente.id
+        ),
+
+        {
+          obs: observacoes
+        }
 
       )
 
-    )
 
-    const snapshot = await getDocs(consultas)
+      setDados({
 
-    for (const consulta of snapshot.docs) {
+        ...dados,
 
-      await deleteDoc(
+        obs: observacoes
 
-        doc(
+      })
 
-          db,
 
-          "agenda",
-
-          consulta.id
-
-        )
-
+      alert(
+        "Observações atualizadas!"
       )
 
     }
 
-    await deleteDoc(
+    catch (erro) {
 
-      doc(
+      console.error(erro)
 
-        db,
+      alert(
+        "Erro ao salvar as observações."
+      )
 
-        "pacientes",
+    }
 
-        paciente.id
+    finally {
+
+      setSalvandoObs(false)
+
+    }
+
+  }
+
+
+  async function excluirPaciente() {
+
+    const confirmar =
+      window.confirm(
+
+        `Deseja realmente excluir ${dados.nome}?\n\nEsta ação não poderá ser desfeita.`
 
       )
 
-    )
 
-    alert("Paciente excluído com sucesso!")
+    if (!confirmar)
+      return
 
-    voltarPacientes()
+
+    try {
+
+      const consultas =
+        query(
+
+          collection(
+            db,
+            "agenda"
+          ),
+
+          where(
+            "pacienteId",
+            "==",
+            paciente.id
+          )
+
+        )
+
+
+      const snapshot =
+        await getDocs(
+          consultas
+        )
+
+
+      for (
+        const consulta
+        of snapshot.docs
+      ) {
+
+        await deleteDoc(
+
+          doc(
+            db,
+            "agenda",
+            consulta.id
+          )
+
+        )
+
+      }
+
+
+      await deleteDoc(
+
+        doc(
+          db,
+          "pacientes",
+          paciente.id
+        )
+
+      )
+
+
+      alert(
+        "Paciente excluído com sucesso!"
+      )
+
+
+      voltarPacientes()
+
+    }
+
+    catch (erro) {
+
+      console.error(erro)
+
+      alert(
+        "Erro ao excluir paciente."
+      )
+
+    }
 
   }
 
-  catch (erro) {
-
-    console.error(erro)
-
-    alert("Erro ao excluir paciente.")
-
-  }
-
-}
 
   return (
 
     <main className="perfil-container">
 
+
+      {/* ================================================= */}
+      {/* TOPO                                              */}
+      {/* ================================================= */}
+
       <div className="perfil-topo">
+
 
         <button
           className="perfil-voltar"
@@ -195,414 +232,297 @@ function PerfilPaciente({
 
         </button>
 
-        <h1>
 
-          Perfil do Paciente
+        <div className="perfil-titulo-logo">
 
-        </h1>
+          <h1>
+            PERFIL DO PACIENTE
+          </h1>
+
+
+          <img
+            className="perfil-logo-topo"
+            src={logoDentaline}
+            alt="Dentaline"
+          />
+
+        </div>
+
 
       </div>
+
+
+      {/* ================================================= */}
+      {/* CARD                                              */}
+      {/* ================================================= */}
 
       <div className="perfil-card">
 
-        <div className="perfil-foto">
 
-  {dados.foto ? (
+        {/* ================================================= */}
+        {/* AÇÕES                                            */}
+        {/* ================================================= */}
 
-    <img
-      src={dados.foto}
-      alt={dados.nome}
-      style={{
-        width: "100%",
-        height: "100%",
-        objectFit: "cover",
-        borderRadius: "50%"
-      }}
-    />
+        <div className="perfil-acoes">
 
-  ) : (
 
-    dados.nome
-      ?.charAt(0)
-      ?.toUpperCase()
+          <button
+            className="salvar-obs-btn"
+            onClick={salvarObservacoes}
+            disabled={
+              salvandoObs ||
+              observacoes === (
+                dados.obs || ""
+              )
+            }
+          >
 
-  )}
+            {salvandoObs
+              ? "Salvando..."
+              : "Salvar observações"
+            }
 
-</div>
+          </button>
 
-        {
 
-          editando ? (
+          <button
+            className="remover-btn"
+            onClick={excluirPaciente}
+          >
 
-            <div className="perfil-grid">
+            Excluir Paciente
 
-              <input
+          </button>
 
-                value={dados.nome || ""}
 
-                placeholder="Nome"
+        </div>
 
-                onChange={(e) =>
-                  setDados({
 
-                    ...dados,
+        {/* ================================================= */}
+        {/* CABEÇALHO DO PACIENTE                            */}
+        {/* ================================================= */}
 
-                    nome:
-                      e.target.value
+        <div className="perfil-identificacao">
 
-                  })
-                }
 
+          <div className="perfil-foto">
+
+            {dados.foto ? (
+
+              <img
+                src={dados.foto}
+                alt={dados.nome}
               />
 
-              <input
+            ) : (
 
-                type="number"
+              dados.nome
+                ?.charAt(0)
+                ?.toUpperCase()
 
-                value={dados.idade || ""}
+            )}
 
-                placeholder="Idade"
+          </div>
 
-                onChange={(e) =>
-                  setDados({
 
-                    ...dados,
+          <div className="perfil-nome">
 
-                    idade:
-                      e.target.value
+            <span>
+              PACIENTE
+            </span>
 
-                  })
-                }
 
-              />
+            <h2>
+              {dados.nome}
+            </h2>
 
-              <input
 
-                value={dados.tel || ""}
+            {dados.tag && (
 
-                placeholder="tel"
-
-                onChange={(e) =>
-                  setDados({
-
-                    ...dados,
-
-                    tel:
-                      e.target.value
-
-                  })
-                }
-
-              />
-
-              <input
-
-                value={
-                  dados.responsavel || ""
-                }
-
-                placeholder="Nome do responsável"
-
-                onChange={(e) =>
-                  setDados({
-
-                    ...dados,
-
-                    responsavel:
-                      e.target.value
-
-                  })
-                }
-
-              />
-
-              <input
-
-                value={
-                  dados.telResponsavel || ""
-                }
-
-                placeholder="tel responsável"
-
-                onChange={(e) =>
-                  setDados({
-
-                    ...dados,
-
-                    telResponsavel:
-                      e.target.value
-
-                  })
-                }
-
-              />
-
-              <input
-
-                value={
-                  dados.cpfResponsavel || ""
-                }
-
-                placeholder="CPF responsável"
-
-                onChange={(e) =>
-                  setDados({
-
-                    ...dados,
-
-                    cpfResponsavel:
-                      e.target.value
-
-                  })
-                }
-
-              />
-
-              <label>
-                Próxima consulta
-              </label>
-
-              <input
-
-                type="date"
-
-                value={
-                  dados.proxConsulta || ""
-                }
-
-                onChange={(e) =>
-                  setDados({
-
-                    ...dados,
-
-                    proxConsulta:
-                      e.target.value
-
-                  })
-                }
-
-              />
-
-              <label>
-                Última consulta
-              </label>
-
-              <input
-
-                type="date"
-
-                value={
-                  dados.ultimaConsulta || ""
-                }
-
-                onChange={(e) =>
-                  setDados({
-
-                    ...dados,
-
-                    ultimaConsulta:
-                      e.target.value
-
-                  })
-                }
-
-              />
-
-              <textarea
-
-                value={dados.obs || ""}
-
-                placeholder="Observações"
-
-                onChange={(e) =>
-                  setDados({
-
-                    ...dados,
-
-                    obs:
-                      e.target.value
-
-                  })
-                }
-
-              />
-
-              <button
-                className="salvar-btn"
-                onClick={
-                  salvarEdicao
-                }
-              >
-
-                Salvar Alterações
-
-              </button>
-
-            </div>
-
-          ) : (
-
-            <div className="perfil-info">
-
-              <h2>
-
-                {dados.nome}
-
-              </h2>
-
-              <p>
-
-                <strong>
-  Idade:
-</strong>{" "}
-{dados.idade || "-"} anos
-
-              </p>
-
-              <p>
-
-                <strong>
-                  Telefone:
-                </strong>{" "}
-
-                {dados.tel || "-"}
-
-              </p>
-
-              <p>
-
-                <strong>
-                  Responsável:
-                </strong>{" "}
-
-                {
-                  dados.responsavel || "-"
-                }
-
-              </p>
-
-              <p>
-
-                <strong>
-                  Telefone Responsável:
-                </strong>{" "}
-
-                {
-                  dados.telResponsavel || "-"
-                }
-
-              </p>
-
-              <p>
-
-                <strong>
-                  CPF responsável:
-                </strong>{" "}
-
-                {
-                  dados.cpfResponsavel || "-"
-                }
-
-              </p>
-
-              <p>
-
-                <strong>
-                  Próxima consulta:
-                </strong>{" "}
-
-                {
-                  dados.proxConsulta || "-"
-                }
-
-              </p>
-
-              <p>
-
-                <strong>
-                  Última consulta:
-                </strong>{" "}
-
-                {
-                  dados.ultimaConsulta || "-"
-                }
-
-              </p>
-
-              <p>
-
-                <strong>
-                  Total Pago:
-                </strong>{" "}
-
-                R$ {
-
-                  Number(
-                    dados.totalPago || 0
-                  ).toFixed(2)
-
-                }
-
-              </p>
-
-              <div className="perfil-obs">
-
-                <strong>
-                  Observações
-                </strong>
-
-                <p>
-
-                  {
-
-                    dados.obs ||
-
-                    "Sem observações"
-
-                  }
-
-                </p>
-
+              <div className="perfil-tag">
+                {dados.tag}
               </div>
 
-              <button
+            )}
 
-                className="editar-btn"
+          </div>
 
-                onClick={() =>
-                  setEditando(true)
-                }
 
-              >
+        </div>
 
-                Editar Dados
 
-              </button>
+        {/* ================================================= */}
+        {/* DADOS                                            */}
+        {/* ================================================= */}
 
-              <button
+        <div className="perfil-dados">
 
-  className="remover-btn"
 
-  onClick={excluirPaciente}
+          <div className="perfil-dado">
 
->
+            <span>
+              Idade
+            </span>
 
-  Excluir Paciente
+            <strong>
+              {dados.idade || "-"}
+              {dados.idade ? " anos" : ""}
+            </strong>
 
-</button>
+          </div>
+
+
+          <div className="perfil-dado">
+
+            <span>
+              Telefone
+            </span>
+
+            <strong>
+              {dados.tel || "-"}
+            </strong>
+
+          </div>
+
+
+          <div className="perfil-dado">
+
+            <span>
+              Responsável
+            </span>
+
+            <strong>
+              {dados.responsavel || "-"}
+            </strong>
+
+          </div>
+
+
+          <div className="perfil-dado">
+
+            <span>
+              Telefone do responsável
+            </span>
+
+            <strong>
+              {dados.telResponsavel || "-"}
+            </strong>
+
+          </div>
+
+
+          <div className="perfil-dado">
+
+            <span>
+              CPF do responsável
+            </span>
+
+            <strong>
+              {dados.cpfResponsavel || "-"}
+            </strong>
+
+          </div>
+
+
+          <div className="perfil-dado">
+
+            <span>
+              Próxima consulta
+            </span>
+
+            <strong>
+              {dados.proxConsulta || "-"}
+            </strong>
+
+          </div>
+
+
+          <div className="perfil-dado">
+
+            <span>
+              Última consulta
+            </span>
+
+            <strong>
+              {dados.ultimaConsulta || "-"}
+            </strong>
+
+          </div>
+
+
+          <div className="perfil-dado">
+
+            <span>
+              Total pago
+            </span>
+
+            <strong className="valor-pago">
+
+              R${" "}
+
+              {Number(
+                dados.totalPago || 0
+              ).toFixed(2)}
+
+            </strong>
+
+          </div>
+
+
+        </div>
+
+
+        {/* ================================================= */}
+        {/* OBSERVAÇÕES                                     */}
+        {/* ================================================= */}
+
+        <div className="perfil-obs">
+
+
+          <div className="perfil-obs-topo">
+
+            <div>
+
+              <span>
+                ANOTAÇÕES
+              </span>
+
+              <strong>
+                Observações
+              </strong>
 
             </div>
 
-          )
 
-        }
+            <span className="perfil-obs-info">
+              Somente este campo pode ser editado
+            </span>
+
+          </div>
+
+
+          <textarea
+            value={observacoes}
+            placeholder="Adicione observações sobre o paciente..."
+            onChange={(e) =>
+              setObservacoes(
+                e.target.value
+              )
+            }
+          />
+
+
+        </div>
+
 
       </div>
+
 
     </main>
 
   )
 
 }
+
 
 export default PerfilPaciente

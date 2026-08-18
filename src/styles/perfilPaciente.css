@@ -1,0 +1,1334 @@
+/* ========================================================= */
+/* PERFIL DO PACIENTE                                         */
+/* DENTALINE                                                  */
+/* ========================================================= */
+
+
+/* ========================================================= */
+/* FONTE DOS TÍTULOS                                          */
+/* ========================================================= */
+
+@font-face {
+
+  font-family: "Alice in Wonderland";
+
+  src:
+    url("../assets/fonts/AliceInWonderland.ttf")
+    format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+
+  font-display: swap;
+
+}
+
+
+/* ========================================================= */
+/* CONTAINER PRINCIPAL                                        */
+/* ========================================================= */
+
+.perfil-container {
+
+  width: 100%;
+
+  height: 100vh;
+
+  min-height: 100vh;
+
+  box-sizing: border-box;
+
+  padding:
+    38px
+    42px
+    22px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  font-family:
+    "Nunito",
+    "Quicksand",
+    "Arial Rounded MT Bold",
+    "Trebuchet MS",
+    sans-serif;
+
+  background:
+
+    radial-gradient(
+      circle at 92% 0%,
+      rgba(255,255,255,.16),
+      transparent 25%
+    ),
+
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(255,255,255,.07),
+      transparent 28%
+    ),
+
+    linear-gradient(
+      135deg,
+      #8f006b 0%,
+      #b00083 48%,
+      #df58c0 100%
+    );
+
+}
+
+
+/* ========================================================= */
+/* DECORAÇÕES DO FUNDO                                        */
+/* ========================================================= */
+
+.perfil-container::before {
+
+  content: "";
+
+  position: absolute;
+
+  width: 620px;
+  height: 620px;
+
+  top: -440px;
+  right: -180px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,.055);
+
+  pointer-events: none;
+
+}
+
+
+.perfil-container::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 440px;
+  height: 440px;
+
+  bottom: -330px;
+  left: -190px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,.035);
+
+  pointer-events: none;
+
+}
+
+
+/* ========================================================= */
+/* TOPO                                                       */
+/* ========================================================= */
+
+.perfil-topo {
+
+  width: 100%;
+
+  height: 58px;
+
+  margin-bottom: 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  position: relative;
+
+  z-index: 5;
+
+}
+
+
+/* ========================================================= */
+/* VOLTAR                                                      */
+/* ========================================================= */
+
+.perfil-voltar {
+
+  height: 42px;
+
+  padding:
+    0 19px;
+
+  border: none;
+
+  border-radius: 13px;
+
+  background: #ffffff;
+
+  color: #a9007d;
+
+  font-family: inherit;
+
+  font-size: .82rem;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  white-space: nowrap;
+
+  box-shadow:
+    0 6px 17px
+    rgba(50,0,40,.13);
+
+  transition:
+    transform .18s ease,
+    background .18s ease;
+
+}
+
+
+.perfil-voltar:hover {
+
+  background: #fff7fc;
+
+  transform:
+    translateY(-1px);
+
+}
+
+
+/* ========================================================= */
+/* TÍTULO + LOGO                                               */
+/* ========================================================= */
+
+.perfil-titulo-logo {
+
+  min-height: 58px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 20px;
+
+  margin-left: auto;
+
+  padding-bottom: 3px;
+
+  box-sizing: border-box;
+
+}
+
+
+/* ========================================================= */
+/* LOGO                                                        */
+/* ========================================================= */
+
+.perfil-logo-topo {
+
+  width: 122px;
+
+  height: 62px;
+
+  object-fit: contain;
+
+  object-position: center;
+
+  display: block;
+
+  opacity: 1;
+
+  flex-shrink: 0;
+
+}
+
+
+/* ========================================================= */
+/* TÍTULO                                                      */
+/* ========================================================= */
+
+.perfil-titulo-logo h1 {
+
+  margin: 0;
+
+  color: #ffffff;
+
+  font-family:
+    "Alice in Wonderland",
+    Georgia,
+    serif;
+
+  font-size: 2.08rem;
+
+  font-weight: normal;
+
+  letter-spacing: .045em;
+
+  line-height: 1;
+
+  text-transform: uppercase;
+
+  white-space: nowrap;
+
+}
+
+
+/* ========================================================= */
+/* CARD PRINCIPAL                                              */
+/* ========================================================= */
+
+.perfil-card {
+
+  width: 100%;
+
+  height:
+    calc(100vh - 138px);
+
+  min-height: 0;
+
+  box-sizing: border-box;
+
+  padding:
+    34px
+    38px
+    28px;
+
+  background: #ffffff;
+
+  border-radius: 30px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 17px 42px
+    rgba(55,0,45,.17);
+
+}
+
+
+/* ========================================================= */
+/* LINHA DECORATIVA SUPERIOR                                  */
+/* ========================================================= */
+
+.perfil-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  left: 38px;
+  right: 38px;
+
+  top: 0;
+
+  height: 4px;
+
+  border-radius:
+    0 0 8px 8px;
+
+  background:
+    #dca4d0;
+
+  opacity: .65;
+
+}
+
+
+/* ========================================================= */
+/* AÇÕES                                                       */
+/* ========================================================= */
+
+.perfil-acoes {
+
+  position: absolute;
+
+  top: 34px;
+
+  right: 38px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 9px;
+
+  z-index: 10;
+
+}
+
+
+/* ========================================================= */
+/* PADRÃO DOS BOTÕES                                           */
+/* ========================================================= */
+
+.perfil-acoes .salvar-obs-btn,
+.perfil-acoes .remover-btn {
+
+  height: 39px;
+
+  min-height: 39px;
+
+  box-sizing: border-box;
+
+  border: none;
+
+  border-radius: 11px;
+
+  padding:
+    0 15px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  white-space: nowrap;
+
+  font-family: inherit;
+
+  font-size: .72rem;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+
+  margin: 0;
+
+  transition:
+    transform .18s ease,
+    filter .18s ease,
+    opacity .18s ease;
+
+}
+
+
+/* ========================================================= */
+/* SALVAR OBSERVAÇÕES                                         */
+/* ========================================================= */
+
+.perfil-acoes .salvar-obs-btn {
+
+  min-width: 126px;
+
+  background: #af0066;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 5px 12px
+    rgba(176,0,131,.12);
+
+}
+
+
+.perfil-acoes .salvar-obs-btn:hover:not(:disabled) {
+
+  filter: brightness(.92);
+
+  transform:
+    translateY(-1px);
+
+}
+
+
+.perfil-acoes .salvar-obs-btn:disabled {
+
+  opacity: .60;
+
+  cursor: default;
+
+  box-shadow: none;
+
+}
+
+
+/* ========================================================= */
+/* EXCLUIR PACIENTE                                            */
+/* ========================================================= */
+
+.perfil-acoes .remover-btn {
+
+  min-width: 120px;
+
+  padding:
+    0 17px;
+
+  background: #e55369;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 5px 12px
+    rgba(229,83,105,.12);
+
+}
+
+
+.perfil-acoes .remover-btn:hover {
+
+  filter: brightness(.92);
+
+  transform:
+    translateY(-1px);
+
+}
+
+
+/* ========================================================= */
+/* IDENTIFICAÇÃO DO PACIENTE                                  */
+/* ========================================================= */
+
+.perfil-identificacao {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 21px;
+
+  position: relative;
+
+  z-index: 2;
+
+  margin-top: 5px;
+
+  margin-bottom: 22px;
+
+  padding-right: 285px;
+
+}
+
+
+/* ========================================================= */
+/* FOTO                                                        */
+/* ========================================================= */
+
+.perfil-foto {
+
+  width: 96px;
+
+  height: 96px;
+
+  flex-shrink: 0;
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      #a9007d,
+      #df58c0
+    );
+
+  color: #ffffff;
+
+  font-size: 2.30rem;
+
+  font-weight: 500;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-shadow:
+    0 9px 22px
+    rgba(169,0,125,.17);
+
+}
+
+
+.perfil-foto img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+}
+
+
+/* ========================================================= */
+/* NOME                                                        */
+/* ========================================================= */
+
+.perfil-nome {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: 4px;
+
+}
+
+
+.perfil-nome span {
+
+  color: #aaa1a7;
+
+  font-size: .69rem;
+
+  font-weight: 600;
+
+  letter-spacing: .13em;
+
+}
+
+
+.perfil-nome h2 {
+
+  margin: 0;
+
+  color: #a9007d;
+
+  font-family:
+    "Nunito",
+    "Quicksand",
+    "Arial Rounded MT Bold",
+    sans-serif;
+
+  font-size: 1.70rem;
+
+  font-weight: 600;
+
+  letter-spacing: -.025em;
+
+  line-height: 1.15;
+
+}
+
+
+/* ========================================================= */
+/* TAG                                                         */
+/* ========================================================= */
+
+.perfil-tag {
+
+  margin-top: 4px;
+
+  padding:
+    4px 10px;
+
+  border-radius: 8px;
+
+  background: #f5e5f2;
+
+  color: #a9007d;
+
+  font-size: .69rem;
+
+  font-weight: 600;
+
+}
+
+
+/* ========================================================= */
+/* DADOS                                                       */
+/* ========================================================= */
+
+.perfil-dados {
+
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 11px;
+
+  position: relative;
+
+  z-index: 2;
+
+  margin-bottom: 17px;
+
+}
+
+
+.perfil-dado {
+
+  min-height: 70px;
+
+  padding:
+    11px 15px;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid #e8e0e5;
+
+  border-radius: 16px;
+
+  background: #fdfbfd;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  transition:
+    border-color .18s ease,
+    background .18s ease,
+    transform .18s ease;
+
+}
+
+
+.perfil-dado:hover {
+
+  border-color: #dccbd7;
+
+  background: #fdf9fc;
+
+  transform:
+    translateY(-1px);
+
+}
+
+
+/* LABEL */
+
+.perfil-dado span {
+
+  color: #978d94;
+
+  font-size: .71rem;
+
+  font-weight: 500;
+
+  line-height: 1.2;
+
+}
+
+
+/* VALOR */
+
+.perfil-dado strong {
+
+  color: #706870;
+
+  font-size: .94rem;
+
+  font-weight: 500;
+
+  line-height: 1.25;
+
+  word-break: break-word;
+
+}
+
+
+.perfil-dado .valor-pago {
+
+  color: #36a66a;
+
+  font-weight: 600;
+
+}
+
+
+/* ========================================================= */
+/* OBSERVAÇÕES                                                 */
+/* ========================================================= */
+
+.perfil-obs {
+
+  width: 100%;
+
+  padding:
+    16px 17px;
+
+  box-sizing: border-box;
+
+  background: #faf7f9;
+
+  border:
+    1px solid #e7dfe4;
+
+  border-radius: 17px;
+
+  position: relative;
+
+  z-index: 2;
+
+}
+
+
+/* ========================================================= */
+/* CABEÇALHO DAS OBSERVAÇÕES                                  */
+/* ========================================================= */
+
+.perfil-obs-topo {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 9px;
+
+}
+
+
+.perfil-obs-topo > div {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2px;
+
+}
+
+
+/* ANOTAÇÕES */
+
+.perfil-obs-topo span:first-child {
+
+  color: #a59ba2;
+
+  font-size: .61rem;
+
+  font-weight: 600;
+
+  letter-spacing: .13em;
+
+}
+
+
+/* OBSERVAÇÕES */
+
+.perfil-obs-topo strong {
+
+  color: #a9007d;
+
+  font-size: .98rem;
+
+  font-weight: 600;
+
+}
+
+
+/* TEXTO EXPLICATIVO */
+
+.perfil-obs-info {
+
+  color: #aaa1a8;
+
+  font-size: .64rem;
+
+  font-weight: 400;
+
+}
+
+
+/* ========================================================= */
+/* TEXTAREA                                                    */
+/* ========================================================= */
+
+.perfil-obs textarea {
+
+  width: 100%;
+
+  min-height: 76px;
+
+  max-height: 76px;
+
+  padding:
+    11px 14px;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid #e4dce2;
+
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  color: #686068;
+
+  font-family: inherit;
+
+  font-size: .91rem;
+
+  font-weight: 400;
+
+  line-height: 1.45;
+
+  resize: none;
+
+  outline: none;
+
+  box-shadow:
+    inset 0 1px 5px
+    rgba(0,0,0,.025);
+
+  transition:
+    border-color .18s ease,
+    box-shadow .18s ease;
+
+}
+
+
+.perfil-obs textarea:focus {
+
+  border-color:
+    rgba(169,0,125,.30);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(169,0,125,.07);
+
+}
+
+
+.perfil-obs textarea::placeholder {
+
+  color: #b2a8ae;
+
+}
+
+
+/* ========================================================= */
+/* BOTÃO SALVAR OBSERVAÇÕES                                   */
+/* ========================================================= */
+
+.perfil-obs > .salvar-obs-btn {
+
+  width: 126px;
+
+  height: 36px;
+
+  min-height: 36px;
+
+  margin-top: 8px;
+
+  padding:
+    0 12px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #bd3fa6;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: .69rem;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+
+  transition:
+    transform .18s ease,
+    filter .18s ease;
+
+}
+
+
+.perfil-obs > .salvar-obs-btn:hover:not(:disabled) {
+
+  filter: brightness(.92);
+
+  transform:
+    translateY(-1px);
+
+}
+
+
+.perfil-obs > .salvar-obs-btn:disabled {
+
+  opacity: .60;
+
+  cursor: default;
+
+}
+
+
+/* ========================================================= */
+/* ACABAMENTO TIPOGRÁFICO                                     */
+/* ========================================================= */
+
+.perfil-card,
+.perfil-card button,
+.perfil-card textarea {
+
+  -webkit-font-smoothing: antialiased;
+
+  -moz-osx-font-smoothing: grayscale;
+
+}
+
+
+/* ========================================================= */
+/* TABLET                                                     */
+/* ========================================================= */
+
+@media (max-width: 1050px) {
+
+  .perfil-dados {
+
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+  }
+
+}
+
+
+/* ========================================================= */
+/* TABLET MENOR                                                */
+/* ========================================================= */
+
+@media (max-width: 850px) {
+
+  .perfil-container {
+
+    padding:
+      27px
+      25px
+      18px;
+
+  }
+
+
+  .perfil-card {
+
+    height:
+      calc(100vh - 120px);
+
+    padding:
+      30px 26px;
+
+  }
+
+
+  .perfil-dados {
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+  }
+
+
+  .perfil-titulo-logo h1 {
+
+    font-size: 1.78rem;
+
+  }
+
+
+  .perfil-logo-topo {
+
+    width: 105px;
+
+  }
+
+}
+
+
+/* ========================================================= */
+/* CELULAR                                                     */
+/* ========================================================= */
+
+@media (max-width: 650px) {
+
+  .perfil-container {
+
+    height: 100vh;
+
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    padding: 16px;
+
+  }
+
+
+  .perfil-topo {
+
+    height: auto;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 10px;
+
+  }
+
+
+  .perfil-voltar {
+
+    width: 100%;
+
+  }
+
+
+  .perfil-titulo-logo {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    justify-content: space-between;
+
+  }
+
+
+  .perfil-titulo-logo h1 {
+
+    font-size: 1.35rem;
+
+    letter-spacing: 0;
+
+  }
+
+
+  .perfil-logo-topo {
+
+    width: 92px;
+
+    height: 45px;
+
+  }
+
+
+  .perfil-card {
+
+    height:
+      calc(100vh - 132px);
+
+    padding:
+      23px 20px;
+
+    border-radius: 22px;
+
+  }
+
+
+  .perfil-acoes {
+
+    position: static;
+
+    width: 100%;
+
+    margin-bottom: 17px;
+
+    justify-content: flex-end;
+
+  }
+
+
+  .perfil-acoes .salvar-obs-btn,
+  .perfil-acoes .remover-btn {
+
+    height: 36px;
+
+    min-height: 36px;
+
+    padding:
+      0 12px;
+
+    font-size: .67rem;
+
+  }
+
+
+  .perfil-identificacao {
+
+    padding-right: 0;
+
+    gap: 14px;
+
+    margin-bottom: 17px;
+
+  }
+
+
+  .perfil-foto {
+
+    width: 72px;
+
+    height: 72px;
+
+    border-radius: 18px;
+
+    font-size: 1.85rem;
+
+  }
+
+
+  .perfil-nome h2 {
+
+    font-size: 1.30rem;
+
+  }
+
+
+  .perfil-dados {
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+
+  }
+
+
+  .perfil-dado {
+
+    min-height: 64px;
+
+    padding:
+      9px 11px;
+
+  }
+
+
+  .perfil-dado span {
+
+    font-size: .65rem;
+
+  }
+
+
+  .perfil-dado strong {
+
+    font-size: .79rem;
+
+  }
+
+
+  .perfil-obs {
+
+    padding:
+      13px;
+
+  }
+
+
+  .perfil-obs-topo {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+  }
+
+}
+
+
+/* ========================================================= */
+/* CELULAR PEQUENO                                             */
+/* ========================================================= */
+
+@media (max-width: 420px) {
+
+  .perfil-container {
+
+    padding: 12px;
+
+  }
+
+
+  .perfil-card {
+
+    padding:
+      19px 16px;
+
+  }
+
+
+  .perfil-dados {
+
+    gap: 7px;
+
+  }
+
+
+  .perfil-dado {
+
+    min-height: 60px;
+
+  }
+
+
+  .perfil-identificacao {
+
+    align-items: center;
+
+  }
+
+
+  .perfil-acoes {
+
+    gap: 6px;
+
+  }
+
+
+  .perfil-acoes .salvar-obs-btn,
+  .perfil-acoes .remover-btn {
+
+    flex: 1;
+
+    min-width: 0;
+
+  }
+
+}
