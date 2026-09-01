@@ -1,0 +1,366 @@
+/* ========================================================= */
+/* DENTALINE - RESPONSIVIDADE MOBILE                         */
+/* ========================================================= */
+
+
+/* ========================================================= */
+/* TABLET / TELAS MENORES                                    */
+/* ========================================================= */
+
+@media (max-width: 900px) {
+
+  html,
+  body,
+  #root {
+    width: 100%;
+    min-width: 0;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+}
+
+
+/* ========================================================= */
+/* CELULAR                                                    */
+/* ========================================================= */
+
+@media (max-width: 600px) {
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  #root {
+    width: 100%;
+    min-width: 0;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+}
+
+
+/* ========================================================= */
+/* CELULAR PEQUENO                                            */
+/* ========================================================= */
+
+@media (max-width: 400px) {
+
+  button,
+  input,
+  select,
+  textarea {
+    font-size: 15px;
+  }
+
+}
+
+/* ========================================================= */
+/* DASHBOARD - MOBILE                                        */
+/* ========================================================= */
+
+@media (max-width: 600px) {
+
+.dashboard-container {
+  min-height: 100vh;
+
+  padding: 24px 16px 20px;
+
+  overflow: hidden;
+}
+
+
+  /* ======================================================= */
+  /* DECORAÇÕES                                              */
+  /* ======================================================= */
+
+  .wonderland-decoracao {
+    opacity: .55;
+  }
+
+  .decor-relogio {
+    width: 90px;
+
+    top: 70px;
+    right: -25px;
+  }
+
+  .decor-cartas {
+    width: 75px;
+
+    left: -22px;
+    bottom: 90px;
+  }
+
+  .decor-xicara {
+    width: 80px;
+
+    right: -25px;
+    bottom: 20px;
+  }
+
+  .decor-xadrez {
+    width: 70px;
+
+    left: -20px;
+    top: 150px;
+  }
+
+
+  /* ======================================================= */
+  /* TOPO                                                    */
+  /* ======================================================= */
+
+  .dashboard-topo {
+    width: 100%;
+
+    min-height: 55px;
+
+    margin-bottom: 25px;
+  }
+
+
+  .dashboard-logo {
+    width: 100px;
+    height: auto;
+  }
+
+
+  .dashboard-topo-direita {
+    gap: 8px;
+  }
+
+
+  .dashboard-usuario {
+    display: none;
+  }
+
+
+  .sair-btn {
+    height: 38px;
+
+    padding: 0 14px;
+
+    border-radius: 10px;
+
+    font-size: .72rem;
+  }
+
+
+  /* ======================================================= */
+  /* CONTEÚDO                                                */
+  /* ======================================================= */
+
+  .dashboard-conteudo {
+    width: 100%;
+
+    padding: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+  }
+
+
+  .dashboard-boas-vindas {
+    width: 100%;
+
+    text-align: center;
+
+    margin-bottom: 24px;
+  }
+
+
+  .dashboard-eyebrow {
+    font-size: .62rem;
+
+    letter-spacing: .12em;
+  }
+
+
+  .dashboard-boas-vindas h1 {
+    margin: 7px 0 8px;
+
+    font-size: 2.45rem;
+
+    line-height: 1;
+  }
+
+
+  .dashboard-boas-vindas p {
+    max-width: 300px;
+
+    margin: 0 auto;
+
+    font-size: .78rem;
+
+    line-height: 1.45;
+  }
+
+
+  /* ======================================================= */
+  /* CARDS                                                   */
+  /* ======================================================= */
+
+  .dashboard-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 13px;
+
+    margin: 0;
+  }
+
+
+  .dashboard-card {
+    width: 100%;
+
+    min-height: 108px;
+
+    padding: 17px 16px;
+
+    border-radius: 18px;
+
+    gap: 13px;
+
+    text-align: left;
+  }
+
+
+  .dashboard-card-icone {
+    width: 43px;
+    height: 43px;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    font-size: 1.25rem;
+  }
+
+
+  .dashboard-card-conteudo {
+    min-width: 0;
+
+    flex: 1;
+  }
+
+
+  .dashboard-card-label {
+    font-size: .55rem;
+
+    letter-spacing: .08em;
+  }
+
+
+  .dashboard-card-conteudo h2 {
+    margin: 3px 0 4px;
+
+    font-size: 1.05rem;
+  }
+
+
+  .dashboard-card-conteudo p {
+    margin: 0;
+
+    font-size: .68rem;
+
+    line-height: 1.35;
+  }
+
+
+  .dashboard-card-seta {
+    width: 30px;
+    height: 30px;
+
+    flex-shrink: 0;
+
+    font-size: .9rem;
+  }
+
+
+  /* ======================================================= */
+  /* RODAPÉ                                                  */
+  /* ======================================================= */
+
+  .dashboard-footer {
+    width: 100%;
+
+    margin-top: 22px;
+
+    padding: 0 3px;
+
+    font-size: .58rem;
+  }
+
+}
+
+
+/* ========================================================= */
+/* CELULARES PEQUENOS                                        */
+/* ========================================================= */
+
+@media (max-width: 380px) {
+
+  .dashboard-container {
+    padding: 16px 13px;
+  }
+
+
+  .dashboard-logo {
+    width: 90px;
+  }
+
+
+  .dashboard-boas-vindas h1 {
+    font-size: 2.2rem;
+  }
+
+
+  .dashboard-card {
+    min-height: 100px;
+
+    padding: 14px;
+  }
+
+
+  .dashboard-card-icone {
+    width: 39px;
+    height: 39px;
+
+    font-size: 1.1rem;
+  }
+
+
+  .dashboard-card-conteudo h2 {
+    font-size: .98rem;
+  }
+
+
+  .dashboard-card-conteudo p {
+    font-size: .63rem;
+  }
+
+}

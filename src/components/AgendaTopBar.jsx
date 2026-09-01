@@ -5,173 +5,170 @@ import logob from "../assets/logob.png"
 
 function AgendaTopBar({
   voltar,
-  pacientes,
-  pacienteTopo,
-  setPacienteTopo,
-  diaTopo,
-  setDiaTopo,
-  irParaData,
-  horaTopo,
-  setHoraTopo,
-  statusTopo,
-  setStatusTopo,
-  horarios,
-  agendarPeloTopo,
-  abrirCadastroDentista,
+  abrirNovoAgendamento,
   offsetSemana,
   setOffsetSemana,
   dataPesquisa,
-  setDataPesquisa
+  setDataPesquisa,
+  irParaData
 }) {
 
   function pesquisarData() {
-    if (!dataPesquisa) return
+    if (!dataPesquisa) {
+      return
+    }
+
     irParaData(dataPesquisa)
   }
 
   function irParaHoje() {
-    const hoje = new Date().toISOString().split("T")[0]
-    setDiaTopo(hoje)
-    setDataPesquisa(hoje)
-    irParaData(hoje)
+    const hoje = new Date()
+
+    const ano = hoje.getFullYear()
+
+    const mes = String(
+      hoje.getMonth() + 1
+    ).padStart(2, "0")
+
+    const dia = String(
+      hoje.getDate()
+    ).padStart(2, "0")
+
+    const dataHoje =
+      `${ano}-${mes}-${dia}`
+
+    setDataPesquisa(dataHoje)
+
+    irParaData(dataHoje)
   }
 
   return (
-    <div className="agenda-topo">
+    <header className="agenda-topo">
 
-      {/* BLOCO ESQUERDO: Voltar + Título */}
-      <div className="agenda-bloco-esq">
+      {/* ================================================= */}
+      {/* ESQUERDA                                         */}
+      {/* ================================================= */}
+
+      <div className="agenda-topo-esquerda">
+
         <button
+          type="button"
           className="agenda-voltar"
           onClick={voltar}
         >
           ← Dashboard
         </button>
 
-        <div className="agenda-titulo">
-          <h1>Agenda</h1>
-        </div>
       </div>
 
 
-      {/* BLOCO CENTRAL: Paciente maior + Campos */}
-      <div className="nova-consulta">
-        <select
-          value={pacienteTopo}
-          onChange={(e) => {
-            if (e.target.value === "__novo__") {
-              abrirCadastroDentista()
-              return
-            }
-            setPacienteTopo(e.target.value)
-          }}
-        >
-          <option value="">Selecionar paciente...</option>
-          <option value="__novo__">+ Cadastrar paciente</option>
-          {pacientes.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.nome}
-            </option>
-          ))}
-        </select>
+      {/* ================================================= */}
+      {/* CENTRO                                            */}
+      {/* ================================================= */}
 
-        <input
-          type="date"
-          value={diaTopo}
-          onChange={(e) => {
-            const novaData = e.target.value
-            setDiaTopo(novaData)
-            irParaData(novaData)
-          }}
-        />
+      <div className="agenda-topo-centro">
 
-        <select
-          value={horaTopo}
-          onChange={(e) => setHoraTopo(e.target.value)}
-        >
-          {horarios.map((hora) => (
-            <option key={hora} value={hora}>
-              {hora}
-            </option>
-          ))}
-        </select>
-
-        <select
-          value={statusTopo}
-          onChange={(e) => setStatusTopo(e.target.value)}
-        >
-          <option value="agendado">Agendado</option>
-          <option value="confirmado">Confirmado</option>
-          <option value="pagou">Realizado</option>
-          <option value="pendente">Pendente</option>
-          <option value="faltou">Faltou</option>
-        </select>
-
-        <button onClick={agendarPeloTopo}>
-          Agendar
-        </button>
-      </div>
-
-
-      {/* BLOCO DIREITO: Navegação completa + Logo grande */}
-      <div className="agenda-bloco-dir">
         <div className="agenda-navegacao">
+
           <button
-            onClick={() => setOffsetSemana(offsetSemana - 1)}
+            type="button"
+            onClick={() =>
+              setOffsetSemana(
+                offsetSemana - 1
+              )
+            }
           >
-            ← Semana Anterior
+            ← Semana anterior
           </button>
 
+
           <button
+            type="button"
             className="btn-hoje"
             onClick={irParaHoje}
           >
             Hoje
           </button>
 
-<div
-  className={`pesquisar-data-topo ${
-    dataPesquisa ? "tem-data" : ""
-  }`}
->
-  {!dataPesquisa && (
-    <span className="placeholder-data">
-      Pesquisar data
-    </span>
-  )}
 
-  <input
-    type="date"
-    value={dataPesquisa}
-    onChange={(e) =>
-      setDataPesquisa(e.target.value)
-    }
-    aria-label="Pesquisar data"
-  />
+          <div className="pesquisar-data-topo">
 
-  <button
-    type="button"
-    onClick={pesquisarData}
-  >
-    Ir
-  </button>
-</div>
+            <input
+              type="date"
+              value={dataPesquisa}
+              onChange={(e) =>
+                setDataPesquisa(
+                  e.target.value
+                )
+              }
+              aria-label="Pesquisar data"
+            />
+
+            <button
+              type="button"
+              onClick={pesquisarData}
+            >
+              Ir
+            </button>
+
+          </div>
+
 
           <button
-            onClick={() => setOffsetSemana(offsetSemana + 1)}
+            type="button"
+            onClick={() =>
+              setOffsetSemana(
+                offsetSemana + 1
+              )
+            }
           >
-            Próxima Semana →
+            Próxima semana →
           </button>
+
         </div>
+
+
+        {/* NOVO AGENDAMENTO FORA DA CAIXA */}
+
+        <button
+          type="button"
+          className="novo-agendamento-topo-btn"
+          onClick={abrirNovoAgendamento}
+        >
+          ＋ Novo agendamento
+        </button>
+
+      </div>
+
+
+      {/* ================================================= */}
+      {/* DIREITA                                           */}
+      {/* ================================================= */}
+
+      <div className="agenda-topo-marca">
+
+        <div className="agenda-titulo">
+
+          <span>
+            ORGANIZAÇÃO
+          </span>
+
+          <h1>
+            Agenda
+          </h1>
+
+        </div>
+
 
         <img
           src={logob}
           alt="Dentaline"
           className="agenda-logo-cantinho"
         />
+
       </div>
 
-    </div>
+    </header>
   )
 }
 

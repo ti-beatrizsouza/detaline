@@ -2,6 +2,18 @@
 /* FINANCEIRO - GERAL                                        */
 /* ========================================================= */
 
+@font-face {
+  font-family: "AliceWonderland";
+
+  src:
+    url("../assets/fonts/Alice_in_Wonderland.ttf")
+    format("truetype");
+
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 .financeiro-container {
   width: 100%;
   min-height: 100vh;
@@ -73,7 +85,7 @@
 
   display: flex;
 
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 
   gap: 30px;
@@ -96,7 +108,10 @@
   align-items: center;
 
   gap: 22px;
+
+  text-align: right;
 }
+
 
 .financeiro-logo {
   width: 175px;
@@ -111,6 +126,16 @@
     );
 }
 
+
+.financeiro-titulo {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-end;
+}
+
+
 .financeiro-titulo span {
   color:
     rgba(255,255,255,.60);
@@ -122,17 +147,26 @@
   letter-spacing: .16em;
 }
 
+
 .financeiro-titulo h1 {
   margin: 5px 0 4px;
 
   color: white;
 
-  font-size: 2.45rem;
+  font-family:
+    "AliceWonderland",
+    Georgia,
+    serif;
 
-  font-weight: 700;
+  font-size: 3.05rem;
 
-  letter-spacing: -.035em;
+  font-weight: normal;
+
+  letter-spacing: .01em;
+
+  line-height: .95;
 }
+
 
 .financeiro-titulo p {
   margin: 0;
@@ -176,6 +210,7 @@
     0 7px 18px
     rgba(50,0,40,.14);
 }
+
 
 .financeiro-voltar:hover {
   transform: translateY(-2px);
@@ -223,7 +258,7 @@
 
 
 /* ========================================================= */
-/* PERÍODOS                                                    */
+/* PERÍODOS                                                   */
 /* ========================================================= */
 
 .financeiro-periodos {
@@ -233,6 +268,7 @@
 
   gap: 12px;
 }
+
 
 .financeiro-filtro-label {
   color:
@@ -247,6 +283,7 @@
   letter-spacing: .08em;
 }
 
+
 .financeiro-periodos-botoes {
   display: flex;
 
@@ -259,6 +296,7 @@
 
   border-radius: 11px;
 }
+
 
 .financeiro-periodos-botoes button {
   height: 32px;
@@ -286,12 +324,14 @@
     transform .2s ease;
 }
 
+
 .financeiro-periodos-botoes button:hover {
   color: white;
 
   background:
     rgba(255,255,255,.12);
 }
+
 
 .financeiro-periodos-botoes button.ativo {
   background: white;
@@ -318,6 +358,7 @@
   margin-left: auto;
 }
 
+
 .financeiro-data-filtro label {
   color:
     rgba(255,255,255,.62);
@@ -327,6 +368,7 @@
   font-weight: 800;
 }
 
+
 .financeiro-data-controles {
   display: flex;
 
@@ -334,6 +376,7 @@
 
   gap: 6px;
 }
+
 
 .financeiro-data-controles input {
   height: 34px;
@@ -356,6 +399,7 @@
 
   outline: none;
 }
+
 
 .financeiro-data-controles button {
   height: 34px;
@@ -381,6 +425,7 @@
   transition: .2s;
 }
 
+
 .financeiro-data-controles button:hover {
   background:
     rgba(255,255,255,.22);
@@ -405,6 +450,7 @@
   gap: 3px;
 }
 
+
 .financeiro-periodo-atual span {
   color:
     rgba(255,255,255,.55);
@@ -417,6 +463,7 @@
 
   letter-spacing: .08em;
 }
+
 
 .financeiro-periodo-atual strong {
   color: white;
@@ -448,6 +495,7 @@
   z-index: 2;
 }
 
+
 .financeiro-card {
   min-height: 96px;
 
@@ -471,6 +519,7 @@
     rgba(65,0,55,.13);
 }
 
+
 .financeiro-card-icone {
   width: 48px;
   height: 48px;
@@ -489,6 +538,7 @@
   font-size: 1.25rem;
 }
 
+
 .financeiro-card span {
   display: block;
 
@@ -498,6 +548,7 @@
 
   font-weight: 600;
 }
+
 
 .financeiro-card strong {
   display: block;
@@ -511,19 +562,27 @@
   font-weight: 800;
 }
 
+
+/* ========================================================= */
+/* CORES DOS CARDS                                            */
+/* ========================================================= */
+
 .financeiro-card-principal
 .financeiro-card-icone {
   background: #e9f8ef;
 }
 
+
 .financeiro-card-principal strong {
   color: #2fa65f;
 }
+
 
 .financeiro-card-pendente
 .financeiro-card-icone {
   background: #fff3d9;
 }
+
 
 .financeiro-card-pendente strong {
   color: #d59620;
@@ -604,6 +663,7 @@
   flex-shrink: 0;
 }
 
+
 .financeiro-titulo-tabela {
   display: flex;
 
@@ -611,6 +671,7 @@
 
   gap: 12px;
 }
+
 
 .financeiro-tabela-icone {
   width: 38px;
@@ -630,17 +691,20 @@
   font-weight: 900;
 }
 
+
 .financeiro-tabela-icone.realizado {
   background: #e9f8ef;
 
   color: #2fa65f;
 }
 
+
 .financeiro-tabela-icone.pendente {
   background: #fff3d9;
 
   color: #d59620;
 }
+
 
 .financeiro-tabela-topo h2 {
   margin: 0;
@@ -651,6 +715,7 @@
 
   font-weight: 800;
 }
+
 
 .financeiro-tabela-topo p {
   margin: 4px 0 0;
@@ -677,6 +742,7 @@
   font-size: .66rem;
 }
 
+
 .financeiro-total strong {
   color: #2fa65f;
 
@@ -687,7 +753,7 @@
 
 
 /* ========================================================= */
-/* CONTADOR PENDENTE                                            */
+/* CONTADOR PENDENTE                                           */
 /* ========================================================= */
 
 .financeiro-contador-pendente {
@@ -734,14 +800,17 @@
     #f3edf2;
 }
 
+
 .financeiro-tabela-scroll::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 
+
 .financeiro-tabela-scroll::-webkit-scrollbar-track {
   background: #f3edf2;
 }
+
 
 .financeiro-tabela-scroll::-webkit-scrollbar-thumb {
   background: #c99abd;
@@ -761,6 +830,7 @@
 
   border-collapse: collapse;
 }
+
 
 .financeiro-tabela th {
   height: 40px;
@@ -789,6 +859,7 @@
   z-index: 2;
 }
 
+
 .financeiro-tabela td {
   height: 56px;
 
@@ -804,14 +875,17 @@
   white-space: nowrap;
 }
 
+
 .financeiro-tabela tbody tr {
   transition:
     background .15s ease;
 }
 
+
 .financeiro-tabela tbody tr:hover {
   background: #fdf5fb;
 }
+
 
 .financeiro-tabela td strong {
   color: #51454e;
@@ -869,6 +943,7 @@
 
   font-weight: 750;
 }
+
 
 .financeiro-data {
   display: block;
@@ -943,13 +1018,16 @@
     padding: 25px;
   }
 
+
   .financeiro-filtros {
     flex-wrap: wrap;
   }
 
+
   .financeiro-periodo-atual {
     margin-left: auto;
   }
+
 
   .financeiro-resumo {
     grid-template-columns:
@@ -963,8 +1041,10 @@
 
   .financeiro-container {
     padding: 18px;
+
     overflow-y: auto;
   }
+
 
   .financeiro-topo {
     align-items: flex-start;
@@ -972,18 +1052,22 @@
     flex-direction: column;
   }
 
+
   .financeiro-logo {
     width: 130px;
     height: 70px;
   }
 
+
   .financeiro-titulo h1 {
     font-size: 1.9rem;
   }
 
+
   .financeiro-voltar {
     align-self: flex-start;
   }
+
 
   .financeiro-filtros {
     align-items: flex-start;
@@ -993,6 +1077,7 @@
     gap: 14px;
   }
 
+
   .financeiro-data-filtro {
     margin-left: 0;
 
@@ -1000,6 +1085,7 @@
 
     align-items: flex-start;
   }
+
 
   .financeiro-periodo-atual {
     margin-left: 0;
@@ -1017,14 +1103,17 @@
     width: 100%;
   }
 
+
   .financeiro-resumo {
     grid-template-columns:
       1fr 1fr;
   }
 
+
   .financeiro-tabelas {
     overflow: visible;
   }
+
 
   .financeiro-tabela-container {
     min-height: 320px;
@@ -1039,22 +1128,27 @@
     padding: 15px;
   }
 
+
   .financeiro-marca-area {
     gap: 12px;
   }
+
 
   .financeiro-logo {
     width: 105px;
     height: 58px;
   }
 
+
   .financeiro-titulo h1 {
     font-size: 1.55rem;
   }
 
+
   .financeiro-titulo p {
     font-size: .68rem;
   }
+
 
   .financeiro-periodos {
     width: 100%;
@@ -1064,9 +1158,11 @@
     flex-direction: column;
   }
 
+
   .financeiro-periodos-botoes {
     width: 100%;
   }
+
 
   .financeiro-periodos-botoes button {
     flex: 1;
@@ -1074,13 +1170,16 @@
     padding: 0 8px;
   }
 
+
   .financeiro-data-controles {
     width: 100%;
   }
 
+
   .financeiro-data-controles input {
     flex: 1;
   }
+
 
   .financeiro-resumo {
     grid-template-columns:
@@ -1088,6 +1187,7 @@
 
     gap: 9px;
   }
+
 
   .financeiro-card {
     min-height: 82px;
@@ -1099,6 +1199,7 @@
     gap: 9px;
   }
 
+
   .financeiro-card-icone {
     width: 36px;
     height: 36px;
@@ -1108,21 +1209,26 @@
     font-size: .95rem;
   }
 
+
   .financeiro-card span {
     font-size: .53rem;
   }
+
 
   .financeiro-card strong {
     font-size: .95rem;
   }
 
+
   .financeiro-tabela-topo {
     padding: 12px 14px;
   }
 
+
   .financeiro-tabela-topo h2 {
     font-size: .85rem;
   }
+
 
   .financeiro-tabela-topo p {
     display: none;

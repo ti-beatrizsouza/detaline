@@ -11,15 +11,12 @@ import usePacientes from "../hooks/usePacientes"
 
 
 function ListaPacientes({
-
   voltar,
   abrirPerfil,
   abrirCadastro
-
 }) {
 
-  const pacientes =
-    usePacientes()
+  const pacientes = usePacientes()
 
 
   /* ===================================================== */
@@ -60,42 +57,29 @@ function ListaPacientes({
   /* DATA DE NASCIMENTO                                    */
   /* ===================================================== */
 
-  function formatarDataNascimento(
-    data
-  ) {
+  function formatarDataNascimento(data) {
 
     if (!data) {
-
       return "Não informada"
-
     }
-
 
     if (
       typeof data === "string" &&
       data.includes("/")
     ) {
-
       return data
-
     }
-
 
     const partes =
       String(data).split("-")
 
-
     if (
       partes.length === 3
     ) {
-
       return `${partes[2]}/${partes[1]}/${partes[0]}`
-
     }
 
-
     return data
-
   }
 
 
@@ -103,9 +87,7 @@ function ListaPacientes({
   /* RESPONSÁVEL                                           */
   /* ===================================================== */
 
-  function encontrarResponsavel(
-    paciente
-  ) {
+  function encontrarResponsavel(paciente) {
 
     return (
       paciente.responsavel ||
@@ -113,7 +95,6 @@ function ListaPacientes({
       paciente.contatoResponsavel ||
       "Não informado"
     )
-
   }
 
 
@@ -133,10 +114,7 @@ function ListaPacientes({
       const tag =
         filtroTag
           .trim()
-          .replace(
-            "#",
-            ""
-          )
+          .replace("#", "")
 
 
       const filtrados =
@@ -161,9 +139,7 @@ function ListaPacientes({
 
             const correspondeNome =
               !nome ||
-              nomePaciente.includes(
-                nome
-              )
+              nomePaciente.includes(nome)
 
 
             const correspondeTag =
@@ -175,25 +151,14 @@ function ListaPacientes({
               correspondeNome &&
               correspondeTag
             )
-
           }
         )
 
 
-      /* ================================================ */
-      /* ORDENAÇÃO                                        */
-      /* ================================================ */
-
       filtrados.sort(
         (a, b) => {
 
-          switch (
-            ordenacao
-          ) {
-
-            /* ------------------------------------------ */
-            /* NOME A-Z                                   */
-            /* ------------------------------------------ */
+          switch (ordenacao) {
 
             case "nome-az":
 
@@ -210,10 +175,6 @@ function ListaPacientes({
               )
 
 
-            /* ------------------------------------------ */
-            /* NOME Z-A                                   */
-            /* ------------------------------------------ */
-
             case "nome-za":
 
               return String(
@@ -228,10 +189,6 @@ function ListaPacientes({
                 }
               )
 
-
-            /* ------------------------------------------ */
-            /* TAG CRESCENTE                              */
-            /* ------------------------------------------ */
 
             case "tag-crescente": {
 
@@ -259,11 +216,6 @@ function ListaPacientes({
                 )
 
 
-              /*
-                Pacientes sem tag ficam
-                no final da lista.
-              */
-
               const numeroA =
                 Number.isNaN(tagA)
                   ? Infinity
@@ -280,13 +232,8 @@ function ListaPacientes({
                 numeroA -
                 numeroB
               )
-
             }
 
-
-            /* ------------------------------------------ */
-            /* TAG DECRESCENTE                            */
-            /* ------------------------------------------ */
 
             case "tag-decrescente": {
 
@@ -330,16 +277,12 @@ function ListaPacientes({
                 numeroB -
                 numeroA
               )
-
             }
 
 
             default:
-
               return 0
-
           }
-
         }
       )
 
@@ -347,15 +290,10 @@ function ListaPacientes({
       return filtrados
 
     }, [
-
       pacientes,
-
       filtroNome,
-
       filtroTag,
-
       ordenacao
-
     ])
 
 
@@ -365,36 +303,23 @@ function ListaPacientes({
 
   function nomeOrdenacao() {
 
-    switch (
-      ordenacao
-    ) {
+    switch (ordenacao) {
 
       case "nome-az":
-
         return "Nome: A–Z"
 
-
       case "nome-za":
-
         return "Nome: Z–A"
 
-
       case "tag-crescente":
-
         return "Tag: crescente"
 
-
       case "tag-decrescente":
-
         return "Tag: decrescente"
 
-
       default:
-
         return "Ordenar"
-
     }
-
   }
 
 
@@ -407,7 +332,6 @@ function ListaPacientes({
     setFiltroNome("")
 
     setFiltroTag("")
-
   }
 
 
@@ -446,14 +370,24 @@ function ListaPacientes({
       <header className="pacientes-topo">
 
 
+        {/* ESQUERDA */}
+
+        <div className="pacientes-topo-esquerda">
+
+          <button
+            type="button"
+            className="pacientes-voltar"
+            onClick={voltar}
+          >
+            ← Dashboard
+          </button>
+
+        </div>
+
+
+        {/* DIREITA */}
+
         <div className="pacientes-marca">
-
-          <img
-            src={logob}
-            alt="Dentaline"
-            className="pacientes-logo"
-          />
-
 
           <div className="pacientes-titulo">
 
@@ -471,25 +405,12 @@ function ListaPacientes({
 
           </div>
 
-        </div>
 
-
-        <div className="pacientes-topo-acoes">
-
-          <button
-            className="pacientes-voltar"
-            onClick={voltar}
-          >
-            ← Dashboard
-          </button>
-
-
-          <button
-            className="novo-paciente-btn"
-            onClick={abrirCadastro}
-          >
-            + Cadastrar Paciente
-          </button>
+          <img
+            src={logob}
+            alt="Dentaline"
+            className="pacientes-logo"
+          />
 
         </div>
 
@@ -501,6 +422,9 @@ function ListaPacientes({
       {/* ================================================= */}
 
       <section className="pacientes-resumo">
+
+
+        {/* TOTAL */}
 
         <div className="pacientes-resumo-card">
 
@@ -515,6 +439,23 @@ function ListaPacientes({
         </div>
 
 
+        {/* BOTÃO CENTRAL */}
+
+        <div className="pacientes-resumo-centro">
+
+          <button
+            type="button"
+            className="novo-paciente-btn"
+            onClick={abrirCadastro}
+          >
+            + Cadastrar Paciente
+          </button>
+
+        </div>
+
+
+        {/* EXIBINDO */}
+
         <div className="pacientes-resumo-card">
 
           <span>
@@ -526,6 +467,7 @@ function ListaPacientes({
           </strong>
 
         </div>
+
 
       </section>
 
@@ -553,9 +495,7 @@ function ListaPacientes({
 
             <input
               type="text"
-              placeholder="
-                Digite o nome do paciente...
-              "
+              placeholder="Digite o nome do paciente..."
               value={filtroNome}
               onChange={(e) =>
                 setFiltroNome(
@@ -571,12 +511,10 @@ function ListaPacientes({
 
         {/* FILTRAR POR TAG */}
 
-        <div
-          className="
-            filtro-grupo
-            filtro-tag-grupo
-          "
-        >
+        <div className="
+          filtro-grupo
+          filtro-tag-grupo
+        ">
 
           <label>
             Filtrar por tag
@@ -584,11 +522,7 @@ function ListaPacientes({
 
           <div className="filtro-input-wrapper">
 
-            <span
-              className="
-                filtro-tag-icon
-              "
-            >
+            <span className="filtro-tag-icon">
               #
             </span>
 
@@ -636,11 +570,7 @@ function ListaPacientes({
               {nomeOrdenacao()}
             </span>
 
-            <span
-              className="
-                ordenacao-seta
-              "
-            >
+            <span className="ordenacao-seta">
               {
                 menuOrdenacao
                   ? "⌃"
@@ -655,28 +585,18 @@ function ListaPacientes({
 
             <div className="ordenacao-menu">
 
-
-              {/* A-Z */}
-
               <button
                 type="button"
-
                 className={
-                  ordenacao ===
-                    "nome-az"
+                  ordenacao === "nome-az"
                     ? "ativo"
                     : ""
                 }
-
                 onClick={() => {
 
-                  setOrdenacao(
-                    "nome-az"
-                  )
+                  setOrdenacao("nome-az")
 
-                  setMenuOrdenacao(
-                    false
-                  )
+                  setMenuOrdenacao(false)
 
                 }}
               >
@@ -692,27 +612,18 @@ function ListaPacientes({
               </button>
 
 
-              {/* Z-A */}
-
               <button
                 type="button"
-
                 className={
-                  ordenacao ===
-                    "nome-za"
+                  ordenacao === "nome-za"
                     ? "ativo"
                     : ""
                 }
-
                 onClick={() => {
 
-                  setOrdenacao(
-                    "nome-za"
-                  )
+                  setOrdenacao("nome-za")
 
-                  setMenuOrdenacao(
-                    false
-                  )
+                  setMenuOrdenacao(false)
 
                 }}
               >
@@ -728,27 +639,18 @@ function ListaPacientes({
               </button>
 
 
-              {/* TAG CRESCENTE */}
-
               <button
                 type="button"
-
                 className={
-                  ordenacao ===
-                    "tag-crescente"
+                  ordenacao === "tag-crescente"
                     ? "ativo"
                     : ""
                 }
-
                 onClick={() => {
 
-                  setOrdenacao(
-                    "tag-crescente"
-                  )
+                  setOrdenacao("tag-crescente")
 
-                  setMenuOrdenacao(
-                    false
-                  )
+                  setMenuOrdenacao(false)
 
                 }}
               >
@@ -764,27 +666,18 @@ function ListaPacientes({
               </button>
 
 
-              {/* TAG DECRESCENTE */}
-
               <button
                 type="button"
-
                 className={
-                  ordenacao ===
-                    "tag-decrescente"
+                  ordenacao === "tag-decrescente"
                     ? "ativo"
                     : ""
                 }
-
                 onClick={() => {
 
-                  setOrdenacao(
-                    "tag-decrescente"
-                  )
+                  setOrdenacao("tag-decrescente")
 
-                  setMenuOrdenacao(
-                    false
-                  )
+                  setMenuOrdenacao(false)
 
                 }}
               >
@@ -827,8 +720,6 @@ function ListaPacientes({
       <section className="pacientes-lista">
 
 
-        {/* NENHUM PACIENTE */}
-
         {pacientes.length === 0 ? (
 
           <div className="pacientes-vazio">
@@ -858,23 +749,12 @@ function ListaPacientes({
 
         ) : pacientesFiltrados.length === 0 ? (
 
+          <div className="
+            pacientes-vazio
+            pacientes-sem-resultado
+          ">
 
-          /* ============================================== */
-          /* NENHUM RESULTADO                               */
-          /* ============================================== */
-
-          <div
-            className="
-              pacientes-vazio
-              pacientes-sem-resultado
-            "
-          >
-
-            <div
-              className="
-                sem-resultado-icon
-              "
-            >
+            <div className="sem-resultado-icon">
               🔎
             </div>
 
@@ -898,19 +778,12 @@ function ListaPacientes({
 
         ) : (
 
-
-          /* ============================================== */
-          /* PACIENTES                                       */
-          /* ============================================== */
-
           pacientesFiltrados.map(
             (paciente) => (
 
               <article
                 key={paciente.id}
-
                 className="paciente-card"
-
                 onClick={() =>
                   abrirPerfil(
                     paciente,
@@ -918,7 +791,6 @@ function ListaPacientes({
                   )
                 }
               >
-
 
                 {/* FOTO */}
 
@@ -936,7 +808,6 @@ function ListaPacientes({
 
                 <div className="paciente-info">
 
-
                   <div className="paciente-nome-area">
 
                     <div>
@@ -945,11 +816,7 @@ function ListaPacientes({
                         {paciente.nome}
                       </h2>
 
-                      <span
-                        className="
-                          paciente-tag
-                        "
-                      >
+                      <span className="paciente-tag">
                         {paciente.tag || "#—"}
                       </span>
 
@@ -959,9 +826,6 @@ function ListaPacientes({
 
 
                   <div className="paciente-detalhes">
-
-
-                    {/* DATA DE NASCIMENTO */}
 
                     <p>
 
@@ -982,8 +846,6 @@ function ListaPacientes({
                     </p>
 
 
-                    {/* PRÓXIMA CONSULTA */}
-
                     <p>
 
                       <span>
@@ -999,8 +861,6 @@ function ListaPacientes({
 
                     </p>
 
-
-                    {/* OBSERVAÇÕES */}
 
                     <p>
 
@@ -1026,11 +886,7 @@ function ListaPacientes({
 
                 <div className="paciente-lateral">
 
-                  <span
-                    className="
-                      paciente-lateral-label
-                    "
-                  >
+                  <span className="paciente-lateral-label">
                     RESPONSÁVEL
                   </span>
 
@@ -1042,11 +898,7 @@ function ListaPacientes({
                     }
                   </strong>
 
-                  <span
-                    className="
-                      paciente-lateral-tag
-                    "
-                  >
+                  <span className="paciente-lateral-tag">
                     {paciente.tag || "#—"}
                   </span>
 
@@ -1058,7 +910,6 @@ function ListaPacientes({
                 <div className="paciente-seta">
                   →
                 </div>
-
 
               </article>
 
@@ -1081,14 +932,7 @@ function ListaPacientes({
         </span>
 
         <span>
-          {
-            pacientesFiltrados.length
-          }{" "}
-          de{" "}
-          {
-            pacientes.length
-          }{" "}
-          paciente(s)
+          {pacientesFiltrados.length} de {pacientes.length} paciente(s)
         </span>
 
       </footer>
@@ -1097,7 +941,6 @@ function ListaPacientes({
     </main>
 
   )
-
 }
 
 

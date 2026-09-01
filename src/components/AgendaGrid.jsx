@@ -10,6 +10,10 @@ import {
 } from "../utils/agendaUtils"
 
 
+/* ========================================================= */
+/* VERIFICAR TEMPO DO SLOT                                   */
+/* ========================================================= */
+
 function verificarTempoSlot(
   data,
   hora
@@ -27,42 +31,35 @@ function verificarTempoSlot(
       dataHoraSlot.getTime()
     )
   ) {
-
     return {
       passado: false,
       atual: false
     }
-
   }
 
-
   const fimSlot =
-    new Date(
-      dataHoraSlot
-    )
-
+    new Date(dataHoraSlot)
 
   fimSlot.setMinutes(
     fimSlot.getMinutes() + 30
   )
 
-
   return {
-
     passado:
       fimSlot <= agora,
 
     atual:
       dataHoraSlot <= agora &&
       fimSlot > agora
-
   }
-
 }
 
 
-function AgendaGrid({
+/* ========================================================= */
+/* AGENDA GRID                                               */
+/* ========================================================= */
 
+function AgendaGrid({
   dias,
   horarios,
   consultas,
@@ -74,8 +71,29 @@ function AgendaGrid({
   setObsEditando,
   ganhoDoDia,
   ganhoDaSemana
-
 }) {
+
+
+  /* ======================================================= */
+  /* BUSCAR PACIENTE                                         */
+  /* ======================================================= */
+
+  function encontrarPaciente(
+    consulta
+  ) {
+
+    if (!consulta) {
+      return null
+    }
+
+    return (
+      pacientes.find(
+        (paciente) =>
+          paciente.id ===
+          consulta.pacienteId
+      ) || null
+    )
+  }
 
 
   return (
@@ -84,9 +102,7 @@ function AgendaGrid({
 
       <div
         className="agenda-grid"
-
         style={{
-
           gridTemplateColumns:
             "74px repeat(6, minmax(0, 1fr))",
 
@@ -99,27 +115,30 @@ function AgendaGrid({
             40px
             44px
           `
-
         }}
       >
 
+        {/* ================================================= */}
+        {/* MARCA D'ÁGUA                                     */}
+        {/* ================================================= */}
+
+        <div
+          className="agenda-marca-agua"
+          aria-hidden="true"
+        />
+
 
         {/* ================================================= */}
-        {/* CABEÇALHO                                         */}
+        {/* CABEÇALHO                                        */}
         {/* ================================================= */}
 
         <div className="agenda-header">
-
           Horário
-
         </div>
 
 
         {dias.map(
-          (
-            dia,
-            index
-          ) => (
+          (dia, index) => (
 
             <AgendaHeader
               key={
@@ -133,7 +152,6 @@ function AgendaGrid({
               offsetSemana={
                 offsetSemana ?? 0
               }
-
             />
 
           )
@@ -141,7 +159,7 @@ function AgendaGrid({
 
 
         {/* ================================================= */}
-        {/* HORÁRIOS                                          */}
+        {/* HORÁRIOS                                         */}
         {/* ================================================= */}
 
         {horarios.map(
@@ -149,20 +167,24 @@ function AgendaGrid({
 
             <div
               key={hora}
-
               style={{
-                display:
-                  "contents"
+                display: "contents"
               }}
             >
 
-
               {/* HORA */}
 
-              <div className="hora-cell">
-
+              <div
+                className={`
+                  hora-cell
+                  ${
+                    hora.endsWith(":30")
+                      ? "hora-meia"
+                      : "hora-inteira"
+                  }
+                `}
+              >
                 {hora}
-
               </div>
 
 
@@ -179,7 +201,6 @@ function AgendaGrid({
                       index,
                       offsetSemana
                     )
-
 
                   const dataSlot =
                     gerarDataSlot(
@@ -220,10 +241,15 @@ function AgendaGrid({
                         : ""
 
 
+                  const classeLinha =
+                    hora.endsWith(":30")
+                      ? "linha-meia"
+                      : "linha-inteira"
+
+
                   return (
 
                     <div
-
                       key={
                         `${dataSlot}-${hora}`
                       }
@@ -232,14 +258,13 @@ function AgendaGrid({
                         agenda-slot
                         ${corConsulta}
                         ${classeTempo}
+                        ${classeLinha}
                       `}
-
                     >
 
                       {consulta ? (
 
                         <ConsultaCard
-
                           consulta={
                             consulta
                           }
@@ -255,49 +280,34 @@ function AgendaGrid({
                           setObsEditando={
                             setObsEditando
                           }
-
                         />
 
                       ) : (
 
                         <button
-
                           type="button"
-
-                          className="
-                            slot-vazio
-                          "
+                          className="slot-vazio"
 
                           onClick={() => {
 
                             if (
                               setDataConsulta
                             ) {
-
                               setDataConsulta(
                                 dataSlot
                               )
-
                             }
 
-
                             setNovoAgendamento({
-
                               dia,
-
                               hora,
-
                               data:
                                 dataSlot
-
                             })
 
                           }}
-
                         >
-
                           +
-
                         </button>
 
                       )}
@@ -305,7 +315,6 @@ function AgendaGrid({
                     </div>
 
                   )
-
                 }
               )}
 
@@ -316,7 +325,7 @@ function AgendaGrid({
 
 
         {/* ================================================= */}
-        {/* GANHO DO DIA                                      */}
+        {/* GANHO DO DIA                                     */}
         {/* ================================================= */}
 
         <div
@@ -325,9 +334,7 @@ function AgendaGrid({
             ganho-label
           "
         >
-
           Ganho
-
         </div>
 
 
@@ -343,7 +350,6 @@ function AgendaGrid({
                 offsetSemana
               )
 
-
             const dataSlot =
               gerarDataSlot(
                 dataAtual
@@ -353,7 +359,6 @@ function AgendaGrid({
             return (
 
               <div
-
                 key={
                   `ganho-${dataSlot}`
                 }
@@ -361,29 +366,24 @@ function AgendaGrid({
                 className="
                   ganho-cell
                 "
-
               >
 
                 <strong>
-
                   R${" "}
-
                   {ganhoDoDia(
                     dataSlot
                   ).toFixed(2)}
-
                 </strong>
 
               </div>
 
             )
-
           }
         )}
 
 
         {/* ================================================= */}
-        {/* GANHO DA SEMANA                                   */}
+        {/* GANHO DA SEMANA                                  */}
         {/* ================================================= */}
 
         <div
@@ -392,14 +392,11 @@ function AgendaGrid({
             ganho-label
           "
         >
-
           Semana
-
         </div>
 
 
         <div
-
           className="
             ganho-semana
           "
@@ -408,28 +405,20 @@ function AgendaGrid({
             gridColumn:
               "2 / span 6"
           }}
-
         >
 
           <strong>
-
             R${" "}
-
             {ganhoDaSemana()
               .toFixed(2)}
-
           </strong>
 
         </div>
 
-
       </div>
 
     </div>
-
   )
-
 }
-
 
 export default AgendaGrid

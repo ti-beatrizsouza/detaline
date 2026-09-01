@@ -1,11 +1,5 @@
 /* ========================================================= */
-/* PERFIL DO PACIENTE                                         */
-/* DENTALINE                                                  */
-/* ========================================================= */
-
-
-/* ========================================================= */
-/* FONTE DOS TÍTULOS                                          */
+/* FONTE ALICE IN WONDERLAND                                  */
 /* ========================================================= */
 
 @font-face {
@@ -13,7 +7,7 @@
   font-family: "Alice in Wonderland";
 
   src:
-    url("../assets/fonts/AliceInWonderland.ttf")
+    url("../assets/fonts/Alice_in_Wonderland.ttf")
     format("truetype");
 
   font-weight: normal;
@@ -26,53 +20,43 @@
 
 
 /* ========================================================= */
-/* CONTAINER PRINCIPAL                                        */
+/* GERAL                                                       */
 /* ========================================================= */
 
 .perfil-container {
 
   width: 100%;
 
+  min-height: 100vh;
+
   height: 100vh;
 
-  min-height: 100vh;
+  padding:
+    18px
+    16px
+    0;
 
   box-sizing: border-box;
 
-  padding:
-    38px
-    42px
-    22px;
+  display: flex;
 
-  overflow: hidden;
+  flex-direction: column;
 
   position: relative;
 
+  overflow: hidden;
+
   font-family:
     "Nunito",
-    "Quicksand",
-    "Arial Rounded MT Bold",
     "Trebuchet MS",
+    Arial,
     sans-serif;
 
   background:
-
-    radial-gradient(
-      circle at 92% 0%,
-      rgba(255,255,255,.16),
-      transparent 25%
-    ),
-
-    radial-gradient(
-      circle at 0% 100%,
-      rgba(255,255,255,.07),
-      transparent 28%
-    ),
-
     linear-gradient(
       135deg,
       #8f006b 0%,
-      #b00083 48%,
+      #a10179 48%,
       #df58c0 100%
     );
 
@@ -80,7 +64,7 @@
 
 
 /* ========================================================= */
-/* DECORAÇÕES DO FUNDO                                        */
+/* BRILHO SUPERIOR DIREITO                                    */
 /* ========================================================= */
 
 .perfil-container::before {
@@ -89,21 +73,34 @@
 
   position: absolute;
 
-  width: 620px;
-  height: 620px;
+  width: 600px;
 
-  top: -440px;
-  right: -180px;
+  height: 600px;
+
+  top: -420px;
+
+  right: -160px;
 
   border-radius: 50%;
 
   background:
-    rgba(255,255,255,.055);
+    rgba(
+      255,
+      255,
+      255,
+      .15
+    );
 
   pointer-events: none;
 
+  z-index: 0;
+
 }
 
+
+/* ========================================================= */
+/* BRILHO INFERIOR ESQUERDO                                   */
+/* ========================================================= */
 
 .perfil-container::after {
 
@@ -111,39 +108,79 @@
 
   position: absolute;
 
-  width: 440px;
-  height: 440px;
+  width: 420px;
 
-  bottom: -330px;
-  left: -190px;
+  height: 420px;
+
+  bottom: -300px;
+
+  left: -180px;
 
   border-radius: 50%;
 
   background:
-    rgba(255,255,255,.035);
+    rgba(
+      255,
+      255,
+      255,
+      .045
+    );
 
   pointer-events: none;
+
+  z-index: 0;
 
 }
 
 
 /* ========================================================= */
-/* TOPO                                                       */
+/* COGUMELO                                                    */
+/* ========================================================= */
+
+.perfil-cogumelo {
+
+  position: absolute;
+
+  width: 250px;
+
+  height: auto;
+
+  right: 5px;
+
+  bottom: -20px;
+
+  object-fit: contain;
+
+  opacity: .11;
+
+  pointer-events: none;
+
+  z-index: 1;
+
+}
+
+
+/* ========================================================= */
+/* TOPO                                                        */
 /* ========================================================= */
 
 .perfil-topo {
 
   width: 100%;
 
-  height: 58px;
+  height: 70px;
 
-  margin-bottom: 20px;
+  min-height: 70px;
 
   display: flex;
 
   align-items: center;
 
   justify-content: space-between;
+
+  gap: 25px;
+
+  margin-bottom: 18px;
 
   position: relative;
 
@@ -153,7 +190,24 @@
 
 
 /* ========================================================= */
-/* VOLTAR                                                      */
+/* ESQUERDA                                                    */
+/* ========================================================= */
+
+.perfil-topo-esquerda {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-start;
+
+  flex: 1;
+
+}
+
+
+/* ========================================================= */
+/* BOTÃO VOLTAR                                                */
 /* ========================================================= */
 
 .perfil-voltar {
@@ -161,11 +215,11 @@
   height: 42px;
 
   padding:
-    0 19px;
+    0 18px;
 
   border: none;
 
-  border-radius: 13px;
+  border-radius: 12px;
 
   background: #ffffff;
 
@@ -173,37 +227,46 @@
 
   font-family: inherit;
 
-  font-size: .82rem;
+  font-size: .76rem;
 
-  font-weight: 500;
+  font-weight: 700;
 
   cursor: pointer;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
 
   white-space: nowrap;
 
   box-shadow:
-    0 6px 17px
-    rgba(50,0,40,.13);
+    0 7px 18px
+    rgba(
+      50,
+      0,
+      40,
+      .13
+    );
 
   transition:
+    background .18s ease,
     transform .18s ease,
-    background .18s ease;
+    box-shadow .18s ease;
 
 }
 
 
 .perfil-voltar:hover {
 
-  background: #fff7fc;
+  background: #f9edf7;
 
   transform:
     translateY(-1px);
+
+  box-shadow:
+    0 9px 21px
+    rgba(
+      50,
+      0,
+      40,
+      .16
+    );
 
 }
 
@@ -212,9 +275,7 @@
 /* TÍTULO + LOGO                                               */
 /* ========================================================= */
 
-.perfil-titulo-logo {
-
-  min-height: 58px;
+.perfil-marca {
 
   display: flex;
 
@@ -222,13 +283,127 @@
 
   justify-content: flex-end;
 
-  gap: 20px;
+  gap: 18px;
 
   margin-left: auto;
 
-  padding-bottom: 3px;
+}
 
-  box-sizing: border-box;
+
+/* ========================================================= */
+/* TEXTO DO TÍTULO                                             */
+/* ========================================================= */
+
+.perfil-titulo-texto {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-end;
+
+  text-align: right;
+
+}
+
+
+/* ========================================================= */
+/* DENTALINE                                                    */
+/* ========================================================= */
+
+.perfil-marca-texto {
+
+  margin-bottom: 3px;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      .68
+    );
+
+  font-family:
+    "Nunito",
+    "Trebuchet MS",
+    Arial,
+    sans-serif;
+
+  font-size: .59rem;
+
+  font-weight: 800;
+
+  letter-spacing: .22em;
+
+  line-height: 1;
+
+}
+
+
+/* ========================================================= */
+/* TÍTULO — ALICE                                               */
+/* ========================================================= */
+
+.perfil-titulo-alice {
+
+  margin:
+    2px 0 5px;
+
+  padding: 0;
+
+  color: #ffffff;
+
+  font-family:
+    "Alice in Wonderland",
+    Georgia,
+    serif;
+
+  font-size: 2.65rem;
+
+  font-weight: normal;
+
+  font-style: normal;
+
+  letter-spacing: .02em;
+
+  line-height: .95;
+
+  white-space: nowrap;
+
+  -webkit-font-smoothing: antialiased;
+
+  text-rendering: optimizeLegibility;
+
+}
+
+
+/* ========================================================= */
+/* DESCRIÇÃO                                                   */
+/* ========================================================= */
+
+.perfil-titulo-texto p {
+
+  margin: 0;
+
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      .82
+    );
+
+  font-family:
+    "Nunito",
+    "Trebuchet MS",
+    Arial,
+    sans-serif;
+
+  font-size: .75rem;
+
+  font-weight: 500;
+
+  line-height: 1.2;
 
 }
 
@@ -239,127 +414,70 @@
 
 .perfil-logo-topo {
 
-  width: 122px;
+  width: 108px;
 
-  height: 62px;
-
-  object-fit: contain;
-
-  object-position: center;
-
-  display: block;
-
-  opacity: 1;
+  height: 70px;
 
   flex-shrink: 0;
 
-}
+  object-fit: contain;
 
-
-/* ========================================================= */
-/* TÍTULO                                                      */
-/* ========================================================= */
-
-.perfil-titulo-logo h1 {
-
-  margin: 0;
-
-  color: #ffffff;
-
-  font-family:
-    "Alice in Wonderland",
-    Georgia,
-    serif;
-
-  font-size: 2.08rem;
-
-  font-weight: normal;
-
-  letter-spacing: .045em;
-
-  line-height: 1;
-
-  text-transform: uppercase;
-
-  white-space: nowrap;
+  filter:
+    drop-shadow(
+      0 7px 15px
+      rgba(
+        50,
+        0,
+        40,
+        .18
+      )
+    );
 
 }
 
 
 /* ========================================================= */
-/* CARD PRINCIPAL                                              */
+/* CARD PRINCIPAL                                               */
 /* ========================================================= */
 
 .perfil-card {
 
   width: 100%;
 
-  height:
-    calc(100vh - 138px);
-
-  min-height: 0;
+  padding:
+    12px
+    20px
+    16px;
 
   box-sizing: border-box;
 
-  padding:
-    34px
-    38px
-    28px;
-
   background: #ffffff;
 
-  border-radius: 30px;
+  border-radius: 20px;
+
+  box-shadow:
+    0 10px 28px
+    rgba(
+      65,
+      0,
+      55,
+      .13
+    );
 
   position: relative;
 
-  overflow: hidden;
-
-  box-shadow:
-    0 17px 42px
-    rgba(55,0,45,.17);
+  z-index: 4;
 
 }
 
 
 /* ========================================================= */
-/* LINHA DECORATIVA SUPERIOR                                  */
-/* ========================================================= */
-
-.perfil-card::before {
-
-  content: "";
-
-  position: absolute;
-
-  left: 38px;
-  right: 38px;
-
-  top: 0;
-
-  height: 4px;
-
-  border-radius:
-    0 0 8px 8px;
-
-  background:
-    #dca4d0;
-
-  opacity: .65;
-
-}
-
-
-/* ========================================================= */
-/* AÇÕES                                                       */
+/* AÇÕES                                                        */
 /* ========================================================= */
 
 .perfil-acoes {
 
-  position: absolute;
-
-  top: 34px;
-
-  right: 38px;
+  width: 100%;
 
   display: flex;
 
@@ -369,129 +487,179 @@
 
   gap: 9px;
 
-  z-index: 10;
+  margin-bottom: 8px;
 
 }
 
 
 /* ========================================================= */
-/* PADRÃO DOS BOTÕES                                           */
+/* BOTÕES                                                       */
 /* ========================================================= */
 
-.perfil-acoes .salvar-obs-btn,
-.perfil-acoes .remover-btn {
+.editar-info-btn,
+.salvar-info-btn,
+.salvar-obs-btn,
+.cancelar-edicao-btn,
+.remover-btn {
 
-  height: 39px;
+  height: 40px;
 
-  min-height: 39px;
-
-  box-sizing: border-box;
+  padding:
+    0 16px;
 
   border: none;
 
-  border-radius: 11px;
-
-  padding:
-    0 15px;
-
-  display: inline-flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  white-space: nowrap;
+  border-radius: 10px;
 
   font-family: inherit;
 
-  font-size: .72rem;
+  font-size: .70rem;
 
-  font-weight: 500;
-
-  line-height: 1;
+  font-weight: 700;
 
   cursor: pointer;
 
-  flex-shrink: 0;
-
-  margin: 0;
+  white-space: nowrap;
 
   transition:
+    background .18s ease,
     transform .18s ease,
-    filter .18s ease,
-    opacity .18s ease;
+    box-shadow .18s ease;
 
 }
 
 
 /* ========================================================= */
-/* SALVAR OBSERVAÇÕES                                         */
+/* BOTÕES PRINCIPAIS                                           */
 /* ========================================================= */
 
-.perfil-acoes .salvar-obs-btn {
+.editar-info-btn,
+.salvar-info-btn,
+.salvar-obs-btn {
 
-  min-width: 126px;
+  background:
+    #c51e9b !important;
 
-  background: #af0066;
+  color:
+    #ffffff !important;
 
-  color: #ffffff;
+  opacity: 1 !important;
 
   box-shadow:
-    0 5px 12px
-    rgba(176,0,131,.12);
+    0 6px 15px
+    rgba(
+      80,
+      0,
+      65,
+      .15
+    );
 
 }
 
 
-.perfil-acoes .salvar-obs-btn:hover:not(:disabled) {
+.editar-info-btn:hover,
+.salvar-info-btn:hover:not(:disabled),
+.salvar-obs-btn:hover:not(:disabled) {
 
-  filter: brightness(.92);
+  background:
+    #d83cb1 !important;
 
   transform:
-    translateY(-1px);
+    translateY(-2px);
+
+  box-shadow:
+    0 9px 20px
+    rgba(
+      80,
+      0,
+      65,
+      .19
+    );
 
 }
 
 
-.perfil-acoes .salvar-obs-btn:disabled {
+/* ========================================================= */
+/* BOTÃO SALVAR DESABILITADO                                  */
+/* ========================================================= */
 
-  opacity: .60;
+.salvar-obs-btn:disabled {
+
+  background:
+    #c51e9b !important;
+
+  color:
+    #ffffff !important;
+
+  opacity: 1 !important;
 
   cursor: default;
 
-  box-shadow: none;
+  transform: none;
+
+  box-shadow:
+    0 6px 15px
+    rgba(
+      80,
+      0,
+      65,
+      .15
+    );
 
 }
 
 
 /* ========================================================= */
-/* EXCLUIR PACIENTE                                            */
+/* CANCELAR                                                    */
 /* ========================================================= */
 
-.perfil-acoes .remover-btn {
+.cancelar-edicao-btn {
 
-  min-width: 120px;
+  background: #eee6ec;
 
-  padding:
-    0 17px;
+  color: #786b74;
 
-  background: #e55369;
+}
+
+
+.cancelar-edicao-btn:hover {
+
+  background: #e4d7e1;
+
+  transform:
+    translateY(-1px);
+
+}
+
+
+/* ========================================================= */
+/* EXCLUIR                                                     */
+/* ========================================================= */
+
+.remover-btn {
+
+  background: #e33d59;
 
   color: #ffffff;
 
   box-shadow:
-    0 5px 12px
-    rgba(229,83,105,.12);
+    0 6px 15px
+    rgba(
+      80,
+      0,
+      65,
+      .11
+    );
 
 }
 
 
-.perfil-acoes .remover-btn:hover {
+.remover-btn:hover {
 
-  filter: brightness(.92);
+  background: #ed5069;
 
   transform:
-    translateY(-1px);
+    translateY(-2px);
 
 }
 
@@ -502,21 +670,16 @@
 
 .perfil-identificacao {
 
+  width: 100%;
+
   display: flex;
 
   align-items: center;
 
-  gap: 21px;
+  gap: 17px;
 
-  position: relative;
-
-  z-index: 2;
-
-  margin-top: 5px;
-
-  margin-bottom: 22px;
-
-  padding-right: 285px;
+  margin:
+    0 0 12px;
 
 }
 
@@ -527,28 +690,20 @@
 
 .perfil-foto {
 
-  width: 96px;
+  width: 82px;
 
-  height: 96px;
+  height: 82px;
 
   flex-shrink: 0;
 
-  border-radius: 24px;
-
-  overflow: hidden;
+  border-radius: 18px;
 
   background:
     linear-gradient(
-      145deg,
-      #a9007d,
-      #df58c0
+      135deg,
+      #b00083,
+      #d83cb1
     );
-
-  color: #ffffff;
-
-  font-size: 2.30rem;
-
-  font-weight: 500;
 
   display: flex;
 
@@ -556,9 +711,22 @@
 
   justify-content: center;
 
+  overflow: hidden;
+
+  color: #ffffff;
+
+  font-size: 1.75rem;
+
+  font-weight: 500;
+
   box-shadow:
-    0 9px 22px
-    rgba(169,0,125,.17);
+    0 7px 18px
+    rgba(
+      80,
+      0,
+      65,
+      .15
+    );
 
 }
 
@@ -575,10 +743,12 @@
 
 
 /* ========================================================= */
-/* NOME                                                        */
+/* NOME                                                         */
 /* ========================================================= */
 
 .perfil-nome {
+
+  min-width: 0;
 
   display: flex;
 
@@ -586,20 +756,20 @@
 
   align-items: flex-start;
 
-  gap: 4px;
-
 }
 
 
-.perfil-nome span {
+.perfil-nome > span {
 
-  color: #aaa1a7;
+  margin-bottom: 3px;
 
-  font-size: .69rem;
+  color: #9d929b;
 
-  font-weight: 600;
+  font-size: .57rem;
 
-  letter-spacing: .13em;
+  font-weight: 500;
+
+  letter-spacing: .09em;
 
 }
 
@@ -608,19 +778,11 @@
 
   margin: 0;
 
-  color: #a9007d;
+  color: #4e414b;
 
-  font-family:
-    "Nunito",
-    "Quicksand",
-    "Arial Rounded MT Bold",
-    sans-serif;
-
-  font-size: 1.70rem;
+  font-size: 1.20rem;
 
   font-weight: 600;
-
-  letter-spacing: -.025em;
 
   line-height: 1.15;
 
@@ -628,31 +790,31 @@
 
 
 /* ========================================================= */
-/* TAG                                                         */
+/* TAG                                                          */
 /* ========================================================= */
 
 .perfil-tag {
 
-  margin-top: 4px;
+  margin-top: 6px;
 
   padding:
-    4px 10px;
+    4px 8px;
 
-  border-radius: 8px;
+  border-radius: 7px;
 
   background: #f5e5f2;
 
   color: #a9007d;
 
-  font-size: .69rem;
+  font-size: .62rem;
 
-  font-weight: 600;
+  font-weight: 500;
 
 }
 
 
 /* ========================================================= */
-/* DADOS                                                       */
+/* DADOS                                                        */
 /* ========================================================= */
 
 .perfil-dados {
@@ -662,34 +824,35 @@
   display: grid;
 
   grid-template-columns:
-    repeat(4, minmax(0, 1fr));
+    repeat(3, minmax(0, 1fr));
 
-  gap: 11px;
-
-  position: relative;
-
-  z-index: 2;
-
-  margin-bottom: 17px;
+  gap: 9px;
 
 }
 
 
+/* ========================================================= */
+/* BOX DOS DADOS                                               */
+/* ========================================================= */
+
 .perfil-dado {
 
-  min-height: 70px;
+  min-width: 0;
+
+  min-height: 68px;
 
   padding:
-    11px 15px;
+    12px
+    14px;
 
   box-sizing: border-box;
 
+  background: #fcfafc;
+
   border:
-    1px solid #e8e0e5;
+    1px solid #e5dce3;
 
-  border-radius: 16px;
-
-  background: #fdfbfd;
+  border-radius: 14px;
 
   display: flex;
 
@@ -697,35 +860,22 @@
 
   justify-content: center;
 
-  gap: 5px;
-
-  transition:
-    border-color .18s ease,
-    background .18s ease,
-    transform .18s ease;
-
 }
 
 
-.perfil-dado:hover {
+/* ========================================================= */
+/* LABEL                                                        */
+/* ========================================================= */
 
-  border-color: #dccbd7;
+.perfil-dado > span {
 
-  background: #fdf9fc;
+  display: block;
 
-  transform:
-    translateY(-1px);
+  margin-bottom: 3px;
 
-}
+  color: #887b85;
 
-
-/* LABEL */
-
-.perfil-dado span {
-
-  color: #978d94;
-
-  font-size: .71rem;
+  font-size: .64rem;
 
   font-weight: 500;
 
@@ -734,28 +884,139 @@
 }
 
 
-/* VALOR */
+/* ========================================================= */
+/* VALOR                                                        */
+/* ========================================================= */
 
-.perfil-dado strong {
+.perfil-dado > strong {
 
-  color: #706870;
+  display: block;
 
-  font-size: .94rem;
+  color: #51454e !important;
+
+  font-size: .77rem;
 
   font-weight: 500;
 
-  line-height: 1.25;
+  line-height: 1.35;
 
   word-break: break-word;
 
 }
 
 
+/* ========================================================= */
+/* TOTAL PAGO                                                   */
+/* ========================================================= */
+
 .perfil-dado .valor-pago {
 
-  color: #36a66a;
+  color: #159447 !important;
 
-  font-weight: 600;
+  font-weight: 500;
+
+}
+
+
+/* ========================================================= */
+/* INPUTS                                                       */
+/* ========================================================= */
+
+.perfil-dado input {
+
+  width: 100%;
+
+  height: 35px;
+
+  padding:
+    0 9px;
+
+  border: none;
+
+  outline: none;
+
+  border-radius: 9px;
+
+  background: #f5f1f5;
+
+  box-shadow:
+    inset 0 2px 7px
+    rgba(
+      0,
+      0,
+      0,
+      .055
+    );
+
+  color: #51454e;
+
+  font-family: inherit;
+
+  font-size: .74rem;
+
+  font-weight: 500;
+
+}
+
+
+.perfil-dado input:focus {
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(
+      169,
+      0,
+      125,
+      .14
+    );
+
+}
+
+
+/* ========================================================= */
+/* IDADE / DATA DE NASCIMENTO                                 */
+/* ========================================================= */
+
+.idade-edicao {
+
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+
+.idade-edicao input[type="number"] {
+
+  width: 65px;
+
+  flex-shrink: 0;
+
+}
+
+
+.idade-edicao input[type="date"] {
+
+  flex: 1;
+
+  min-width: 0;
+
+}
+
+
+.idade-edicao > span {
+
+  color: #aaa1a8;
+
+  font-size: .64rem;
+
+  font-weight: 500;
 
 }
 
@@ -768,40 +1029,38 @@
 
   width: 100%;
 
+  margin-top: 13px;
+
   padding:
-    16px 17px;
+    14px;
 
-  box-sizing: border-box;
-
-  background: #faf7f9;
+  background: #fcfafc;
 
   border:
-    1px solid #e7dfe4;
+    1px solid #e5dce3;
 
-  border-radius: 17px;
-
-  position: relative;
-
-  z-index: 2;
+  border-radius: 14px;
 
 }
 
 
 /* ========================================================= */
-/* CABEÇALHO DAS OBSERVAÇÕES                                  */
+/* TOPO DAS OBSERVAÇÕES                                       */
 /* ========================================================= */
 
 .perfil-obs-topo {
 
+  width: 100%;
+
   display: flex;
 
-  align-items: center;
+  align-items: flex-start;
 
   justify-content: space-between;
 
   gap: 20px;
 
-  margin-bottom: 9px;
+  margin-bottom: 8px;
 
 }
 
@@ -812,48 +1071,46 @@
 
   flex-direction: column;
 
-  gap: 2px;
+}
+
+
+.perfil-obs-topo > div > span {
+
+  margin-bottom: 2px;
+
+  color: #a49aa2;
+
+  font-size: .57rem;
+
+  font-weight: 500;
+
+  letter-spacing: .08em;
 
 }
 
 
-/* ANOTAÇÕES */
-
-.perfil-obs-topo span:first-child {
-
-  color: #a59ba2;
-
-  font-size: .61rem;
-
-  font-weight: 600;
-
-  letter-spacing: .13em;
-
-}
-
-
-/* OBSERVAÇÕES */
-
-.perfil-obs-topo strong {
+.perfil-obs-topo > div > strong {
 
   color: #a9007d;
 
-  font-size: .98rem;
+  font-size: .77rem;
 
-  font-weight: 600;
+  font-weight: 500;
 
 }
 
 
-/* TEXTO EXPLICATIVO */
-
 .perfil-obs-info {
 
-  color: #aaa1a8;
+  padding-top: 3px;
 
-  font-size: .64rem;
+  color: #a49aa2;
+
+  font-size: .57rem;
 
   font-weight: 400;
+
+  text-align: right;
 
 }
 
@@ -866,62 +1123,72 @@
 
   width: 100%;
 
-  min-height: 76px;
-
-  max-height: 76px;
+  min-height: 72px;
 
   padding:
-    11px 14px;
+    10px
+    12px;
 
-  box-sizing: border-box;
-
-  border:
-    1px solid #e4dce2;
-
-  border-radius: 14px;
-
-  background: #ffffff;
-
-  color: #686068;
-
-  font-family: inherit;
-
-  font-size: .91rem;
-
-  font-weight: 400;
-
-  line-height: 1.45;
-
-  resize: none;
+  resize: vertical;
 
   outline: none;
 
-  box-shadow:
-    inset 0 1px 5px
-    rgba(0,0,0,.025);
+  border:
+    1px solid #e5dce3;
 
-  transition:
-    border-color .18s ease,
-    box-shadow .18s ease;
+  border-radius: 10px;
+
+  background: #f5f1f5;
+
+  color: #51454e;
+
+  font-family: inherit;
+
+  font-size: .74rem;
+
+  font-weight: 500;
+
+  line-height: 1.5;
+
+  box-shadow:
+    inset 0 2px 7px
+    rgba(
+      0,
+      0,
+      0,
+      .055
+    );
 
 }
 
 
 .perfil-obs textarea:focus {
 
+  background: #ffffff;
+
   border-color:
-    rgba(169,0,125,.30);
+    rgba(
+      169,
+      0,
+      125,
+      .25
+    );
 
   box-shadow:
-    0 0 0 3px
-    rgba(169,0,125,.07);
+    0 0 0 2px
+    rgba(
+      169,
+      0,
+      125,
+      .08
+    );
 
 }
 
 
 .perfil-obs textarea::placeholder {
 
-  color: #b2a8ae;
+  color: #aaa1a8;
 
 }
 
@@ -932,128 +1199,91 @@
 
 .perfil-obs > .salvar-obs-btn {
 
-  width: 126px;
-
-  height: 36px;
-
-  min-height: 36px;
-
   margin-top: 8px;
 
+  height: 39px;
+
+}
+
+
+/* ========================================================= */
+/* RODAPÉ                                                      */
+/* ========================================================= */
+
+.perfil-footer {
+
+  width: 100%;
+
+  margin-top: auto;
+
   padding:
-    0 12px;
+    8px
+    3px
+    8px;
 
-  border: none;
-
-  border-radius: 10px;
-
-  background: #bd3fa6;
-
-  color: #ffffff;
-
-  font-family: inherit;
-
-  font-size: .69rem;
-
-  font-weight: 500;
-
-  line-height: 1;
-
-  display: inline-flex;
+  display: flex;
 
   align-items: center;
 
   justify-content: center;
 
-  white-space: nowrap;
+  gap: 400px;
 
-  cursor: pointer;
+  color:
+    rgba(
+      255,
+      255,
+      255,
+      .62
+    );
 
-  box-sizing: border-box;
+  font-size: .61rem;
 
-  transition:
-    transform .18s ease,
-    filter .18s ease;
+  font-weight: 400;
 
-}
+  position: relative;
 
-
-.perfil-obs > .salvar-obs-btn:hover:not(:disabled) {
-
-  filter: brightness(.92);
-
-  transform:
-    translateY(-1px);
-
-}
-
-
-.perfil-obs > .salvar-obs-btn:disabled {
-
-  opacity: .60;
-
-  cursor: default;
+  z-index: 3;
 
 }
 
 
 /* ========================================================= */
-/* ACABAMENTO TIPOGRÁFICO                                     */
-/* ========================================================= */
-
-.perfil-card,
-.perfil-card button,
-.perfil-card textarea {
-
-  -webkit-font-smoothing: antialiased;
-
-  -moz-osx-font-smoothing: grayscale;
-
-}
-
-
-/* ========================================================= */
-/* TABLET                                                     */
+/* RESPONSIVO                                                  */
 /* ========================================================= */
 
 @media (max-width: 1050px) {
 
-  .perfil-dados {
-
-    grid-template-columns:
-      repeat(3, minmax(0, 1fr));
-
-  }
-
-}
-
-
-/* ========================================================= */
-/* TABLET MENOR                                                */
-/* ========================================================= */
-
-@media (max-width: 850px) {
-
   .perfil-container {
 
     padding:
-      27px
-      25px
-      18px;
+      18px
+      22px
+      0;
 
   }
 
 
   .perfil-card {
 
-    height:
-      calc(100vh - 120px);
-
     padding:
-      30px 26px;
+      12px
+      18px
+      16px;
 
   }
 
+
+  .perfil-footer {
+
+    gap: 250px;
+
+  }
+
+}
+
+
+@media (max-width: 850px) {
 
   .perfil-dados {
 
@@ -1063,37 +1293,27 @@
   }
 
 
-  .perfil-titulo-logo h1 {
+  .perfil-footer {
 
-    font-size: 1.78rem;
-
-  }
-
-
-  .perfil-logo-topo {
-
-    width: 105px;
+    gap: 100px;
 
   }
 
 }
 
 
-/* ========================================================= */
-/* CELULAR                                                     */
-/* ========================================================= */
-
 @media (max-width: 650px) {
 
   .perfil-container {
 
-    height: 100vh;
+    height: auto;
 
     min-height: 100vh;
 
-    overflow: hidden;
+    overflow-y: auto;
 
-    padding: 16px;
+    padding:
+      18px;
 
   }
 
@@ -1102,232 +1322,199 @@
 
     height: auto;
 
+    min-height: 0;
+
+    align-items: flex-start;
+
     flex-direction: column;
 
-    align-items: stretch;
+    margin-bottom: 20px;
 
-    gap: 10px;
+  }
+
+
+  .perfil-topo-esquerda {
+
+    width: 100%;
 
   }
 
 
   .perfil-voltar {
 
-    width: 100%;
+    width: auto;
 
   }
 
 
-  .perfil-titulo-logo {
+  .perfil-marca {
 
     width: 100%;
 
-    min-height: 48px;
+    margin-left: 0;
 
-    justify-content: space-between;
+    justify-content: flex-end;
 
-  }
-
-
-  .perfil-titulo-logo h1 {
-
-    font-size: 1.35rem;
-
-    letter-spacing: 0;
+    gap: 12px;
 
   }
 
 
   .perfil-logo-topo {
 
-    width: 92px;
+    width: 90px;
 
-    height: 45px;
-
-  }
-
-
-  .perfil-card {
-
-    height:
-      calc(100vh - 132px);
-
-    padding:
-      23px 20px;
-
-    border-radius: 22px;
+    height: 55px;
 
   }
 
 
-  .perfil-acoes {
+  .perfil-titulo-alice {
 
-    position: static;
+    font-family:
+      "Alice in Wonderland",
+      Georgia,
+      serif;
 
-    width: 100%;
+    font-size: 2rem;
 
-    margin-bottom: 17px;
-
-    justify-content: flex-end;
+    font-weight: normal;
 
   }
 
 
-  .perfil-acoes .salvar-obs-btn,
-  .perfil-acoes .remover-btn {
-
-    height: 36px;
-
-    min-height: 36px;
-
-    padding:
-      0 12px;
+  .perfil-titulo-texto p {
 
     font-size: .67rem;
 
   }
 
 
-  .perfil-identificacao {
-
-    padding-right: 0;
-
-    gap: 14px;
-
-    margin-bottom: 17px;
-
-  }
-
-
-  .perfil-foto {
-
-    width: 72px;
-
-    height: 72px;
-
-    border-radius: 18px;
-
-    font-size: 1.85rem;
-
-  }
-
-
-  .perfil-nome h2 {
-
-    font-size: 1.30rem;
-
-  }
-
-
-  .perfil-dados {
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 8px;
-
-  }
-
-
-  .perfil-dado {
-
-    min-height: 64px;
-
-    padding:
-      9px 11px;
-
-  }
-
-
-  .perfil-dado span {
-
-    font-size: .65rem;
-
-  }
-
-
-  .perfil-dado strong {
-
-    font-size: .79rem;
-
-  }
-
-
-  .perfil-obs {
-
-    padding:
-      13px;
-
-  }
-
-
-  .perfil-obs-topo {
-
-    align-items: flex-start;
-
-    flex-direction: column;
-
-    gap: 4px;
-
-  }
-
-}
-
-
-/* ========================================================= */
-/* CELULAR PEQUENO                                             */
-/* ========================================================= */
-
-@media (max-width: 420px) {
-
-  .perfil-container {
-
-    padding: 12px;
-
-  }
-
-
   .perfil-card {
 
     padding:
-      19px 16px;
-
-  }
-
-
-  .perfil-dados {
-
-    gap: 7px;
-
-  }
-
-
-  .perfil-dado {
-
-    min-height: 60px;
-
-  }
-
-
-  .perfil-identificacao {
-
-    align-items: center;
+      15px;
 
   }
 
 
   .perfil-acoes {
 
-    gap: 6px;
+    flex-wrap: wrap;
 
   }
 
 
-  .perfil-acoes .salvar-obs-btn,
-  .perfil-acoes .remover-btn {
+  .perfil-identificacao {
 
-    flex: 1;
+    margin-bottom: 14px;
 
-    min-width: 0;
+  }
+
+
+  .perfil-dados {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .perfil-obs-topo {
+
+    flex-direction: column;
+
+  }
+
+
+  .perfil-obs-info {
+
+    padding-top: 0;
+
+    text-align: left;
+
+  }
+
+
+  .perfil-footer {
+
+    gap: 60px;
+
+  }
+
+
+  .perfil-cogumelo {
+
+    width: 180px;
+
+    right: -10px;
+
+    bottom: -5px;
+
+    opacity: .09;
+
+  }
+
+}
+
+
+@media (max-width: 450px) {
+
+  .perfil-titulo-alice {
+
+    font-family:
+      "Alice in Wonderland",
+      Georgia,
+      serif;
+
+    font-size: 1.7rem;
+
+  }
+
+
+  .perfil-identificacao {
+
+    gap: 12px;
+
+  }
+
+
+  .perfil-foto {
+
+    width: 65px;
+
+    height: 65px;
+
+  }
+
+
+  .perfil-nome h2 {
+
+    font-size: 1rem;
+
+  }
+
+
+  .perfil-acoes {
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+  }
+
+
+  .perfil-acoes button {
+
+    width: 100%;
+
+  }
+
+
+  .perfil-footer {
+
+    gap: 25px;
+
+    font-size: .56rem;
 
   }
 

@@ -1,6 +1,7 @@
-// src/components/AgendaModal.jsx
+import {
+  useState
+} from "react"
 
-import { useState } from "react"
 
 function AgendaModal({
   selecionada,
@@ -22,8 +23,10 @@ function AgendaModal({
   setPagamentoAberto,
 }) {
 
-  const [mostrarPagamento, setMostrarPagamento] =
-    useState(false)
+  const [
+    mostrarPagamento,
+    setMostrarPagamento
+  ] = useState(false)
 
 
   if (!selecionada) {
@@ -33,7 +36,7 @@ function AgendaModal({
 
   const pacienteModal =
     pacientes.find(
-      p =>
+      (p) =>
         p.id ===
         selecionada.pacienteId
     )
@@ -64,7 +67,6 @@ function AgendaModal({
     return dataObj.toLocaleDateString(
       "pt-BR"
     )
-
   }
 
 
@@ -75,7 +77,6 @@ function AgendaModal({
     if (setPagamentoAberto) {
       setPagamentoAberto(true)
     }
-
   }
 
 
@@ -89,14 +90,12 @@ function AgendaModal({
     if (setPagamentoAberto) {
       setPagamentoAberto(false)
     }
-
   }
 
 
   async function confirmarPagamento() {
 
     if (!formaPagamento) {
-
       alert(
         "Selecione a forma de pagamento"
       )
@@ -106,7 +105,6 @@ function AgendaModal({
 
 
     if (!valorPago) {
-
       alert(
         "Informe o valor pago"
       )
@@ -122,7 +120,6 @@ function AgendaModal({
     if (setPagamentoAberto) {
       setPagamentoAberto(false)
     }
-
   }
 
 
@@ -135,7 +132,6 @@ function AgendaModal({
     }
 
     setSelecionada(null)
-
   }
 
 
@@ -143,7 +139,7 @@ function AgendaModal({
 
     const paciente =
       pacientes.find(
-        p =>
+        (p) =>
           p.id ===
           selecionada.pacienteId
       )
@@ -157,21 +153,77 @@ function AgendaModal({
       )
 
     }
-
   }
+
+
+  /* ===================================================== */
+  /* NOME                                                  */
+  /* ===================================================== */
+
+  const nomePaciente =
+    pacienteModal?.nome ||
+    selecionada.nome ||
+    "Paciente"
+
+
+  /* ===================================================== */
+  /* TELEFONE DO PACIENTE                                  */
+  /* ===================================================== */
+
+  const telefonePaciente =
+    pacienteModal?.tel ||
+    pacienteModal?.telefone ||
+    selecionada.tel ||
+    selecionada.telefone ||
+    ""
+
+
+  /* ===================================================== */
+  /* TELEFONE DO RESPONSÁVEL                               */
+  /* ===================================================== */
+
+  const telefoneResponsavel =
+    pacienteModal?.telefoneResponsavel ||
+    pacienteModal?.telResponsavel ||
+    pacienteModal?.telefoneResponsavelLegal ||
+    pacienteModal?.telefoneResp ||
+    pacienteModal?.telResp ||
+    pacienteModal?.responsavelTelefone ||
+    pacienteModal?.telefone_do_responsavel ||
+    ""
+
+
+  /* ===================================================== */
+  /* TAG                                                   */
+  /* ===================================================== */
+
+  const tagBruta =
+    pacienteModal?.tag ??
+    pacienteModal?.tags ??
+    selecionada.tag ??
+    selecionada.tags ??
+    ""
+
+
+  const tagPaciente =
+    Array.isArray(tagBruta)
+      ? tagBruta[0]
+      : tagBruta
+
+
+  const tagFormatada =
+    tagPaciente !== null &&
+    tagPaciente !== undefined &&
+    String(tagPaciente).trim() !== ""
+      ? `#${String(tagPaciente).replace(/^#/, "")}`
+      : ""
 
 
   return (
 
     <div className="modal-bg">
 
-
       <div className="pagamento-layout">
-
-
-        {/* ================================================= */}
-        {/* MODAL PRINCIPAL                                   */}
-        {/* ================================================= */}
 
         <div
           className="
@@ -180,9 +232,8 @@ function AgendaModal({
           "
         >
 
-
           {/* ================================================= */}
-          {/* TÍTULO                                             */}
+          {/* CABEÇALHO                                        */}
           {/* ================================================= */}
 
           <div className="modal-paciente-cabecalho">
@@ -191,105 +242,160 @@ function AgendaModal({
               Paciente Agendado
             </h2>
 
-            <h3>
-              {pacienteModal?.nome ||
-                selecionada.nome}
-            </h3>
+
+            {/* NOME */}
+
+            <div className="modal-paciente-nome-linha">
+
+              <h3>
+                {nomePaciente}
+              </h3>
+
+            </div>
+
+
+            {/* TAG ENTRE NOME E DATA */}
+
+            {tagFormatada && (
+
+              <div className="modal-paciente-tag-linha">
+
+                <span className="modal-paciente-tag">
+                  {tagFormatada}
+                </span>
+
+              </div>
+
+            )}
+
+
+            {/* ================================================= */}
+            {/* INFORMAÇÕES DA CONSULTA                         */}
+            {/* ================================================= */}
+
+            <div className="modal-consulta-info">
+
+              <p>
+
+                <span className="modal-info-icone">
+                  📅
+                </span>
+
+                <strong>
+                  {selecionada.dia ||
+                    "Dia não informado"}
+                </strong>
+
+                <span>
+                  •
+                </span>
+
+                <span>
+                  {formatarData(
+                    selecionada.data
+                  )}
+                </span>
+
+              </p>
+
+
+              <p>
+
+                <span className="modal-info-icone">
+                  ⏰
+                </span>
+
+                <span>
+                  {selecionada.hora ||
+                    "Horário não informado"}
+                </span>
+
+              </p>
+
+
+              {selecionada.formaPagamento && (
+
+                <p>
+
+                  <span className="modal-info-icone">
+                    💳
+                  </span>
+
+                  <span>
+                    {selecionada.formaPagamento}
+                  </span>
+
+                </p>
+
+              )}
+
+
+              {selecionada.valorPago > 0 && (
+
+                <p>
+
+                  <span className="modal-info-icone">
+                    💰
+                  </span>
+
+                  <span>
+                    Valor pago: R${" "}
+
+                    {Number(
+                      selecionada.valorPago
+                    )
+                      .toFixed(2)
+                      .replace(
+                        ".",
+                        ","
+                      )}
+                  </span>
+
+                </p>
+
+              )}
+
+            </div>
+
+
+            {/* ================================================= */}
+            {/* TELEFONES                                         */}
+            {/* ================================================= */}
+
+            <div className="modal-telefones">
+
+              <div className="modal-telefone-item">
+
+                <span className="modal-telefone-label">
+                  Telefone
+                </span>
+
+                <span className="modal-telefone-valor">
+                  {telefonePaciente || "-"}
+                </span>
+
+              </div>
+
+
+              <div className="modal-telefone-item">
+
+                <span className="modal-telefone-label">
+                  Telefone do responsável
+                </span>
+
+                <span className="modal-telefone-valor">
+                  {telefoneResponsavel || "-"}
+                </span>
+
+              </div>
+
+            </div>
 
           </div>
 
 
           {/* ================================================= */}
-          {/* INFORMAÇÕES DA CONSULTA                           */}
-          {/* ================================================= */}
-
-          <div className="modal-consulta-info">
-
-
-            <p>
-
-              <span className="modal-info-icone">
-                📅
-              </span>
-
-              <strong>
-                {selecionada.dia ||
-                  "Dia não informado"}
-              </strong>
-
-              <span>
-                •
-              </span>
-
-              <span>
-                {formatarData(
-                  selecionada.data
-                )}
-              </span>
-
-            </p>
-
-
-            <p>
-
-              <span className="modal-info-icone">
-                ⏰
-              </span>
-
-              <span>
-                {selecionada.hora ||
-                  "Horário não informado"}
-              </span>
-
-            </p>
-
-
-            {selecionada.formaPagamento && (
-
-              <p>
-
-                <span className="modal-info-icone">
-                  💳
-                </span>
-
-                <span>
-                  {selecionada.formaPagamento}
-                </span>
-
-              </p>
-
-            )}
-
-
-            {selecionada.valorPago > 0 && (
-
-              <p>
-
-                <span className="modal-info-icone">
-                  💰
-                </span>
-
-                <span>
-                  Valor pago: R${" "}
-                  {Number(
-                    selecionada.valorPago
-                  )
-                    .toFixed(2)
-                    .replace(
-                      ".",
-                      ","
-                    )}
-                </span>
-
-              </p>
-
-            )}
-
-          </div>
-
-
-          {/* ================================================= */}
-          {/* OBSERVAÇÃO                                        */}
+          {/* OBSERVAÇÕES                                      */}
           {/* ================================================= */}
 
           <div className="modal-observacao">
@@ -303,11 +409,13 @@ function AgendaModal({
               rows="4"
               placeholder="Observações da consulta..."
               value={obsEditando}
-              onChange={e =>
+
+              onChange={(e) =>
                 setObsEditando(
                   e.target.value
                 )
               }
+
               onBlur={() => {
 
                 if (
@@ -324,13 +432,10 @@ function AgendaModal({
 
 
           {/* ================================================= */}
-          {/* BOTÕES                                             */}
+          {/* BOTÕES                                            */}
           {/* ================================================= */}
 
           <div className="modal-botoes">
-
-
-            {/* PERFIL */}
 
             <button
               type="button"
@@ -340,8 +445,6 @@ function AgendaModal({
               Ver Perfil
             </button>
 
-
-            {/* CONFIRMADO */}
 
             <button
               type="button"
@@ -356,20 +459,14 @@ function AgendaModal({
             </button>
 
 
-            {/* PAGO */}
-
             <button
               type="button"
               className="btn-pago"
-              onClick={
-                abrirPagamento
-              }
+              onClick={abrirPagamento}
             >
               Pago
             </button>
 
-
-            {/* PENDENTE */}
 
             <button
               type="button"
@@ -384,8 +481,6 @@ function AgendaModal({
             </button>
 
 
-            {/* FALTOU */}
-
             <button
               type="button"
               className="btn-faltou"
@@ -398,8 +493,6 @@ function AgendaModal({
               Faltou
             </button>
 
-
-            {/* AGENDADO */}
 
             <button
               type="button"
@@ -414,8 +507,6 @@ function AgendaModal({
             </button>
 
 
-            {/* REMOVER VALOR */}
-
             {Number(
               selecionada.valorPago
             ) > 0 && (
@@ -423,17 +514,13 @@ function AgendaModal({
               <button
                 type="button"
                 className="remover-valor-btn"
-                onClick={
-                  removerValor
-                }
+                onClick={removerValor}
               >
                 Remover Valor
               </button>
 
             )}
 
-
-            {/* REMOVER CONSULTA */}
 
             <button
               type="button"
@@ -444,50 +531,40 @@ function AgendaModal({
             </button>
 
 
-            {/* FECHAR */}
-
             <button
               type="button"
               className="fechar-modal-btn"
-              onClick={
-                fecharModal
-              }
+              onClick={fecharModal}
             >
               ✕ Fechar
             </button>
 
-
           </div>
-
 
         </div>
 
 
         {/* ================================================= */}
-        {/* PAINEL DE PAGAMENTO                               */}
+        {/* PAGAMENTO                                        */}
         {/* ================================================= */}
 
         {mostrarPagamento && (
 
           <div className="pagamento-box">
 
-
             <h3>
-          Registrar Pagamento
+              Registrar Pagamento
             </h3>
 
-
-            {/* FORMA DE PAGAMENTO */}
 
             <label>
               Forma de pagamento
             </label>
 
             <select
-              value={
-                formaPagamento
-              }
-              onChange={e =>
+              value={formaPagamento}
+
+              onChange={(e) =>
                 setFormaPagamento(
                   e.target.value
                 )
@@ -517,8 +594,6 @@ function AgendaModal({
             </select>
 
 
-            {/* VALOR */}
-
             <label>
               Valor pago
             </label>
@@ -529,18 +604,15 @@ function AgendaModal({
               min="0"
               step="0.01"
               placeholder="R$ 0,00"
-              value={
-                valorPago
-              }
-              onChange={e =>
+              value={valorPago}
+
+              onChange={(e) =>
                 setValorPago(
                   e.target.value
                 )
               }
             />
 
-
-            {/* CONFIRMAR */}
 
             <button
               type="button"
@@ -553,8 +625,6 @@ function AgendaModal({
             </button>
 
 
-            {/* CANCELAR */}
-
             <button
               type="button"
               className="cancelar-pagamento-btn"
@@ -565,19 +635,14 @@ function AgendaModal({
               Cancelar
             </button>
 
-
           </div>
 
         )}
 
-
       </div>
 
     </div>
-
   )
-
 }
-
 
 export default AgendaModal

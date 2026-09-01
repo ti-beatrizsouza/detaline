@@ -24,19 +24,31 @@ import {
 
 
 function Agenda({
+
   voltar,
   abrirPerfil,
   abrirCadastroDentista,
   abrirCadastroPaciente,
   retornoAgendamento,
   limparRetornoAgendamento
+
 }) {
 
-  const dias = getDiasSemana()
-  const horarios = getHorarios()
 
-  const consultas = useConsultas()
-  const pacientes = usePacientes()
+  const dias =
+    getDiasSemana()
+
+
+  const horarios =
+    getHorarios()
+
+
+  const consultas =
+    useConsultas()
+
+
+  const pacientes =
+    usePacientes()
 
 
   /* ===================================================== */
@@ -109,34 +121,6 @@ function Agenda({
   ] = useState("")
 
 
-  const [
-    pacienteTopo,
-    setPacienteTopo
-  ] = useState("")
-
-
-  const [
-    diaTopo,
-    setDiaTopo
-  ] = useState(
-    new Date()
-      .toISOString()
-      .split("T")[0]
-  )
-
-
-  const [
-    horaTopo,
-    setHoraTopo
-  ] = useState("08:00")
-
-
-  const [
-    statusTopo,
-    setStatusTopo
-  ] = useState("agendado")
-
-
   /* ===================================================== */
   /* RETORNO DO CADASTRO                                   */
   /* ===================================================== */
@@ -166,29 +150,15 @@ function Agenda({
     }
 
 
-    /*
-      Reabre exatamente o horário
-      de onde o cadastro foi iniciado.
-    */
-
     setNovoAgendamento(
       agendamento
     )
 
 
-    /*
-      Mantém a data original do slot.
-    */
-
     setDataConsulta(
       agendamento.data || ""
     )
 
-
-    /*
-      Seleciona automaticamente
-      o paciente recém-cadastrado.
-    */
 
     setPacienteSelecionado(
       paciente
@@ -200,11 +170,6 @@ function Agenda({
     )
 
 
-    /*
-      Garante que a semana exibida
-      corresponde ao agendamento.
-    */
-
     if (
       agendamento.data
     ) {
@@ -214,16 +179,13 @@ function Agenda({
           agendamento.data
         )
 
+
       setOffsetSemana(
         novoOffset
       )
 
     }
 
-
-    /*
-      O retorno já foi consumido.
-    */
 
     if (
       limparRetornoAgendamento
@@ -265,6 +227,109 @@ function Agenda({
 
 
   /* ===================================================== */
+  /* DATA LOCAL                                            */
+  /* ===================================================== */
+
+  function obterDataHoje() {
+
+    const hoje =
+      new Date()
+
+
+    const ano =
+      hoje.getFullYear()
+
+
+    const mes =
+      String(
+        hoje.getMonth() + 1
+      ).padStart(
+        2,
+        "0"
+      )
+
+
+    const dia =
+      String(
+        hoje.getDate()
+      ).padStart(
+        2,
+        "0"
+      )
+
+
+    return (
+      `${ano}-${mes}-${dia}`
+    )
+
+  }
+
+
+  /* ===================================================== */
+  /* NOVO AGENDAMENTO                                     */
+  /* ===================================================== */
+
+  function abrirNovoAgendamento() {
+
+    const dataHoje =
+      obterDataHoje()
+
+
+    const hoje =
+      new Date()
+
+
+    const diaSemana =
+      hoje.getDay()
+
+
+    const nomesDias = [
+
+      "Domingo",
+      "Segunda",
+      "Terça",
+      "Quarta",
+      "Quinta",
+      "Sexta",
+      "Sábado"
+
+    ]
+
+
+    setNovoAgendamento({
+
+      dia:
+        nomesDias[
+          diaSemana
+        ],
+
+      hora:
+        "08:00",
+
+      data:
+        dataHoje
+
+    })
+
+
+    setDataConsulta(
+      dataHoje
+    )
+
+
+    setBuscaPaciente(
+      ""
+    )
+
+
+    setPacienteSelecionado(
+      null
+    )
+
+  }
+
+
+  /* ===================================================== */
   /* AÇÕES                                                 */
   /* ===================================================== */
 
@@ -295,19 +360,7 @@ function Agenda({
       setPacienteSelecionado,
 
       dataConsulta,
-      setDataConsulta,
-
-      pacienteTopo,
-      setPacienteTopo,
-
-      diaTopo,
-      setDiaTopo,
-
-      horaTopo,
-      setHoraTopo,
-
-      statusTopo,
-      setStatusTopo
+      setDataConsulta
 
     })
 
@@ -343,56 +396,8 @@ function Agenda({
           voltar
         }
 
-        pacientes={
-          pacientes
-        }
-
-        pacienteTopo={
-          pacienteTopo
-        }
-
-        setPacienteTopo={
-          setPacienteTopo
-        }
-
-        diaTopo={
-          diaTopo
-        }
-
-        setDiaTopo={
-          setDiaTopo
-        }
-
-        irParaData={
-          irParaData
-        }
-
-        horaTopo={
-          horaTopo
-        }
-
-        setHoraTopo={
-          setHoraTopo
-        }
-
-        statusTopo={
-          statusTopo
-        }
-
-        setStatusTopo={
-          setStatusTopo
-        }
-
-        horarios={
-          horarios
-        }
-
-        agendarPeloTopo={
-          actions.agendarPeloTopo
-        }
-
-        abrirCadastroDentista={
-          abrirCadastroDentista
+        abrirNovoAgendamento={
+          abrirNovoAgendamento
         }
 
         offsetSemana={
@@ -411,11 +416,15 @@ function Agenda({
           setDataPesquisa
         }
 
+        irParaData={
+          irParaData
+        }
+
       />
 
 
       {/* ================================================= */}
-      {/* GRID                                              */}
+      {/* AGENDA                                             */}
       {/* ================================================= */}
 
       <section className="agenda-area">
@@ -585,6 +594,10 @@ function Agenda({
 
             novoAgendamento={
               novoAgendamento
+            }
+
+            setNovoAgendamento={
+              setNovoAgendamento
             }
 
             pacientes={

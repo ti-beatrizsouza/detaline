@@ -1,9 +1,11 @@
 import {
+  useEffect,
   useState
 } from "react"
 
 import {
   doc,
+  getDoc,
   updateDoc,
   deleteDoc,
   collection,
@@ -17,18 +19,108 @@ import {
 } from "../services/firebase"
 
 import logoDentaline from "../assets/logob.png"
+import cogumelo from "../assets/cogumelo.png"
 
 import "../styles/perfilPaciente.css"
 
 
-function PerfilPaciente({
+/* ========================================================= */
+/* CALCULAR IDADE                                             */
+/* ========================================================= */
 
+function calcularIdade(
+  dataNascimento
+) {
+
+  if (!dataNascimento) {
+    return null
+  }
+
+  const nascimento =
+    new Date(
+      `${dataNascimento}T00:00:00`
+    )
+
+  if (
+    isNaN(
+      nascimento.getTime()
+    )
+  ) {
+    return null
+  }
+
+  const hoje =
+    new Date()
+
+  let idade =
+    hoje.getFullYear() -
+    nascimento.getFullYear()
+
+  if (
+    hoje.getMonth() <
+    nascimento.getMonth() ||
+    (
+      hoje.getMonth() ===
+        nascimento.getMonth() &&
+      hoje.getDate() <
+        nascimento.getDate()
+    )
+  ) {
+
+    idade--
+
+  }
+
+  return idade >= 0
+    ? idade
+    : null
+
+}
+
+
+/* ========================================================= */
+/* FORMATAR DATA DE NASCIMENTO                                */
+/* ========================================================= */
+
+function formatarDataNascimento(
+  data
+) {
+
+  if (!data) {
+    return null
+  }
+
+  const partes =
+    data.split("-")
+
+  if (
+    partes.length !== 3
+  ) {
+    return data
+  }
+
+  return (
+    `${partes[2]}/${partes[1]}/${partes[0]}`
+  )
+
+}
+
+
+/* ========================================================= */
+/* PERFIL DO PACIENTE                                         */
+/* ========================================================= */
+
+function PerfilPaciente({
   paciente,
   voltar,
   voltarPacientes,
   origem
-
 }) {
+
+
+  /* ======================================================= */
+  /* DADOS                                                   */
+  /* ======================================================= */
 
   const [
     dados,
@@ -38,11 +130,31 @@ function PerfilPaciente({
   })
 
 
+  /* ======================================================= */
+  /* EDIÇÃO                                                   */
+  /* ======================================================= */
+
+  const [
+    editando,
+    setEditando
+  ] = useState(false)
+
+
+  const [
+    salvandoDados,
+    setSalvandoDados
+  ] = useState(false)
+
+
+  /* ======================================================= */
+  /* OBSERVAÇÕES                                              */
+  /* ======================================================= */
+
   const [
     observacoes,
     setObservacoes
   ] = useState(
-    paciente.obs || ""
+    paciente?.obs || ""
   )
 
 
@@ -52,55 +164,469 @@ function PerfilPaciente({
   ] = useState(false)
 
 
-  async function salvarObservacoes() {
+  /* ======================================================= */
+  /* CARREGAR DADOS DIRETO DO FIREBASE                       */
+  /* ======================================================= */
 
-    if (
-      observacoes === (
-        dados.obs || ""
+  useEffect(() => {
+
+    async function carregarPaciente() {
+
+      if (!paciente?.id) {
+        return
+      }
+
+      try {
+
+        const referencia =
+          doc(
+            db,
+            "pacientes",
+            paciente.id
+          )
+
+
+        const snapshot =
+          await getDoc(
+            referencia
+          )
+
+
+        if (
+          snapshot.exists()
+        ) {
+
+          const pacienteAtualizado = {
+
+            id:
+              snapshot.id,
+
+            ...snapshot.data()
+
+          }
+
+
+          setDados(
+            pacienteAtualizado
+          )
+
+
+          setObservacoes(
+            pacienteAtualizado.obs || ""
+          )
+
+
+          localStorage.setItem(
+            "pacienteSelecionado",
+            JSON.stringify(
+              pacienteAtualizado
+            )
+          )
+
+        }
+
+      }
+
+      catch (erro) {
+
+        console.error(
+          "Erro ao carregar paciente:",
+          erro
+        )
+
+      }
+
+    }
+
+
+    carregarPaciente()
+
+  }, [paciente?.id])
+
+
+  /* ======================================================= */
+  /* INICIAR EDIÇÃO                                           */
+  /* ======================================================= */
+
+  function iniciarEdicao() {
+
+    setEditando(true)
+
+  }
+
+
+  /* ======================================================= */
+  /* CANCELAR EDIÇÃO                                         */
+  /* ======================================================= */
+
+  async function cancelarEdicao() {
+
+    try {
+
+      const referencia =
+        doc(
+          db,
+          "pacientes",
+          paciente.id
+        )
+
+
+      const snapshot =
+        await getDoc(
+          referencia
+        )
+
+
+      if (
+        snapshot.exists()
+      ) {
+
+        const pacienteAtualizado = {
+
+          id:
+            snapshot.id,
+
+          ...snapshot.data()
+
+        }
+
+
+        setDados(
+          pacienteAtualizado
+        )
+
+
+        setObservacoes(
+          pacienteAtualizado.obs || ""
+        )
+
+      }
+
+    }
+
+    catch (erro) {
+
+      console.error(
+        "Erro ao restaurar dados:",
+        erro
       )
-    ) {
+
+    }
+
+    setEditando(false)
+
+  }
+
+
+  /* ======================================================= */
+  /* ALTERAR CAMPO                                            */
+  /* ======================================================= */
+
+  function alterarCampo(
+    campo,
+    valor
+  ) {
+
+    setDados(
+      atual => ({
+
+        ...atual,
+
+        [campo]:
+          valor
+
+      })
+    )
+
+  }
+
+
+  /* ======================================================= */
+  /* ALTERAR DATA DE NASCIMENTO                              */
+  /* ======================================================= */
+
+  function alterarDataNascimento(
+    valor
+  ) {
+
+    const idade =
+      calcularIdade(
+        valor
+      )
+
+
+    setDados(
+      atual => ({
+
+        ...atual,
+
+        dataNascimento:
+          valor,
+
+        idade:
+          idade !== null
+            ? String(idade)
+            : atual.idade || ""
+
+      })
+    )
+
+  }
+
+
+  /* ======================================================= */
+  /* SALVAR INFORMAÇÕES                                      */
+  /* ======================================================= */
+
+  async function salvarInformacoes() {
+
+    if (!dados?.id) {
       return
     }
 
 
     try {
 
-      setSalvandoObs(true)
+      setSalvandoDados(
+        true
+      )
 
 
-      await updateDoc(
+      let idadeFinal = ""
 
+
+      /*
+       * Se houver data de nascimento,
+       * ela tem prioridade.
+       */
+
+      if (
+        dados.dataNascimento
+      ) {
+
+        const idade =
+          calcularIdade(
+            dados.dataNascimento
+          )
+
+
+        idadeFinal =
+          idade !== null
+            ? String(idade)
+            : ""
+
+      }
+
+      else {
+
+        idadeFinal =
+          dados.idade
+            ? String(
+                dados.idade
+              )
+            : ""
+
+      }
+
+
+      const dadosParaSalvar = {
+
+        nome:
+          dados.nome || "",
+
+        apelido:
+          dados.apelido || "",
+
+        idade:
+          idadeFinal,
+
+        dataNascimento:
+          dados.dataNascimento || "",
+
+        tel:
+          dados.tel || "",
+
+        responsavel:
+          dados.responsavel || "",
+
+        telResponsavel:
+          dados.telResponsavel || "",
+
+        cpfResponsavel:
+          dados.cpfResponsavel || "",
+
+        proxConsulta:
+          dados.proxConsulta || "",
+
+        ultimaConsulta:
+          dados.ultimaConsulta || ""
+
+      }
+
+
+      /* ================================================= */
+      /* FIREBASE                                           */
+      /* ================================================= */
+
+      const referencia =
         doc(
           db,
           "pacientes",
-          paciente.id
-        ),
+          dados.id
+        )
 
-        {
-          obs: observacoes
-        }
 
+      await updateDoc(
+        referencia,
+        dadosParaSalvar
       )
 
 
-      setDados({
+      /* ================================================= */
+      /* ESTADO LOCAL                                      */
+      /* ================================================= */
+
+      const pacienteAtualizado = {
 
         ...dados,
 
-        obs: observacoes
+        ...dadosParaSalvar
 
-      })
+      }
 
 
-      alert(
-        "Observações atualizadas!"
+      setDados(
+        pacienteAtualizado
       )
+
+
+      /* ================================================= */
+      /* LOCAL STORAGE                                    */
+      /* ================================================= */
+
+      localStorage.setItem(
+        "pacienteSelecionado",
+        JSON.stringify(
+          pacienteAtualizado
+        )
+      )
+
+
+      setEditando(
+        false
+      )
+
+      /*
+       * Sem alert de sucesso.
+       */
 
     }
 
     catch (erro) {
 
-      console.error(erro)
+      console.error(
+        "Erro ao atualizar informações:",
+        erro
+      )
+
+      alert(
+        "Erro ao atualizar as informações do paciente."
+      )
+
+    }
+
+    finally {
+
+      setSalvandoDados(
+        false
+      )
+
+    }
+
+  }
+
+
+  /* ======================================================= */
+  /* SALVAR OBSERVAÇÕES                                      */
+  /* ======================================================= */
+
+  async function salvarObservacoes() {
+
+    if (!dados?.id) {
+      return
+    }
+
+
+    if (
+      observacoes ===
+      (
+        dados.obs || ""
+      )
+    ) {
+
+      return
+
+    }
+
+
+    try {
+
+      setSalvandoObs(
+        true
+      )
+
+
+      const referencia =
+        doc(
+          db,
+          "pacientes",
+          dados.id
+        )
+
+
+      await updateDoc(
+        referencia,
+        {
+          obs:
+            observacoes
+        }
+      )
+
+
+      const pacienteAtualizado = {
+
+        ...dados,
+
+        obs:
+          observacoes
+
+      }
+
+
+      setDados(
+        pacienteAtualizado
+      )
+
+
+      localStorage.setItem(
+        "pacienteSelecionado",
+        JSON.stringify(
+          pacienteAtualizado
+        )
+      )
+
+      /*
+       * Sem alert de sucesso.
+       */
+
+    }
+
+    catch (erro) {
+
+      console.error(
+        "Erro ao salvar observações:",
+        erro
+      )
 
       alert(
         "Erro ao salvar as observações."
@@ -110,43 +636,45 @@ function PerfilPaciente({
 
     finally {
 
-      setSalvandoObs(false)
+      setSalvandoObs(
+        false
+      )
 
     }
 
   }
 
 
+  /* ======================================================= */
+  /* EXCLUIR PACIENTE                                        */
+  /* ======================================================= */
+
   async function excluirPaciente() {
 
     const confirmar =
       window.confirm(
-
         `Deseja realmente excluir ${dados.nome}?\n\nEsta ação não poderá ser desfeita.`
-
       )
 
 
-    if (!confirmar)
+    if (!confirmar) {
       return
+    }
 
 
     try {
 
       const consultas =
         query(
-
           collection(
             db,
             "agenda"
           ),
-
           where(
             "pacienteId",
             "==",
-            paciente.id
+            dados.id
           )
-
         )
 
 
@@ -162,31 +690,27 @@ function PerfilPaciente({
       ) {
 
         await deleteDoc(
-
           doc(
             db,
             "agenda",
             consulta.id
           )
-
         )
 
       }
 
 
       await deleteDoc(
-
         doc(
           db,
           "pacientes",
-          paciente.id
+          dados.id
         )
-
       )
 
 
-      alert(
-        "Paciente excluído com sucesso!"
+      localStorage.removeItem(
+        "pacienteSelecionado"
       )
 
 
@@ -196,7 +720,10 @@ function PerfilPaciente({
 
     catch (erro) {
 
-      console.error(erro)
+      console.error(
+        "Erro ao excluir paciente:",
+        erro
+      )
 
       alert(
         "Erro ao excluir paciente."
@@ -207,37 +734,91 @@ function PerfilPaciente({
   }
 
 
+  /* ======================================================= */
+  /* IDADE PARA EXIBIÇÃO                                    */
+  /* ======================================================= */
+
+  const idadeCalculada =
+    calcularIdade(
+      dados.dataNascimento
+    )
+
+
+  const idadeExibida =
+    idadeCalculada !== null
+      ? idadeCalculada
+      : dados.idade
+        ? Number(
+            dados.idade
+          )
+        : null
+
+
+  /* ======================================================= */
+  /* RENDER                                                  */
+  /* ======================================================= */
+
   return (
 
     <main className="perfil-container">
 
 
       {/* ================================================= */}
-      {/* TOPO                                              */}
+      {/* COGUMELO                                           */}
+      {/* ================================================= */}
+
+      <img
+        className="perfil-cogumelo"
+        src={cogumelo}
+        alt=""
+        aria-hidden="true"
+      />
+
+
+      {/* ================================================= */}
+      {/* TOPO                                               */}
       {/* ================================================= */}
 
       <div className="perfil-topo">
 
 
-        <button
-          className="perfil-voltar"
-          onClick={voltar}
-        >
+        <div className="perfil-topo-esquerda">
 
-          ← Voltar para {
-            origem === "agenda"
-              ? "Agenda"
-              : "Pacientes"
-          }
+          <button
+            type="button"
+            className="perfil-voltar"
+            onClick={voltar}
+          >
+            ← Voltar para {
+              origem === "agenda"
+                ? "Agenda"
+                : "Pacientes"
+            }
+          </button>
 
-        </button>
+        </div>
 
 
-        <div className="perfil-titulo-logo">
+        <div className="perfil-marca">
 
-          <h1>
-            PERFIL DO PACIENTE
-          </h1>
+
+          <div className="perfil-titulo-texto">
+
+            <span className="perfil-marca-texto">
+              DENTALINE
+            </span>
+
+
+            <h1 className="perfil-titulo-alice">
+              Perfil do Paciente
+            </h1>
+
+
+            <p>
+              Gerencie as informações e o histórico do paciente.
+            </p>
+
+          </div>
 
 
           <img
@@ -248,50 +829,71 @@ function PerfilPaciente({
 
         </div>
 
-
       </div>
 
 
       {/* ================================================= */}
-      {/* CARD                                              */}
+      {/* CARD PRINCIPAL                                     */}
       {/* ================================================= */}
 
       <div className="perfil-card">
 
 
         {/* ================================================= */}
-        {/* AÇÕES                                            */}
+        {/* AÇÕES                                             */}
         {/* ================================================= */}
 
         <div className="perfil-acoes">
 
 
+          {!editando ? (
+
+            <button
+              type="button"
+              className="editar-info-btn"
+              onClick={iniciarEdicao}
+            >
+              ✎ Editar informações
+            </button>
+
+          ) : (
+
+            <>
+
+              <button
+                type="button"
+                className="cancelar-edicao-btn"
+                onClick={cancelarEdicao}
+                disabled={salvandoDados}
+              >
+                Cancelar
+              </button>
+
+
+              <button
+                type="button"
+                className="salvar-info-btn"
+                onClick={salvarInformacoes}
+                disabled={salvandoDados}
+              >
+                {
+                  salvandoDados
+                    ? "Salvando..."
+                    : "Salvar informações"
+                }
+              </button>
+
+            </>
+
+          )}
+
+
           <button
-            className="salvar-obs-btn"
-            onClick={salvarObservacoes}
-            disabled={
-              salvandoObs ||
-              observacoes === (
-                dados.obs || ""
-              )
-            }
-          >
-
-            {salvandoObs
-              ? "Salvando..."
-              : "Salvar observações"
-            }
-
-          </button>
-
-
-          <button
+            type="button"
             className="remover-btn"
             onClick={excluirPaciente}
           >
-
             Excluir Paciente
-
           </button>
 
 
@@ -299,7 +901,7 @@ function PerfilPaciente({
 
 
         {/* ================================================= */}
-        {/* CABEÇALHO DO PACIENTE                            */}
+        {/* IDENTIFICAÇÃO                                    */}
         {/* ================================================= */}
 
         <div className="perfil-identificacao">
@@ -317,8 +919,10 @@ function PerfilPaciente({
             ) : (
 
               dados.nome
-                ?.charAt(0)
-                ?.toUpperCase()
+                ? dados.nome
+                    .charAt(0)
+                    .toUpperCase()
+                : "P"
 
             )}
 
@@ -333,17 +937,13 @@ function PerfilPaciente({
 
 
             <h2>
-              {dados.nome}
+              {dados.nome || "Paciente"}
             </h2>
 
 
-            {dados.tag && (
-
-              <div className="perfil-tag">
-                {dados.tag}
-              </div>
-
-            )}
+            <span className="perfil-tag">
+              {dados.tag || "#—"}
+            </span>
 
           </div>
 
@@ -352,25 +952,128 @@ function PerfilPaciente({
 
 
         {/* ================================================= */}
-        {/* DADOS                                            */}
+        {/* DADOS                                             */}
         {/* ================================================= */}
 
         <div className="perfil-dados">
 
 
+          {/* APELIDO */}
+
           <div className="perfil-dado">
 
             <span>
-              Idade
+              Apelido
             </span>
 
-            <strong>
-              {dados.idade || "-"}
-              {dados.idade ? " anos" : ""}
-            </strong>
+
+            {editando ? (
+
+              <input
+                type="text"
+                value={
+                  dados.apelido || ""
+                }
+                onChange={(e) =>
+                  alterarCampo(
+                    "apelido",
+                    e.target.value
+                  )
+                }
+                placeholder="Digite o apelido"
+              />
+
+            ) : (
+
+              <strong>
+                {dados.apelido || "Não definido"}
+              </strong>
+
+            )}
 
           </div>
 
+
+          {/* IDADE / DATA DE NASCIMENTO */}
+
+          <div className="perfil-dado">
+
+            <span>
+              Idade / Data de nascimento
+            </span>
+
+
+            {editando ? (
+
+              <div className="idade-edicao">
+
+
+                <input
+                  type="number"
+                  min="0"
+                  max="150"
+                  value={
+                    dados.dataNascimento
+                      ? (
+                          idadeExibida ??
+                          ""
+                        )
+                      : (
+                          dados.idade || ""
+                        )
+                  }
+                  onChange={(e) =>
+                    alterarCampo(
+                      "idade",
+                      e.target.value
+                    )
+                  }
+                  placeholder="Idade"
+                />
+
+
+                <span>
+                  ou
+                </span>
+
+
+                <input
+                  type="date"
+                  value={
+                    dados.dataNascimento || ""
+                  }
+                  onChange={(e) =>
+                    alterarDataNascimento(
+                      e.target.value
+                    )
+                  }
+                />
+
+              </div>
+
+            ) : (
+
+              <strong>
+
+                {idadeExibida !== null
+                  ? `${idadeExibida} anos`
+                  : "Não informado"
+                }
+
+                {dados.dataNascimento &&
+                  ` - ${formatarDataNascimento(
+                    dados.dataNascimento
+                  )}`
+                }
+
+              </strong>
+
+            )}
+
+          </div>
+
+
+          {/* TELEFONE */}
 
           <div className="perfil-dado">
 
@@ -378,12 +1081,35 @@ function PerfilPaciente({
               Telefone
             </span>
 
-            <strong>
-              {dados.tel || "-"}
-            </strong>
+
+            {editando ? (
+
+              <input
+                type="text"
+                value={
+                  dados.tel || ""
+                }
+                onChange={(e) =>
+                  alterarCampo(
+                    "tel",
+                    e.target.value
+                  )
+                }
+                placeholder="Telefone"
+              />
+
+            ) : (
+
+              <strong>
+                {dados.tel || "Não informado"}
+              </strong>
+
+            )}
 
           </div>
 
+
+          {/* RESPONSÁVEL */}
 
           <div className="perfil-dado">
 
@@ -391,12 +1117,38 @@ function PerfilPaciente({
               Responsável
             </span>
 
-            <strong>
-              {dados.responsavel || "-"}
-            </strong>
+
+            {editando ? (
+
+              <input
+                type="text"
+                value={
+                  dados.responsavel || ""
+                }
+                onChange={(e) =>
+                  alterarCampo(
+                    "responsavel",
+                    e.target.value
+                  )
+                }
+                placeholder="Nome do responsável"
+              />
+
+            ) : (
+
+              <strong>
+                {
+                  dados.responsavel ||
+                  "Não informado"
+                }
+              </strong>
+
+            )}
 
           </div>
 
+
+          {/* TELEFONE DO RESPONSÁVEL */}
 
           <div className="perfil-dado">
 
@@ -404,12 +1156,38 @@ function PerfilPaciente({
               Telefone do responsável
             </span>
 
-            <strong>
-              {dados.telResponsavel || "-"}
-            </strong>
+
+            {editando ? (
+
+              <input
+                type="text"
+                value={
+                  dados.telResponsavel || ""
+                }
+                onChange={(e) =>
+                  alterarCampo(
+                    "telResponsavel",
+                    e.target.value
+                  )
+                }
+                placeholder="Telefone"
+              />
+
+            ) : (
+
+              <strong>
+                {
+                  dados.telResponsavel ||
+                  "Não informado"
+                }
+              </strong>
+
+            )}
 
           </div>
 
+
+          {/* CPF */}
 
           <div className="perfil-dado">
 
@@ -417,12 +1195,38 @@ function PerfilPaciente({
               CPF do responsável
             </span>
 
-            <strong>
-              {dados.cpfResponsavel || "-"}
-            </strong>
+
+            {editando ? (
+
+              <input
+                type="text"
+                value={
+                  dados.cpfResponsavel || ""
+                }
+                onChange={(e) =>
+                  alterarCampo(
+                    "cpfResponsavel",
+                    e.target.value
+                  )
+                }
+                placeholder="CPF"
+              />
+
+            ) : (
+
+              <strong>
+                {
+                  dados.cpfResponsavel ||
+                  "Não informado"
+                }
+              </strong>
+
+            )}
 
           </div>
 
+
+          {/* PRÓXIMA CONSULTA */}
 
           <div className="perfil-dado">
 
@@ -430,12 +1234,37 @@ function PerfilPaciente({
               Próxima consulta
             </span>
 
-            <strong>
-              {dados.proxConsulta || "-"}
-            </strong>
+
+            {editando ? (
+
+              <input
+                type="date"
+                value={
+                  dados.proxConsulta || ""
+                }
+                onChange={(e) =>
+                  alterarCampo(
+                    "proxConsulta",
+                    e.target.value
+                  )
+                }
+              />
+
+            ) : (
+
+              <strong>
+                {
+                  dados.proxConsulta ||
+                  "-"
+                }
+              </strong>
+
+            )}
 
           </div>
 
+
+          {/* ÚLTIMA CONSULTA */}
 
           <div className="perfil-dado">
 
@@ -443,18 +1272,44 @@ function PerfilPaciente({
               Última consulta
             </span>
 
-            <strong>
-              {dados.ultimaConsulta || "-"}
-            </strong>
+
+            {editando ? (
+
+              <input
+                type="date"
+                value={
+                  dados.ultimaConsulta || ""
+                }
+                onChange={(e) =>
+                  alterarCampo(
+                    "ultimaConsulta",
+                    e.target.value
+                  )
+                }
+              />
+
+            ) : (
+
+              <strong>
+                {
+                  dados.ultimaConsulta ||
+                  "-"
+                }
+              </strong>
+
+            )}
 
           </div>
 
+
+          {/* TOTAL PAGO */}
 
           <div className="perfil-dado">
 
             <span>
               Total pago
             </span>
+
 
             <strong className="valor-pago">
 
@@ -473,7 +1328,7 @@ function PerfilPaciente({
 
 
         {/* ================================================= */}
-        {/* OBSERVAÇÕES                                     */}
+        {/* OBSERVAÇÕES                                      */}
         {/* ================================================= */}
 
         <div className="perfil-obs">
@@ -512,10 +1367,46 @@ function PerfilPaciente({
           />
 
 
+          <button
+            type="button"
+            className="salvar-obs-btn"
+            onClick={salvarObservacoes}
+            disabled={
+              salvandoObs ||
+              observacoes === (
+                dados.obs || ""
+              )
+            }
+          >
+            {
+              salvandoObs
+                ? "Salvando..."
+                : "Salvar observações"
+            }
+          </button>
+
+
         </div>
 
 
       </div>
+
+
+      {/* ================================================= */}
+      {/* RODAPÉ                                             */}
+      {/* ================================================= */}
+
+      <footer className="perfil-footer">
+
+        <span>
+          Dentaline
+        </span>
+
+        <span>
+          Gestão odontológica
+        </span>
+
+      </footer>
 
 
     </main>

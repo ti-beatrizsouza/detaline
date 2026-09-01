@@ -1,3 +1,20 @@
+/* ========================================================= */
+/* FONTE ALICE WONDERLAND                                     */
+/* ========================================================= */
+
+@font-face {
+  font-family: "Alice Wonderland";
+  src: url("./assets/fonts/Alice_in_Wonderland.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* ========================================================= */
+/* GERAL                                                      */
+/* ========================================================= */
+
 * {
 
   margin: 0;
@@ -12,6 +29,7 @@
 
 }
 
+
 html,
 body,
 #root {
@@ -22,6 +40,7 @@ body,
 
 }
 
+
 body {
 
   background: #ffffff;
@@ -30,7 +49,10 @@ body {
 
 }
 
-/* Inputs globais */
+
+/* ========================================================= */
+/* INPUTS GLOBAIS                                             */
+/* ========================================================= */
 
 input,
 textarea,
@@ -55,7 +77,6 @@ select {
 
 }
 
-/* Foco */
 
 input:focus,
 textarea:focus,
@@ -76,7 +97,6 @@ select:focus {
 
 }
 
-/* Placeholder */
 
 input::placeholder,
 textarea::placeholder {
@@ -85,7 +105,10 @@ textarea::placeholder {
 
 }
 
-/* Botões */
+
+/* ========================================================= */
+/* BOTÕES                                                      */
+/* ========================================================= */
 
 button {
 
@@ -112,6 +135,7 @@ button {
 
 }
 
+
 button:hover {
 
   opacity: 0.96;
@@ -130,6 +154,7 @@ button:hover {
 
 }
 
+
 button:active {
 
   transform:
@@ -137,7 +162,10 @@ button:active {
 
 }
 
-/* Scrollbar */
+
+/* ========================================================= */
+/* SCROLLBAR                                                   */
+/* ========================================================= */
 
 ::-webkit-scrollbar {
 
@@ -145,11 +173,13 @@ button:active {
 
 }
 
+
 ::-webkit-scrollbar-track {
 
   background: #f4edf3;
 
 }
+
 
 ::-webkit-scrollbar-thumb {
 
@@ -158,6 +188,7 @@ button:active {
   border-radius: 20px;
 
 }
+
 
 ::-webkit-scrollbar-thumb:hover {
 

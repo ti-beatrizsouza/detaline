@@ -4,6 +4,7 @@ import {
   getDataDaColuna
 } from "../utils/agendaUtils"
 
+
 function AgendaHeader({
   dia,
   index,
@@ -15,22 +16,23 @@ function AgendaHeader({
     offsetSemana
   )
 
+
   return (
 
     <div className="agenda-header">
 
-      <div>
+      <div className="agenda-dia-semana">
         {dia}
       </div>
 
-      <small>
+      <small className="agenda-data">
         {data.toLocaleDateString("pt-BR")}
       </small>
 
     </div>
 
   )
-
 }
+
 
 export default AgendaHeader

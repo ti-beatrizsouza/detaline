@@ -438,13 +438,24 @@ function Financeiro({
 
       <header className="financeiro-topo">
 
-        <div className="financeiro-marca-area">
 
-          <img
-            src={logob}
-            className="financeiro-logo"
-            alt="Dentaline"
-          />
+        {/* ================================================= */}
+        {/* VOLTAR — ESQUERDA                                */}
+        {/* ================================================= */}
+
+        <button
+          className="financeiro-voltar"
+          onClick={voltar}
+        >
+          ← Dashboard
+        </button>
+
+
+        {/* ================================================= */}
+        {/* MARCA — DIREITA                                  */}
+        {/* ================================================= */}
+
+        <div className="financeiro-marca-area">
 
           <div className="financeiro-titulo">
 
@@ -463,15 +474,15 @@ function Financeiro({
 
           </div>
 
+
+          <img
+            src={logob}
+            className="financeiro-logo"
+            alt="Dentaline"
+          />
+
         </div>
 
-
-        <button
-          className="financeiro-voltar"
-          onClick={voltar}
-        >
-          ← Voltar
-        </button>
 
       </header>
 
@@ -1082,5 +1093,6 @@ function Financeiro({
   )
 
 }
+
 
 export default Financeiro

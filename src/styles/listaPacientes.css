@@ -1,32 +1,65 @@
 /* ========================================================= */
-/* LISTA DE PACIENTES - GERAL                                */
+/* FONTES                                                     */
+/* ========================================================= */
+
+@font-face {
+
+  font-family: "Alice in Wonderland";
+
+  src:
+    url("../assets/AliceInWonderland.ttf")
+    format("truetype");
+
+  font-weight: normal;
+
+  font-style: normal;
+
+  font-display: swap;
+
+}
+
+
+/* ========================================================= */
+/* GERAL                                                     */
 /* ========================================================= */
 
 .pacientes-container {
+
   width: 100%;
+
   min-height: 100vh;
 
-  padding: 28px 42px;
+  padding:
+    28px
+    42px;
 
   box-sizing: border-box;
 
   display: flex;
+
   flex-direction: column;
 
   position: relative;
 
   overflow-x: hidden;
 
+  font-family:
+    "Nunito",
+    "Trebuchet MS",
+    Arial,
+    sans-serif;
+
   background:
+
     radial-gradient(
       circle at 90% 0%,
-      rgba(255, 255, 255, .14),
+      rgba(255,255,255,.14),
       transparent 25%
     ),
 
     radial-gradient(
       circle at 0% 90%,
-      rgba(255, 255, 255, .07),
+      rgba(255,255,255,.07),
       transparent 28%
     ),
 
@@ -36,6 +69,7 @@
       #b00083 48%,
       #df58c0 100%
     );
+
 }
 
 
@@ -44,6 +78,7 @@
 /* ========================================================= */
 
 .pacientes-container::before {
+
   content: "";
 
   position: absolute;
@@ -59,13 +94,14 @@
     center 55%;
 
   background-size:
-    min(700px, 55%);
+    min(700px,55%);
 
   opacity: .055;
 
   pointer-events: none;
 
   z-index: 0;
+
 }
 
 
@@ -74,6 +110,7 @@
 /* ========================================================= */
 
 .pacientes-brilho {
+
   position: absolute;
 
   border-radius: 50%;
@@ -81,26 +118,39 @@
   pointer-events: none;
 
   z-index: 0;
+
 }
 
+
 .pacientes-brilho-1 {
+
   width: 600px;
+
   height: 600px;
 
   top: -420px;
+
   right: -160px;
 
-  background: rgba(255, 255, 255, .15);
+  background:
+    rgba(255,255,255,.15);
+
 }
 
+
 .pacientes-brilho-2 {
+
   width: 420px;
+
   height: 420px;
 
   bottom: -300px;
+
   left: -180px;
 
-  background: rgba(255, 255, 255, .045);
+  background:
+    rgba(255,255,255,.045);
+
 }
 
 
@@ -109,153 +159,215 @@
 /* ========================================================= */
 
 .pacientes-topo {
+
   width: 100%;
 
-  min-height: 70px;
+  min-height: 82px;
 
   display: flex;
 
   align-items: center;
+
   justify-content: space-between;
 
   gap: 25px;
 
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 
   position: relative;
 
   z-index: 5;
+
 }
 
 
 /* ========================================================= */
-/* MARCA                                                       */
+/* ESQUERDA                                                   */
 /* ========================================================= */
 
-.pacientes-marca {
+.pacientes-topo-esquerda {
+
   display: flex;
 
   align-items: center;
 
-  gap: 20px;
+  justify-content: flex-start;
+
+  flex: 1;
+
 }
 
+
+/* ========================================================= */
+/* MARCA                                                      */
+/* ========================================================= */
+
+.pacientes-marca {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 18px;
+
+  margin-left: auto;
+
+}
+
+
 .pacientes-logo {
-  width: 125px;
-  height: 68px;
+
+  width: 116px;
+
+  height: 76px;
+
+  flex-shrink: 0;
 
   object-fit: contain;
 
   filter:
     drop-shadow(
       0 7px 15px
-      rgba(50, 0, 40, .18)
+      rgba(50,0,40,.18)
     );
+
 }
 
+
 .pacientes-titulo {
+
   display: flex;
 
   flex-direction: column;
+
+  align-items: flex-end;
+
+  text-align: right;
+
 }
 
-.pacientes-titulo span {
-  color: rgba(255, 255, 255, .62);
 
-  font-size: .64rem;
+.pacientes-titulo span {
+
+  margin-bottom: 1px;
+
+  color:
+    rgba(255,255,255,.62);
+
+  font-size: .62rem;
 
   font-weight: 800;
 
-  letter-spacing: .18em;
+  letter-spacing: .2em;
+
+  line-height: 1;
+
 }
 
+
+/* ========================================================= */
+/* TÍTULO - ALICE IN WONDERLAND                              */
+/* ========================================================= */
+
 .pacientes-titulo h1 {
-  margin: 4px 0 2px;
+
+  margin:
+    3px 0 6px;
 
   color: #ffffff;
 
-  font-size: 2.15rem;
+  font-family:
+    "Alice in Wonderland",
+    Georgia,
+    serif;
 
-  font-weight: 800;
+  font-size: 2.75rem;
 
-  letter-spacing: -.035em;
+  font-weight: normal;
 
-  line-height: 1.05;
+  font-style: normal;
+
+  letter-spacing: .025em;
+
+  line-height: .95;
+
+  white-space: nowrap;
+
+  -webkit-font-smoothing: antialiased;
+
+  text-rendering: optimizeLegibility;
+
 }
+
 
 .pacientes-titulo p {
+
   margin: 0;
 
-  color: rgba(255, 255, 255, .75);
+  color:
+    rgba(255,255,255,.78);
 
-  font-size: .82rem;
+  font-size: .78rem;
+
+  line-height: 1.2;
+
 }
 
 
 /* ========================================================= */
-/* AÇÕES DO TOPO                                              */
+/* BOTÃO VOLTAR                                               */
 /* ========================================================= */
 
-.pacientes-topo-acoes {
-  display: flex;
+.pacientes-voltar {
 
-  align-items: center;
-
-  gap: 9px;
-}
-
-.pacientes-voltar,
-.novo-paciente-btn {
   height: 44px;
 
-  padding: 0 18px;
+  padding:
+    0 19px;
 
   border: none;
 
   border-radius: 12px;
 
-  font-size: .76rem;
+  background: #ffffff;
+
+  color: #a9007d;
+
+  font-family: inherit;
+
+  font-size: .78rem;
 
   font-weight: 800;
 
   cursor: pointer;
 
+  white-space: nowrap;
+
+  box-shadow:
+    0 7px 18px
+    rgba(50,0,40,.13);
+
   transition:
     background .18s ease,
     transform .18s ease,
     box-shadow .18s ease;
+
 }
 
-.pacientes-voltar {
-  background: #ffffff;
-
-  color: #a9007d;
-
-  box-shadow:
-    0 7px 18px
-    rgba(50, 0, 40, .13);
-}
 
 .pacientes-voltar:hover {
-  background: #f7eaf4;
 
-  transform: translateY(-1px);
-}
+  background: #f9edf7;
 
-.novo-paciente-btn {
-  background: #9b0172;
-
-  color: #ffffff;
+  transform:
+    translateY(-1px);
 
   box-shadow:
-    0 7px 18px
-    rgba(50, 0, 40, .16);
-}
+    0 9px 21px
+    rgba(50,0,40,.16);
 
-.novo-paciente-btn:hover {
-  background: #850063;
-
-  transform: translateY(-1px);
 }
 
 
@@ -264,11 +376,13 @@
 /* ========================================================= */
 
 .pacientes-resumo {
+
   width: 100%;
 
   display: grid;
 
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
 
   gap: 14px;
 
@@ -276,13 +390,21 @@
 
   position: relative;
 
-  z-index: 2;
+  z-index: 4;
+
 }
 
+/* ========================================================= */
+/* CARDS DO RESUMO                                            */
+/* ========================================================= */
+
 .pacientes-resumo-card {
+
   min-height: 82px;
 
-  padding: 17px 22px;
+  padding:
+    17px
+    22px;
 
   box-sizing: border-box;
 
@@ -298,31 +420,129 @@
 
   box-shadow:
     0 10px 28px
-    rgba(65, 0, 55, .13);
+    rgba(65,0,55,.13);
+
 }
+
 
 .pacientes-resumo-card span {
+
   color: #887b85;
 
-  font-size: .76rem;
+  font-size: .78rem;
 
   font-weight: 650;
+
 }
+
 
 .pacientes-resumo-card strong {
+
   color: #a9007d;
 
-  font-size: 1.4rem;
+  font-size: 1.45rem;
 
   font-weight: 800;
+
+}
+
+/* ========================================================= */
+/* BOX CENTRAL - CADASTRAR PACIENTE                           */
+/* ========================================================= */
+
+.pacientes-resumo-centro {
+
+  min-height: 82px;
+
+  padding:
+    14px 18px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border-radius: 17px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-shadow:
+    0 10px 28px
+    rgba(65,0,55,.13);
+
+}
+
+/* ========================================================= */
+/* BOTÃO CADASTRAR                                            */
+/* ========================================================= */
+
+.novo-paciente-btn {
+
+  width: 50%;
+
+  height: 54px;
+
+  padding:
+    0 25px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background: #b1158a;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: .86rem;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 18px
+    rgba(80,0,65,.16);
+
+  transition:
+    background .18s ease,
+    transform .18s ease,
+    box-shadow .18s ease;
+
+}                   
+
+
+.novo-paciente-btn:hover {
+
+  background:  #d83cb1;
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 10px 22px
+    rgba(80,0,65,.20);
+
 }
 
 
+.novo-paciente-btn:active {
+
+  transform:
+    translateY(0);
+
+}
+
 /* ========================================================= */
-/* FILTROS                                                     */
+/* FILTROS                                                    */
 /* ========================================================= */
 
 .pacientes-filtros {
+
   width: 100%;
 
   min-height: 82px;
@@ -339,20 +559,24 @@
 
   margin-bottom: 15px;
 
-  background: rgba(255, 255, 255, .97);
+  background:
+    rgba(255,255,255,.97);
 
   border-radius: 17px;
 
   box-shadow:
     0 10px 28px
-    rgba(65, 0, 55, .13);
+    rgba(65,0,55,.13);
 
   position: relative;
 
   z-index: 20;
+
 }
 
+
 .filtro-grupo {
+
   flex: 1;
 
   min-width: 0;
@@ -362,24 +586,34 @@
   flex-direction: column;
 
   gap: 5px;
+
 }
 
+
 .filtro-tag-grupo {
-  flex: 0 0 210px;
+
+  flex:
+    0 0 210px;
+
 }
+
 
 .filtro-grupo label,
 .ordenacao-wrapper label {
+
   padding-left: 4px;
 
   color: #766a73;
 
-  font-size: .64rem;
+  font-size: .66rem;
 
   font-weight: 800;
+
 }
 
+
 .filtro-input-wrapper {
+
   height: 42px;
 
   display: flex;
@@ -388,7 +622,8 @@
 
   gap: 7px;
 
-  padding: 0 11px;
+  padding:
+    0 11px;
 
   box-sizing: border-box;
 
@@ -398,30 +633,39 @@
 
   box-shadow:
     inset 0 2px 7px
-    rgba(0, 0, 0, .055);
+    rgba(0,0,0,.055);
 
   transition:
     background .18s ease,
     box-shadow .18s ease;
+
 }
 
+
 .filtro-input-wrapper:focus-within {
+
   background: #ffffff;
 
   box-shadow:
     0 0 0 2px
-    rgba(169, 0, 125, .14);
+    rgba(169,0,125,.14);
+
 }
+
 
 .filtro-input-wrapper > span {
+
   color: #a9007d;
 
-  font-size: .78rem;
+  font-size: .82rem;
 
   opacity: .8;
+
 }
 
+
 .filtro-input-wrapper input {
+
   width: 100%;
 
   height: 100%;
@@ -438,11 +682,15 @@
 
   font-family: inherit;
 
-  font-size: .76rem;
+  font-size: .78rem;
+
 }
 
+
 .filtro-input-wrapper input::placeholder {
+
   color: #aaa1a8;
+
 }
 
 
@@ -451,9 +699,11 @@
 /* ========================================================= */
 
 .limpar-filtros-btn {
+
   height: 42px;
 
-  padding: 0 14px;
+  padding:
+    0 14px;
 
   border: none;
 
@@ -465,7 +715,7 @@
 
   font-family: inherit;
 
-  font-size: .7rem;
+  font-size: .72rem;
 
   font-weight: 800;
 
@@ -476,12 +726,16 @@
   transition:
     background .18s ease,
     color .18s ease;
+
 }
 
+
 .limpar-filtros-btn:hover {
+
   background: #e4d7e1;
 
   color: #a9007d;
+
 }
 
 
@@ -490,23 +744,29 @@
 /* ========================================================= */
 
 .ordenacao-wrapper {
+
   position: relative;
 
-  flex: 0 0 200px;
+  flex:
+    0 0 200px;
 
   display: flex;
 
   flex-direction: column;
 
   gap: 5px;
+
 }
 
+
 .ordenacao-btn {
+
   width: 100%;
 
   height: 42px;
 
-  padding: 0 11px;
+  padding:
+    0 11px;
 
   border: none;
 
@@ -518,7 +778,7 @@
 
   font-family: inherit;
 
-  font-size: .72rem;
+  font-size: .74rem;
 
   font-weight: 750;
 
@@ -532,29 +792,39 @@
 
   box-shadow:
     inset 0 2px 7px
-    rgba(0, 0, 0, .055);
+    rgba(0,0,0,.055);
 
   transition:
     background .18s ease,
     box-shadow .18s ease;
+
 }
+
 
 .ordenacao-btn:hover {
+
   background: #eee5ed;
+
 }
 
+
 .ordenacao-seta {
+
   color: #a9007d;
 
   font-size: .9rem;
 
   font-weight: 900;
+
 }
 
+
 .ordenacao-menu {
+
   position: absolute;
 
-  top: calc(100% + 6px);
+  top:
+    calc(100% + 6px);
 
   right: 0;
 
@@ -568,20 +838,24 @@
 
   box-shadow:
     0 12px 30px
-    rgba(50, 0, 40, .20);
+    rgba(50,0,40,.20);
 
   border:
     1px solid #eadfea;
 
   z-index: 100;
+
 }
 
+
 .ordenacao-menu button {
+
   width: 100%;
 
   height: 40px;
 
-  padding: 0 10px;
+  padding:
+    0 10px;
 
   border: none;
 
@@ -593,7 +867,7 @@
 
   font-family: inherit;
 
-  font-size: .7rem;
+  font-size: .72rem;
 
   font-weight: 700;
 
@@ -608,26 +882,34 @@
   transition:
     background .15s ease,
     color .15s ease;
+
 }
 
+
 .ordenacao-menu button:hover {
+
   background: #f7eaf4;
 
   color: #a9007d;
+
 }
 
+
 .ordenacao-menu button.ativo {
+
   background: #f5e0f0;
 
   color: #a9007d;
+
 }
 
 
 /* ========================================================= */
-/* LISTA                                                       */
+/* LISTA                                                      */
 /* ========================================================= */
 
 .pacientes-lista {
+
   width: 100%;
 
   display: flex;
@@ -639,19 +921,23 @@
   position: relative;
 
   z-index: 2;
+
 }
 
 
 /* ========================================================= */
-/* CARD                                                        */
+/* CARD DO PACIENTE                                           */
 /* ========================================================= */
 
 .paciente-card {
+
   width: 100%;
 
   min-height: 128px;
 
-  padding: 20px 22px;
+  padding:
+    20px
+    22px;
 
   box-sizing: border-box;
 
@@ -669,22 +955,27 @@
 
   box-shadow:
     0 8px 24px
-    rgba(65, 0, 55, .12);
+    rgba(65,0,55,.12);
 
   transition:
     background .18s ease,
     transform .18s ease,
     box-shadow .18s ease;
+
 }
 
+
 .paciente-card:hover {
+
   background: #fdf7fc;
 
-  transform: translateY(-2px);
+  transform:
+    translateY(-2px);
 
   box-shadow:
     0 12px 28px
-    rgba(65, 0, 55, .17);
+    rgba(65,0,55,.17);
+
 }
 
 
@@ -693,7 +984,9 @@
 /* ========================================================= */
 
 .paciente-foto {
+
   width: 70px;
+
   height: 70px;
 
   flex-shrink: 0;
@@ -705,6 +998,7 @@
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   color: #a9007d;
@@ -715,6 +1009,7 @@
 
   box-shadow:
     inset 0 0 0 1px #ead7e6;
+
 }
 
 
@@ -723,12 +1018,16 @@
 /* ========================================================= */
 
 .paciente-info {
+
   min-width: 0;
 
   flex: 1;
+
 }
 
+
 .paciente-nome-area {
+
   display: flex;
 
   align-items: center;
@@ -736,9 +1035,12 @@
   gap: 10px;
 
   margin-bottom: 10px;
+
 }
 
+
 .paciente-nome-area > div {
+
   display: flex;
 
   align-items: center;
@@ -746,9 +1048,12 @@
   gap: 9px;
 
   min-width: 0;
+
 }
 
+
 .paciente-info h2 {
+
   margin: 0;
 
   color: #4e414b;
@@ -762,6 +1067,7 @@
   overflow: hidden;
 
   text-overflow: ellipsis;
+
 }
 
 
@@ -770,9 +1076,12 @@
 /* ========================================================= */
 
 .paciente-tag {
+
   flex-shrink: 0;
 
-  padding: 5px 9px;
+  padding:
+    5px
+    9px;
 
   border-radius: 7px;
 
@@ -780,9 +1089,10 @@
 
   color: #a9007d;
 
-  font-size: .65rem;
+  font-size: .66rem;
 
   font-weight: 850;
+
 }
 
 
@@ -791,19 +1101,23 @@
 /* ========================================================= */
 
 .paciente-detalhes {
+
   display: flex;
 
   flex-direction: column;
 
   gap: 5px;
+
 }
 
+
 .paciente-detalhes p {
+
   margin: 0;
 
   color: #80747d;
 
-  font-size: .74rem;
+  font-size: .76rem;
 
   line-height: 1.35;
 
@@ -812,12 +1126,16 @@
   overflow: hidden;
 
   text-overflow: ellipsis;
+
 }
 
+
 .paciente-detalhes p span {
+
   color: #5f535c;
 
   font-weight: 750;
+
 }
 
 
@@ -826,6 +1144,7 @@
 /* ========================================================= */
 
 .paciente-lateral {
+
   width: 235px;
 
   min-width: 200px;
@@ -844,24 +1163,30 @@
   gap: 5px;
 
   box-sizing: border-box;
+
 }
 
+
 .paciente-lateral-label {
+
   color: #a49aa2;
 
-  font-size: .58rem;
+  font-size: .59rem;
 
   font-weight: 800;
 
   letter-spacing: .08em;
+
 }
 
+
 .paciente-lateral strong {
+
   max-width: 100%;
 
   color: #5a4d56;
 
-  font-size: .8rem;
+  font-size: .81rem;
 
   font-weight: 750;
 
@@ -872,10 +1197,15 @@
   overflow: hidden;
 
   text-overflow: ellipsis;
+
 }
 
+
 .paciente-lateral-tag {
-  padding: 4px 8px;
+
+  padding:
+    4px
+    8px;
 
   border-radius: 6px;
 
@@ -883,9 +1213,10 @@
 
   color: #ffffff;
 
-  font-size: .58rem;
+  font-size: .59rem;
 
   font-weight: 850;
+
 }
 
 
@@ -894,7 +1225,9 @@
 /* ========================================================= */
 
 .paciente-seta {
+
   width: 36px;
+
   height: 36px;
 
   flex-shrink: 0;
@@ -908,6 +1241,7 @@
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   font-size: 1rem;
@@ -918,14 +1252,19 @@
     background .18s ease,
     color .18s ease,
     transform .18s ease;
+
 }
 
+
 .paciente-card:hover .paciente-seta {
+
   background: #a9007d;
 
   color: #ffffff;
 
-  transform: translateX(2px);
+  transform:
+    translateX(2px);
+
 }
 
 
@@ -934,6 +1273,7 @@
 /* ========================================================= */
 
 .pacientes-vazio {
+
   min-height: 320px;
 
   background: #ffffff;
@@ -952,35 +1292,50 @@
 
   box-shadow:
     0 10px 30px
-    rgba(65, 0, 55, .13);
+    rgba(65,0,55,.13);
+
 }
 
+
 .pacientes-vazio img {
+
   width: 150px;
 
   margin-bottom: 12px;
+
 }
 
+
 .pacientes-vazio h2 {
-  margin: 0 0 6px;
+
+  margin:
+    0 0 6px;
 
   color: #51454e;
 
   font-size: 1.05rem;
+
 }
 
+
 .pacientes-vazio p {
-  margin: 0 0 15px;
+
+  margin:
+    0 0 15px;
 
   color: #9a8e96;
 
-  font-size: .74rem;
+  font-size: .75rem;
+
 }
 
+
 .pacientes-vazio button {
+
   height: 42px;
 
-  padding: 0 17px;
+  padding:
+    0 17px;
 
   border: none;
 
@@ -990,7 +1345,7 @@
 
   color: #ffffff;
 
-  font-size: .72rem;
+  font-size: .73rem;
 
   font-weight: 800;
 
@@ -998,10 +1353,14 @@
 
   transition:
     background .18s ease;
+
 }
 
+
 .pacientes-vazio button:hover {
+
   background: #850063;
+
 }
 
 
@@ -1010,11 +1369,16 @@
 /* ========================================================= */
 
 .pacientes-sem-resultado {
+
   min-height: 240px;
+
 }
 
+
 .sem-resultado-icon {
+
   width: 55px;
+
   height: 55px;
 
   margin-bottom: 12px;
@@ -1026,9 +1390,11 @@
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   font-size: 1.3rem;
+
 }
 
 
@@ -1037,9 +1403,11 @@
 /* ========================================================= */
 
 .pacientes-footer {
+
   margin-top: 15px;
 
-  padding: 0 3px;
+  padding:
+    0 3px;
 
   display: flex;
 
@@ -1047,13 +1415,15 @@
 
   justify-content: space-between;
 
-  color: rgba(255, 255, 255, .48);
+  color:
+    rgba(255,255,255,.48);
 
-  font-size: .6rem;
+  font-size: .61rem;
 
   position: relative;
 
   z-index: 2;
+
 }
 
 
@@ -1061,16 +1431,30 @@
 /* RESPONSIVO                                                 */
 /* ========================================================= */
 
-@media (max-width: 1000px) {
+@media (max-width: 1050px) {
 
   .pacientes-container {
-    padding: 24px;
+
+    padding:
+      24px;
+
   }
 
+
+.pacientes-resumo {
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+}
+
+
   .paciente-lateral {
+
     width: 180px;
 
     min-width: 160px;
+
   }
 
 }
@@ -1078,39 +1462,93 @@
 
 @media (max-width: 850px) {
 
+  .pacientes-resumo {
+
+    grid-template-columns:
+      1fr
+      1fr;
+
+  }
+
+
+  .pacientes-resumo-centro {
+
+    grid-column:
+      1 / -1;
+
+    grid-row: 2;
+
+    min-height: auto;
+
+  }
+
+
+  .novo-paciente-btn {
+
+    width: 240px;
+
+  }
+
+
   .pacientes-filtros {
+
     align-items: stretch;
 
     flex-wrap: wrap;
+
   }
+
 
   .filtro-grupo {
-    flex: 1 1 250px;
+
+    flex:
+      1 1 250px;
+
   }
+
 
   .filtro-tag-grupo {
-    flex: 1 1 180px;
+
+    flex:
+      1 1 180px;
+
   }
+
 
   .ordenacao-wrapper {
-    flex: 1 1 180px;
+
+    flex:
+      1 1 180px;
+
   }
+
 
   .limpar-filtros-btn {
-    flex: 0 0 auto;
+
+    flex:
+      0 0 auto;
+
   }
 
+
   .paciente-card {
+
     align-items: flex-start;
 
     flex-wrap: wrap;
+
   }
+
 
   .paciente-info {
+
     flex: 1;
+
   }
 
+
   .paciente-lateral {
+
     width: auto;
 
     min-width: 150px;
@@ -1122,119 +1560,222 @@
     border-left: none;
 
     align-items: flex-start;
+
   }
+
 
   .paciente-lateral strong {
+
     text-align: left;
+
   }
 
+
   .paciente-seta {
+
     margin-left: auto;
+
   }
+
 }
 
 
 @media (max-width: 650px) {
 
   .pacientes-container {
+
     padding: 18px;
+
   }
 
+
   .pacientes-topo {
+
     align-items: flex-start;
 
     flex-direction: column;
+
   }
 
-  .pacientes-topo-acoes {
+
+  .pacientes-topo-esquerda {
+
     width: 100%;
+
   }
 
-  .pacientes-voltar,
-  .novo-paciente-btn {
-    flex: 1;
+
+  .pacientes-voltar {
+
+    width: 100%;
+
   }
+
 
   .pacientes-marca {
+
+    width: 100%;
+
+    margin-left: 0;
+
+    justify-content: flex-end;
+
     gap: 12px;
+
   }
+
 
   .pacientes-logo {
+
     width: 95px;
+
     height: 55px;
+
   }
+
 
   .pacientes-titulo h1 {
-    font-size: 1.65rem;
+
+    font-family:
+      "Alice in Wonderland",
+      Georgia,
+      serif;
+
+    font-size: 2rem;
+
+    font-weight: normal;
+
   }
+
 
   .pacientes-titulo p {
+
     font-size: .68rem;
+
   }
+
 
   .pacientes-resumo {
+
     grid-template-columns: 1fr;
+
   }
 
-  .pacientes-filtros {
-    flex-direction: column;
+
+  .pacientes-resumo-centro {
+
+    grid-column: auto;
+
+    grid-row: auto;
+
   }
+
+
+  .novo-paciente-btn {
+
+    width: 100%;
+
+    min-width: 0;
+
+  }
+
+
+  .pacientes-filtros {
+
+    flex-direction: column;
+
+  }
+
 
   .filtro-grupo,
   .filtro-tag-grupo,
   .ordenacao-wrapper {
+
     width: 100%;
 
     flex: none;
+
   }
+
 
   .limpar-filtros-btn {
+
     width: 100%;
+
   }
 
+
   .paciente-card {
+
     padding: 17px;
 
     gap: 13px;
+
   }
+
 
   .paciente-foto {
+
     width: 60px;
+
     height: 60px;
+
   }
+
 
   .paciente-info h2 {
+
     font-size: .98rem;
+
   }
+
 
   .paciente-detalhes p {
-    font-size: .68rem;
+
+    font-size: .69rem;
+
   }
+
 
   .paciente-lateral {
-    width: calc(100% - 73px);
+
+    width:
+      calc(100% - 73px);
 
     margin-left: 73px;
+
   }
 
+
   .paciente-seta {
+
     display: none;
+
   }
+
 }
 
 
 @media (max-width: 450px) {
 
   .pacientes-topo-acoes {
+
     flex-direction: column;
+
   }
 
-  .pacientes-voltar,
-  .novo-paciente-btn {
+
+  .pacientes-voltar {
+
     width: 100%;
+
   }
+
 
   .paciente-card {
+
     gap: 10px;
+
   }
+
 }
