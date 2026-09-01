@@ -1,5 +1,3 @@
-// src/pages/Financeiro.jsx
-
 import { useMemo, useState } from "react"
 
 import "../styles/financeiro.css"
@@ -18,8 +16,10 @@ function Financeiro({
 
   const hoje = new Date()
 
+
   const [periodo, setPeriodo] =
     useState("mes")
+
 
   const [dataReferencia, setDataReferencia] =
     useState(
@@ -31,11 +31,14 @@ function Financeiro({
   /* PACIENTE                                              */
   /* ===================================================== */
 
-  function encontrarPaciente(consulta) {
+  function encontrarPaciente(
+    consulta
+  ) {
 
     return pacientes.find(
-      (paciente) =>
-        paciente.id === consulta.pacienteId
+      paciente =>
+        paciente.id ===
+        consulta.pacienteId
     )
 
   }
@@ -47,7 +50,9 @@ function Financeiro({
 
   function formatarValor(valor) {
 
-    return Number(valor || 0).toLocaleString(
+    return Number(
+      valor || 0
+    ).toLocaleString(
       "pt-BR",
       {
         style: "currency",
@@ -64,18 +69,6 @@ function Financeiro({
       return "-"
     }
 
-    return new Date(
-      data + "T00:00:00"
-    ).toLocaleDateString("pt-BR")
-
-  }
-
-
-  function formatarDataInput(data) {
-
-    if (!data) {
-      return ""
-    }
 
     return new Date(
       data + "T00:00:00"
@@ -86,15 +79,132 @@ function Financeiro({
   }
 
 
-  function formatarFormaPagamento(forma) {
+  /* ===================================================== */
+  /* FORMA DE PAGAMENTO                                    */
+  /* ===================================================== */
+
+  function formatarFormaPagamento(
+    forma,
+    parcelas
+  ) {
 
     if (!forma) {
       return "-"
     }
 
+
+    const formaNormalizada =
+      String(forma)
+        .toLowerCase()
+        .trim()
+
+
+    /* ------------------------------------------------- */
+    /* CRÉDITO À VISTA                                   */
+    /* ------------------------------------------------- */
+
+    if (
+      formaNormalizada ===
+        "credito_vista" ||
+
+      formaNormalizada ===
+        "credito a vista" ||
+
+      formaNormalizada ===
+        "crédito a vista" ||
+
+      formaNormalizada ===
+        "crédito à vista"
+    ) {
+
+      return "Crédito à vista"
+
+    }
+
+
+    /* ------------------------------------------------- */
+    /* CRÉDITO PARCELADO                                 */
+    /* ------------------------------------------------- */
+
+    if (
+      formaNormalizada ===
+        "credito_parcelado" ||
+
+      formaNormalizada ===
+        "credito parcelado" ||
+
+      formaNormalizada ===
+        "crédito parcelado"
+    ) {
+
+      const quantidade =
+        Math.min(
+          Math.max(
+            Number(
+              parcelas || 2
+            ),
+            2
+          ),
+          6
+        )
+
+
+      return (
+        `Crédito parcelado — ${quantidade}x`
+      )
+
+    }
+
+
+    /* ------------------------------------------------- */
+    /* OUTROS MÉTODOS                                    */
+    /* ------------------------------------------------- */
+
+    if (
+      formaNormalizada ===
+      "debito"
+    ) {
+
+      return "Débito"
+
+    }
+
+
+    if (
+      formaNormalizada ===
+      "pix"
+    ) {
+
+      return "Pix"
+
+    }
+
+
+    if (
+      formaNormalizada ===
+      "dinheiro"
+    ) {
+
+      return "Dinheiro"
+
+    }
+
+
+    if (
+      formaNormalizada ===
+      "credito"
+    ) {
+
+      return "Crédito"
+
+    }
+
+
     return (
-      forma.charAt(0).toUpperCase() +
-      forma.slice(1)
+      String(forma)
+        .charAt(0)
+        .toUpperCase() +
+      String(forma).slice(1)
     )
 
   }
@@ -104,121 +214,164 @@ function Financeiro({
   /* DATA DE REFERÊNCIA                                    */
   /* ===================================================== */
 
-  const dataBase = useMemo(() => {
+  const dataBase =
+    useMemo(
+      () => {
 
-    return new Date(
-      dataReferencia + "T00:00:00"
+        return new Date(
+          dataReferencia +
+          "T00:00:00"
+        )
+
+      },
+      [dataReferencia]
     )
-
-  }, [dataReferencia])
 
 
   /* ===================================================== */
   /* INTERVALO DO PERÍODO                                  */
   /* ===================================================== */
 
-  const intervaloPeriodo = useMemo(() => {
+  const intervaloPeriodo =
+    useMemo(
+      () => {
 
-    let inicio
-    let fim
-
-    /* ------------------------------------------------- */
-    /* DIA                                               */
-    /* ------------------------------------------------- */
-
-    if (periodo === "dia") {
-
-      inicio = new Date(dataBase)
-
-      fim = new Date(dataBase)
-
-    }
+        let inicio
+        let fim
 
 
-    /* ------------------------------------------------- */
-    /* SEMANA                                            */
-    /* ------------------------------------------------- */
+        /* --------------------------------------------- */
+        /* DIA                                           */
+        /* --------------------------------------------- */
 
-    if (periodo === "semana") {
+        if (
+          periodo === "dia"
+        ) {
 
-      inicio = new Date(dataBase)
+          inicio =
+            new Date(
+              dataBase
+            )
 
-      const diaSemana =
-        inicio.getDay()
+          fim =
+            new Date(
+              dataBase
+            )
 
-      const diferenca =
-        diaSemana === 0
-          ? -6
-          : 1 - diaSemana
-
-      inicio.setDate(
-        inicio.getDate() + diferenca
-      )
-
-      fim = new Date(inicio)
-
-      fim.setDate(
-        inicio.getDate() + 6
-      )
-
-    }
+        }
 
 
-    /* ------------------------------------------------- */
-    /* MÊS                                               */
-    /* ------------------------------------------------- */
+        /* --------------------------------------------- */
+        /* SEMANA                                        */
+        /* --------------------------------------------- */
 
-    if (periodo === "mes") {
+        if (
+          periodo === "semana"
+        ) {
 
-      inicio = new Date(
-        dataBase.getFullYear(),
-        dataBase.getMonth(),
-        1
-      )
-
-      fim = new Date(
-        dataBase.getFullYear(),
-        dataBase.getMonth() + 1,
-        0
-      )
-
-    }
+          inicio =
+            new Date(
+              dataBase
+            )
 
 
-    /* ------------------------------------------------- */
-    /* ANO                                               */
-    /* ------------------------------------------------- */
-
-    if (periodo === "ano") {
-
-      inicio = new Date(
-        dataBase.getFullYear(),
-        0,
-        1
-      )
-
-      fim = new Date(
-        dataBase.getFullYear(),
-        11,
-        31
-      )
-
-    }
+          const diaSemana =
+            inicio.getDay()
 
 
-    return {
-      inicio,
-      fim
-    }
+          const diferenca =
+            diaSemana === 0
+              ? -6
+              : 1 - diaSemana
 
-  }, [
-    periodo,
-    dataBase
-  ])
+
+          inicio.setDate(
+            inicio.getDate() +
+            diferenca
+          )
+
+
+          fim =
+            new Date(
+              inicio
+            )
+
+
+          fim.setDate(
+            inicio.getDate() +
+            6
+          )
+
+        }
+
+
+        /* --------------------------------------------- */
+        /* MÊS                                           */
+        /* --------------------------------------------- */
+
+        if (
+          periodo === "mes"
+        ) {
+
+          inicio =
+            new Date(
+              dataBase.getFullYear(),
+              dataBase.getMonth(),
+              1
+            )
+
+
+          fim =
+            new Date(
+              dataBase.getFullYear(),
+              dataBase.getMonth() + 1,
+              0
+            )
+
+        }
+
+
+        /* --------------------------------------------- */
+        /* ANO                                           */
+        /* --------------------------------------------- */
+
+        if (
+          periodo === "ano"
+        ) {
+
+          inicio =
+            new Date(
+              dataBase.getFullYear(),
+              0,
+              1
+            )
+
+
+          fim =
+            new Date(
+              dataBase.getFullYear(),
+              11,
+              31
+            )
+
+        }
+
+
+        return {
+          inicio,
+          fim
+        }
+
+      },
+      [
+        periodo,
+        dataBase
+      ]
+    )
 
 
   /* ===================================================== */
-  /* VERIFICAR SE ESTÁ NO PERÍODO                          */
+  /* VERIFICAR PERÍODO                                    */
   /* ===================================================== */
 
   function estaNoPeriodo(data) {
@@ -227,20 +380,20 @@ function Financeiro({
       return false
     }
 
+
     const dataConsulta =
       new Date(
-        data + "T00:00:00"
+        data +
+        "T00:00:00"
       )
 
-    const inicio =
-      intervaloPeriodo.inicio
-
-    const fim =
-      intervaloPeriodo.fim
 
     return (
-      dataConsulta >= inicio &&
-      dataConsulta <= fim
+      dataConsulta >=
+        intervaloPeriodo.inicio &&
+
+      dataConsulta <=
+        intervaloPeriodo.fim
     )
 
   }
@@ -251,19 +404,22 @@ function Financeiro({
   /* ===================================================== */
 
   const consultasDoPeriodo =
-    useMemo(() => {
+    useMemo(
+      () => {
 
-      return consultas.filter(
-        (consulta) =>
-          estaNoPeriodo(
-            consulta.data
-          )
-      )
+        return consultas.filter(
+          consulta =>
+            estaNoPeriodo(
+              consulta.data
+            )
+        )
 
-    }, [
-      consultas,
-      intervaloPeriodo
-    ])
+      },
+      [
+        consultas,
+        intervaloPeriodo
+      ]
+    )
 
 
   /* ===================================================== */
@@ -271,18 +427,21 @@ function Financeiro({
   /* ===================================================== */
 
   const pagamentosRealizados =
-    useMemo(() => {
+    useMemo(
+      () => {
 
-      return consultasDoPeriodo.filter(
-        (consulta) =>
-          Number(
-            consulta.valorPago || 0
-          ) > 0
-      )
+        return consultasDoPeriodo.filter(
+          consulta =>
+            Number(
+              consulta.valorPago || 0
+            ) > 0
+        )
 
-    }, [
-      consultasDoPeriodo
-    ])
+      },
+      [
+        consultasDoPeriodo
+      ]
+    )
 
 
   /* ===================================================== */
@@ -290,28 +449,33 @@ function Financeiro({
   /* ===================================================== */
 
   const pagamentosPendentes =
-    useMemo(() => {
+    useMemo(
+      () => {
 
-      return consultasDoPeriodo.filter(
-        (consulta) => {
+        return consultasDoPeriodo.filter(
+          consulta => {
 
-          const status =
-            String(
-              consulta.status || ""
-            ).toLowerCase()
+            const status =
+              String(
+                consulta.status || ""
+              ).toLowerCase()
 
-          return (
-            status === "debito" ||
-            status === "pendente" ||
-            status === "pagamento pendente"
-          )
 
-        }
-      )
+            return (
+              status === "debito" ||
+              status === "pendente" ||
+              status ===
+                "pagamento pendente"
+            )
 
-    }, [
-      consultasDoPeriodo
-    ])
+          }
+        )
+
+      },
+      [
+        consultasDoPeriodo
+      ]
+    )
 
 
   /* ===================================================== */
@@ -319,20 +483,31 @@ function Financeiro({
   /* ===================================================== */
 
   const totalPeriodo =
-    useMemo(() => {
+    useMemo(
+      () => {
 
-      return pagamentosRealizados.reduce(
-        (total, consulta) =>
-          total +
-          Number(
-            consulta.valorPago || 0
-          ),
-        0
-      )
+        return pagamentosRealizados.reduce(
+          (
+            total,
+            consulta
+          ) => {
 
-    }, [
-      pagamentosRealizados
-    ])
+            return (
+              total +
+              Number(
+                consulta.valorPago || 0
+              )
+            )
+
+          },
+          0
+        )
+
+      },
+      [
+        pagamentosRealizados
+      ]
+    )
 
 
   /* ===================================================== */
@@ -341,6 +516,7 @@ function Financeiro({
 
   const quantidadePagamentos =
     pagamentosRealizados.length
+
 
   const quantidadePendentes =
     pagamentosPendentes.length
@@ -386,13 +562,17 @@ function Financeiro({
     const fim =
       intervaloPeriodo.fim
 
-    if (periodo === "dia") {
+
+    if (
+      periodo === "dia"
+    ) {
 
       return formatarData(
         dataReferencia
       )
 
     }
+
 
     return (
       `${inicio.toLocaleDateString(
@@ -406,13 +586,14 @@ function Financeiro({
 
 
   /* ===================================================== */
-  /* VOLTAR PARA HOJE                                      */
+  /* HOJE                                                  */
   /* ===================================================== */
 
   function irParaHoje() {
 
     const agora =
       new Date()
+
 
     setDataReferencia(
       agora
@@ -438,11 +619,6 @@ function Financeiro({
 
       <header className="financeiro-topo">
 
-
-        {/* ================================================= */}
-        {/* VOLTAR — ESQUERDA                                */}
-        {/* ================================================= */}
-
         <button
           className="financeiro-voltar"
           onClick={voltar}
@@ -450,10 +626,6 @@ function Financeiro({
           ← Dashboard
         </button>
 
-
-        {/* ================================================= */}
-        {/* MARCA — DIREITA                                  */}
-        {/* ================================================= */}
 
         <div className="financeiro-marca-area">
 
@@ -483,12 +655,11 @@ function Financeiro({
 
         </div>
 
-
       </header>
 
 
       {/* ================================================= */}
-      {/* FILTROS                                            */}
+      {/* FILTROS                                           */}
       {/* ================================================= */}
 
       <section className="financeiro-filtros">
@@ -498,6 +669,7 @@ function Financeiro({
           <span className="financeiro-filtro-label">
             Período
           </span>
+
 
           <div className="financeiro-periodos-botoes">
 
@@ -538,18 +710,20 @@ function Financeiro({
             Data de referência
           </label>
 
+
           <div className="financeiro-data-controles">
 
             <input
               id="data-financeiro"
               type="date"
               value={dataReferencia}
-              onChange={(e) =>
+              onChange={e =>
                 setDataReferencia(
                   e.target.value
                 )
               }
             />
+
 
             <button
               type="button"
@@ -591,6 +765,7 @@ function Financeiro({
             💰
           </div>
 
+
           <div>
 
             <span>
@@ -614,6 +789,7 @@ function Financeiro({
             🧾
           </div>
 
+
           <div>
 
             <span>
@@ -634,6 +810,7 @@ function Financeiro({
           <div className="financeiro-card-icone">
             ⏳
           </div>
+
 
           <div>
 
@@ -656,6 +833,7 @@ function Financeiro({
             📊
           </div>
 
+
           <div>
 
             <span>
@@ -672,7 +850,6 @@ function Financeiro({
 
         </div>
 
-
       </section>
 
 
@@ -684,32 +861,29 @@ function Financeiro({
 
 
         {/* ================================================= */}
-        {/* PAGAMENTOS REALIZADOS — PRIMEIRO                 */}
+        {/* PAGAMENTOS REALIZADOS                             */}
         {/* ================================================= */}
 
         <div className="financeiro-tabela-container">
 
           <div className="financeiro-tabela-topo">
 
-            <div>
+            <div className="financeiro-titulo-tabela">
 
-              <div className="financeiro-titulo-tabela">
+              <span className="financeiro-tabela-icone realizado">
+                ✓
+              </span>
 
-                <span className="financeiro-tabela-icone realizado">
-                  ✓
-                </span>
 
-                <div>
+              <div>
 
-                  <h2>
-                    Pagamentos realizados
-                  </h2>
+                <h2>
+                  Pagamentos realizados
+                </h2>
 
-                  <p>
-                    Pagamentos registrados no período selecionado.
-                  </p>
-
-                </div>
+                <p>
+                  Pagamentos registrados no período selecionado.
+                </p>
 
               </div>
 
@@ -789,12 +963,13 @@ function Financeiro({
                 ) : (
 
                   pagamentosRealizados.map(
-                    (consulta) => {
+                    consulta => {
 
                       const paciente =
                         encontrarPaciente(
                           consulta
                         )
+
 
                       return (
 
@@ -805,7 +980,8 @@ function Financeiro({
                           <td>
 
                             <strong>
-                              {paciente?.nome ||
+                              {
+                                paciente?.nome ||
                                 consulta.nome ||
                                 "-"
                               }
@@ -817,7 +993,12 @@ function Financeiro({
                           <td>
 
                             <span className="financeiro-tag">
-                              {paciente?.tag || "—"}
+
+                              {
+                                paciente?.tag ||
+                                "—"
+                              }
+
                             </span>
 
                           </td>
@@ -825,7 +1006,8 @@ function Financeiro({
 
                           <td>
 
-                            {paciente?.responsavel ||
+                            {
+                              paciente?.responsavel ||
                               paciente?.nomeResponsavel ||
                               "-"
                             }
@@ -835,7 +1017,8 @@ function Financeiro({
 
                           <td>
 
-                            {paciente?.cpfResponsavel ||
+                            {
+                              paciente?.cpfResponsavel ||
                               paciente?.cpf ||
                               "-"
                             }
@@ -847,21 +1030,30 @@ function Financeiro({
 
                             <span className="forma-pagamento">
 
-                              {formatarFormaPagamento(
-                                consulta.formaPagamento
-                              )}
+                              {
+                                formatarFormaPagamento(
+                                  consulta.formaPagamento,
+                                  consulta.parcelas
+                                )
+                              }
 
                             </span>
 
+
                             <small className="financeiro-data">
 
-                              {formatarData(
-                                consulta.data
-                              )}
+                              {
+                                formatarData(
+                                  consulta.data
+                                )
+                              }
 
                               {" • "}
 
-                              {consulta.hora || "-"}
+                              {
+                                consulta.hora ||
+                                "-"
+                              }
 
                             </small>
 
@@ -870,9 +1062,11 @@ function Financeiro({
 
                           <td className="valor-pago">
 
-                            {formatarValor(
-                              consulta.valorPago
-                            )}
+                            {
+                              formatarValor(
+                                consulta.valorPago
+                              )
+                            }
 
                           </td>
 
@@ -895,32 +1089,29 @@ function Financeiro({
 
 
         {/* ================================================= */}
-        {/* PAGAMENTOS PENDENTES — SEGUNDO                   */}
+        {/* PAGAMENTOS PENDENTES                              */}
         {/* ================================================= */}
 
         <div className="financeiro-tabela-container">
 
           <div className="financeiro-tabela-topo">
 
-            <div>
+            <div className="financeiro-titulo-tabela">
 
-              <div className="financeiro-titulo-tabela">
+              <span className="financeiro-tabela-icone pendente">
+                !
+              </span>
 
-                <span className="financeiro-tabela-icone pendente">
-                  !
-                </span>
 
-                <div>
+              <div>
 
-                  <h2>
-                    Pagamentos pendentes
-                  </h2>
+                <h2>
+                  Pagamentos pendentes
+                </h2>
 
-                  <p>
-                    Pacientes que ainda possuem pagamento em aberto.
-                  </p>
-
-                </div>
+                <p>
+                  Pacientes que ainda possuem pagamento em aberto.
+                </p>
 
               </div>
 
@@ -988,12 +1179,13 @@ function Financeiro({
                 ) : (
 
                   pagamentosPendentes.map(
-                    (consulta) => {
+                    consulta => {
 
                       const paciente =
                         encontrarPaciente(
                           consulta
                         )
+
 
                       return (
 
@@ -1004,7 +1196,8 @@ function Financeiro({
                           <td>
 
                             <strong>
-                              {paciente?.nome ||
+                              {
+                                paciente?.nome ||
                                 consulta.nome ||
                                 "-"
                               }
@@ -1016,7 +1209,12 @@ function Financeiro({
                           <td>
 
                             <span className="financeiro-tag">
-                              {paciente?.tag || "—"}
+
+                              {
+                                paciente?.tag ||
+                                "—"
+                              }
+
                             </span>
 
                           </td>
@@ -1024,7 +1222,8 @@ function Financeiro({
 
                           <td>
 
-                            {paciente?.responsavel ||
+                            {
+                              paciente?.responsavel ||
                               paciente?.nomeResponsavel ||
                               "-"
                             }
@@ -1034,7 +1233,8 @@ function Financeiro({
 
                           <td>
 
-                            {paciente?.cpfResponsavel ||
+                            {
+                              paciente?.cpfResponsavel ||
                               paciente?.cpf ||
                               "-"
                             }
@@ -1044,9 +1244,11 @@ function Financeiro({
 
                           <td>
 
-                            {formatarData(
-                              consulta.data
-                            )}
+                            {
+                              formatarData(
+                                consulta.data
+                              )
+                            }
 
                           </td>
 
@@ -1066,7 +1268,6 @@ function Financeiro({
           </div>
 
         </div>
-
 
       </section>
 

@@ -79,6 +79,10 @@ function Agenda({
   ] = useState("")
 
 
+  /* ===================================================== */
+  /* PAGAMENTO                                             */
+  /* ===================================================== */
+
   const [
     valorPago,
     setValorPago
@@ -92,16 +96,30 @@ function Agenda({
 
 
   const [
+    parcelas,
+    setParcelas
+  ] = useState("")
+  
+
+  const [
     pagamentoAberto,
     setPagamentoAberto
   ] = useState(false)
 
+
+  /* ===================================================== */
+  /* OBSERVAÇÕES                                           */
+  /* ===================================================== */
 
   const [
     obsEditando,
     setObsEditando
   ] = useState("")
 
+
+  /* ===================================================== */
+  /* NOVO AGENDAMENTO                                      */
+  /* ===================================================== */
 
   const [
     buscaPaciente,
@@ -119,6 +137,81 @@ function Agenda({
     dataConsulta,
     setDataConsulta
   ] = useState("")
+
+
+  /* ===================================================== */
+  /* SINCRONIZAR DADOS DA CONSULTA ABERTA                 */
+  /* ===================================================== */
+
+  useEffect(() => {
+
+    if (!selecionada) {
+
+      setValorPago("")
+      setFormaPagamento("")
+      setParcelas("")
+      setPagamentoAberto(false)
+
+      return
+
+    }
+
+
+    /*
+     * Quando uma consulta é aberta,
+     * recuperamos os dados que já estão
+     * salvos nela.
+     */
+
+    if (
+      selecionada.status === "pagou"
+    ) {
+
+      setValorPago(
+        selecionada.valorPago !== undefined &&
+        selecionada.valorPago !== null
+          ? String(
+              selecionada.valorPago
+            )
+          : ""
+      )
+
+
+      setFormaPagamento(
+        selecionada.formaPagamento ||
+        ""
+      )
+
+
+      setParcelas(
+        selecionada.parcelas
+          ? String(
+              selecionada.parcelas
+            )
+          : ""
+      )
+
+
+      /*
+       * Se já foi paga, a aba de pagamento
+       * abre automaticamente.
+       */
+
+      setPagamentoAberto(true)
+
+    }
+    else {
+
+      setValorPago("")
+      setFormaPagamento("")
+      setParcelas("")
+      setPagamentoAberto(false)
+
+    }
+
+  }, [
+    selecionada
+  ])
 
 
   /* ===================================================== */
@@ -266,7 +359,7 @@ function Agenda({
 
 
   /* ===================================================== */
-  /* NOVO AGENDAMENTO                                     */
+  /* NOVO AGENDAMENTO                                      */
   /* ===================================================== */
 
   function abrirNovoAgendamento() {
@@ -347,6 +440,9 @@ function Agenda({
 
       formaPagamento,
       setFormaPagamento,
+
+      parcelas,
+      setParcelas,
 
       obsEditando,
 
@@ -529,6 +625,14 @@ function Agenda({
               setFormaPagamento
             }
 
+            parcelas={
+              parcelas
+            }
+
+            setParcelas={
+              setParcelas
+            }
+
             pagamentoAberto={
               pagamentoAberto
             }
@@ -573,6 +677,18 @@ function Agenda({
 
               setPagamentoAberto(
                 false
+              )
+
+              setValorPago(
+                ""
+              )
+
+              setFormaPagamento(
+                ""
+              )
+
+              setParcelas(
+                ""
               )
 
             }}

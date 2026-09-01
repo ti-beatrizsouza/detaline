@@ -9,10 +9,9 @@ import {
 
 import { db } from "../services/firebase"
 
+
 export default function useAgendaActions({
-
   pacientes,
-
   selecionada,
   setSelecionada,
 
@@ -21,6 +20,9 @@ export default function useAgendaActions({
 
   formaPagamento,
   setFormaPagamento,
+
+  parcelas,
+  setParcelas,
 
   obsEditando,
 
@@ -46,36 +48,88 @@ export default function useAgendaActions({
 
   statusTopo,
   setStatusTopo
-
 }) {
 
+
+  /* ========================================================= */
+  /* MUDAR STATUS                                               */
+  /* ========================================================= */
+
   async function mudarStatus(status) {
+
+    if (!selecionada) {
+      return
+    }
+
 
     if (
       status === "pagou" &&
       !formaPagamento
-    ) return
+    ) {
+
+      alert(
+        "Selecione a forma de pagamento"
+      )
+
+      return
+    }
+
+
+    const valor =
+      status === "pagou"
+        ? Number(valorPago || 0)
+        : Number(
+            selecionada.valorPago || 0
+          )
+
+
+    const pagamentoParcelado =
+      status === "pagou" &&
+      formaPagamento ===
+        "credito_parcelado"
+
+
+    const quantidadeParcelas =
+      pagamentoParcelado
+        ? Math.min(
+            Math.max(
+              Number(parcelas || 2),
+              2
+            ),
+            6
+          )
+        : 0
+
 
     await updateDoc(
-      doc(db, "agenda", selecionada.id),
+      doc(
+        db,
+        "agenda",
+        selecionada.id
+      ),
       {
+
         status,
 
         valorPago:
-          status === "pagou"
-            ? Number(valorPago || 0)
-            : selecionada.valorPago || 0,
+          valor,
 
         formaPagamento:
           status === "pagou"
             ? formaPagamento
-            : selecionada.formaPagamento || ""
+            : selecionada.formaPagamento || "",
+
+        parcelas:
+          status === "pagou"
+            ? quantidadeParcelas
+            : selecionada.parcelas || 0
       }
     )
 
+
     if (
       status === "pagou" &&
-      valorPago &&
+      valor > 0 &&
       selecionada.pacienteId
     ) {
 
@@ -86,13 +140,13 @@ export default function useAgendaActions({
           selecionada.pacienteId
         ),
         {
-          totalPago: increment(
-            Number(valorPago)
-          )
+          totalPago:
+            increment(valor)
         }
       )
 
     }
+
 
     setSelecionada({
 
@@ -101,27 +155,51 @@ export default function useAgendaActions({
       status,
 
       valorPago:
-        status === "pagou"
-          ? Number(valorPago || 0)
-          : selecionada.valorPago || 0,
+        valor,
 
       formaPagamento:
         status === "pagou"
           ? formaPagamento
-          : selecionada.formaPagamento || ""
+          : selecionada.formaPagamento || "",
+
+      parcelas:
+        status === "pagou"
+          ? quantidadeParcelas
+          : selecionada.parcelas || 0
 
     })
 
-    setValorPago("")
+
+    if (setValorPago) {
+      setValorPago("")
+    }
+
+    if (setFormaPagamento) {
+      setFormaPagamento("")
+    }
+
+    if (setParcelas) {
+      setParcelas(2)
+    }
 
   }
+
+
+  /* ========================================================= */
+  /* REMOVER VALOR PAGO                                        */
+  /* ========================================================= */
 
   async function removerValor() {
 
     if (
       !selecionada?.pacienteId ||
       !selecionada?.valorPago
-    ) return
+    ) {
+
+      return
+
+    }
+
 
     await updateDoc(
       doc(
@@ -130,13 +208,15 @@ export default function useAgendaActions({
         selecionada.pacienteId
       ),
       {
-        totalPago: increment(
-          -Number(
-            selecionada.valorPago
+        totalPago:
+          increment(
+            -Number(
+              selecionada.valorPago
+            )
           )
-        )
       }
     )
+
 
     await updateDoc(
       doc(
@@ -145,25 +225,61 @@ export default function useAgendaActions({
         selecionada.id
       ),
       {
+
         valorPago: 0,
-        status: "confirmado",
-        formaPagamento: ""
+
+        status:
+          "confirmado",
+
+        formaPagamento: "",
+
+        parcelas: 0
+
       }
     )
+
 
     setSelecionada({
 
       ...selecionada,
 
       valorPago: 0,
-      status: "confirmado",
-      formaPagamento: ""
+
+      status:
+        "confirmado",
+
+      formaPagamento: "",
+
+      parcelas: 0
 
     })
 
+
+    if (setValorPago) {
+      setValorPago("")
+    }
+
+    if (setFormaPagamento) {
+      setFormaPagamento("")
+    }
+
+    if (setParcelas) {
+      setParcelas(2)
+    }
+
   }
 
+
+  /* ========================================================= */
+  /* REMOVER AGENDAMENTO                                       */
+  /* ========================================================= */
+
   async function remover() {
+
+    if (!selecionada) {
+      return
+    }
+
 
     await deleteDoc(
       doc(
@@ -173,122 +289,197 @@ export default function useAgendaActions({
       )
     )
 
+
     setSelecionada(null)
 
   }
 
-async function criarAgendamento() {
 
-  if (!pacienteSelecionado) {
-    alert("Selecione um paciente")
-    return
-  }
+  /* ========================================================= */
+  /* CRIAR AGENDAMENTO                                         */
+  /* ========================================================= */
 
-  const dataFinal =
-    dataConsulta ||
-    novoAgendamento?.data ||
-    ""
+  async function criarAgendamento() {
 
-  if (!dataFinal) {
-    alert("Selecione uma data")
-    return
-  }
+    if (!pacienteSelecionado) {
 
-  await addDoc(
-    collection(db, "agenda"),
-    {
-      pacienteId:
-        pacienteSelecionado.id,
+      alert(
+        "Selecione um paciente"
+      )
 
-      nome:
-        pacienteSelecionado.nome,
-
-      dia:
-        novoAgendamento.dia,
-
-      hora:
-        novoAgendamento.hora,
-
-      data:
-        dataFinal,
-
-      status: "agendado",
-
-      valorPago: 0,
-
-      formaPagamento: ""
-    }
-  )
-
-  await updateDoc(
-    doc(
-      db,
-      "pacientes",
-      pacienteSelecionado.id
-    ),
-    {
-      proxConsulta: dataFinal
-    }
-  )
-
-  setNovoAgendamento(null)
-  setBuscaPaciente("")
-  setPacienteSelecionado(null)
-  setDataConsulta("")
-}
-
-  async function agendarPeloTopo() {
-
-    if (!pacienteTopo || !diaTopo) {
-
-      alert("Selecione paciente e data")
       return
 
     }
 
-    const paciente =
-      pacientes.find(
-        p => p.id === pacienteTopo
+
+    const dataFinal =
+      dataConsulta ||
+      novoAgendamento?.data ||
+      ""
+
+
+    if (!dataFinal) {
+
+      alert(
+        "Selecione uma data"
       )
 
-    if (!paciente) return
+      return
+
+    }
+
+
+    await addDoc(
+      collection(
+        db,
+        "agenda"
+      ),
+      {
+
+        pacienteId:
+          pacienteSelecionado.id,
+
+        nome:
+          pacienteSelecionado.nome,
+
+        dia:
+          novoAgendamento.dia,
+
+        hora:
+          novoAgendamento.hora,
+
+        data:
+          dataFinal,
+
+        status:
+          "agendado",
+
+        valorPago: 0,
+
+        formaPagamento: "",
+
+        parcelas: 0
+
+      }
+    )
+
+
+    await updateDoc(
+      doc(
+        db,
+        "pacientes",
+        pacienteSelecionado.id
+      ),
+      {
+        proxConsulta:
+          dataFinal
+      }
+    )
+
+
+    setNovoAgendamento(null)
+
+    setBuscaPaciente("")
+
+    setPacienteSelecionado(null)
+
+    setDataConsulta("")
+
+  }
+
+
+  /* ========================================================= */
+  /* AGENDAR PELO TOPO                                         */
+  /* ========================================================= */
+
+  async function agendarPeloTopo() {
+
+    if (
+      !pacienteTopo ||
+      !diaTopo
+    ) {
+
+      alert(
+        "Selecione paciente e data"
+      )
+
+      return
+
+    }
+
+
+    const paciente =
+      pacientes.find(
+        p =>
+          p.id ===
+          pacienteTopo
+      )
+
+
+    if (!paciente) {
+      return
+    }
+
 
     const dataObj =
       new Date(diaTopo)
 
+
     const diasSemana = [
+
       "Domingo",
+
       "Segunda",
+
       "Terça",
+
       "Quarta",
+
       "Quinta",
+
       "Sexta",
+
       "Sábado"
+
     ]
 
+
     await addDoc(
-      collection(db, "agenda"),
+      collection(
+        db,
+        "agenda"
+      ),
       {
 
-        pacienteId: paciente.id,
+        pacienteId:
+          paciente.id,
 
-        nome: paciente.nome,
+        nome:
+          paciente.nome,
 
         dia:
           diasSemana[
             dataObj.getDay()
           ],
 
-        hora: horaTopo,
+        hora:
+          horaTopo,
 
-        data: diaTopo,
+        data:
+          diaTopo,
 
-        status: statusTopo,
+        status:
+          statusTopo,
 
-        valorPago: 0
+        valorPago: 0,
+
+        formaPagamento: "",
+
+        parcelas: 0
 
       }
     )
+
 
     await updateDoc(
       doc(
@@ -297,9 +488,11 @@ async function criarAgendamento() {
         paciente.id
       ),
       {
-        proxConsulta: diaTopo
+        proxConsulta:
+          diaTopo
       }
     )
+
 
     setPacienteTopo("")
 
@@ -309,12 +502,27 @@ async function criarAgendamento() {
         .split("T")[0]
     )
 
-    setHoraTopo("07:00")
-    setStatusTopo("agendado")
+    setHoraTopo(
+      "07:00"
+    )
+
+    setStatusTopo(
+      "agendado"
+    )
 
   }
 
+
+  /* ========================================================= */
+  /* SALVAR OBSERVAÇÃO                                         */
+  /* ========================================================= */
+
   async function salvarObs() {
+
+    if (!selecionada) {
+      return
+    }
+
 
     const paciente =
       pacientes.find(
@@ -323,7 +531,11 @@ async function criarAgendamento() {
           selecionada.pacienteId
       )
 
-    if (!paciente) return
+
+    if (!paciente) {
+      return
+    }
+
 
     await updateDoc(
       doc(
@@ -332,15 +544,29 @@ async function criarAgendamento() {
         paciente.id
       ),
       {
-        obs: obsEditando
+        obs:
+          obsEditando
       }
     )
 
-    alert("Observação salva!")
+
+    alert(
+      "Observação salva!"
+    )
 
   }
 
+
+  /* ========================================================= */
+  /* SALVAR PAGAMENTO                                          */
+  /* ========================================================= */
+
   async function salvarPagamento() {
+
+    if (!selecionada) {
+      return
+    }
+
 
     if (!formaPagamento) {
 
@@ -352,6 +578,7 @@ async function criarAgendamento() {
 
     }
 
+
     if (!valorPago) {
 
       alert(
@@ -362,6 +589,33 @@ async function criarAgendamento() {
 
     }
 
+
+    const valor =
+      Number(valorPago)
+
+
+    let quantidadeParcelas = 0
+
+
+    if (
+      formaPagamento ===
+      "credito_parcelado"
+    ) {
+
+      quantidadeParcelas =
+        Math.min(
+          Math.max(
+            Number(
+              parcelas || 2
+            ),
+            2
+          ),
+          6
+        )
+
+    }
+
+
     await updateDoc(
       doc(
         db,
@@ -369,11 +623,21 @@ async function criarAgendamento() {
         selecionada.id
       ),
       {
-        status: "pagou",
-        valorPago: Number(valorPago),
-        formaPagamento
+
+        status:
+          "pagou",
+
+        valorPago:
+          valor,
+
+        formaPagamento,
+
+        parcelas:
+          quantidadeParcelas
+
       }
     )
+
 
     await updateDoc(
       doc(
@@ -382,29 +646,52 @@ async function criarAgendamento() {
         selecionada.pacienteId
       ),
       {
-        totalPago: increment(
-          Number(valorPago)
-        )
+
+        totalPago:
+          increment(valor)
+
       }
     )
+
 
     setSelecionada({
 
       ...selecionada,
 
-      status: "pagou",
+      status:
+        "pagou",
 
       valorPago:
-        Number(valorPago),
+        valor,
 
-      formaPagamento
+      formaPagamento,
+
+      parcelas:
+        quantidadeParcelas
 
     })
 
-    setValorPago("")
-    setFormaPagamento("")
+
+    if (setValorPago) {
+      setValorPago("")
+    }
+
+
+    if (setFormaPagamento) {
+      setFormaPagamento("")
+    }
+
+
+    if (setParcelas) {
+      setParcelas(2)
+    }
 
   }
+
+
+  /* ========================================================= */
+  /* RETORNO                                                    */
+  /* ========================================================= */
 
   return {
 
