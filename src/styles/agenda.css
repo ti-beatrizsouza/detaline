@@ -2074,3 +2074,193 @@
   }
 
 }
+
+/* ========================================================= */
+/* REAGENDAMENTO PERSONALIZADO                              */
+/* ========================================================= */
+
+.reagendamento-personalizado {
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1.25fr;
+
+  gap: 7px;
+
+  margin-top: 8px;
+}
+
+
+.reagendamento-personalizado input,
+.reagendamento-personalizado select {
+  width: 100%;
+
+  height: 38px;
+
+  padding:
+    0 10px;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid #e4dce2;
+
+  border-radius: 9px;
+
+  background:
+    #ffffff;
+
+  color:
+    #51454e;
+
+  font-family:
+    "Poppins",
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size:
+    .72rem;
+
+  outline: none;
+}
+
+
+.reagendamento-personalizado input:focus,
+.reagendamento-personalizado select:focus {
+  border-color:
+    #b00083;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(176,0,131,.08);
+}
+
+
+/* ========================================================= */
+/* TIPO DE PACIENTE - CADASTRO                              */
+/* ========================================================= */
+
+.campo-tipo-paciente {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+
+.campo-tipo-paciente label {
+  color:
+    #746871;
+
+  font-family:
+    "Poppins",
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size:
+    .72rem;
+
+  font-weight:
+    600;
+}
+
+
+.campo-tipo-paciente select {
+  width: 100%;
+
+  min-height: 43px;
+
+  padding:
+    10px 12px;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid #e4dce2;
+
+  border-radius:
+    11px;
+
+  background:
+    #f7f3f7;
+
+  color:
+    #51454e;
+
+  font-family:
+    "Poppins",
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size:
+    .825rem;
+
+  outline: none;
+}
+
+
+.campo-tipo-paciente select:focus {
+  background:
+    #ffffff;
+
+  border-color:
+    #b00083;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(169,0,125,.10);
+}
+
+
+/* ========================================================= */
+/* TIPO DE PACIENTE - PERFIL                                */
+/* ========================================================= */
+
+.perfil-dado select {
+  width: 100%;
+
+  min-height: 34px;
+
+  padding:
+    6px 9px;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid #e4dce2;
+
+  border-radius:
+    8px;
+
+  background:
+    #ffffff;
+
+  color:
+    #51454e;
+
+  font-family:
+    "Poppins",
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size:
+    .76rem;
+
+  outline: none;
+}
+
+
+.perfil-dado select:focus {
+  border-color:
+    #b00083;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(169,0,125,.08);
+}

@@ -56,6 +56,12 @@ function CadastroDentista({
 
 
   const [
+    tipoPaciente,
+    setTipoPaciente
+  ] = useState("Clínica Geral")
+
+
+  const [
     nomeResponsavel,
     setNomeResponsavel
   ] = useState("")
@@ -89,7 +95,9 @@ function CadastroDentista({
   /* TELEFONE                                              */
   /* ===================================================== */
 
-  function formatarTelefone(valor) {
+  function formatarTelefone(
+    valor
+  ) {
 
     valor =
       valor.replace(
@@ -146,10 +154,12 @@ function CadastroDentista({
 
 
   /* ===================================================== */
-  /* CPF                                                     */
+  /* CPF                                                   */
   /* ===================================================== */
 
-  function formatarCPF(valor) {
+  function formatarCPF(
+    valor
+  ) {
 
     valor =
       valor.replace(
@@ -192,10 +202,12 @@ function CadastroDentista({
 
 
   /* ===================================================== */
-  /* IDADE                                                  */
+  /* IDADE                                                 */
   /* ===================================================== */
 
-  function calcularIdade(data) {
+  function calcularIdade(
+    data
+  ) {
 
     if (!data) {
       return 0
@@ -240,7 +252,7 @@ function CadastroDentista({
 
 
   /* ===================================================== */
-  /* PRÓXIMA TAG                                            */
+  /* PRÓXIMA TAG                                           */
   /* ===================================================== */
 
   async function descobrirProximaTag() {
@@ -277,8 +289,11 @@ function CadastroDentista({
 
 
         if (
-          !Number.isNaN(numero) &&
-          numero > maiorTag
+          !Number.isNaN(
+            numero
+          ) &&
+          numero >
+            maiorTag
         ) {
 
           maiorTag =
@@ -296,10 +311,12 @@ function CadastroDentista({
 
 
   /* ===================================================== */
-  /* CADASTRAR                                              */
+  /* CADASTRAR                                             */
   /* ===================================================== */
 
-  async function cadastrar(e) {
+  async function cadastrar(
+    e
+  ) {
 
     e.preventDefault()
 
@@ -327,6 +344,9 @@ function CadastroDentista({
 
         tel:
           telefone,
+
+        tipoPaciente:
+          tipoPaciente || "Clínica geral",
 
         responsavel:
           nomeResponsavel,
@@ -628,6 +648,36 @@ ${error.message}`
                 )
               }
             />
+
+
+            {/* TIPO DE PACIENTE */}
+
+            <select
+              value={tipoPaciente}
+              onChange={(e) =>
+                setTipoPaciente(
+                  e.target.value
+                )
+              }
+            >
+
+              <option value="Ortodontia">
+                Ortodontia
+              </option>
+
+              <option value="Odontopediatria">
+                Odontopediatria
+              </option>
+
+              <option value="Clínica geral">
+                Clínica geral
+              </option>
+
+              <option value="Outro">
+                Outro
+              </option>
+
+            </select>
 
           </div>
 

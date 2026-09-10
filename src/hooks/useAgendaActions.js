@@ -7,7 +7,9 @@ import {
   updateDoc
 } from "firebase/firestore"
 
-import { db } from "../services/firebase"
+import {
+  db
+} from "../services/firebase"
 
 
 export default function useAgendaActions({
@@ -94,16 +96,37 @@ export default function useAgendaActions({
 
 
   /* ========================================================= */
-  /* ADICIONAR PERÍODO À DATA                                  */
+  /* ADICIONAR PERÍODO                                           */
   /* ========================================================= */
 
   function adicionarPeriodo(
+
     data,
-    periodo
+    quantidade,
+    tipo
+
   ) {
 
     if (!data) {
       return ""
+    }
+
+
+    const numero =
+      Number(
+        quantidade
+      )
+
+
+    if (
+      !Number.isFinite(
+        numero
+      ) ||
+      numero <= 0
+    ) {
+
+      return ""
+
     }
 
 
@@ -120,36 +143,48 @@ export default function useAgendaActions({
     ) {
 
       return ""
+
     }
 
 
+    /* ===================================================== */
+    /* DIAS                                                  */
+    /* ===================================================== */
+
     if (
-      periodo ===
-      "1-semana"
+      tipo === "dia"
     ) {
 
       dataObj.setDate(
-        dataObj.getDate() + 7
+        dataObj.getDate() +
+        numero
       )
 
     }
 
 
+    /* ===================================================== */
+    /* SEMANAS                                               */
+    /* ===================================================== */
+
     if (
-      periodo ===
-      "2-semanas"
+      tipo === "semana"
     ) {
 
       dataObj.setDate(
-        dataObj.getDate() + 14
+        dataObj.getDate() +
+        numero * 7
       )
 
     }
 
 
+    /* ===================================================== */
+    /* MESES                                                 */
+    /* ===================================================== */
+
     if (
-      periodo ===
-      "1-mes"
+      tipo === "mes"
     ) {
 
       const diaOriginal =
@@ -162,11 +197,12 @@ export default function useAgendaActions({
 
 
       dataObj.setMonth(
-        dataObj.getMonth() + 1
+        dataObj.getMonth() +
+        numero
       )
 
 
-      const ultimoDiaMes =
+      const ultimoDia =
         new Date(
           dataObj.getFullYear(),
           dataObj.getMonth() + 1,
@@ -177,7 +213,7 @@ export default function useAgendaActions({
       dataObj.setDate(
         Math.min(
           diaOriginal,
-          ultimoDiaMes
+          ultimoDia
         )
       )
 
@@ -236,6 +272,7 @@ export default function useAgendaActions({
       )
 
       return
+
     }
 
 
@@ -247,14 +284,11 @@ export default function useAgendaActions({
         : 0
 
 
-    const pagamentoParcelado =
+    const quantidadeParcelas =
       status === "pagou" &&
       formaPagamento ===
         "credito_parcelado"
 
-
-    const quantidadeParcelas =
-      pagamentoParcelado
         ? Math.min(
             Math.max(
               Number(
@@ -264,6 +298,7 @@ export default function useAgendaActions({
             ),
             6
           )
+
         : 0
 
 
@@ -302,9 +337,9 @@ export default function useAgendaActions({
     )
 
 
-    /* =============================================== */
-    /* ATUALIZA TOTAL PAGO DO PACIENTE                 */
-    /* =============================================== */
+    /* ===================================================== */
+    /* ATUALIZAR TOTAL DO PACIENTE                           */
+    /* ===================================================== */
 
     if (
       selecionada.pacienteId
@@ -389,6 +424,7 @@ export default function useAgendaActions({
     ) {
 
       return
+
     }
 
 
@@ -494,11 +530,14 @@ export default function useAgendaActions({
 
   async function criarAgendamento(
 
-    periodoReagendamento = "nenhum",
+    periodoReagendamento =
+      "nenhum",
 
-    status = "agendado",
+    status =
+      "agendado",
 
-    dadosPagamento = {}
+    dadosPagamento =
+      {}
 
   ) {
 
@@ -509,6 +548,7 @@ export default function useAgendaActions({
       )
 
       return
+
     }
 
 
@@ -525,6 +565,7 @@ export default function useAgendaActions({
       )
 
       return
+
     }
 
 
@@ -554,6 +595,7 @@ export default function useAgendaActions({
       )
 
       return
+
     }
 
 
@@ -611,6 +653,7 @@ export default function useAgendaActions({
         )
 
         return
+
       }
 
 
@@ -626,6 +669,7 @@ export default function useAgendaActions({
         )
 
         return
+
       }
 
 
@@ -655,43 +699,44 @@ export default function useAgendaActions({
     /* CRIAR CONSULTA ATUAL                                 */
     /* ===================================================== */
 
-    await addDoc(
-      collection(
-        db,
-        "agenda"
-      ),
-      {
+    const consultaCriada =
+      await addDoc(
+        collection(
+          db,
+          "agenda"
+        ),
+        {
 
-        pacienteId:
-          paciente.id,
+          pacienteId:
+            paciente.id,
 
-        nome:
-          paciente.nome,
+          nome:
+            paciente.nome,
 
-        dia:
-          diasSemana[
-            dataObj.getDay()
-          ],
+          dia:
+            diasSemana[
+              dataObj.getDay()
+            ],
 
-        hora:
-          horaFinal,
+          hora:
+            horaFinal,
 
-        data:
-          dataFinal,
+          data:
+            dataFinal,
 
-        status,
+          status,
 
-        valorPago:
-          valorPagamento,
+          valorPago:
+            valorPagamento,
 
-        formaPagamento:
-          formaPagamentoAtual,
+          formaPagamento:
+            formaPagamentoAtual,
 
-        parcelas:
-          quantidadeParcelas
+          parcelas:
+            quantidadeParcelas
 
-      }
-    )
+        }
+      )
 
 
     /* ===================================================== */
@@ -730,79 +775,171 @@ export default function useAgendaActions({
       ""
 
 
+    /* ===================================================== */
+    /* 1 MÊS                                                 */
+    /* ===================================================== */
+
     if (
-      periodoReagendamento &&
-      periodoReagendamento !==
-        "nenhum"
+      periodoReagendamento ===
+      "1-mes"
     ) {
 
       dataProxima =
         adicionarPeriodo(
           dataFinal,
-          periodoReagendamento
+          1,
+          "mes"
         )
-
-
-      if (dataProxima) {
-
-        const proximaDataObj =
-          new Date(
-            `${dataProxima}T00:00:00`
-          )
-
-
-        await addDoc(
-          collection(
-            db,
-            "agenda"
-          ),
-          {
-
-            pacienteId:
-              paciente.id,
-
-            nome:
-              paciente.nome,
-
-            dia:
-              diasSemana[
-                proximaDataObj.getDay()
-              ],
-
-            hora:
-              horaFinal,
-
-            data:
-              dataProxima,
-
-            status:
-              "agendado",
-
-            valorPago:
-              0,
-
-            formaPagamento:
-              "",
-
-            parcelas:
-              0,
-
-            reagendamentoAutomatico:
-              true,
-
-            consultaAnteriorData:
-              dataFinal
-
-          }
-        )
-
-      }
 
     }
 
 
     /* ===================================================== */
-    /* PRÓXIMA CONSULTA DO PACIENTE                          */
+    /* 4 MESES                                               */
+    /* ===================================================== */
+
+    if (
+      periodoReagendamento ===
+      "4-meses"
+    ) {
+
+      dataProxima =
+        adicionarPeriodo(
+          dataFinal,
+          4,
+          "mes"
+        )
+
+    }
+
+
+    /* ===================================================== */
+    /* 6 MESES                                               */
+    /* ===================================================== */
+
+    if (
+      periodoReagendamento ===
+      "6-meses"
+    ) {
+
+      dataProxima =
+        adicionarPeriodo(
+          dataFinal,
+          6,
+          "mes"
+        )
+
+    }
+
+
+    /* ===================================================== */
+    /* PERSONALIZADO                                         */
+    /* ===================================================== */
+
+    if (
+      periodoReagendamento ===
+      "personalizado"
+    ) {
+
+      const quantidade =
+        dadosPagamento.personalizadoValor
+
+
+      const tipo =
+        dadosPagamento.personalizadoTipo
+
+
+      if (
+        !quantidade ||
+        !tipo
+      ) {
+
+        alert(
+          "Informe o período personalizado do reagendamento."
+        )
+
+        return
+
+      }
+
+
+      dataProxima =
+        adicionarPeriodo(
+          dataFinal,
+          quantidade,
+          tipo
+        )
+
+    }
+
+
+    /* ===================================================== */
+    /* CRIAR CONSULTA FUTURA                                */
+    /* ===================================================== */
+
+    if (
+      dataProxima
+    ) {
+
+      const proximaDataObj =
+        new Date(
+          `${dataProxima}T00:00:00`
+        )
+
+
+      await addDoc(
+        collection(
+          db,
+          "agenda"
+        ),
+        {
+
+          pacienteId:
+            paciente.id,
+
+          nome:
+            paciente.nome,
+
+          dia:
+            diasSemana[
+              proximaDataObj.getDay()
+            ],
+
+          hora:
+            horaFinal,
+
+          data:
+            dataProxima,
+
+          status:
+            "agendado",
+
+          valorPago:
+            0,
+
+          formaPagamento:
+            "",
+
+          parcelas:
+            0,
+
+          reagendamentoAutomatico:
+            true,
+
+          consultaAnteriorId:
+            consultaCriada.id,
+
+          consultaAnteriorData:
+            dataFinal
+
+        }
+      )
+
+    }
+
+
+    /* ===================================================== */
+    /* ATUALIZAR PRÓXIMA CONSULTA                           */
     /* ===================================================== */
 
     await updateDoc(
@@ -829,17 +966,21 @@ export default function useAgendaActions({
       null
     )
 
+
     setBuscaPaciente(
       ""
     )
+
 
     setPacienteSelecionado(
       null
     )
 
+
     setDataConsulta(
       ""
     )
+
 
     setValorPago("")
     setFormaPagamento("")
@@ -864,6 +1005,7 @@ export default function useAgendaActions({
       )
 
       return
+
     }
 
 
@@ -958,13 +1100,16 @@ export default function useAgendaActions({
       ""
     )
 
+
     setDiaTopo(
       dataLocalHoje()
     )
 
+
     setHoraTopo(
-      "07:00"
+      "08:00"
     )
+
 
     setStatusTopo(
       "agendado"
@@ -1015,7 +1160,7 @@ export default function useAgendaActions({
 
 
   /* ========================================================= */
-  /* SALVAR PAGAMENTO                                           */
+  /* SALVAR PAGAMENTO                                          */
   /* ========================================================= */
 
   async function salvarPagamento() {
@@ -1032,6 +1177,7 @@ export default function useAgendaActions({
       )
 
       return
+
     }
 
 
@@ -1042,6 +1188,7 @@ export default function useAgendaActions({
       )
 
       return
+
     }
 
 
@@ -1063,6 +1210,7 @@ export default function useAgendaActions({
       )
 
       return
+
     }
 
 

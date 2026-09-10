@@ -75,8 +75,20 @@ function NovoAgendamentoModal({
   ] = useState("nenhum")
 
 
+  const [
+    personalizadoValor,
+    setPersonalizadoValor
+  ] = useState("")
+
+
+  const [
+    personalizadoTipo,
+    setPersonalizadoTipo
+  ] = useState("mes")
+
+
   /* ===================================================== */
-  /* ABRIR NOVO AGENDAMENTO                                */
+  /* ABERTURA DO MODAL                                     */
   /* ===================================================== */
 
   useEffect(() => {
@@ -95,8 +107,75 @@ function NovoAgendamentoModal({
       "nenhum"
     )
 
+
+    setPersonalizadoValor(
+      ""
+    )
+
+
+    setPersonalizadoTipo(
+      "mes"
+    )
+
+
+    setValorPago("")
+    setFormaPagamento("")
+    setParcelas("")
+
   }, [
     novoAgendamento
+  ])
+
+
+  /* ===================================================== */
+  /* SUGESTÃO PELO TIPO DE PACIENTE                       */
+  /* ===================================================== */
+
+  useEffect(() => {
+
+    if (
+      !pacienteSelecionado
+    ) {
+      return
+    }
+
+
+    const tipo =
+      String(
+        pacienteSelecionado.tipoPaciente ||
+        ""
+      )
+        .trim()
+        .toLowerCase()
+
+
+    /*
+     * O tipo de paciente fica salvo
+     * exclusivamente no perfil.
+     *
+     * Aqui ele é apenas consultado
+     * para sugerir o período de
+     * reagendamento.
+     */
+
+    if (
+      tipo === "ortodontia"
+    ) {
+
+      setReagendamento(
+        "1-mes"
+      )
+
+    } else {
+
+      setReagendamento(
+        "nenhum"
+      )
+
+    }
+
+  }, [
+    pacienteSelecionado
   ])
 
 
@@ -241,7 +320,7 @@ function NovoAgendamentoModal({
 
   let pacientesFiltrados =
     pacientes.filter(
-      (paciente) => {
+      paciente => {
 
         const textoBusca =
           buscaPaciente
@@ -286,8 +365,7 @@ function NovoAgendamentoModal({
 
 
         const passouTag =
-          filtroTag ===
-          "todas"
+          filtroTag === "todas"
             ? true
             : String(
                 obterTag(
@@ -463,7 +541,7 @@ function NovoAgendamentoModal({
 
 
   /* ===================================================== */
-  /* DATA                                                  */
+  /* FORMATAR DATA                                        */
   /* ===================================================== */
 
   function formatarData(
@@ -488,7 +566,6 @@ function NovoAgendamentoModal({
     ) {
 
       return "-"
-
     }
 
 
@@ -500,24 +577,31 @@ function NovoAgendamentoModal({
 
 
   /* ===================================================== */
-  /* DATA DO REAGENDAMENTO                                 */
+  /* CALCULAR DATA FUTURA                                  */
   /* ===================================================== */
 
-  function calcularDataReagendamento() {
-
-    const data =
-      dataConsulta ||
-      novoAgendamento.data
-
+  function calcularDataFutura(
+    data,
+    quantidade,
+    tipo
+  ) {
 
     if (!data) {
       return ""
     }
 
 
+    const numero =
+      Number(
+        quantidade
+      )
+
+
     if (
-      reagendamento ===
-      "nenhum"
+      !Number.isFinite(
+        numero
+      ) ||
+      numero <= 0
     ) {
 
       return ""
@@ -542,33 +626,38 @@ function NovoAgendamentoModal({
     }
 
 
+    /* DIAS */
+
     if (
-      reagendamento ===
-      "1-semana"
+      tipo === "dia"
     ) {
 
       dataObj.setDate(
-        dataObj.getDate() + 7
+        dataObj.getDate() +
+        numero
       )
 
     }
 
 
+    /* SEMANAS */
+
     if (
-      reagendamento ===
-      "2-semanas"
+      tipo === "semana"
     ) {
 
       dataObj.setDate(
-        dataObj.getDate() + 14
+        dataObj.getDate() +
+        numero * 7
       )
 
     }
 
 
+    /* MESES */
+
     if (
-      reagendamento ===
-      "1-mes"
+      tipo === "mes"
     ) {
 
       const diaOriginal =
@@ -581,11 +670,12 @@ function NovoAgendamentoModal({
 
 
       dataObj.setMonth(
-        dataObj.getMonth() + 1
+        dataObj.getMonth() +
+        numero
       )
 
 
-      const ultimoDiaMes =
+      const ultimoDia =
         new Date(
           dataObj.getFullYear(),
           dataObj.getMonth() + 1,
@@ -596,7 +686,7 @@ function NovoAgendamentoModal({
       dataObj.setDate(
         Math.min(
           diaOriginal,
-          ultimoDiaMes
+          ultimoDia
         )
       )
 
@@ -628,6 +718,89 @@ function NovoAgendamentoModal({
     return (
       `${ano}-${mes}-${dia}`
     )
+
+  }
+
+
+  /* ===================================================== */
+  /* DATA DO REAGENDAMENTO                                 */
+  /* ===================================================== */
+
+  function calcularDataReagendamento() {
+
+    const data =
+      dataConsulta ||
+      novoAgendamento.data
+
+
+    if (
+      !data ||
+      reagendamento ===
+      "nenhum"
+    ) {
+
+      return ""
+
+    }
+
+
+    if (
+      reagendamento ===
+      "1-mes"
+    ) {
+
+      return calcularDataFutura(
+        data,
+        1,
+        "mes"
+      )
+
+    }
+
+
+    if (
+      reagendamento ===
+      "4-meses"
+    ) {
+
+      return calcularDataFutura(
+        data,
+        4,
+        "mes"
+      )
+
+    }
+
+
+    if (
+      reagendamento ===
+      "6-meses"
+    ) {
+
+      return calcularDataFutura(
+        data,
+        6,
+        "mes"
+      )
+
+    }
+
+
+    if (
+      reagendamento ===
+      "personalizado"
+    ) {
+
+      return calcularDataFutura(
+        data,
+        personalizadoValor,
+        personalizadoTipo
+      )
+
+    }
+
+
+    return ""
 
   }
 
@@ -667,9 +840,43 @@ function NovoAgendamentoModal({
       paciente
     )
 
+
     setBuscaPaciente(
       paciente.nome || ""
     )
+
+
+    /*
+     * O tipo é consultado somente
+     * para definir a sugestão inicial.
+     *
+     * Ele não é exibido no modal.
+     */
+
+    const tipo =
+      String(
+        paciente.tipoPaciente ||
+        ""
+      )
+        .trim()
+        .toLowerCase()
+
+
+    if (
+      tipo === "ortodontia"
+    ) {
+
+      setReagendamento(
+        "1-mes"
+      )
+
+    } else {
+
+      setReagendamento(
+        "nenhum"
+      )
+
+    }
 
   }
 
@@ -703,7 +910,7 @@ function NovoAgendamentoModal({
 
 
   /* ===================================================== */
-  /* ALTERAR STATUS                                        */
+  /* STATUS                                                */
   /* ===================================================== */
 
   function alterarStatus(
@@ -782,7 +989,7 @@ function NovoAgendamentoModal({
 
 
         {/* ================================================= */}
-        {/* COLUNAS                                           */}
+        {/* DUAS COLUNAS                                      */}
         {/* ================================================= */}
 
         <div className="novo-agendamento-colunas">
@@ -795,9 +1002,7 @@ function NovoAgendamentoModal({
           <div className="novo-agendamento-esquerda">
 
 
-            {/* ============================================= */}
-            {/* DATA                                           */}
-            {/* ============================================= */}
+            {/* DATA */}
 
             <div className="novo-agendamento-secao">
 
@@ -825,9 +1030,7 @@ function NovoAgendamentoModal({
             </div>
 
 
-            {/* ============================================= */}
-            {/* HORÁRIO                                        */}
-            {/* ============================================= */}
+            {/* HORÁRIO */}
 
             <div className="novo-agendamento-secao">
 
@@ -870,9 +1073,7 @@ function NovoAgendamentoModal({
             </div>
 
 
-            {/* ============================================= */}
-            {/* STATUS                                         */}
-            {/* ============================================= */}
+            {/* STATUS */}
 
             <div className="novo-agendamento-status-box">
 
@@ -919,9 +1120,7 @@ function NovoAgendamentoModal({
             </div>
 
 
-            {/* ============================================= */}
-            {/* PAGAMENTO                                      */}
-            {/* ============================================= */}
+            {/* PAGAMENTO */}
 
             {
               statusConsulta ===
@@ -955,26 +1154,21 @@ function NovoAgendamentoModal({
                       Selecione
                     </option>
 
-
                     <option value="dinheiro">
                       Dinheiro
                     </option>
-
 
                     <option value="pix">
                       PIX
                     </option>
 
-
                     <option value="debito">
                       Débito
                     </option>
 
-
                     <option value="credito_avista">
                       Crédito à vista
                     </option>
-
 
                     <option value="credito_parcelado">
                       Crédito parcelado
@@ -1004,10 +1198,6 @@ function NovoAgendamentoModal({
                     placeholder="0,00"
                   />
 
-
-                  {/* ======================================= */}
-                  {/* PARCELAS                                */}
-                  {/* ======================================= */}
 
                   {
                     formaPagamento ===
@@ -1065,9 +1255,7 @@ function NovoAgendamentoModal({
             }
 
 
-            {/* ============================================= */}
-            {/* ÚLTIMO PACIENTE                                */}
-            {/* ============================================= */}
+            {/* ÚLTIMO PACIENTE */}
 
             <div className="ultimo-paciente-box">
 
@@ -1134,9 +1322,7 @@ function NovoAgendamentoModal({
             </div>
 
 
-            {/* ============================================= */}
-            {/* REAGENDAMENTO                                 */}
-            {/* ============================================= */}
+            {/* REAGENDAMENTO */}
 
             <div className="reagendamento-box">
 
@@ -1167,23 +1353,83 @@ function NovoAgendamentoModal({
                   Não reagendar
                 </option>
 
-
-                <option value="1-semana">
-                  1 semana
-                </option>
-
-
-                <option value="2-semanas">
-                  2 semanas
-                </option>
-
-
                 <option value="1-mes">
                   1 mês
                 </option>
 
+                <option value="4-meses">
+                  4 meses
+                </option>
+
+                <option value="6-meses">
+                  6 meses
+                </option>
+
+                <option value="personalizado">
+                  Personalizado
+                </option>
+
               </select>
 
+
+              {/* PERSONALIZADO */}
+
+              {
+                reagendamento ===
+                "personalizado" && (
+
+                  <div className="reagendamento-personalizado">
+
+                    <input
+                      type="number"
+                      min="1"
+                      step="1"
+                      placeholder="Valor"
+                      value={
+                        personalizadoValor
+                      }
+                      onChange={
+                        e =>
+                          setPersonalizadoValor(
+                            e.target.value
+                          )
+                      }
+                    />
+
+
+                    <select
+                      value={
+                        personalizadoTipo
+                      }
+                      onChange={
+                        e =>
+                          setPersonalizadoTipo(
+                            e.target.value
+                          )
+                      }
+                    >
+
+                      <option value="dia">
+                        Dia
+                      </option>
+
+                      <option value="semana">
+                        Semana
+                      </option>
+
+                      <option value="mes">
+                        Mês
+                      </option>
+
+                    </select>
+
+                  </div>
+
+                )
+              }
+
+
+              {/* PRÉVIA */}
 
               {
                 dataProxima && (
@@ -1311,16 +1557,13 @@ function NovoAgendamentoModal({
                   Nome A → Z
                 </option>
 
-
                 <option value="nome-za">
                   Nome Z → A
                 </option>
 
-
                 <option value="tag-crescente">
                   Tag crescente
                 </option>
-
 
                 <option value="tag-decrescente">
                   Tag decrescente
@@ -1331,9 +1574,7 @@ function NovoAgendamentoModal({
             </div>
 
 
-            {/* ============================================= */}
-            {/* LISTA                                          */}
-            {/* ============================================= */}
+            {/* LISTA */}
 
             <div className="lista-pacientes-agendamento">
 
@@ -1408,9 +1649,7 @@ function NovoAgendamentoModal({
             </div>
 
 
-            {/* ============================================= */}
-            {/* CADASTRAR                                     */}
-            {/* ============================================= */}
+            {/* CADASTRAR */}
 
             <button
               type="button"
@@ -1444,7 +1683,9 @@ function NovoAgendamentoModal({
                   {
                     valorPago,
                     formaPagamento,
-                    parcelas
+                    parcelas,
+                    personalizadoValor,
+                    personalizadoTipo
                   }
                 )
             }

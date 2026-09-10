@@ -446,6 +446,9 @@ function PerfilPaciente({
         tel:
           dados.tel || "",
 
+        tipoPaciente:
+          dados.tipoPaciente || "Geral",
+
         responsavel:
           dados.responsavel || "",
 
@@ -987,6 +990,58 @@ function PerfilPaciente({
 
               <strong>
                 {dados.apelido || "Não definido"}
+              </strong>
+
+            )}
+
+          </div>
+
+
+          {/* TIPO DE PACIENTE */}
+
+          <div className="perfil-dado">
+
+            <span>
+              Tipo de paciente
+            </span>
+
+
+            {editando ? (
+
+              <select
+                value={
+                  dados.tipoPaciente || "Geral"
+                }
+                onChange={(e) =>
+                  alterarCampo(
+                    "tipoPaciente",
+                    e.target.value
+                  )
+                }
+              >
+
+                <option value="Ortodontia">
+                  Ortodontia
+                </option>
+
+                <option value="Odontopediatria">
+                  Odontopediatria
+                </option>
+
+                <option value="Clínica geral">
+                  Clínica geral
+                </option>
+
+                <option value="Outro">
+                  Outro
+                </option>
+
+              </select>
+
+            ) : (
+
+              <strong>
+                {dados.tipoPaciente || "Geral"}
               </strong>
 
             )}

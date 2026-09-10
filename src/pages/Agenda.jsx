@@ -24,22 +24,28 @@ import {
 
 
 function Agenda({
+
   voltar,
   abrirPerfil,
   abrirCadastroDentista,
   abrirCadastroPaciente,
   retornoAgendamento,
   limparRetornoAgendamento
+
 }) {
+
 
   const dias =
     getDiasSemana()
 
+
   const horarios =
     getHorarios()
 
+
   const consultas =
     useConsultas()
+
 
   const pacientes =
     usePacientes()
@@ -197,7 +203,7 @@ function Agenda({
   const [
     horaTopo,
     setHoraTopo
-  ] = useState("07:00")
+  ] = useState("08:00")
 
 
   const [
@@ -230,12 +236,18 @@ function Agenda({
     ) {
 
       setValorPago(
-        selecionada.valorPago !== undefined &&
-        selecionada.valorPago !== null
+
+        selecionada.valorPago !==
+          undefined &&
+        selecionada.valorPago !==
+          null
+
           ? String(
               selecionada.valorPago
             )
+
           : ""
+
       )
 
 
@@ -246,15 +258,18 @@ function Agenda({
 
 
       setParcelas(
-        selecionada.parcelas !== undefined &&
-        selecionada.parcelas !== null &&
-        Number(
-          selecionada.parcelas
-        ) > 0
+
+        selecionada.parcelas !==
+          undefined &&
+        selecionada.parcelas !==
+          null
+
           ? String(
               selecionada.parcelas
             )
+
           : ""
+
       )
 
 
@@ -387,114 +402,6 @@ function Agenda({
 
 
   /* ===================================================== */
-  /* DATA LOCAL                                            */
-  /* ===================================================== */
-
-  function obterDataHoje() {
-
-    const hoje =
-      new Date()
-
-
-    const ano =
-      hoje.getFullYear()
-
-
-    const mes =
-      String(
-        hoje.getMonth() + 1
-      ).padStart(
-        2,
-        "0"
-      )
-
-
-    const dia =
-      String(
-        hoje.getDate()
-      ).padStart(
-        2,
-        "0"
-      )
-
-
-    return (
-      `${ano}-${mes}-${dia}`
-    )
-
-  }
-
-
-  /* ===================================================== */
-  /* NOVO AGENDAMENTO                                      */
-  /* ===================================================== */
-
-  function abrirNovoAgendamento() {
-
-    const dataHoje =
-      obterDataHoje()
-
-
-    const hoje =
-      new Date()
-
-
-    const diaSemana =
-      hoje.getDay()
-
-
-    const nomesDias = [
-
-      "Domingo",
-      "Segunda",
-      "Terça",
-      "Quarta",
-      "Quinta",
-      "Sexta",
-      "Sábado"
-
-    ]
-
-
-    setNovoAgendamento({
-
-      dia:
-        nomesDias[
-          diaSemana
-        ],
-
-      hora:
-        "08:00",
-
-      data:
-        dataHoje
-
-    })
-
-
-    setDataConsulta(
-      dataHoje
-    )
-
-
-    setBuscaPaciente("")
-
-
-    setPacienteSelecionado(
-      null
-    )
-
-
-    /* Limpa pagamento de um novo agendamento */
-
-    setValorPago("")
-    setFormaPagamento("")
-    setParcelas("")
-
-  }
-
-
-  /* ===================================================== */
   /* AÇÕES                                                 */
   /* ===================================================== */
 
@@ -504,51 +411,40 @@ function Agenda({
       pacientes,
 
       selecionada,
-
       setSelecionada,
 
       valorPago,
-
       setValorPago,
 
       formaPagamento,
-
       setFormaPagamento,
 
       parcelas,
-
       setParcelas,
 
       obsEditando,
 
       pacienteSelecionado,
-
       setPacienteSelecionado,
 
       novoAgendamento,
-
       setNovoAgendamento,
 
       setBuscaPaciente,
 
       dataConsulta,
-
       setDataConsulta,
 
       pacienteTopo,
-
       setPacienteTopo,
 
       diaTopo,
-
       setDiaTopo,
 
       horaTopo,
-
       setHoraTopo,
 
       statusTopo,
-
       setStatusTopo
 
     })
@@ -574,15 +470,81 @@ function Agenda({
 
     <main className="agenda-container">
 
+
+      {/* ================================================= */}
+      {/* TOPO                                              */}
+      {/* ================================================= */}
+
       <AgendaTopBar
 
         voltar={
           voltar
         }
 
-        abrirNovoAgendamento={
-          abrirNovoAgendamento
-        }
+        abrirNovoAgendamento={() => {
+
+          const hoje =
+            new Date()
+
+
+          const ano =
+            hoje.getFullYear()
+
+
+          const mes =
+            String(
+              hoje.getMonth() + 1
+            ).padStart(
+              2,
+              "0"
+            )
+
+
+          const dia =
+            String(
+              hoje.getDate()
+            ).padStart(
+              2,
+              "0"
+            )
+
+
+          const dataHoje =
+            `${ano}-${mes}-${dia}`
+
+
+          setNovoAgendamento({
+
+            dia:
+              hoje.toLocaleDateString(
+                "pt-BR",
+                {
+                  weekday: "long"
+                }
+              ),
+
+            hora:
+              "08:00",
+
+            data:
+              dataHoje
+
+          })
+
+
+          setDataConsulta(
+            dataHoje
+          )
+
+
+          setBuscaPaciente("")
+          setPacienteSelecionado(null)
+
+          setValorPago("")
+          setFormaPagamento("")
+          setParcelas("")
+
+        }}
 
         offsetSemana={
           offsetSemana
@@ -606,6 +568,10 @@ function Agenda({
 
       />
 
+
+      {/* ================================================= */}
+      {/* AGENDA                                             */}
+      {/* ================================================= */}
 
       <section className="agenda-area">
 
@@ -632,7 +598,7 @@ function Agenda({
           }
 
           ganhoDoDia={
-            (data) =>
+            data =>
               ganhoDoDia(
                 consultas,
                 data
@@ -657,10 +623,6 @@ function Agenda({
 
           setNovoAgendamento={
             setNovoAgendamento
-          }
-
-          setDataConsulta={
-            setDataConsulta
           }
 
         />
@@ -767,17 +729,9 @@ function Agenda({
                 false
               )
 
-              setValorPago(
-                ""
-              )
-
-              setFormaPagamento(
-                ""
-              )
-
-              setParcelas(
-                ""
-              )
+              setValorPago("")
+              setFormaPagamento("")
+              setParcelas("")
 
             }}
 
@@ -840,10 +794,6 @@ function Agenda({
               setDataConsulta
             }
 
-            /* ========================================= */
-            /* PAGAMENTO                                 */
-            /* ========================================= */
-
             valorPago={
               valorPago
             }
@@ -868,17 +818,9 @@ function Agenda({
               setParcelas
             }
 
-            /* ========================================= */
-            /* CRIAR AGENDAMENTO                         */
-            /* ========================================= */
-
             criarAgendamento={
               actions.criarAgendamento
             }
-
-            /* ========================================= */
-            /* FECHAR                                    */
-            /* ========================================= */
 
             fechar={() => {
 
@@ -898,17 +840,9 @@ function Agenda({
                 ""
               )
 
-              setValorPago(
-                ""
-              )
-
-              setFormaPagamento(
-                ""
-              )
-
-              setParcelas(
-                ""
-              )
+              setValorPago("")
+              setFormaPagamento("")
+              setParcelas("")
 
             }}
 
@@ -920,6 +854,7 @@ function Agenda({
     </main>
 
   )
+
 }
 
 
