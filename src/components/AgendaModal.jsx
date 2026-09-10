@@ -916,8 +916,8 @@ const nomePaciente =
               </option>
 
 
-              <option value="Cartão de Débito">
-                Cartão de Débito
+              <option value="Débito">
+                Débito
               </option>
 
 

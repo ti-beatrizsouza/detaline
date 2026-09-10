@@ -24,28 +24,22 @@ import {
 
 
 function Agenda({
-
   voltar,
   abrirPerfil,
   abrirCadastroDentista,
   abrirCadastroPaciente,
   retornoAgendamento,
   limparRetornoAgendamento
-
 }) {
-
 
   const dias =
     getDiasSemana()
 
-
   const horarios =
     getHorarios()
 
-
   const consultas =
     useConsultas()
-
 
   const pacientes =
     usePacientes()
@@ -80,6 +74,47 @@ function Agenda({
 
 
   /* ===================================================== */
+  /* ÚLTIMO PACIENTE VISTO                                 */
+  /* ===================================================== */
+
+  const [
+    ultimoPacienteVisto,
+    setUltimoPacienteVisto
+  ] = useState(null)
+
+
+  useEffect(() => {
+
+    if (
+      !selecionada?.pacienteId
+    ) {
+      return
+    }
+
+
+    const paciente =
+      pacientes.find(
+        p =>
+          p.id ===
+          selecionada.pacienteId
+      )
+
+
+    if (paciente) {
+
+      setUltimoPacienteVisto(
+        paciente
+      )
+
+    }
+
+  }, [
+    selecionada,
+    pacientes
+  ])
+
+
+  /* ===================================================== */
   /* PAGAMENTO                                             */
   /* ===================================================== */
 
@@ -99,7 +134,7 @@ function Agenda({
     parcelas,
     setParcelas
   ] = useState("")
-  
+
 
   const [
     pagamentoAberto,
@@ -140,7 +175,39 @@ function Agenda({
 
 
   /* ===================================================== */
-  /* SINCRONIZAR DADOS DA CONSULTA ABERTA                 */
+  /* AGENDAMENTO PELO TOPO                                 */
+  /* ===================================================== */
+
+  const [
+    pacienteTopo,
+    setPacienteTopo
+  ] = useState("")
+
+
+  const [
+    diaTopo,
+    setDiaTopo
+  ] = useState(
+    new Date()
+      .toISOString()
+      .split("T")[0]
+  )
+
+
+  const [
+    horaTopo,
+    setHoraTopo
+  ] = useState("07:00")
+
+
+  const [
+    statusTopo,
+    setStatusTopo
+  ] = useState("agendado")
+
+
+  /* ===================================================== */
+  /* SINCRONIZAR CONSULTA ABERTA                           */
   /* ===================================================== */
 
   useEffect(() => {
@@ -157,14 +224,9 @@ function Agenda({
     }
 
 
-    /*
-     * Quando uma consulta é aberta,
-     * recuperamos os dados que já estão
-     * salvos nela.
-     */
-
     if (
-      selecionada.status === "pagou"
+      selecionada.status ===
+      "pagou"
     ) {
 
       setValorPago(
@@ -184,7 +246,11 @@ function Agenda({
 
 
       setParcelas(
-        selecionada.parcelas
+        selecionada.parcelas !== undefined &&
+        selecionada.parcelas !== null &&
+        Number(
+          selecionada.parcelas
+        ) > 0
           ? String(
               selecionada.parcelas
             )
@@ -192,15 +258,11 @@ function Agenda({
       )
 
 
-      /*
-       * Se já foi paga, a aba de pagamento
-       * abre automaticamente.
-       */
+      setPagamentoAberto(
+        true
+      )
 
-      setPagamentoAberto(true)
-
-    }
-    else {
+    } else {
 
       setValorPago("")
       setFormaPagamento("")
@@ -260,6 +322,11 @@ function Agenda({
 
     setBuscaPaciente(
       paciente.nome || ""
+    )
+
+
+    setUltimoPacienteVisto(
+      paciente
     )
 
 
@@ -410,14 +477,19 @@ function Agenda({
     )
 
 
-    setBuscaPaciente(
-      ""
-    )
+    setBuscaPaciente("")
 
 
     setPacienteSelecionado(
       null
     )
+
+
+    /* Limpa pagamento de um novo agendamento */
+
+    setValorPago("")
+    setFormaPagamento("")
+    setParcelas("")
 
   }
 
@@ -429,34 +501,55 @@ function Agenda({
   const actions =
     useAgendaActions({
 
-      consultas,
       pacientes,
 
       selecionada,
+
       setSelecionada,
 
       valorPago,
+
       setValorPago,
 
       formaPagamento,
+
       setFormaPagamento,
 
       parcelas,
+
       setParcelas,
 
       obsEditando,
 
-      novoAgendamento,
-      setNovoAgendamento,
-
-      buscaPaciente,
-      setBuscaPaciente,
-
       pacienteSelecionado,
+
       setPacienteSelecionado,
 
+      novoAgendamento,
+
+      setNovoAgendamento,
+
+      setBuscaPaciente,
+
       dataConsulta,
-      setDataConsulta
+
+      setDataConsulta,
+
+      pacienteTopo,
+
+      setPacienteTopo,
+
+      diaTopo,
+
+      setDiaTopo,
+
+      horaTopo,
+
+      setHoraTopo,
+
+      statusTopo,
+
+      setStatusTopo
 
     })
 
@@ -480,11 +573,6 @@ function Agenda({
   return (
 
     <main className="agenda-container">
-
-
-      {/* ================================================= */}
-      {/* TOPO                                              */}
-      {/* ================================================= */}
 
       <AgendaTopBar
 
@@ -518,10 +606,6 @@ function Agenda({
 
       />
 
-
-      {/* ================================================= */}
-      {/* AGENDA                                             */}
-      {/* ================================================= */}
 
       <section className="agenda-area">
 
@@ -573,6 +657,10 @@ function Agenda({
 
           setNovoAgendamento={
             setNovoAgendamento
+          }
+
+          setDataConsulta={
+            setDataConsulta
           }
 
         />
@@ -720,6 +808,10 @@ function Agenda({
               pacientes
             }
 
+            ultimoPacienteVisto={
+              ultimoPacienteVisto
+            }
+
             abrirCadastroPaciente={
               abrirCadastroPaciente
             }
@@ -748,9 +840,45 @@ function Agenda({
               setDataConsulta
             }
 
+            /* ========================================= */
+            /* PAGAMENTO                                 */
+            /* ========================================= */
+
+            valorPago={
+              valorPago
+            }
+
+            setValorPago={
+              setValorPago
+            }
+
+            formaPagamento={
+              formaPagamento
+            }
+
+            setFormaPagamento={
+              setFormaPagamento
+            }
+
+            parcelas={
+              parcelas
+            }
+
+            setParcelas={
+              setParcelas
+            }
+
+            /* ========================================= */
+            /* CRIAR AGENDAMENTO                         */
+            /* ========================================= */
+
             criarAgendamento={
               actions.criarAgendamento
             }
+
+            /* ========================================= */
+            /* FECHAR                                    */
+            /* ========================================= */
 
             fechar={() => {
 
@@ -770,6 +898,18 @@ function Agenda({
                 ""
               )
 
+              setValorPago(
+                ""
+              )
+
+              setFormaPagamento(
+                ""
+              )
+
+              setParcelas(
+                ""
+              )
+
             }}
 
           />
@@ -777,11 +917,9 @@ function Agenda({
         )
       }
 
-
     </main>
 
   )
-
 }
 
 

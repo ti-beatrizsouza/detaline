@@ -11,7 +11,9 @@ import { db } from "../services/firebase"
 
 
 export default function useAgendaActions({
+
   pacientes,
+
   selecionada,
   setSelecionada,
 
@@ -48,14 +50,176 @@ export default function useAgendaActions({
 
   statusTopo,
   setStatusTopo
+
 }) {
+
+
+  /* ========================================================= */
+  /* DATA LOCAL                                                  */
+  /* ========================================================= */
+
+  function dataLocalHoje() {
+
+    const hoje =
+      new Date()
+
+
+    const ano =
+      hoje.getFullYear()
+
+
+    const mes =
+      String(
+        hoje.getMonth() + 1
+      ).padStart(
+        2,
+        "0"
+      )
+
+
+    const dia =
+      String(
+        hoje.getDate()
+      ).padStart(
+        2,
+        "0"
+      )
+
+
+    return (
+      `${ano}-${mes}-${dia}`
+    )
+
+  }
+
+
+  /* ========================================================= */
+  /* ADICIONAR PERÍODO À DATA                                  */
+  /* ========================================================= */
+
+  function adicionarPeriodo(
+    data,
+    periodo
+  ) {
+
+    if (!data) {
+      return ""
+    }
+
+
+    const dataObj =
+      new Date(
+        `${data}T00:00:00`
+      )
+
+
+    if (
+      Number.isNaN(
+        dataObj.getTime()
+      )
+    ) {
+
+      return ""
+    }
+
+
+    if (
+      periodo ===
+      "1-semana"
+    ) {
+
+      dataObj.setDate(
+        dataObj.getDate() + 7
+      )
+
+    }
+
+
+    if (
+      periodo ===
+      "2-semanas"
+    ) {
+
+      dataObj.setDate(
+        dataObj.getDate() + 14
+      )
+
+    }
+
+
+    if (
+      periodo ===
+      "1-mes"
+    ) {
+
+      const diaOriginal =
+        dataObj.getDate()
+
+
+      dataObj.setDate(
+        1
+      )
+
+
+      dataObj.setMonth(
+        dataObj.getMonth() + 1
+      )
+
+
+      const ultimoDiaMes =
+        new Date(
+          dataObj.getFullYear(),
+          dataObj.getMonth() + 1,
+          0
+        ).getDate()
+
+
+      dataObj.setDate(
+        Math.min(
+          diaOriginal,
+          ultimoDiaMes
+        )
+      )
+
+    }
+
+
+    const ano =
+      dataObj.getFullYear()
+
+
+    const mes =
+      String(
+        dataObj.getMonth() + 1
+      ).padStart(
+        2,
+        "0"
+      )
+
+
+    const dia =
+      String(
+        dataObj.getDate()
+      ).padStart(
+        2,
+        "0"
+      )
+
+
+    return (
+      `${ano}-${mes}-${dia}`
+    )
+
+  }
 
 
   /* ========================================================= */
   /* MUDAR STATUS                                               */
   /* ========================================================= */
 
-  async function mudarStatus(status) {
+  async function mudarStatus(
+    status
+  ) {
 
     if (!selecionada) {
       return
@@ -77,10 +241,10 @@ export default function useAgendaActions({
 
     const valor =
       status === "pagou"
-        ? Number(valorPago || 0)
-        : Number(
-            selecionada.valorPago || 0
+        ? Number(
+            valorPago || 0
           )
+        : 0
 
 
     const pagamentoParcelado =
@@ -93,12 +257,20 @@ export default function useAgendaActions({
       pagamentoParcelado
         ? Math.min(
             Math.max(
-              Number(parcelas || 2),
+              Number(
+                parcelas || 2
+              ),
               2
             ),
             6
           )
         : 0
+
+
+    const valorAnterior =
+      Number(
+        selecionada.valorPago || 0
+      )
 
 
     await updateDoc(
@@ -112,38 +284,58 @@ export default function useAgendaActions({
         status,
 
         valorPago:
-          valor,
+          status === "pagou"
+            ? valor
+            : 0,
 
         formaPagamento:
           status === "pagou"
             ? formaPagamento
-            : selecionada.formaPagamento || "",
+            : "",
 
         parcelas:
           status === "pagou"
             ? quantidadeParcelas
-            : selecionada.parcelas || 0
+            : 0
+
       }
     )
 
 
+    /* =============================================== */
+    /* ATUALIZA TOTAL PAGO DO PACIENTE                 */
+    /* =============================================== */
+
     if (
-      status === "pagou" &&
-      valor > 0 &&
       selecionada.pacienteId
     ) {
 
-      await updateDoc(
-        doc(
-          db,
-          "pacientes",
-          selecionada.pacienteId
-        ),
-        {
-          totalPago:
-            increment(valor)
-        }
-      )
+      const diferenca =
+        valor -
+        valorAnterior
+
+
+      if (
+        diferenca !== 0
+      ) {
+
+        await updateDoc(
+          doc(
+            db,
+            "pacientes",
+            selecionada.pacienteId
+          ),
+          {
+
+            totalPago:
+              increment(
+                diferenca
+              )
+
+          }
+        )
+
+      }
 
     }
 
@@ -155,31 +347,31 @@ export default function useAgendaActions({
       status,
 
       valorPago:
-        valor,
+        status === "pagou"
+          ? valor
+          : 0,
 
       formaPagamento:
         status === "pagou"
           ? formaPagamento
-          : selecionada.formaPagamento || "",
+          : "",
 
       parcelas:
         status === "pagou"
           ? quantidadeParcelas
-          : selecionada.parcelas || 0
+          : 0
 
     })
 
 
-    if (setValorPago) {
+    if (
+      status !== "pagou"
+    ) {
+
       setValorPago("")
-    }
-
-    if (setFormaPagamento) {
       setFormaPagamento("")
-    }
+      setParcelas("")
 
-    if (setParcelas) {
-      setParcelas(2)
     }
 
   }
@@ -197,7 +389,6 @@ export default function useAgendaActions({
     ) {
 
       return
-
     }
 
 
@@ -208,12 +399,14 @@ export default function useAgendaActions({
         selecionada.pacienteId
       ),
       {
+
         totalPago:
           increment(
             -Number(
               selecionada.valorPago
             )
           )
+
       }
     )
 
@@ -226,14 +419,17 @@ export default function useAgendaActions({
       ),
       {
 
-        valorPago: 0,
+        valorPago:
+          0,
 
         status:
           "confirmado",
 
-        formaPagamento: "",
+        formaPagamento:
+          "",
 
-        parcelas: 0
+        parcelas:
+          0
 
       }
     )
@@ -243,29 +439,24 @@ export default function useAgendaActions({
 
       ...selecionada,
 
-      valorPago: 0,
+      valorPago:
+        0,
 
       status:
         "confirmado",
 
-      formaPagamento: "",
+      formaPagamento:
+        "",
 
-      parcelas: 0
+      parcelas:
+        0
 
     })
 
 
-    if (setValorPago) {
-      setValorPago("")
-    }
-
-    if (setFormaPagamento) {
-      setFormaPagamento("")
-    }
-
-    if (setParcelas) {
-      setParcelas(2)
-    }
+    setValorPago("")
+    setFormaPagamento("")
+    setParcelas("")
 
   }
 
@@ -290,7 +481,9 @@ export default function useAgendaActions({
     )
 
 
-    setSelecionada(null)
+    setSelecionada(
+      null
+    )
 
   }
 
@@ -299,7 +492,15 @@ export default function useAgendaActions({
   /* CRIAR AGENDAMENTO                                         */
   /* ========================================================= */
 
-  async function criarAgendamento() {
+  async function criarAgendamento(
+
+    periodoReagendamento = "nenhum",
+
+    status = "agendado",
+
+    dadosPagamento = {}
+
+  ) {
 
     if (!pacienteSelecionado) {
 
@@ -308,7 +509,6 @@ export default function useAgendaActions({
       )
 
       return
-
     }
 
 
@@ -325,9 +525,135 @@ export default function useAgendaActions({
       )
 
       return
+    }
+
+
+    const horaFinal =
+      novoAgendamento?.hora ||
+      "08:00"
+
+
+    const paciente =
+      pacienteSelecionado
+
+
+    const dataObj =
+      new Date(
+        `${dataFinal}T00:00:00`
+      )
+
+
+    if (
+      Number.isNaN(
+        dataObj.getTime()
+      )
+    ) {
+
+      alert(
+        "Data inválida"
+      )
+
+      return
+    }
+
+
+    const diasSemana = [
+
+      "Domingo",
+      "Segunda",
+      "Terça",
+      "Quarta",
+      "Quinta",
+      "Sexta",
+      "Sábado"
+
+    ]
+
+
+    /* ===================================================== */
+    /* PAGAMENTO                                             */
+    /* ===================================================== */
+
+    let valorPagamento =
+      0
+
+
+    let formaPagamentoAtual =
+      ""
+
+
+    let quantidadeParcelas =
+      0
+
+
+    if (
+      status === "pagou"
+    ) {
+
+      formaPagamentoAtual =
+        dadosPagamento.formaPagamento ||
+        ""
+
+
+      valorPagamento =
+        Number(
+          dadosPagamento.valorPago ||
+          0
+        )
+
+
+      if (
+        !formaPagamentoAtual
+      ) {
+
+        alert(
+          "Selecione a forma de pagamento"
+        )
+
+        return
+      }
+
+
+      if (
+        !Number.isFinite(
+          valorPagamento
+        ) ||
+        valorPagamento <= 0
+      ) {
+
+        alert(
+          "Informe um valor pago válido"
+        )
+
+        return
+      }
+
+
+      if (
+        formaPagamentoAtual ===
+        "credito_parcelado"
+      ) {
+
+        quantidadeParcelas =
+          Math.min(
+            Math.max(
+              Number(
+                dadosPagamento.parcelas ||
+                2
+              ),
+              2
+            ),
+            6
+          )
+
+      }
 
     }
 
+
+    /* ===================================================== */
+    /* CRIAR CONSULTA ATUAL                                 */
+    /* ===================================================== */
 
     await addDoc(
       collection(
@@ -337,53 +663,187 @@ export default function useAgendaActions({
       {
 
         pacienteId:
-          pacienteSelecionado.id,
+          paciente.id,
 
         nome:
-          pacienteSelecionado.nome,
+          paciente.nome,
 
         dia:
-          novoAgendamento.dia,
+          diasSemana[
+            dataObj.getDay()
+          ],
 
         hora:
-          novoAgendamento.hora,
+          horaFinal,
 
         data:
           dataFinal,
 
-        status:
-          "agendado",
+        status,
 
-        valorPago: 0,
+        valorPago:
+          valorPagamento,
 
-        formaPagamento: "",
+        formaPagamento:
+          formaPagamentoAtual,
 
-        parcelas: 0
+        parcelas:
+          quantidadeParcelas
 
       }
     )
 
+
+    /* ===================================================== */
+    /* TOTAL PAGO                                            */
+    /* ===================================================== */
+
+    if (
+      status === "pagou" &&
+      valorPagamento > 0
+    ) {
+
+      await updateDoc(
+        doc(
+          db,
+          "pacientes",
+          paciente.id
+        ),
+        {
+
+          totalPago:
+            increment(
+              valorPagamento
+            )
+
+        }
+      )
+
+    }
+
+
+    /* ===================================================== */
+    /* REAGENDAMENTO AUTOMÁTICO                              */
+    /* ===================================================== */
+
+    let dataProxima =
+      ""
+
+
+    if (
+      periodoReagendamento &&
+      periodoReagendamento !==
+        "nenhum"
+    ) {
+
+      dataProxima =
+        adicionarPeriodo(
+          dataFinal,
+          periodoReagendamento
+        )
+
+
+      if (dataProxima) {
+
+        const proximaDataObj =
+          new Date(
+            `${dataProxima}T00:00:00`
+          )
+
+
+        await addDoc(
+          collection(
+            db,
+            "agenda"
+          ),
+          {
+
+            pacienteId:
+              paciente.id,
+
+            nome:
+              paciente.nome,
+
+            dia:
+              diasSemana[
+                proximaDataObj.getDay()
+              ],
+
+            hora:
+              horaFinal,
+
+            data:
+              dataProxima,
+
+            status:
+              "agendado",
+
+            valorPago:
+              0,
+
+            formaPagamento:
+              "",
+
+            parcelas:
+              0,
+
+            reagendamentoAutomatico:
+              true,
+
+            consultaAnteriorData:
+              dataFinal
+
+          }
+        )
+
+      }
+
+    }
+
+
+    /* ===================================================== */
+    /* PRÓXIMA CONSULTA DO PACIENTE                          */
+    /* ===================================================== */
 
     await updateDoc(
       doc(
         db,
         "pacientes",
-        pacienteSelecionado.id
+        paciente.id
       ),
       {
+
         proxConsulta:
+          dataProxima ||
           dataFinal
+
       }
     )
 
 
-    setNovoAgendamento(null)
+    /* ===================================================== */
+    /* LIMPAR                                               */
+    /* ===================================================== */
 
-    setBuscaPaciente("")
+    setNovoAgendamento(
+      null
+    )
 
-    setPacienteSelecionado(null)
+    setBuscaPaciente(
+      ""
+    )
 
-    setDataConsulta("")
+    setPacienteSelecionado(
+      null
+    )
+
+    setDataConsulta(
+      ""
+    )
+
+    setValorPago("")
+    setFormaPagamento("")
+    setParcelas("")
 
   }
 
@@ -404,7 +864,6 @@ export default function useAgendaActions({
       )
 
       return
-
     }
 
 
@@ -422,23 +881,19 @@ export default function useAgendaActions({
 
 
     const dataObj =
-      new Date(diaTopo)
+      new Date(
+        `${diaTopo}T00:00:00`
+      )
 
 
     const diasSemana = [
 
       "Domingo",
-
       "Segunda",
-
       "Terça",
-
       "Quarta",
-
       "Quinta",
-
       "Sexta",
-
       "Sábado"
 
     ]
@@ -471,11 +926,14 @@ export default function useAgendaActions({
         status:
           statusTopo,
 
-        valorPago: 0,
+        valorPago:
+          0,
 
-        formaPagamento: "",
+        formaPagamento:
+          "",
 
-        parcelas: 0
+        parcelas:
+          0
 
       }
     )
@@ -488,18 +946,20 @@ export default function useAgendaActions({
         paciente.id
       ),
       {
+
         proxConsulta:
           diaTopo
+
       }
     )
 
 
-    setPacienteTopo("")
+    setPacienteTopo(
+      ""
+    )
 
     setDiaTopo(
-      new Date()
-        .toISOString()
-        .split("T")[0]
+      dataLocalHoje()
     )
 
     setHoraTopo(
@@ -544,21 +1004,18 @@ export default function useAgendaActions({
         paciente.id
       ),
       {
+
         obs:
           obsEditando
+
       }
-    )
-
-
-    alert(
-      "Observação salva!"
     )
 
   }
 
 
   /* ========================================================= */
-  /* SALVAR PAGAMENTO                                          */
+  /* SALVAR PAGAMENTO                                           */
   /* ========================================================= */
 
   async function salvarPagamento() {
@@ -575,7 +1032,6 @@ export default function useAgendaActions({
       )
 
       return
-
     }
 
 
@@ -586,15 +1042,32 @@ export default function useAgendaActions({
       )
 
       return
-
     }
 
 
     const valor =
-      Number(valorPago)
+      Number(
+        valorPago
+      )
 
 
-    let quantidadeParcelas = 0
+    if (
+      !Number.isFinite(
+        valor
+      ) ||
+      valor <= 0
+    ) {
+
+      alert(
+        "Informe um valor válido"
+      )
+
+      return
+    }
+
+
+    let quantidadeParcelas =
+      0
 
 
     if (
@@ -614,6 +1087,17 @@ export default function useAgendaActions({
         )
 
     }
+
+
+    const valorAnterior =
+      Number(
+        selecionada.valorPago || 0
+      )
+
+
+    const diferenca =
+      valor -
+      valorAnterior
 
 
     await updateDoc(
@@ -639,19 +1123,28 @@ export default function useAgendaActions({
     )
 
 
-    await updateDoc(
-      doc(
-        db,
-        "pacientes",
-        selecionada.pacienteId
-      ),
-      {
+    if (
+      selecionada.pacienteId &&
+      diferenca !== 0
+    ) {
 
-        totalPago:
-          increment(valor)
+      await updateDoc(
+        doc(
+          db,
+          "pacientes",
+          selecionada.pacienteId
+        ),
+        {
 
-      }
-    )
+          totalPago:
+            increment(
+              diferenca
+            )
+
+        }
+      )
+
+    }
 
 
     setSelecionada({
@@ -672,19 +1165,28 @@ export default function useAgendaActions({
     })
 
 
-    if (setValorPago) {
-      setValorPago("")
-    }
+    alert(
+      `Pagamento de R$ ${valor
+        .toFixed(2)
+        .replace(".", ",")} confirmado.`
+    )
 
 
-    if (setFormaPagamento) {
-      setFormaPagamento("")
-    }
+    setValorPago(
+      String(
+        valor
+      )
+    )
 
 
-    if (setParcelas) {
-      setParcelas(2)
-    }
+    setFormaPagamento(
+      formaPagamento
+    )
+
+
+    setParcelas(
+      quantidadeParcelas
+    )
 
   }
 

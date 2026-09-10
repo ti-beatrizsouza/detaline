@@ -4,11 +4,8 @@
 
 @font-face {
   font-family: "AliceWonderland";
-
-  src:
-    url("../assets/fonts/Alice_in_Wonderland.ttf")
+  src: url("../assets/fonts/Alice_in_Wonderland.ttf")
     format("truetype");
-
   font-weight: normal;
   font-style: normal;
 }
@@ -22,16 +19,11 @@
   width: 100%;
   height: 100vh;
   min-height: 100vh;
-
   padding: 10px 14px 12px;
-
   box-sizing: border-box;
-
   display: flex;
   flex-direction: column;
-
   position: relative;
-
   overflow: hidden;
 
   background:
@@ -40,66 +32,44 @@
       rgba(255,255,255,.18),
       transparent 25%
     ),
-
     radial-gradient(
       circle at 0% 100%,
       rgba(255,255,255,.08),
       transparent 28%
     ),
-
     linear-gradient(
       135deg,
-      #95006f 0%,
-      #b80089 50%,
+      #ad0082 0%,
+      #b00083 48%,
       #df58c0 100%
     );
 }
 
 
-/* ========================================================= */
-/* DECORAÇÃO                                                 */
-/* ========================================================= */
-
 .agenda-container::before {
   content: "";
-
   position: absolute;
-
   width: 620px;
   height: 620px;
-
   top: -430px;
   right: -170px;
-
   border-radius: 50%;
-
-  background:
-    rgba(255,255,255,.13);
-
+  background: rgba(255,255,255,.13);
   pointer-events: none;
-
   z-index: 0;
 }
 
 
 .agenda-container::after {
   content: "";
-
   position: absolute;
-
   width: 450px;
   height: 450px;
-
   bottom: -330px;
   left: -200px;
-
   border-radius: 50%;
-
-  background:
-    rgba(255,255,255,.065);
-
+  background: rgba(255,255,255,.065);
   pointer-events: none;
-
   z-index: 0;
 }
 
@@ -110,101 +80,57 @@
 
 .agenda-topo {
   width: 100%;
-
   min-height: 68px;
-
   flex-shrink: 0;
-
   display: grid;
-
-  grid-template-columns:
-    1fr
-    auto
-    1fr;
-
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-
   gap: 15px;
-
   margin-bottom: 8px;
-
   position: relative;
-
   z-index: 20;
 }
 
 
 .agenda-topo-esquerda {
   display: flex;
-
   align-items: center;
-
   justify-content: flex-start;
-
   gap: 9px;
 }
 
 
-/* ========================================================= */
-/* VOLTAR                                                    */
-/* ========================================================= */
-
 .agenda-voltar {
   height: 42px;
-
   padding: 0 16px;
-
   border: none;
-
   border-radius: 11px;
-
   background: #ffffff;
-
   color: #a9007d;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.814rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .814rem;
   font-weight: 800;
-
   cursor: pointer;
-
   white-space: nowrap;
-
-  box-shadow:
-    0 6px 16px
-    rgba(50,0,40,.13);
-
-  transition:
-    background .18s ease,
-    transform .18s ease;
+  box-shadow: 0 6px 16px rgba(50,0,40,.13);
+  transition: background .18s ease, transform .18s ease;
 }
 
 
 .agenda-voltar:hover {
   background: #fff7fc;
-
-  transform:
-    translateY(-1px);
+  transform: translateY(-1px);
 }
 
 
 /* ========================================================= */
-/* GRUPO CENTRAL                                              */
+/* CENTRO                                                     */
 /* ========================================================= */
 
 .agenda-topo-centro {
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   gap: 8px;
 }
 
@@ -215,230 +141,120 @@
 
 .agenda-navegacao {
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   gap: 5px;
-
   padding: 4px 5px;
-
   box-sizing: border-box;
-
   background: rgba(255,255,255,.14);
-
-  border:
-    1px solid
-    rgba(255,255,255,.40);
-
+  border: 1px solid rgba(255,255,255,.40);
   border-radius: 14px;
-
-  box-shadow:
-    0 5px 18px
-    rgba(70,0,55,.10);
+  box-shadow: 0 5px 18px rgba(70,0,55,.10);
 }
 
 
 .agenda-navegacao > button {
   height: 39px;
-
   padding: 0 13px;
-
-  border:
-    1px solid #eadfea;
-
+  border: 1px solid #eadfea;
   border-radius: 10px;
-
   background: #ffffff;
-
   color: #a9007d;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.704rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .704rem;
   font-weight: 700;
-
   cursor: pointer;
-
   white-space: nowrap;
-
-  transition:
-    background .15s ease,
-    transform .15s ease;
+  transition: background .15s ease, transform .15s ease;
 }
 
 
 .agenda-navegacao > button:hover {
   background: #fff7fc;
-
-  transform:
-    translateY(-1px);
+  transform: translateY(-1px);
 }
 
 
 /* ========================================================= */
-/* PESQUISA DATA                                              */
+/* DATA                                                      */
 /* ========================================================= */
 
 .pesquisar-data-topo {
   height: 39px;
-
   display: flex;
-
   align-items: center;
-
   gap: 3px;
 }
 
 
 .pesquisar-data-topo input {
   width: 116px;
-
   height: 39px;
-
   padding: 0 8px;
-
   box-sizing: border-box;
-
-  border:
-    1px solid #e0d7df;
-
+  border: 1px solid #e0d7df;
   border-radius: 10px;
-
   background: #ffffff;
-
   color: #554b53;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.704rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .704rem;
   outline: none;
 }
 
 
 .pesquisar-data-topo input:focus {
   border-color: #b00083;
-
-  box-shadow:
-    0 0 0 2px
-    rgba(176,0,131,.10);
+  box-shadow: 0 0 0 2px rgba(176,0,131,.10);
 }
 
 
-/* ========================================================= */
-/* BOTÃO IR                                                   */
-/* ========================================================= */
-
 .pesquisar-data-topo button {
   width: 37px;
-
   height: 39px;
-
   padding: 0;
-
   border: none;
-
   border-radius: 9px;
-
-  background: #d446b1; /*cor do botão IR*/
-
+  background: #d446b1;
   color: #ffffff;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.693rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .693rem;
   font-weight: 800;
-
   cursor: pointer;
-
-  box-shadow:
-    0 4px 10px
-    rgba(70,0,55,.20);
-
-  transition:
-    background .18s ease,
-    transform .18s ease,
-    box-shadow .18s ease;
+  box-shadow: 0 4px 10px rgba(70,0,55,.20);
+  transition: background .18s ease, transform .18s ease;
 }
 
 
 .pesquisar-data-topo button:hover {
-  /*
-   * Mais claro no hover, igual ao Novo Agendamento
-   */
   background: #dd3ab5;
-
-  transform:
-    translateY(-1px);
-
-  box-shadow:
-    0 6px 13px
-    rgba(70,0,55,.22);
+  transform: translateY(-1px);
 }
 
 
 /* ========================================================= */
-/* NOVO AGENDAMENTO - FORA DA CAIXA                           */
+/* NOVO AGENDAMENTO NO TOPO                                  */
 /* ========================================================= */
 
 .novo-agendamento-topo-btn {
   height: 42px;
-
   padding: 0 17px;
-
   border: none;
-
   border-radius: 11px;
-
-  background: #d446b1; /*Cor do botão de novo agendamento*/
-
+  background: #d446b1;
   color: #ffffff;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.792rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .792rem;
   font-weight: 700;
-
   cursor: pointer;
-
   white-space: nowrap;
-
-  box-shadow:
-    0 6px 16px
-    rgba(80,0,65,.20);
-
-  transition:
-    background .18s ease,
-    transform .18s ease;
+  box-shadow: 0 6px 16px rgba(80,0,65,.20);
+  transition: background .18s ease, transform .18s ease;
 }
 
 
 .novo-agendamento-topo-btn:hover {
-  background: #ce169e;
-
-  transform:
-    translateY(-1px);
+  background: #dd3ab5;
+  transform: translateY(-1px);
 }
 
 
@@ -448,56 +264,34 @@
 
 .agenda-topo-marca {
   display: flex;
-
   align-items: center;
-
   justify-content: flex-end;
-
   gap: 10px;
 }
 
 
 .agenda-titulo {
   display: flex;
-
   flex-direction: column;
-
   align-items: flex-end;
 }
 
 
 .agenda-titulo span {
-  color:
-    rgba(255,255,255,.62);
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.583rem;
-
+  color: rgba(255,255,255,.62);
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .583rem;
   font-weight: 800;
-
   letter-spacing: .17em;
 }
 
 
 .agenda-titulo h1 {
   margin: 1px 0 0;
-
   color: #ffffff;
-
-  font-family:
-    "AliceWonderland",
-    Georgia,
-    serif;
-
+  font-family: "AliceWonderland", Georgia, serif;
   font-size: 2.585rem;
-
   font-weight: normal;
-
   line-height: .9;
 }
 
@@ -505,30 +299,20 @@
 .agenda-logo-cantinho {
   width: 82px;
   height: 57px;
-
   object-fit: contain;
-
-  filter:
-    drop-shadow(
-      0 5px 12px
-      rgba(50,0,40,.18)
-    );
+  filter: drop-shadow(0 5px 12px rgba(50,0,40,.18));
 }
 
 
 /* ========================================================= */
-/* ÁREA DA AGENDA                                             */
+/* ÁREA                                                       */
 /* ========================================================= */
 
 .agenda-area {
   width: 100%;
-
   flex: 1;
-
   min-height: 0;
-
   position: relative;
-
   z-index: 2;
 }
 
@@ -540,22 +324,12 @@
 .agenda-scroll {
   width: 100%;
   height: 100%;
-
   min-height: 0;
-
   overflow: auto;
-
   border-radius: 18px;
-
-  box-shadow:
-    0 12px 30px
-    rgba(55,0,45,.15);
-
+  box-shadow: 0 12px 30px rgba(55,0,45,.15);
   scrollbar-width: thin;
-
-  scrollbar-color:
-    #a9007d
-    #e8e1e6;
+  scrollbar-color: #a9007d #e8e1e6;
 }
 
 
@@ -572,7 +346,6 @@
 
 .agenda-scroll::-webkit-scrollbar-thumb {
   background: #a9007d;
-
   border-radius: 10px;
 }
 
@@ -583,150 +356,81 @@
 
 .agenda-grid {
   position: relative;
-
   isolation: isolate;
-
   display: grid;
-
-  grid-template-columns:
-    74px
-    repeat(
-      6,
-      minmax(0, 1fr)
-    );
-
+  grid-template-columns: 74px repeat(6, minmax(0, 1fr));
   width: 100%;
-
   min-height: 100%;
-
   box-sizing: border-box;
-
-  /*
-   * SEM BORDA EXTERNA
-   */
   border: none;
-
   border-radius: 18px;
-
   overflow: hidden;
-
-  background:
-    #ffffff;
+  background: #ffffff;
 }
 
 
 /* ========================================================= */
-/* LOGO / MARCA D'ÁGUA                                       */
+/* MARCA D'ÁGUA                                               */
 /* ========================================================= */
 
 .agenda-marca-agua {
   position: absolute;
-
   top: 58px;
-
   left: 74px;
-
   right: 0;
-
   bottom: 84px;
-
   background:
     url("../assets/logor.png")
     center center
     / 480px auto
     no-repeat;
-
   opacity: .085;
-
   pointer-events: none;
-
   z-index: 1;
 }
 
 
 /* ========================================================= */
-/* CABEÇALHO - DIA E DATA                                    */
+/* CABEÇALHO                                                  */
 /* ========================================================= */
 
 .agenda-header {
   min-height: 50px;
-
   padding: 7px 4px;
-
   box-sizing: border-box;
-
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
   justify-content: center;
-
-  background: #990072;
-
+  background: #d135aa;
   color: #ffffff;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.759rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .759rem;
   font-weight: 600;
-
   text-align: center;
-
   line-height: 1.1;
-
-  border-right:
-    1px solid
-    rgba(255,255,255,.25);
-
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.25);
-
+  border-right: 1px solid rgba(255,255,255,.25);
+  border-bottom: 1px solid rgba(255,255,255,.25);
   position: relative;
-
   z-index: 3;
 }
 
 
 .agenda-dia-semana {
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.8rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .8rem;
   font-weight: 600;
-
   line-height: 1.1;
 }
 
 
 .agenda-data {
   display: block;
-
   margin-top: 7px;
-
   color: rgba(255,255,255,.78);
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.8rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .8rem;
   font-weight: 400;
-
   line-height: 1;
 }
 
@@ -737,214 +441,109 @@
 
 .hora-cell {
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   color: #625960;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.704rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .704rem;
   font-weight: 600;
-
   box-sizing: border-box;
-
   position: relative;
-
   z-index: 3;
 }
 
 
-/* ========================================================= */
-/* HORA INTEIRA                                               */
-/* ========================================================= */
-
 .hora-inteira {
-  background:
-    #ffffff;
-
-  border-right:
-    1px solid #d8d2d7;
-
-  border-bottom:
-    1px solid #d8d2d7;
+  background: #ffffff;
+  border-right: 1px solid #d8d2d7;
+  border-bottom: 1px solid #d8d2d7;
 }
 
-
-/* ========================================================= */
-/* MEIA HORA                                                  */
-/* ========================================================= */
 
 .hora-meia {
-  /*
-   * Apenas um pouco mais escura que a hora inteira
-   */
-  background:
-    #f3f0f3;
-
-  border-right:
-    1px solid #d8d2d7;
-
-  border-bottom:
-    1px solid #d8d2d7;
+  background: #f3f0f3;
+  border-right: 1px solid #d8d2d7;
+  border-bottom: 1px solid #d8d2d7;
 }
 
 
 /* ========================================================= */
-/* SLOT                                                       */
+/* SLOTS                                                      */
 /* ========================================================= */
 
 .agenda-slot {
   min-width: 0;
-
   min-height: 0;
-
   display: flex;
-
   align-items: stretch;
-
   justify-content: stretch;
-
   box-sizing: border-box;
-
   position: relative;
-
   z-index: 2;
-
-  border-right:
-    1px solid #d8d2d7;
-
-  transition:
-    background .12s ease;
+  border-right: 1px solid #d8d2d7;
+  transition: background .12s ease;
 }
 
-
-/* ========================================================= */
-/* LINHA INTEIRA                                              */
-/* ========================================================= */
 
 .agenda-slot.linha-inteira {
-  background:
-    rgba(255,255,255,.90);
-
-  border-bottom:
-    1px solid #d8d2d7;
+  background: rgba(255,255,255,.90);
+  border-bottom: 1px solid #d8d2d7;
 }
 
-
-/* ========================================================= */
-/* LINHA MEIA HORA                                            */
-/* ========================================================= */
 
 .agenda-slot.linha-meia {
-  /*
-   * Diferença discreta entre as linhas
-   */
-  background:
-    rgba(230, 227, 230, 0.94);
-
-  border-bottom:
-    1px solid #d8d2d7;
+  background: rgba(230,227,230,.94);
+  border-bottom: 1px solid #d8d2d7;
 }
 
-
-/* ========================================================= */
-/* HOVER                                                       */
-/* ========================================================= */
 
 .agenda-slot:hover {
-  background:
-    rgba(249,232,246,.78);
+  background: rgba(249,232,246,.78);
 }
 
 
-/* ========================================================= */
-/* TEMPO PASSADO                                              */
-/* ========================================================= */
-
 .agenda-slot.slot-passado.linha-inteira {
-  background:
-    rgba(228, 224, 228, 0.94) !important;
-
-  border-bottom:
-    1px solid #ccc5cb;
+  background: rgba(228,224,228,.94) !important;
+  border-bottom: 1px solid #ccc5cb;
 }
 
 
 .agenda-slot.slot-passado.linha-meia {
-  background:
-    rgba(219, 217, 219, 0.94) !important;
-
-  border-bottom:
-    1px solid #d2cbd1;
+  background: rgba(219,217,219,.94) !important;
+  border-bottom: 1px solid #d2cbd1;
 }
 
-
-/* ========================================================= */
-/* SLOT ATUAL                                                 */
-/* ========================================================= */
 
 .agenda-slot.slot-atual {
-  background:
-    rgba(255,248,253,.95);
+  background: rgba(255,248,253,.95);
 }
 
 
 /* ========================================================= */
-/* SLOT VAZIO                                                  */
+/* SLOT VAZIO                                                 */
 /* ========================================================= */
 
 .slot-vazio {
   width: 100%;
-
   height: 100%;
-
   min-height: 100%;
-
   padding: 0;
-
   border: none;
-
   border-radius: 0;
-
   outline: none;
-
   background: transparent;
-
   color: #c98db9;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.858rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .858rem;
   font-weight: 500;
-
   cursor: pointer;
-
-  transition:
-    background .12s ease,
-    color .12s ease;
+  transition: background .12s ease, color .12s ease;
 }
 
 
 .slot-vazio:hover {
   color: #a9007d;
-
-  background:
-    rgba(169,0,125,.045);
-
-  border-radius: 0;
+  background: rgba(169,0,125,.045);
 }
 
 
@@ -954,425 +553,263 @@
 
 .consulta-btn {
   width: 100%;
-
   height: 100%;
-
   min-height: 100%;
-
   margin: 0;
-
   padding: 0 7px;
-
   border: none;
-
   border-radius: 0;
-
   color: #ffffff;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.704rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .704rem;
   font-weight: 600;
-
   cursor: pointer;
-
   overflow: hidden;
-
   white-space: nowrap;
-
   text-overflow: ellipsis;
-
   box-sizing: border-box;
-
-  transition:
-    filter .12s ease;
+  transition: filter .12s ease;
 }
 
 
 .consulta-btn:hover {
-  filter:
-    brightness(.98);
+  filter: brightness(.96);
 }
 
 
 .consulta-info {
   width: 100%;
-
   height: 100%;
-
   display: flex;
-
   align-items: center;
-
   justify-content: flex-start;
-
   gap: 5px;
-
   text-align: left;
-
   overflow: hidden;
 }
 
 
 .consulta-info span {
   display: block;
-
   color: #ffffff;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   white-space: nowrap;
-
   overflow: hidden;
-
   text-overflow: ellipsis;
 }
 
 
-/* ========================================================= */
-/* TAG NA AGENDA                                              */
-/* ========================================================= */
-
 .consulta-tag {
-  flex:
-    0 0 auto;
-
+  flex: 0 0 auto;
   width: auto !important;
-
-  color:
-    rgba(248, 231, 244, 0.9) !important;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.7rem;
-
+  color: rgba(248,231,244,.9) !important;
+  font-size: .7rem;
   font-weight: 400;
 }
 
 
 .consulta-nome {
   min-width: 0;
-
-  flex:
-    1 1 auto;
-
+  flex: 1 1 auto;
   color: #ffffff !important;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.72rem;
-
+  font-size: .72rem;
   font-weight: 400;
-
   text-align: left;
 }
 
+
 /* ========================================================= */
-/* CORES PASTEL                                               */
+/* CORES                                                      */
 /* ========================================================= */
 
 .cinza .consulta-btn,
 .btn-agendado {
-  background:
-    #b8b8ba !important;
+  background: #b6b6bd !important;
 }
 
 
 .azul .consulta-btn,
 .btn-confirmado {
-  background:
-    #9bb9f2 !important;
+  background: #91b5f0 !important;
 }
 
 
 .verde .consulta-btn,
 .btn-pago {
-  background:
-    #8bcfa5 !important;
+  background: #82cea0 !important;
 }
 
 
 .rosa .consulta-btn,
 .btn-debito {
-  background:
-    #eda3c5 !important;
+  background: #eb9bc0 !important;
 }
 
 
 .amarelo .consulta-btn,
 .btn-faltou {
-  background:
-    #ead47c !important;
+  background: #efd16d !important;
 }
 
 
-/* ========================================================= */
-/* HOVER CORES                                                */
-/* ========================================================= */
-
 .cinza .consulta-btn:hover,
 .btn-agendado:hover {
-  background:
-    #aaaaac !important;
+  background: #a8a8b0 !important;
 }
 
 
 .azul .consulta-btn:hover,
 .btn-confirmado:hover {
-  background:
-    #8eaff0 !important;
+  background: #7fa8eb !important;
 }
 
 
 .verde .consulta-btn:hover,
 .btn-pago:hover {
-  background:
-    #79c798 !important;
+  background: #6fc28f !important;
 }
 
 
 .rosa .consulta-btn:hover,
 .btn-debito:hover {
-  background:
-    #e593b9 !important;
+  background: #e38aad !important;
 }
 
 
 .amarelo .consulta-btn:hover,
 .btn-faltou:hover {
-  background:
-    #dfca6c !important;
+  background: #e6c85b !important;
 }
 
 
 /* ========================================================= */
-/* GANHO                                                      */
+/* GANHO                                                       */
 /* ========================================================= */
 
 .ganho-label {
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
-  background:
-    rgba(244,238,243,.96);
-
+  background: rgba(244,238,243,.96);
   color: #8d006a;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.704rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .704rem;
   font-weight: 700;
-
-  border-top:
-    2px solid #d0c3cd;
-
-  border-right:
-    1px solid #d6cfd4;
+  border-top: 2px solid #d0c3cd;
+  border-right: 1px solid #d6cfd4;
 }
 
 
 .ganho-cell {
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
-  background:
-    rgba(255,250,253,.96);
-
+  background: rgba(255,250,253,.96);
   color: #8d006a;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.715rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .715rem;
   font-weight: 700;
-
-  border-top:
-    2px solid #d0c3cd;
-
-  border-right:
-    1px solid #e0d9df;
+  border-top: 2px solid #d0c3cd;
+  border-right: 1px solid #e0d9df;
 }
 
 
 .ganho-semana {
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
-  background: #a9007d;
-
+  background: #d135aa;
   color: #ffffff;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.792rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .792rem;
   font-weight: 700;
-
-  border-top:
-    2px solid #870063;
+  border-top: 2px solid #870063;
 }
 
 
 /* ========================================================= */
-/* MODAL BACKGROUND                                           */
+/* FUNDO DOS MODAIS                                           */
 /* ========================================================= */
 
 .modal-bg {
   position: fixed;
-
   inset: 0;
-
   z-index: 999;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   padding: 20px;
-
   box-sizing: border-box;
-
-  background:
-    rgba(35,8,29,.55);
-
-  backdrop-filter:
-    blur(5px);
+  background: rgba(35,8,29,.55);
+  backdrop-filter: blur(5px);
 }
 
 
 /* ========================================================= */
-/* MODAL                                                      */
+/* MODAL BASE                                                  */
 /* ========================================================= */
 
 .modal-box {
   width: 500px;
-
-  max-width:
-    calc(100vw - 40px);
-
-  max-height:
-    calc(100vh - 40px);
-
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 40px);
   padding: 28px;
-
   box-sizing: border-box;
-
   background: #ffffff;
-
   border-radius: 22px;
-
-  box-shadow:
-    0 25px 70px
-    rgba(30,0,25,.28);
+  box-shadow: 0 25px 70px rgba(30,0,25,.28);
 }
 
 
 /* ========================================================= */
-/* NOVO AGENDAMENTO                                           */
+/* NOVO AGENDAMENTO - MODAL                                   */
 /* ========================================================= */
 
 .novo-agendamento-modal {
-  width: 500px;
-
-  height:
-    min(
-      700px,
-      calc(100vh - 40px)
-    );
-
-  max-height:
-    calc(100vh - 40px);
+  width: min(900px, calc(100vw - 40px));
+  height: min(690px, calc(100vh - 40px));
+  max-height: calc(100vh - 40px);
 
   display: flex;
-
   flex-direction: column;
 
   overflow: hidden;
 
-  padding: 28px;
+  padding: 25px 28px 24px;
+}
+
+
+/* ========================================================= */
+/* TÍTULO                                                       */
+/* ========================================================= */
+
+.novo-agendamento-cabecalho {
+  flex-shrink: 0;
 }
 
 
 .novo-agendamento-modal h2 {
-  margin: 0 0 14px;
-
+  margin: 0 0 8px;
   color: #b00083;
-
-  font-family:
-    "AliceWonderland",
-    Georgia,
-    serif;
-
-  font-size: 2.86rem;
-
+  font-family: "AliceWonderland", Georgia, serif;
+  font-size: 2.85rem;
   font-weight: normal;
-
   line-height: 1;
 }
 
 
 .novo-agendamento-info {
   display: flex;
-
   gap: 18px;
-
-  margin-bottom: 9px;
+  margin-bottom: 14px;
 }
 
 
 .novo-agendamento-info p {
   margin: 0;
-
   color: #625761;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.825rem;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .825rem;
 }
 
 
@@ -1381,137 +818,368 @@
 }
 
 
+/* ========================================================= */
+/* DUAS COLUNAS                                                */
+/* ========================================================= */
+
+.novo-agendamento-colunas {
+  flex: 1;
+  min-height: 0;
+
+  display: grid;
+  grid-template-columns: minmax(280px, .82fr) minmax(350px, 1.18fr);
+
+  gap: 18px;
+
+  overflow: hidden;
+}
+
+
+/* ========================================================= */
+/* ESQUERDA                                                    */
+/* ========================================================= */
+
+.novo-agendamento-esquerda {
+  min-width: 0;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  padding-right: 3px;
+}
+
+
+.novo-agendamento-secao {
+  flex-shrink: 0;
+}
+
+
 .novo-agendamento-label {
-  margin: 5px 0;
-
+  display: block;
+  margin: 4px 0 5px;
   color: #746871;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.737rem;
-
-  font-weight: 700;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .737rem;
+  font-weight: 600;
 }
 
 
 .valor-input {
   width: 100%;
-
   min-height: 43px;
-
   padding: 10px 12px;
-
   box-sizing: border-box;
-
-  border:
-    1px solid #e4dce2;
-
+  border: 1px solid #e4dce2;
   border-radius: 11px;
-
   background: #f7f3f7;
-
   color: #51454e;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.825rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .825rem;
   outline: none;
 }
 
 
 .valor-input:focus {
   background: #ffffff;
-
   border-color: #b00083;
-
-  box-shadow:
-    0 0 0 2px
-    rgba(169,0,125,.10);
+  box-shadow: 0 0 0 2px rgba(169,0,125,.10);
 }
 
 
 /* ========================================================= */
-/* FILTROS                                                    */
+/* ÚLTIMO PACIENTE                                             */
+/* ========================================================= */
+
+.ultimo-paciente-box {
+  margin-top: 13px;
+  padding: 12px;
+  border-radius: 13px;
+  background: #f7eef5;
+  border: 1px solid #ead7e6;
+}
+
+
+.ultimo-paciente-titulo {
+  margin-bottom: 8px;
+  color: #8f006c;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .72rem;
+  font-weight: 700;
+}
+
+
+.ultimo-paciente-btn {
+  width: 100%;
+  min-height: 42px;
+
+  padding: 8px 9px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  border: 1px solid #e7cfe2;
+  border-radius: 9px;
+
+  background: #ffffff;
+  color: #a9007d;
+
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    transform .15s ease;
+}
+
+
+.ultimo-paciente-btn:hover {
+  background: #fff7fc;
+  border-color: #d8b4d0;
+  transform: translateY(-1px);
+}
+
+
+.ultimo-paciente-btn.ativo {
+  background: #b00083;
+  border-color: #b00083;
+  color: #ffffff;
+}
+
+
+.ultimo-paciente-tag {
+  flex-shrink: 0;
+  font-size: .66rem;
+  font-weight: 800;
+}
+
+
+.ultimo-paciente-nome {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: .73rem;
+  font-weight: 500;
+}
+
+
+.ultimo-paciente-acao {
+  flex-shrink: 0;
+  font-size: .61rem;
+  opacity: .65;
+}
+
+
+.ultimo-paciente-vazio {
+  padding: 9px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #a1969e;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .7rem;
+  text-align: center;
+}
+
+
+/* ========================================================= */
+/* PACIENTE SELECIONADO                                       */
+/* ========================================================= */
+
+.paciente-escolhido-box {
+  margin-top: 11px;
+}
+
+
+.paciente-escolhido {
+  min-height: 40px;
+  padding: 8px 11px;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  box-sizing: border-box;
+
+  border-radius: 10px;
+  background: #f6eaf4;
+
+  color: #a9007d;
+
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .75rem;
+}
+
+
+.paciente-escolhido-tag {
+  font-weight: 800;
+}
+
+
+.paciente-escolhido-vazio {
+  min-height: 40px;
+  padding: 10px;
+
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+
+  border-radius: 10px;
+  background: #f7f3f7;
+
+  color: #9b9098;
+
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .7rem;
+}
+
+
+/* ========================================================= */
+/* REAGENDAMENTO                                               */
+/* ========================================================= */
+
+.reagendamento-box {
+  margin-top: auto;
+  padding: 12px;
+
+  border-radius: 13px;
+
+  background: #faf5f9;
+  border: 1px solid #eadfe7;
+}
+
+
+.reagendamento-titulo {
+  color: #8f006c;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+
+.reagendamento-descricao {
+  margin: 3px 0 8px;
+
+  color: #91858d;
+
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .64rem;
+}
+
+
+.reagendamento-preview {
+  margin-top: 8px;
+  padding: 8px 9px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  border-radius: 8px;
+
+  background: #f2e2ef;
+}
+
+
+.reagendamento-preview span {
+  color: #8c7b86;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .61rem;
+}
+
+
+.reagendamento-preview strong {
+  color: #a9007d;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .7rem;
+  font-weight: 600;
+}
+
+
+/* ========================================================= */
+/* DIREITA                                                     */
+/* ========================================================= */
+
+.novo-agendamento-direita {
+  min-width: 0;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  padding-left: 18px;
+
+  border-left: 1px solid #eee4eb;
+}
+
+
+.lista-pacientes-titulo {
+  margin: 4px 0 8px;
+
+  color: #746871;
+
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .77rem;
+  font-weight: 600;
+}
+
+
+/* ========================================================= */
+/* FILTROS                                                     */
 /* ========================================================= */
 
 .filtros-pacientes-agendamento {
   display: grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
+  grid-template-columns: 1fr 1fr;
   gap: 7px;
-
   margin-top: 7px;
+  flex-shrink: 0;
 }
 
 
 .filtros-pacientes-agendamento select {
   width: 100%;
-
   height: 34px;
-
   padding: 0 9px;
-
   box-sizing: border-box;
-
-  border:
-    1px solid #e3d8e1;
-
+  border: 1px solid #e3d8e1;
   border-radius: 9px;
-
   background: #f8f3f7;
-
   color: #665963;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.693rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .693rem;
   outline: none;
-
   cursor: pointer;
 }
 
 
 .filtros-pacientes-agendamento select:focus {
   border-color: #b00083;
-
-  box-shadow:
-    0 0 0 2px
-    rgba(176,0,131,.08);
+  box-shadow: 0 0 0 2px rgba(176,0,131,.08);
 }
 
 
 /* ========================================================= */
-/* LISTA DE PACIENTES                                        */
+/* LISTA                                                       */
 /* ========================================================= */
 
 .lista-pacientes-agendamento {
   flex: 1;
-
   min-height: 0;
 
   overflow-y: auto;
-
   overflow-x: hidden;
 
-  margin-top: 5px;
+  margin-top: 7px;
 
-  padding: 3px 5px 3px 0;
+  padding: 2px 5px 3px 0;
 }
 
 
@@ -1522,116 +1190,82 @@
 
 .lista-pacientes-agendamento::-webkit-scrollbar-track {
   background: #eee5eb;
-
   border-radius: 10px;
 }
 
 
 .lista-pacientes-agendamento::-webkit-scrollbar-thumb {
   background: #b00083;
-
   border-radius: 10px;
 }
 
 
 /* ========================================================= */
-/* PACIENTE DA LISTA                                          */
+/* PACIENTE                                                    */
 /* ========================================================= */
 
 .paciente-agendamento-btn {
   width: 100%;
-
-  min-height: 38px;
+  min-height: 39px;
 
   margin-bottom: 6px;
-
   padding: 0 12px;
 
   border: none;
-
   border-radius: 9px;
 
   background: #f5e9f3;
-
   color: #a9007d;
 
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.748rem;
-
-  font-weight: 600;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .748rem;
+  font-weight: 400;
 
   text-align: left;
-
   cursor: pointer;
 
   display: flex;
-
   align-items: center;
-
   gap: 8px;
+
+  transition:
+    background .14s ease,
+    transform .14s ease;
 }
 
 
 .paciente-agendamento-btn:hover {
   background: #eedced;
+  transform: translateX(1px);
 }
 
 
 .paciente-agendamento-btn.paciente-selecionado {
   background: #b00083;
-
   color: #ffffff;
 }
 
 
-/* ========================================================= */
-/* TAG                                                        */
-/* ========================================================= */
-
 .paciente-tag-lista {
-  flex:
-    0 0 auto;
-
+  flex: 0 0 auto;
   min-width: 30px;
-
   color: #b00083;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.66rem;
-
+  font-size: .66rem;
   font-weight: 800;
 }
 
 
-/* ========================================================= */
-/* NOME                                                       */
-/* ========================================================= */
+.paciente-agendamento-btn.paciente-selecionado
+.paciente-tag-lista {
+  color: #ffffff;
+}
+
 
 .paciente-nome-lista {
   min-width: 0;
-
   overflow: hidden;
-
   text-overflow: ellipsis;
-
   white-space: nowrap;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
   font-weight: 400;
 }
 
@@ -1642,51 +1276,33 @@
 
 .nenhum-paciente {
   padding: 18px;
-
   text-align: center;
-
   color: #9b9098;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.781rem;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .781rem;
 }
 
 
 /* ========================================================= */
-/* CADASTRAR PACIENTE                                         */
+/* CADASTRAR                                                   */
 /* ========================================================= */
 
 .cadastrar-paciente-agendamento {
   flex-shrink: 0;
 
   width: 100%;
-
   height: 39px;
 
   margin-top: 8px;
 
-  border:
-    2px dashed #c40091;
-
+  border: 2px dashed #c40091;
   border-radius: 10px;
 
   background: #ffffff;
-
   color: #b00083;
 
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.77rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .77rem;
   font-weight: 600;
 
   cursor: pointer;
@@ -1699,59 +1315,15 @@
 
 
 /* ========================================================= */
-/* PACIENTE ESCOLHIDO                                         */
-/* ========================================================= */
-
-.paciente-escolhido {
-  flex-shrink: 0;
-
-  margin-top: 8px;
-
-  padding: 8px 11px;
-
-  border-radius: 9px;
-
-  background: #f6eaf4;
-
-  color: #756972;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.759rem;
-}
-
-
-.paciente-escolhido strong {
-  color: #a9007d;
-}
-
-
-.paciente-escolhido-tag {
-  margin-right: 5px;
-
-  color: #b00083;
-
-  font-weight: 700;
-}
-
-
-/* ========================================================= */
-/* BOTÕES NOVO AGENDAMENTO                                   */
+/* BOTÕES                                                       */
 /* ========================================================= */
 
 .novo-agendamento-botoes {
   display: grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
+  grid-template-columns: 1fr 1fr;
   gap: 9px;
 
-  margin-top: 10px;
+  margin-top: 12px;
 
   flex-shrink: 0;
 }
@@ -1761,19 +1333,12 @@
   height: 44px;
 
   border: none;
-
   border-radius: 11px;
 
   color: #ffffff;
 
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.803rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .803rem;
   font-weight: 700;
 
   cursor: pointer;
@@ -1801,266 +1366,164 @@
 
 
 /* ========================================================= */
-/* MODAL PACIENTE                                             */
+/* MODAL DE PACIENTE                                           */
 /* ========================================================= */
 
 .modal-paciente-cabecalho h2 {
   margin: 0 0 8px;
-
   color: #b00083;
-
-  font-family:
-    "AliceWonderland",
-    Georgia,
-    serif;
-
+  font-family: "AliceWonderland", Georgia, serif;
   font-size: 3.3rem;
-
   font-weight: normal;
 }
 
 
 .modal-paciente-nome-linha {
   display: flex;
-
   align-items: center;
-
   gap: 15px;
 }
 
 
 .modal-paciente-cabecalho h3 {
   margin: 0;
-
   color: #494249;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-size: 1.375rem;
-
   font-weight: 600;
-
   line-height: 1.25;
 }
 
 
-/* ========================================================= */
-/* TAG ENTRE NOME E DATA                                      */
-/* ========================================================= */
-
 .modal-paciente-tag-linha {
   display: flex;
-
   align-items: center;
-
   margin-top: 5px;
-
   margin-bottom: 3px;
 }
 
 
 .modal-paciente-tag {
   color: #b00083;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.858rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .858rem;
   font-weight: 800;
 }
 
 
 /* ========================================================= */
-/* TELEFONES                                                  */
+/* TELEFONES                                                   */
 /* ========================================================= */
 
 .modal-telefones {
   display: grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
+  grid-template-columns: 1fr 1fr;
   gap: 18px;
-
   margin-top: 9px;
-
-  /*
-   * Espaço entre os telefones e a próxima seção
-   */
   margin-bottom: 18px;
-
   padding: 9px 0 5px;
-
-  border-top:
-    1px solid #eee5eb;
+  border-top: 1px solid #eee5eb;
 }
+
 
 .modal-telefone-item {
   display: flex;
-
   flex-direction: column;
-
   gap: 3px;
 }
 
 
 .modal-telefone-label {
   color: #82767e;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.693rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .693rem;
   font-weight: 700;
 }
 
 
 .modal-telefone-valor {
   color: #a9007d;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.803rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .803rem;
   font-weight: 600;
 }
 
 
 /* ========================================================= */
-/* INFO MODAL                                                 */
+/* INFO MODAL                                                  */
 /* ========================================================= */
 
 .modal-consulta-info {
   display: flex;
-
   flex-direction: column;
-
   gap: 6px;
-
   margin: 14px 0;
 }
 
 
 .modal-consulta-info p {
   margin: 0;
-
   display: flex;
-
   align-items: center;
-
   gap: 6px;
-
   color: #51474e;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.858rem;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .858rem;
 }
 
 
 .modal-info-icone {
   width: 18px;
-
   display: inline-flex;
-
   justify-content: center;
 }
 
 
 /* ========================================================= */
-/* OBSERVAÇÃO                                                 */
+/* OBSERVAÇÃO                                                  */
 /* ========================================================= */
 
 .modal-observacao {
-  /*
-   * Mantém um espaço confortável
-   * depois dos telefones
-   */
   margin-top: 0;
-
   margin-bottom: 16px;
 }
 
 
 .modal-observacao label {
   display: block;
-
   margin-bottom: 7px;
-
   color: #777078;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.77rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .77rem;
   font-weight: 600;
 }
 
 
 .modal-observacao .valor-input {
   min-height: 82px;
-
   resize: vertical;
 }
 
 
 /* ========================================================= */
-/* BOTÕES MODAL                                               */
+/* BOTÕES MODAL                                                */
 /* ========================================================= */
 
 .modal-botoes {
   display: grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
+  grid-template-columns: 1fr 1fr;
   gap: 9px;
 }
 
 
 .modal-botoes button {
   height: 44px;
-
   border: none;
-
   border-radius: 11px;
-
   color: #ffffff;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.781rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .781rem;
   font-weight: 700;
-
   cursor: pointer;
 }
 
@@ -2071,37 +1534,72 @@
 
 
 .btn-confirmado {
-  background: #9bb9f2 !important;
+  background: #91b5f0 !important;
 }
 
 
 .btn-pago {
-  background: #8bcfa5 !important;
+  background: #82cea0 !important;
 }
 
 
 .btn-debito {
-  background: #eda3c5 !important;
+  background: #eb9bc0 !important;
 }
 
 
 .btn-faltou {
-  background: #ead47c !important;
+  background: #efd16d !important;
 }
 
 
 .btn-agendado {
-  background: #b8b8ba !important;
+  background: #b6b6bd !important;
 }
 
 
 .remover-valor-btn {
-  background: #d68b9a !important;
+  background: #d58294 !important;
 }
 
 
 .remover-btn {
   background: #df4058 !important;
+}
+
+
+.btn-confirmado:hover {
+  background: #7fa8eb !important;
+}
+
+
+.btn-pago:hover {
+  background: #6fc28f !important;
+}
+
+
+.btn-debito:hover {
+  background: #e38aad !important;
+}
+
+
+.btn-faltou:hover {
+  background: #e6c85b !important;
+}
+
+
+.btn-agendado:hover {
+  background: #a8a8b0 !important;
+}
+
+
+.remover-valor-btn:hover {
+  background: #c87487 !important;
+}
+
+
+.remover-btn:hover {
+  background: #d9344d !important;
 }
 
 
@@ -2111,188 +1609,124 @@
 
 .pagamento-layout {
   display: flex;
-
   align-items: flex-start;
-
   justify-content: center;
-
   gap: 12px;
 }
 
 
 .pagamento-layout .modal-box-principal {
-  flex:
-    0 1 500px;
+  flex: 0 1 500px;
 }
 
 
 .pagamento-box {
   width: 230px;
-
   flex-shrink: 0;
-
   padding: 18px;
-
   box-sizing: border-box;
-
   background: #f8f3f7;
-
-  border:
-    1px solid #e4dce3;
-
+  border: 1px solid #e4dce3;
   border-radius: 16px;
-
   display: flex;
-
   flex-direction: column;
-
   gap: 10px;
 }
 
 
 .pagamento-box h3 {
   margin: 0;
-
   color: #a9007d;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-size: 1.1rem;
 }
 
 
 .pagamento-box label {
   color: #665b63;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.748rem;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .748rem;
   font-weight: 700;
 }
 
 
-.pagamento-box select {
+.pagamento-box select,
+.pagamento-box input {
   width: 100%;
-
   height: 43px;
-
-  border:
-    1px solid #e4dce2;
-
+  border: 1px solid #e4dce2;
   border-radius: 10px;
-
   background: #ffffff;
-
   color: #51454e;
-
   padding: 0 10px;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
 }
 
 
 .enviar-valor-btn {
   height: 43px;
-
   border: none;
-
   border-radius: 10px;
-
-  background: #8bcfa5;
-
+  background: #82cea0;
   color: #ffffff;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-weight: 700;
-
   cursor: pointer;
+}
+
+
+.enviar-valor-btn:hover {
+  background: #6fc28f;
 }
 
 
 .cancelar-pagamento-btn {
   height: 43px;
-
   border: none;
-
   border-radius: 10px;
-
   background: #454545;
-
   color: #ffffff;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-weight: 700;
-
   cursor: pointer;
 }
 
 
 /* ========================================================= */
-/* RESPONSIVO                                                 */
+/* RESPONSIVO                                                  */
 /* ========================================================= */
 
 @media (max-width: 1100px) {
 
   .agenda-topo {
-    grid-template-columns:
-      auto
-      1fr
-      auto;
-
+    grid-template-columns: auto 1fr auto;
     gap: 9px;
   }
-
 
   .agenda-navegacao > button {
     padding: 0 9px;
   }
 
-
-  .agenda-navegacao
-  > button:first-child,
-  .agenda-navegacao
-  > button:last-child {
-
-    font-size: 0.649rem;
+  .agenda-navegacao > button:first-child,
+  .agenda-navegacao > button:last-child {
+    font-size: .649rem;
   }
-
 
   .pesquisar-data-topo input {
     width: 105px;
   }
-
 
   .agenda-logo-cantinho {
     width: 70px;
     height: 52px;
   }
 
-
   .agenda-titulo h1 {
     font-size: 2.2rem;
+  }
+
+  .novo-agendamento-modal {
+    width: min(820px, calc(100vw - 30px));
   }
 
 }
@@ -2304,76 +1738,62 @@
     padding: 8px;
   }
 
-
   .agenda-topo {
     min-height: 60px;
-
     gap: 6px;
   }
 
-
   .agenda-voltar,
   .novo-agendamento-topo-btn {
-
     height: 38px;
-
     padding: 0 10px;
-
-    font-size: 0.704rem;
+    font-size: .704rem;
   }
-
 
   .agenda-navegacao {
     gap: 4px;
   }
 
-
   .agenda-navegacao > button {
-
     height: 36px;
-
     padding: 0 7px;
-
-    font-size: 0.627rem;
+    font-size: .627rem;
   }
-
 
   .pesquisar-data-topo {
     height: 36px;
   }
 
-
   .pesquisar-data-topo input {
-
     width: 95px;
-
     height: 36px;
   }
-
 
   .pesquisar-data-topo button {
     height: 36px;
   }
 
-
   .agenda-titulo h1 {
     font-size: 1.87rem;
   }
 
-
   .agenda-titulo span {
     display: none;
   }
-
 
   .agenda-logo-cantinho {
     width: 60px;
     height: 46px;
   }
 
-
   .agenda-grid {
     min-width: 720px;
+  }
+
+  .novo-agendamento-modal {
+    width: calc(100vw - 24px);
+    height: calc(100vh - 24px);
+    padding: 22px;
   }
 
 }
@@ -2382,101 +1802,275 @@
 @media (max-width: 650px) {
 
   .agenda-topo {
-    grid-template-columns:
-      auto
-      1fr
-      auto;
+    grid-template-columns: auto 1fr auto;
   }
-
 
   .agenda-topo-esquerda {
     gap: 5px;
   }
 
-
   .agenda-voltar {
-    font-size: 0.66rem;
+    font-size: .66rem;
   }
 
-
   .agenda-navegacao .btn-novo-agendamento {
-    font-size: 0.66rem;
-
+    font-size: .66rem;
     padding: 0 8px;
   }
 
-
-  .agenda-navegacao
-  > button:first-child,
-  .agenda-navegacao
-  > button:last-child {
-
+  .agenda-navegacao > button:first-child,
+  .agenda-navegacao > button:last-child {
     display: none;
   }
-
 
   .agenda-navegacao {
     justify-content: center;
   }
 
-
   .agenda-titulo h1 {
     font-size: 1.595rem;
   }
-
 
   .agenda-logo-cantinho {
     width: 48px;
     height: 40px;
   }
 
-
   .pesquisar-data-topo input {
     width: 85px;
   }
-
 
   .agenda-grid {
     min-width: 720px;
   }
 
-
   .pagamento-layout {
     flex-direction: column;
-
     align-items: center;
   }
-
 
   .pagamento-box {
     width: 100%;
   }
 
-
   .modal-paciente-nome-linha {
     align-items: flex-start;
-
     flex-direction: column;
   }
 
-
   .modal-telefones {
     grid-template-columns: 1fr;
-
     gap: 9px;
   }
 
-
+  /*
+   * No celular, as duas colunas
+   * viram uma coluna.
+   */
   .novo-agendamento-modal {
     width: 100%;
-
-    max-width:
-      calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    height: calc(100vh - 20px);
+    max-height: calc(100vh - 20px);
+    padding: 20px;
   }
 
+  .novo-agendamento-modal h2 {
+    font-size: 2.35rem;
+  }
+
+  .novo-agendamento-colunas {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 2px;
+  }
+
+  .novo-agendamento-esquerda {
+    min-height: auto;
+  }
+
+  .novo-agendamento-direita {
+    min-height: 330px;
+    padding-left: 0;
+    padding-top: 15px;
+    border-left: none;
+    border-top: 1px solid #eee4eb;
+  }
+
+  .reagendamento-box {
+    margin-top: 12px;
+  }
 
   .filtros-pacientes-agendamento {
     grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+/* ========================================================= */
+/* STATUS DO NOVO AGENDAMENTO                                */
+/* ========================================================= */
+
+.novo-agendamento-status-box {
+  margin-top: 10px;
+
+  padding: 11px 12px 12px;
+
+  border-radius: 13px;
+
+  background: #faf5f9;
+
+  border: 1px solid #eadfe7;
+}
+
+
+.novo-agendamento-status-box .novo-agendamento-label {
+  margin-top: 0;
+}
+
+
+/* ========================================================= */
+/* PAGAMENTO DO NOVO AGENDAMENTO                             */
+/* ========================================================= */
+
+.novo-agendamento-pagamento {
+  margin-top: 9px;
+
+  padding: 12px;
+
+  border-radius: 13px;
+
+  background: #f8f3f7;
+
+  border: 1px solid #e4dce3;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+
+.novo-agendamento-pagamento-titulo {
+  margin-bottom: 2px;
+
+  color: #a9007d;
+
+  font-family:
+    "Poppins",
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .75rem;
+
+  font-weight: 700;
+}
+
+
+.novo-agendamento-pagamento label {
+  color: #665b63;
+
+  font-family:
+    "Poppins",
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .66rem;
+
+  font-weight: 600;
+}
+
+
+.novo-agendamento-pagamento select,
+.novo-agendamento-pagamento input {
+  width: 100%;
+
+  height: 38px;
+
+  padding: 0 9px;
+
+  box-sizing: border-box;
+
+  border:
+    1px solid #e4dce2;
+
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  color: #51454e;
+
+  font-family:
+    "Poppins",
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: .72rem;
+
+  outline: none;
+}
+
+
+.novo-agendamento-pagamento select:focus,
+.novo-agendamento-pagamento input:focus {
+  border-color: #b00083;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(176,0,131,.08);
+}
+
+
+/* ========================================================= */
+/* AJUSTE DO LADO ESQUERDO                                  */
+/* ========================================================= */
+
+.novo-agendamento-esquerda {
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    #d5b3cd
+    transparent;
+}
+
+
+/* ========================================================= */
+/* QUANDO O PAGAMENTO APARECE                                */
+/* ========================================================= */
+
+.novo-agendamento-pagamento
++ .ultimo-paciente-box {
+  margin-top: 9px;
+}
+
+
+/* ========================================================= */
+/* RESPONSIVO                                                 */
+/* ========================================================= */
+
+@media (max-width: 650px) {
+
+  .novo-agendamento-status-box {
+    margin-top: 9px;
+  }
+
+
+  .novo-agendamento-pagamento {
+    margin-top: 9px;
+  }
+
+
+  .novo-agendamento-esquerda {
+    overflow: visible;
   }
 
 }

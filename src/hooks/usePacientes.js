@@ -8,8 +8,7 @@ import {
   doc,
   getDocs,
   onSnapshot,
-  setDoc,
-  writeBatch
+  runTransaction
 } from "firebase/firestore"
 
 import {
@@ -31,67 +30,30 @@ export default function usePacientes() {
 
 
     /* ===================================================== */
-    /* NORMALIZAR NOME                                       */
-    /* ===================================================== */
-
-    function normalizarNome(nome) {
-
-      return String(nome || "")
-        .normalize("NFD")
-        .replace(
-          /[\u0300-\u036f]/g,
-          ""
-        )
-        .trim()
-        .toLowerCase()
-
-    }
-
-
-    /* ===================================================== */
-    /* ORGANIZAR TAGS ATUAIS                                */
+    /* ORGANIZAR TAGS                                        */
     /* ===================================================== */
 
     async function organizarTags() {
 
       try {
 
-        /*
-          IMPORTANTE:
-
-          Essa é uma NOVA versão da migração.
-
-          Não usamos mais:
-          configuracoes/tagsPacientes
-
-          porque a migração anterior pode já ter marcado
-          aquele documento como concluído.
-
-          Agora usamos:
-          configuracoes/tagsPacientesV2
-        */
-
-        const controleRef =
-          doc(
+        const pacientesRef =
+          collection(
             db,
-            "configuracoes",
-            "tagsPacientesV2"
+            "pacientes"
           )
 
 
-        const pacientesSnapshot =
+        const snapshot =
           await getDocs(
-            collection(
-              db,
-              "pacientes"
-            )
+            pacientesRef
           )
 
 
         const lista = []
 
 
-        pacientesSnapshot.forEach(
+        snapshot.forEach(
           (documento) => {
 
             lista.push({
@@ -115,307 +77,400 @@ export default function usePacientes() {
           lista.length === 0
         ) {
 
-          await setDoc(
-            controleRef,
-            {
-              migrado: true
-            }
-          )
-
           return
 
         }
 
 
         /* ================================================= */
-        /* PROCURAR BEATRIZ                                  */
+        /* BUSCAR TAGS EXISTENTES                            */
         /* ================================================= */
 
-        const beatriz =
-          lista.find(
-            (paciente) => {
+        const tagsUsadas =
+          new Set()
 
-              const nome =
-                normalizarNome(
-                  paciente.nome
-                )
 
-              return (
-                nome === "beatriz" ||
-                nome.startsWith(
-                  "beatriz "
-                )
+        lista.forEach(
+          (paciente) => {
+
+            const tag =
+              String(
+                paciente.tag || ""
+              )
+              .replace(
+                "#",
+                ""
+              )
+              .trim()
+
+
+            const numero =
+              Number(tag)
+
+
+            if (
+              Number.isInteger(
+                numero
+              ) &&
+              numero > 0
+            ) {
+
+              tagsUsadas.add(
+                numero
               )
 
             }
-          )
 
-
-        /* ================================================= */
-        /* PROCURAR ANDRÉ KONRAD                             */
-        /* ================================================= */
-
-        const andre =
-          lista.find(
-            (paciente) => {
-
-              const nome =
-                normalizarNome(
-                  paciente.nome
-                )
-
-              return (
-                nome === "andre konrad" ||
-                nome.startsWith(
-                  "andre konrad "
-                )
-              )
-
-            }
-          )
-
-
-        console.log(
-          "BEATRIZ ENCONTRADA:",
-          beatriz?.nome
-        )
-
-        console.log(
-          "ANDRÉ ENCONTRADO:",
-          andre?.nome
+          }
         )
 
 
         /* ================================================= */
-        /* OUTROS PACIENTES                                  */
+        /* GARANTIR BEATRIZ SAORY = #1                       */
         /* ================================================= */
 
-        const outros =
-          lista.filter(
+        const beatrizSaory =
+          lista.find(
             (paciente) => {
 
+              const nome =
+                String(
+                  paciente.nome || ""
+                )
+                .normalize("NFD")
+                .replace(
+                  /[\u0300-\u036f]/g,
+                  ""
+                )
+                .trim()
+                .toLowerCase()
+
+
               return (
-                paciente.id !==
-                  beatriz?.id &&
-                paciente.id !==
-                  andre?.id
+                nome ===
+                "beatriz saory nishi souza"
               )
 
             }
           )
 
 
-        /* ================================================= */
-        /* NÚMEROS 3 ATÉ 32                                 */
-        /* ================================================= */
-
-        const numeros = []
-
-
-        for (
-          let numero = 3;
-          numero <= 32;
-          numero++
+        if (
+          beatrizSaory
         ) {
 
-          numeros.push(
+          const tagAtual =
+            String(
+              beatrizSaory.tag || ""
+            )
+            .replace(
+              "#",
+              ""
+            )
+            .trim()
+
+
+          /*
+            Só corrige para #1 se ela ainda
+            estiver sem tag ou estiver com
+            uma tag incorreta.
+
+            Caso outra pessoa esteja usando
+            #1, ela receberá outro número.
+          */
+
+          if (
+            tagAtual !== "1"
+          ) {
+
+            const pacienteComNumero1 =
+              lista.find(
+                (paciente) => {
+
+                  const tag =
+                    String(
+                      paciente.tag || ""
+                    )
+                    .replace(
+                      "#",
+                      ""
+                    )
+                    .trim()
+
+                  return (
+                    tag === "1" &&
+                    paciente.id !==
+                      beatrizSaory.id
+                  )
+
+                }
+              )
+
+
+            /*
+              Se outra pessoa estiver com #1,
+              vamos remover temporariamente
+              essa numeração dela.
+            */
+
+            if (
+              pacienteComNumero1
+            ) {
+
+              const novoNumero =
+                encontrarProximoNumero(
+                  tagsUsadas,
+                  2
+                )
+
+
+              await runTransaction(
+                db,
+                async (
+                  transaction
+                ) => {
+
+                  transaction.update(
+
+                    doc(
+                      db,
+                      "pacientes",
+                      pacienteComNumero1.id
+                    ),
+
+                    {
+                      tag:
+                        `#${novoNumero}`
+                    }
+
+                  )
+
+
+                  transaction.update(
+
+                    doc(
+                      db,
+                      "pacientes",
+                      beatrizSaory.id
+                    ),
+
+                    {
+                      tag:
+                        "#1"
+                    }
+
+                  )
+
+                }
+              )
+
+
+              tagsUsadas.delete(
+                1
+              )
+
+              tagsUsadas.add(
+                novoNumero
+              )
+
+              tagsUsadas.add(
+                1
+              )
+
+            } else {
+
+              await runTransaction(
+                db,
+                async (
+                  transaction
+                ) => {
+
+                  transaction.update(
+
+                    doc(
+                      db,
+                      "pacientes",
+                      beatrizSaory.id
+                    ),
+
+                    {
+                      tag:
+                        "#1"
+                    }
+
+                  )
+
+                }
+              )
+
+
+              tagsUsadas.add(
+                1
+              )
+
+            }
+
+          }
+
+        }
+
+
+        /* ================================================= */
+        /* RECARREGAR APÓS CORREÇÃO DA BEATRIZ              */
+        /* ================================================= */
+
+        const snapshotAtualizado =
+          await getDocs(
+            pacientesRef
+          )
+
+
+        const listaAtualizada = []
+
+
+        snapshotAtualizado.forEach(
+          (documento) => {
+
+            listaAtualizada.push({
+
+              id:
+                documento.id,
+
+              ...documento.data()
+
+            })
+
+          }
+        )
+
+
+        /* ================================================= */
+        /* TAGS EXISTENTES                                   */
+        /* ================================================= */
+
+        const numerosExistentes =
+          new Set()
+
+
+        listaAtualizada.forEach(
+          (paciente) => {
+
+            const numero =
+              Number(
+                String(
+                  paciente.tag || ""
+                )
+                .replace(
+                  "#",
+                  ""
+                )
+                .trim()
+              )
+
+
+            if (
+              Number.isInteger(
+                numero
+              ) &&
+              numero > 0
+            ) {
+
+              numerosExistentes.add(
+                numero
+              )
+
+            }
+
+          }
+        )
+
+
+        /* ================================================= */
+        /* PACIENTES SEM TAG                                 */
+        /* ================================================= */
+
+        const semTag =
+          listaAtualizada.filter(
+            (paciente) => {
+
+              const tag =
+                String(
+                  paciente.tag || ""
+                )
+                .replace(
+                  "#",
+                  ""
+                )
+                .trim()
+
+
+              return (
+                tag === ""
+              )
+
+            }
+          )
+
+
+        /* ================================================= */
+        /* ATRIBUIR NOVOS NÚMEROS                            */
+        /* ================================================= */
+
+        for (
+          const paciente
+          of semTag
+        ) {
+
+          const numero =
+            encontrarProximoNumero(
+              numerosExistentes,
+              2
+            )
+
+
+          await runTransaction(
+            db,
+            async (
+              transaction
+            ) => {
+
+              transaction.update(
+
+                doc(
+                  db,
+                  "pacientes",
+                  paciente.id
+                ),
+
+                {
+                  tag:
+                    `#${numero}`
+                }
+
+              )
+
+            }
+          )
+
+
+          numerosExistentes.add(
             numero
           )
 
         }
 
 
-        /* ================================================= */
-        /* EMBARALHAR                                       */
-        /* ================================================= */
-
-        for (
-          let i =
-            numeros.length - 1;
-          i > 0;
-          i--
-        ) {
-
-          const j =
-            Math.floor(
-              Math.random() *
-              (i + 1)
-            )
-
-
-          const temporario =
-            numeros[i]
-
-
-          numeros[i] =
-            numeros[j]
-
-
-          numeros[j] =
-            temporario
-
-        }
-
-
-        /* ================================================= */
-        /* BATCH                                            */
-        /* ================================================= */
-
-        let batch =
-          writeBatch(
-            db
-          )
-
-
-        let quantidadeNoBatch = 0
-
-
-        function adicionarAtualizacao(
-          paciente,
-          numero
-        ) {
-
-          const referencia =
-            doc(
-              db,
-              "pacientes",
-              paciente.id
-            )
-
-
-          batch.update(
-            referencia,
-            {
-              tag:
-                `#${numero}`
-            }
-          )
-
-
-          quantidadeNoBatch++
-
-        }
-
-
-        /* ================================================= */
-        /* BEATRIZ = #1                                     */
-        /* ================================================= */
-
-        if (beatriz) {
-
-          adicionarAtualizacao(
-            beatriz,
-            1
-          )
-
-        }
-
-
-        /* ================================================= */
-        /* ANDRÉ = #2                                       */
-        /* ================================================= */
-
-        if (andre) {
-
-          adicionarAtualizacao(
-            andre,
-            2
-          )
-
-        }
-
-
-        /* ================================================= */
-        /* OUTROS = #3 ATÉ #32                              */
-        /* ================================================= */
-
-        outros.forEach(
-          (
-            paciente,
-            indice
-          ) => {
-
-            let numero
-
-
-            if (
-              indice <
-              numeros.length
-            ) {
-
-              /*
-                #3 até #32
-                em ordem ALEATÓRIA.
-              */
-
-              numero =
-                numeros[indice]
-
-            } else {
-
-              /*
-                Caso existam mais de 32 pacientes,
-                os excedentes continuam normalmente.
-              */
-
-              numero =
-                33 +
-                (
-                  indice -
-                  numeros.length
-                )
-
-            }
-
-
-            adicionarAtualizacao(
-              paciente,
-              numero
-            )
-
-          }
-        )
-
-
-        /* ================================================= */
-        /* SALVAR                                             */
-        /* ================================================= */
-
-        if (
-          quantidadeNoBatch > 0
-        ) {
-
-          await batch.commit()
-
-        }
-
-
-        /* ================================================= */
-        /* MARCAR V2 COMO CONCLUÍDA                          */
-        /* ================================================= */
-
-        await setDoc(
-          controleRef,
-          {
-            migrado: true,
-            quantidade:
-              lista.length,
-            atualizadoEm:
-              new Date()
-          }
-        )
-
-
         console.log(
-          "Tags dos pacientes reorganizadas com sucesso."
+          "Tags verificadas sem reorganizar pacientes existentes."
         )
 
 
-      } catch (error) {
+      }
+      catch (erro) {
 
         console.error(
           "Erro ao organizar tags:",
-          error
+          erro
         )
 
       }
@@ -424,7 +479,36 @@ export default function usePacientes() {
 
 
     /* ===================================================== */
-    /* LISTENER                                             */
+    /* ENCONTRAR PRÓXIMO NÚMERO                             */
+    /* ===================================================== */
+
+    function encontrarProximoNumero(
+      numeros,
+      inicio = 1
+    ) {
+
+      let numero =
+        inicio
+
+
+      while (
+        numeros.has(
+          numero
+        )
+      ) {
+
+        numero++
+
+      }
+
+
+      return numero
+
+    }
+
+
+    /* ===================================================== */
+    /* LISTENER                                              */
     /* ===================================================== */
 
     function iniciarListener() {
@@ -470,7 +554,7 @@ export default function usePacientes() {
 
 
     /* ===================================================== */
-    /* EXECUTAR                                             */
+    /* INICIAR                                               */
     /* ===================================================== */
 
     async function iniciar() {
@@ -486,7 +570,7 @@ export default function usePacientes() {
 
 
     /* ===================================================== */
-    /* LIMPEZA                                              */
+    /* LIMPEZA                                               */
     /* ===================================================== */
 
     return () => {
