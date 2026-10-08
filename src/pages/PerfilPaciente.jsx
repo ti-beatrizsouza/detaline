@@ -107,6 +107,189 @@ function formatarDataNascimento(
 
 
 /* ========================================================= */
+/* FORMATAR TELEFONE                                          */
+/* ========================================================= */
+
+function formatarTelefone(
+  valor
+) {
+
+  const texto =
+    String(
+      valor || ""
+    ).trim()
+
+
+  /*
+   * Se começar com + e NÃO for +55,
+   * preserva exatamente o código internacional.
+   *
+   * Ex.:
+   * +11...
+   * +1...
+   * +351...
+   *
+   * Não substitui por +55.
+   */
+
+  if (
+    texto.startsWith("+") &&
+    !texto
+      .replace(/\D/g, "")
+      .startsWith("55")
+  ) {
+
+    return texto
+
+  }
+
+
+  let numeros =
+    texto.replace(
+      /\D/g,
+      ""
+    )
+
+
+  /*
+   * Remove somente o código do Brasil.
+   *
+   * 5511992801082
+   * → 11992801082
+   */
+
+  if (
+    numeros.startsWith("55") &&
+    numeros.length > 11
+  ) {
+
+    numeros =
+      numeros.substring(2)
+
+  }
+
+
+  /*
+   * Número completo com DDD.
+   *
+   * O DDD existente nunca é substituído.
+   */
+
+  if (
+    numeros.length === 11
+  ) {
+
+    // mantém os 11 dígitos
+
+
+  }
+
+
+  /*
+   * Celular sem DDD.
+   *
+   * Só aqui assume DDD 92.
+   */
+
+  else if (
+    numeros.length === 9
+  ) {
+
+    numeros =
+      "92" + numeros
+
+  }
+
+
+  /*
+   * Fixo sem DDD.
+   *
+   * Só aqui assume DDD 92.
+   */
+
+  else if (
+    numeros.length === 8
+  ) {
+
+    numeros =
+      "92" + numeros
+
+  }
+
+
+  /*
+   * Limita a 11 dígitos.
+   */
+
+  numeros =
+    numeros.substring(
+      0,
+      11
+    )
+
+
+  /*
+   * Campo vazio.
+   */
+
+  if (
+    numeros.length === 0
+  ) {
+
+    return ""
+
+  }
+
+
+  /*
+   * DDD incompleto.
+   */
+
+  if (
+    numeros.length <= 2
+  ) {
+
+    return (
+      `+55 (${numeros}`
+    )
+
+  }
+
+
+  /*
+   * Telefone fixo.
+   */
+
+  if (
+    numeros.length <= 10
+  ) {
+
+    return (
+      `+55 (${numeros.slice(0, 2)}) ` +
+      `${numeros.slice(2, 6)}` +
+      (
+        numeros.length > 6
+          ? `-${numeros.slice(6)}`
+          : ""
+      )
+    )
+
+  }
+
+
+  /*
+   * Celular.
+   */
+
+  return (
+    `+55 (${numeros.slice(0, 2)}) ` +
+    `${numeros.slice(2, 7)}-${numeros.slice(7)}`
+  )
+
+}
+
+
+/* ========================================================= */
 /* PERFIL DO PACIENTE                                         */
 /* ========================================================= */
 
@@ -202,6 +385,76 @@ function PerfilPaciente({
               snapshot.id,
 
             ...snapshot.data()
+
+          }
+
+
+          /* =============================================== */
+          /* CORRIGIR TELEFONES ANTIGOS                       */
+          /* =============================================== */
+
+          const telefoneFormatado =
+            formatarTelefone(
+              pacienteAtualizado.tel
+            )
+
+
+          const telefoneResponsavelFormatado =
+            formatarTelefone(
+              pacienteAtualizado.telResponsavel
+            )
+
+
+          const telefoneMudou =
+            telefoneFormatado !==
+            (
+              pacienteAtualizado.tel ||
+              ""
+            )
+
+
+          const telefoneResponsavelMudou =
+            telefoneResponsavelFormatado !==
+            (
+              pacienteAtualizado.telResponsavel ||
+              ""
+            )
+
+
+          /*
+           * Se algum telefone antigo estiver
+           * sem o padrão +55, atualiza automaticamente
+           * no Firebase.
+           */
+
+          if (
+            telefoneMudou ||
+            telefoneResponsavelMudou
+          ) {
+
+            const dadosTelefone = {
+
+              tel:
+                telefoneFormatado,
+
+              telResponsavel:
+                telefoneResponsavelFormatado
+
+            }
+
+
+            await updateDoc(
+              referencia,
+              dadosTelefone
+            )
+
+
+            pacienteAtualizado.tel =
+              telefoneFormatado
+
+
+            pacienteAtualizado.telResponsavel =
+              telefoneResponsavelFormatado
 
           }
 
@@ -342,6 +595,31 @@ function PerfilPaciente({
 
 
   /* ======================================================= */
+  /* ALTERAR TELEFONE                                        */
+  /* ======================================================= */
+
+  function alterarTelefone(
+    campo,
+    valor
+  ) {
+
+    setDados(
+      atual => ({
+
+        ...atual,
+
+        [campo]:
+          formatarTelefone(
+            valor
+          )
+
+      })
+    )
+
+  }
+
+
+  /* ======================================================= */
   /* ALTERAR DATA DE NASCIMENTO                              */
   /* ======================================================= */
 
@@ -429,6 +707,22 @@ function PerfilPaciente({
       }
 
 
+      /* ================================================= */
+      /* FORMATAR TELEFONES                                */
+      /* ================================================= */
+
+      const telefoneFinal =
+        formatarTelefone(
+          dados.tel
+        )
+
+
+      const telefoneResponsavelFinal =
+        formatarTelefone(
+          dados.telResponsavel
+        )
+
+
       const dadosParaSalvar = {
 
         nome:
@@ -444,16 +738,16 @@ function PerfilPaciente({
           dados.dataNascimento || "",
 
         tel:
-          dados.tel || "",
+          telefoneFinal,
 
         tipoPaciente:
-          dados.tipoPaciente || "Geral",
+          dados.tipoPaciente || "Clínica geral",
 
         responsavel:
           dados.responsavel || "",
 
         telResponsavel:
-          dados.telResponsavel || "",
+          telefoneResponsavelFinal,
 
         cpfResponsavel:
           dados.cpfResponsavel || "",
@@ -518,10 +812,6 @@ function PerfilPaciente({
       setEditando(
         false
       )
-
-      /*
-       * Sem alert de sucesso.
-       */
 
     }
 
@@ -617,10 +907,6 @@ function PerfilPaciente({
           pacienteAtualizado
         )
       )
-
-      /*
-       * Sem alert de sucesso.
-       */
 
     }
 
@@ -1010,7 +1296,7 @@ function PerfilPaciente({
 
               <select
                 value={
-                  dados.tipoPaciente || "Geral"
+                  dados.tipoPaciente || "Clínica geral"
                 }
                 onChange={(e) =>
                   alterarCampo(
@@ -1041,7 +1327,7 @@ function PerfilPaciente({
             ) : (
 
               <strong>
-                {dados.tipoPaciente || "Geral"}
+                {dados.tipoPaciente || "Clínica geral"}
               </strong>
 
             )}
@@ -1140,12 +1426,13 @@ function PerfilPaciente({
             {editando ? (
 
               <input
-                type="text"
+                type="tel"
+                inputMode="numeric"
                 value={
                   dados.tel || ""
                 }
                 onChange={(e) =>
-                  alterarCampo(
+                  alterarTelefone(
                     "tel",
                     e.target.value
                   )
@@ -1215,12 +1502,13 @@ function PerfilPaciente({
             {editando ? (
 
               <input
-                type="text"
+                type="tel"
+                inputMode="numeric"
                 value={
                   dados.telResponsavel || ""
                 }
                 onChange={(e) =>
-                  alterarCampo(
+                  alterarTelefone(
                     "telResponsavel",
                     e.target.value
                   )

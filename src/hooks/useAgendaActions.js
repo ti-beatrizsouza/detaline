@@ -3,13 +3,14 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDocs,
   increment,
-  updateDoc
+  query,
+  updateDoc,
+  where
 } from "firebase/firestore"
 
-import {
-  db
-} from "../services/firebase"
+import { db } from "../services/firebase"
 
 
 export default function useAgendaActions({
@@ -57,172 +58,164 @@ export default function useAgendaActions({
 
 
   /* ========================================================= */
-  /* DATA LOCAL                                                  */
+  /* DATA LOCAL                                                */
   /* ========================================================= */
 
   function dataLocalHoje() {
 
-    const hoje =
-      new Date()
+    const hoje = new Date()
 
+    const ano = hoje.getFullYear()
 
-    const ano =
-      hoje.getFullYear()
+    const mes = String(
+      hoje.getMonth() + 1
+    ).padStart(2, "0")
 
+    const dia = String(
+      hoje.getDate()
+    ).padStart(2, "0")
 
-    const mes =
-      String(
-        hoje.getMonth() + 1
-      ).padStart(
-        2,
-        "0"
-      )
-
-
-    const dia =
-      String(
-        hoje.getDate()
-      ).padStart(
-        2,
-        "0"
-      )
-
-
-    return (
-      `${ano}-${mes}-${dia}`
-    )
+    return `${ano}-${mes}-${dia}`
 
   }
 
 
   /* ========================================================= */
-  /* ADICIONAR PERÍODO                                           */
+  /* ADICIONAR PERÍODO À DATA                                  */
   /* ========================================================= */
 
   function adicionarPeriodo(
-
     data,
-    quantidade,
-    tipo
-
+    periodo
   ) {
 
     if (!data) {
       return ""
     }
 
-
-    const numero =
-      Number(
-        quantidade
-      )
-
-
-    if (
-      !Number.isFinite(
-        numero
-      ) ||
-      numero <= 0
-    ) {
-
-      return ""
-
-    }
-
-
-    const dataObj =
-      new Date(
-        `${data}T00:00:00`
-      )
-
+    const dataObj = new Date(
+      `${data}T00:00:00`
+    )
 
     if (
       Number.isNaN(
         dataObj.getTime()
       )
     ) {
-
       return ""
-
     }
 
 
-    /* ===================================================== */
-    /* DIAS                                                  */
-    /* ===================================================== */
+    /*
+      Mantém compatibilidade com os períodos antigos
+      e também aceita:
 
-    if (
-      tipo === "dia"
-    ) {
+      1-mes
+      4-meses
+      6-meses
+      personalizado-10-dia
+      personalizado-2-semana
+      personalizado-3-mes
+    */
 
-      dataObj.setDate(
-        dataObj.getDate() +
-        numero
-      )
-
-    }
-
-
-    /* ===================================================== */
-    /* SEMANAS                                               */
-    /* ===================================================== */
-
-    if (
-      tipo === "semana"
-    ) {
+    if (periodo === "1-semana") {
 
       dataObj.setDate(
-        dataObj.getDate() +
-        numero * 7
+        dataObj.getDate() + 7
       )
 
-    }
-
-
-    /* ===================================================== */
-    /* MESES                                                 */
-    /* ===================================================== */
-
-    if (
-      tipo === "mes"
-    ) {
-
-      const diaOriginal =
-        dataObj.getDate()
-
+    } else if (periodo === "2-semanas") {
 
       dataObj.setDate(
-        1
+        dataObj.getDate() + 14
       )
 
+    } else {
 
-      dataObj.setMonth(
-        dataObj.getMonth() +
-        numero
-      )
+      const partes = String(
+        periodo || ""
+      ).split("-")
 
+      if (partes.length >= 2) {
 
-      const ultimoDia =
-        new Date(
-          dataObj.getFullYear(),
-          dataObj.getMonth() + 1,
-          0
-        ).getDate()
-
-
-      dataObj.setDate(
-        Math.min(
-          diaOriginal,
-          ultimoDia
+        const quantidade = Number(
+          partes[0] === "personalizado"
+            ? partes[1]
+            : partes[0]
         )
-      )
+
+        let unidade =
+          partes[0] === "personalizado"
+            ? partes[2]
+            : partes[1]
+
+        if (
+          unidade === "meses"
+        ) {
+          unidade = "mes"
+        }
+
+        if (
+          Number.isFinite(quantidade) &&
+          quantidade > 0
+        ) {
+
+          if (unidade === "dia") {
+
+            dataObj.setDate(
+              dataObj.getDate() + quantidade
+            )
+
+          } else if (unidade === "semana") {
+
+            dataObj.setDate(
+              dataObj.getDate() + quantidade * 7
+            )
+
+          } else if (unidade === "mes") {
+
+            /*
+              Evita problemas como:
+              31/01 + 1 mês = 03/03
+
+              Nesse caso queremos:
+              31/01 + 1 mês = 28/02
+            */
+
+            const diaOriginal =
+              dataObj.getDate()
+
+            dataObj.setDate(1)
+
+            dataObj.setMonth(
+              dataObj.getMonth() + quantidade
+            )
+
+            const ultimoDiaMes =
+              new Date(
+                dataObj.getFullYear(),
+                dataObj.getMonth() + 1,
+                0
+              ).getDate()
+
+            dataObj.setDate(
+              Math.min(
+                diaOriginal,
+                ultimoDiaMes
+              )
+            )
+
+          }
+
+        }
+
+      }
 
     }
 
 
     const ano =
       dataObj.getFullYear()
-
 
     const mes =
       String(
@@ -232,7 +225,6 @@ export default function useAgendaActions({
         "0"
       )
 
-
     const dia =
       String(
         dataObj.getDate()
@@ -241,16 +233,13 @@ export default function useAgendaActions({
         "0"
       )
 
-
-    return (
-      `${ano}-${mes}-${dia}`
-    )
+    return `${ano}-${mes}-${dia}`
 
   }
 
 
   /* ========================================================= */
-  /* MUDAR STATUS                                               */
+  /* MUDAR STATUS                                              */
   /* ========================================================= */
 
   async function mudarStatus(
@@ -272,7 +261,6 @@ export default function useAgendaActions({
       )
 
       return
-
     }
 
 
@@ -284,11 +272,14 @@ export default function useAgendaActions({
         : 0
 
 
-    const quantidadeParcelas =
+    const pagamentoParcelado =
       status === "pagou" &&
       formaPagamento ===
         "credito_parcelado"
 
+
+    const quantidadeParcelas =
+      pagamentoParcelado
         ? Math.min(
             Math.max(
               Number(
@@ -298,7 +289,6 @@ export default function useAgendaActions({
             ),
             6
           )
-
         : 0
 
 
@@ -337,9 +327,9 @@ export default function useAgendaActions({
     )
 
 
-    /* ===================================================== */
-    /* ATUALIZAR TOTAL DO PACIENTE                           */
-    /* ===================================================== */
+    /* =============================================== */
+    /* ATUALIZA TOTAL PAGO DO PACIENTE                 */
+    /* =============================================== */
 
     if (
       selecionada.pacienteId
@@ -413,7 +403,7 @@ export default function useAgendaActions({
 
 
   /* ========================================================= */
-  /* REMOVER VALOR PAGO                                        */
+  /* REMOVER VALOR PAGO                                       */
   /* ========================================================= */
 
   async function removerValor() {
@@ -498,7 +488,7 @@ export default function useAgendaActions({
 
 
   /* ========================================================= */
-  /* REMOVER AGENDAMENTO                                       */
+  /* REMOVER AGENDAMENTO                                      */
   /* ========================================================= */
 
   async function remover() {
@@ -525,19 +515,146 @@ export default function useAgendaActions({
 
 
   /* ========================================================= */
-  /* CRIAR AGENDAMENTO                                         */
+  /* EXCLUIR PRÓXIMOS AGENDAMENTOS AUTOMÁTICOS                */
+  /* ========================================================= */
+
+  async function removerAgendamentosFuturos() {
+
+    if (
+      !selecionada?.pacienteId
+    ) {
+
+      return 0
+
+    }
+
+
+    const agendaRef =
+      collection(
+        db,
+        "agenda"
+      )
+
+
+    /*
+      Buscamos somente pelo paciente.
+
+      Isso evita precisar de um índice composto
+      no Firestore.
+
+      A filtragem da série e da data é feita
+      aqui no JavaScript.
+    */
+
+    const consultaAgenda =
+      query(
+        agendaRef,
+        where(
+          "pacienteId",
+          "==",
+          selecionada.pacienteId
+        )
+      )
+
+
+    const snapshot =
+      await getDocs(
+        consultaAgenda
+      )
+
+
+    const futuras = []
+
+
+    snapshot.forEach(
+      item => {
+
+        const consulta =
+          item.data()
+
+
+        const mesmaSerie =
+          selecionada.serieReagendamentoId
+            ? consulta.serieReagendamentoId ===
+              selecionada.serieReagendamentoId
+            : true
+
+
+        const ehAutomatica =
+          consulta.reagendamentoAutomatico === true
+
+
+        const ehFutura =
+          consulta.data &&
+          selecionada.data &&
+          consulta.data >
+            selecionada.data
+
+
+        if (
+          ehAutomatica &&
+          mesmaSerie &&
+          ehFutura
+        ) {
+
+          futuras.push(
+            item
+          )
+
+        }
+
+      }
+    )
+
+
+    await Promise.all(
+      futuras.map(
+        item =>
+          deleteDoc(
+            item.ref
+          )
+      )
+    )
+
+
+    /*
+      Depois de cortar a sequência,
+      a próxima consulta passa a ser
+      a consulta selecionada.
+    */
+
+    await updateDoc(
+      doc(
+        db,
+        "pacientes",
+        selecionada.pacienteId
+      ),
+      {
+
+        proxConsulta:
+          selecionada.data ||
+          dataLocalHoje()
+
+      }
+    )
+
+
+    return futuras.length
+
+  }
+
+
+  /* ========================================================= */
+  /* CRIAR AGENDAMENTO                                        */
   /* ========================================================= */
 
   async function criarAgendamento(
 
-    periodoReagendamento =
-      "nenhum",
+    periodoReagendamento = "nenhum",
 
-    status =
-      "agendado",
+    status = "agendado",
 
-    dadosPagamento =
-      {}
+    dadosPagamento = {}
 
   ) {
 
@@ -682,8 +799,7 @@ export default function useAgendaActions({
           Math.min(
             Math.max(
               Number(
-                dadosPagamento.parcelas ||
-                2
+                dadosPagamento.parcelas || 2
               ),
               2
             ),
@@ -696,10 +812,125 @@ export default function useAgendaActions({
 
 
     /* ===================================================== */
-    /* CRIAR CONSULTA ATUAL                                 */
+    /* CONFIGURAÇÃO DO REAGENDAMENTO                         */
     /* ===================================================== */
 
-    const consultaCriada =
+    const reagendamentoPersonalizado =
+      dadosPagamento.reagendamentoPersonalizado ||
+      ""
+
+
+    const repetirAte =
+      dadosPagamento.repetirAte ||
+      ""
+
+
+    const periodoFinal =
+      reagendamentoPersonalizado ||
+      periodoReagendamento
+
+
+    const temReagendamento =
+      periodoFinal &&
+      periodoFinal !== "nenhum"
+
+
+    /*
+      Se houver repetição automática,
+      a data final é obrigatória.
+    */
+
+    if (
+      temReagendamento &&
+      !repetirAte
+    ) {
+
+      alert(
+        "Informe até qual data o reagendamento deve ser criado."
+      )
+
+      return
+
+    }
+
+
+    if (
+      temReagendamento &&
+      repetirAte <= dataFinal
+    ) {
+
+      alert(
+        "A data de término deve ser posterior à data da consulta."
+      )
+
+      return
+
+    }
+
+
+    /*
+      Testa se o período realmente consegue
+      gerar uma próxima consulta.
+    */
+
+    let primeiraDataProxima = ""
+
+
+    if (
+      temReagendamento
+    ) {
+
+      primeiraDataProxima =
+        adicionarPeriodo(
+          dataFinal,
+          periodoFinal
+        )
+
+
+      if (
+        !primeiraDataProxima ||
+        primeiraDataProxima <= dataFinal
+      ) {
+
+        alert(
+          "Não foi possível calcular a próxima consulta."
+        )
+
+        return
+
+      }
+
+
+      if (
+        primeiraDataProxima > repetirAte
+      ) {
+
+        alert(
+          "A data final não permite criar nenhuma próxima consulta com o período escolhido."
+        )
+
+        return
+
+      }
+
+    }
+
+
+    /* ===================================================== */
+    /* SÉRIE DE REAGENDAMENTO                                */
+    /* ===================================================== */
+
+    const serieReagendamentoId =
+      temReagendamento
+        ? `${paciente.id}-${Date.now()}`
+        : ""
+
+
+    /* ===================================================== */
+    /* CRIAR CONSULTA ATUAL                                  */
+    /* ===================================================== */
+
+    const consultaAtualRef =
       await addDoc(
         collection(
           db,
@@ -733,7 +964,17 @@ export default function useAgendaActions({
             formaPagamentoAtual,
 
           parcelas:
-            quantidadeParcelas
+            quantidadeParcelas,
+
+          ...(temReagendamento
+            ? {
+                serieReagendamentoId,
+                reagendamentoAte:
+                  repetirAte,
+                periodoReagendamento:
+                  periodoFinal
+              }
+            : {})
 
         }
       )
@@ -768,169 +1009,162 @@ export default function useAgendaActions({
 
 
     /* ===================================================== */
-    /* REAGENDAMENTO AUTOMÁTICO                              */
+    /* REAGENDAMENTO AUTOMÁTICO EM SEQUÊNCIA                 */
     /* ===================================================== */
 
     let dataProxima =
       ""
 
 
-    /* ===================================================== */
-    /* 1 MÊS                                                 */
-    /* ===================================================== */
-
     if (
-      periodoReagendamento ===
-      "1-mes"
+      temReagendamento
     ) {
 
-      dataProxima =
-        adicionarPeriodo(
-          dataFinal,
-          1,
-          "mes"
-        )
-
-    }
+      let dataAnterior =
+        dataFinal
 
 
-    /* ===================================================== */
-    /* 4 MESES                                               */
-    /* ===================================================== */
-
-    if (
-      periodoReagendamento ===
-      "4-meses"
-    ) {
-
-      dataProxima =
-        adicionarPeriodo(
-          dataFinal,
-          4,
-          "mes"
-        )
-
-    }
+      let contador =
+        0
 
 
-    /* ===================================================== */
-    /* 6 MESES                                               */
-    /* ===================================================== */
+      /*
+        Limite de segurança para evitar
+        loop infinito caso exista algum
+        período inválido.
+      */
 
-    if (
-      periodoReagendamento ===
-      "6-meses"
-    ) {
-
-      dataProxima =
-        adicionarPeriodo(
-          dataFinal,
-          6,
-          "mes"
-        )
-
-    }
-
-
-    /* ===================================================== */
-    /* PERSONALIZADO                                         */
-    /* ===================================================== */
-
-    if (
-      periodoReagendamento ===
-      "personalizado"
-    ) {
-
-      const quantidade =
-        dadosPagamento.personalizadoValor
-
-
-      const tipo =
-        dadosPagamento.personalizadoTipo
-
-
-      if (
-        !quantidade ||
-        !tipo
+      while (
+        contador < 1000
       ) {
 
-        alert(
-          "Informe o período personalizado do reagendamento."
+        const proximaData =
+          adicionarPeriodo(
+            dataAnterior,
+            periodoFinal
+          )
+
+
+        if (
+          !proximaData ||
+          proximaData <= dataAnterior
+        ) {
+
+          break
+
+        }
+
+
+        if (
+          proximaData >
+          repetirAte
+        ) {
+
+          break
+
+        }
+
+
+        const proximaDataObj =
+          new Date(
+            `${proximaData}T00:00:00`
+          )
+
+
+        await addDoc(
+          collection(
+            db,
+            "agenda"
+          ),
+          {
+
+            pacienteId:
+              paciente.id,
+
+            nome:
+              paciente.nome,
+
+            dia:
+              diasSemana[
+                proximaDataObj.getDay()
+              ],
+
+            hora:
+              horaFinal,
+
+            data:
+              proximaData,
+
+            status:
+              "agendado",
+
+            valorPago:
+              0,
+
+            formaPagamento:
+              "",
+
+            parcelas:
+              0,
+
+            reagendamentoAutomatico:
+              true,
+
+            serieReagendamentoId,
+
+            consultaAnteriorData:
+              dataAnterior,
+
+            reagendamentoAte:
+              repetirAte,
+
+            periodoReagendamento:
+              periodoFinal
+
+          }
         )
 
-        return
+
+        if (
+          !dataProxima
+        ) {
+
+          dataProxima =
+            proximaData
+
+        }
+
+
+        dataAnterior =
+          proximaData
+
+
+        contador++
 
       }
 
-
-      dataProxima =
-        adicionarPeriodo(
-          dataFinal,
-          quantidade,
-          tipo
-        )
-
     }
 
 
     /* ===================================================== */
-    /* CRIAR CONSULTA FUTURA                                */
+    /* ATUALIZAR METADADOS DA CONSULTA ATUAL                */
     /* ===================================================== */
 
     if (
-      dataProxima
+      temReagendamento
     ) {
 
-      const proximaDataObj =
-        new Date(
-          `${dataProxima}T00:00:00`
-        )
-
-
-      await addDoc(
-        collection(
-          db,
-          "agenda"
-        ),
+      await updateDoc(
+        consultaAtualRef,
         {
 
-          pacienteId:
-            paciente.id,
+          serieReagendamentoId,
 
-          nome:
-            paciente.nome,
+          reagendamentoAte:
+            repetirAte,
 
-          dia:
-            diasSemana[
-              proximaDataObj.getDay()
-            ],
-
-          hora:
-            horaFinal,
-
-          data:
-            dataProxima,
-
-          status:
-            "agendado",
-
-          valorPago:
-            0,
-
-          formaPagamento:
-            "",
-
-          parcelas:
-            0,
-
-          reagendamentoAutomatico:
-            true,
-
-          consultaAnteriorId:
-            consultaCriada.id,
-
-          consultaAnteriorData:
-            dataFinal
+          periodoReagendamento:
+            periodoFinal
 
         }
       )
@@ -939,7 +1173,7 @@ export default function useAgendaActions({
 
 
     /* ===================================================== */
-    /* ATUALIZAR PRÓXIMA CONSULTA                           */
+    /* PRÓXIMA CONSULTA DO PACIENTE                          */
     /* ===================================================== */
 
     await updateDoc(
@@ -966,21 +1200,17 @@ export default function useAgendaActions({
       null
     )
 
-
     setBuscaPaciente(
       ""
     )
-
 
     setPacienteSelecionado(
       null
     )
 
-
     setDataConsulta(
       ""
     )
-
 
     setValorPago("")
     setFormaPagamento("")
@@ -990,7 +1220,7 @@ export default function useAgendaActions({
 
 
   /* ========================================================= */
-  /* AGENDAR PELO TOPO                                         */
+  /* AGENDAR PELO TOPO                                        */
   /* ========================================================= */
 
   async function agendarPeloTopo() {
@@ -1100,16 +1330,13 @@ export default function useAgendaActions({
       ""
     )
 
-
     setDiaTopo(
       dataLocalHoje()
     )
 
-
     setHoraTopo(
-      "08:00"
+      "07:00"
     )
-
 
     setStatusTopo(
       "agendado"
@@ -1119,7 +1346,7 @@ export default function useAgendaActions({
 
 
   /* ========================================================= */
-  /* SALVAR OBSERVAÇÃO                                         */
+  /* SALVAR OBSERVAÇÃO                                        */
   /* ========================================================= */
 
   async function salvarObs() {
@@ -1340,7 +1567,7 @@ export default function useAgendaActions({
 
 
   /* ========================================================= */
-  /* RETORNO                                                    */
+  /* RETORNO                                                   */
   /* ========================================================= */
 
   return {
@@ -1350,6 +1577,8 @@ export default function useAgendaActions({
     removerValor,
 
     remover,
+
+    removerAgendamentosFuturos,
 
     criarAgendamento,
 

@@ -11,12 +11,15 @@ import usePacientes from "../hooks/usePacientes"
 
 
 function ListaPacientes({
+
   voltar,
   abrirPerfil,
   abrirCadastro
+
 }) {
 
-  const pacientes = usePacientes()
+  const pacientes =
+    usePacientes()
 
 
   /* ===================================================== */
@@ -54,40 +57,12 @@ function ListaPacientes({
 
 
   /* ===================================================== */
-  /* DATA DE NASCIMENTO                                    */
-  /* ===================================================== */
-
-  function formatarDataNascimento(data) {
-
-    if (!data) {
-      return "Não informada"
-    }
-
-    if (
-      typeof data === "string" &&
-      data.includes("/")
-    ) {
-      return data
-    }
-
-    const partes =
-      String(data).split("-")
-
-    if (
-      partes.length === 3
-    ) {
-      return `${partes[2]}/${partes[1]}/${partes[0]}`
-    }
-
-    return data
-  }
-
-
-  /* ===================================================== */
   /* RESPONSÁVEL                                           */
   /* ===================================================== */
 
-  function encontrarResponsavel(paciente) {
+  function encontrarResponsavel(
+    paciente
+  ) {
 
     return (
       paciente.responsavel ||
@@ -95,6 +70,31 @@ function ListaPacientes({
       paciente.contatoResponsavel ||
       "Não informado"
     )
+
+  }
+
+
+  /* ===================================================== */
+  /* TELEFONE                                              */
+  /* ===================================================== */
+
+  function encontrarTelefone(
+    paciente
+  ) {
+
+    return (
+      paciente.telResponsavel ||
+      paciente.telefoneResponsavel ||
+      paciente.telefoneResponsavelLegal ||
+      paciente.telefoneResp ||
+      paciente.telResp ||
+      paciente.responsavelTelefone ||
+      paciente.telefone_do_responsavel ||
+      paciente.tel ||
+      paciente.telefone ||
+      "Não informado"
+    )
+
   }
 
 
@@ -114,7 +114,10 @@ function ListaPacientes({
       const tag =
         filtroTag
           .trim()
-          .replace("#", "")
+          .replace(
+            "#",
+            ""
+          )
 
 
       const filtrados =
@@ -139,7 +142,9 @@ function ListaPacientes({
 
             const correspondeNome =
               !nome ||
-              nomePaciente.includes(nome)
+              nomePaciente.includes(
+                nome
+              )
 
 
             const correspondeTag =
@@ -151,14 +156,25 @@ function ListaPacientes({
               correspondeNome &&
               correspondeTag
             )
+
           }
         )
 
 
+      /* ================================================ */
+      /* ORDENAÇÃO                                        */
+      /* ================================================ */
+
       filtrados.sort(
         (a, b) => {
 
-          switch (ordenacao) {
+          switch (
+            ordenacao
+          ) {
+
+            /* ------------------------------------------ */
+            /* NOME A-Z                                   */
+            /* ------------------------------------------ */
 
             case "nome-az":
 
@@ -170,10 +186,15 @@ function ListaPacientes({
                 ),
                 "pt-BR",
                 {
-                  sensitivity: "base"
+                  sensitivity:
+                    "base"
                 }
               )
 
+
+            /* ------------------------------------------ */
+            /* NOME Z-A                                   */
+            /* ------------------------------------------ */
 
             case "nome-za":
 
@@ -185,10 +206,15 @@ function ListaPacientes({
                 ),
                 "pt-BR",
                 {
-                  sensitivity: "base"
+                  sensitivity:
+                    "base"
                 }
               )
 
+
+            /* ------------------------------------------ */
+            /* TAG CRESCENTE                              */
+            /* ------------------------------------------ */
 
             case "tag-crescente": {
 
@@ -216,14 +242,23 @@ function ListaPacientes({
                 )
 
 
+              /*
+                Pacientes sem tag ficam
+                no final da lista.
+              */
+
               const numeroA =
-                Number.isNaN(tagA)
+                Number.isNaN(
+                  tagA
+                )
                   ? Infinity
                   : tagA
 
 
               const numeroB =
-                Number.isNaN(tagB)
+                Number.isNaN(
+                  tagB
+                )
                   ? Infinity
                   : tagB
 
@@ -232,8 +267,13 @@ function ListaPacientes({
                 numeroA -
                 numeroB
               )
+
             }
 
+
+            /* ------------------------------------------ */
+            /* TAG DECRESCENTE                            */
+            /* ------------------------------------------ */
 
             case "tag-decrescente": {
 
@@ -262,13 +302,17 @@ function ListaPacientes({
 
 
               const numeroA =
-                Number.isNaN(tagA)
+                Number.isNaN(
+                  tagA
+                )
                   ? -Infinity
                   : tagA
 
 
               const numeroB =
-                Number.isNaN(tagB)
+                Number.isNaN(
+                  tagB
+                )
                   ? -Infinity
                   : tagB
 
@@ -277,12 +321,16 @@ function ListaPacientes({
                 numeroB -
                 numeroA
               )
+
             }
 
 
             default:
+
               return 0
+
           }
+
         }
       )
 
@@ -290,10 +338,15 @@ function ListaPacientes({
       return filtrados
 
     }, [
+
       pacientes,
+
       filtroNome,
+
       filtroTag,
+
       ordenacao
+
     ])
 
 
@@ -303,23 +356,36 @@ function ListaPacientes({
 
   function nomeOrdenacao() {
 
-    switch (ordenacao) {
+    switch (
+      ordenacao
+    ) {
 
       case "nome-az":
+
         return "Nome: A–Z"
 
+
       case "nome-za":
+
         return "Nome: Z–A"
 
+
       case "tag-crescente":
+
         return "Tag: crescente"
 
+
       case "tag-decrescente":
+
         return "Tag: decrescente"
 
+
       default:
+
         return "Ordenar"
+
     }
+
   }
 
 
@@ -332,6 +398,7 @@ function ListaPacientes({
     setFiltroNome("")
 
     setFiltroTag("")
+
   }
 
 
@@ -355,6 +422,7 @@ function ListaPacientes({
         "
       />
 
+
       <div
         className="
           pacientes-brilho
@@ -370,7 +438,9 @@ function ListaPacientes({
       <header className="pacientes-topo">
 
 
-        {/* ESQUERDA */}
+        {/* ================================================= */}
+        {/* ESQUERDA                                          */}
+        {/* ================================================= */}
 
         <div className="pacientes-topo-esquerda">
 
@@ -385,9 +455,12 @@ function ListaPacientes({
         </div>
 
 
-        {/* DIREITA */}
+        {/* ================================================= */}
+        {/* MARCA                                             */}
+        {/* ================================================= */}
 
         <div className="pacientes-marca">
+
 
           <div className="pacientes-titulo">
 
@@ -395,9 +468,11 @@ function ListaPacientes({
               DENTALINE
             </span>
 
+
             <h1>
               Pacientes
             </h1>
+
 
             <p>
               Gerencie os pacientes cadastrados na clínica.
@@ -413,6 +488,7 @@ function ListaPacientes({
           />
 
         </div>
+
 
       </header>
 
@@ -431,6 +507,7 @@ function ListaPacientes({
           <span>
             Total de pacientes
           </span>
+
 
           <strong>
             {pacientes.length}
@@ -462,6 +539,7 @@ function ListaPacientes({
             Exibindo
           </span>
 
+
           <strong>
             {pacientesFiltrados.length}
           </strong>
@@ -479,7 +557,9 @@ function ListaPacientes({
       <section className="pacientes-filtros">
 
 
-        {/* BUSCAR POR NOME */}
+        {/* ================================================= */}
+        {/* BUSCAR POR NOME                                  */}
+        {/* ================================================= */}
 
         <div className="filtro-grupo">
 
@@ -487,11 +567,13 @@ function ListaPacientes({
             Buscar por nome
           </label>
 
+
           <div className="filtro-input-wrapper">
 
             <span>
               🔎
             </span>
+
 
             <input
               type="text"
@@ -509,22 +591,30 @@ function ListaPacientes({
         </div>
 
 
-        {/* FILTRAR POR TAG */}
+        {/* ================================================= */}
+        {/* FILTRAR POR TAG                                  */}
+        {/* ================================================= */}
 
-        <div className="
-          filtro-grupo
-          filtro-tag-grupo
-        ">
+        <div
+          className="
+            filtro-grupo
+            filtro-tag-grupo
+          "
+        >
 
           <label>
             Filtrar por tag
           </label>
 
+
           <div className="filtro-input-wrapper">
 
-            <span className="filtro-tag-icon">
+            <span
+              className="filtro-tag-icon"
+            >
               #
             </span>
+
 
             <input
               type="text"
@@ -547,7 +637,9 @@ function ListaPacientes({
         </div>
 
 
-        {/* ORDENAÇÃO */}
+        {/* ================================================= */}
+        {/* ORDENAÇÃO                                        */}
+        {/* ================================================= */}
 
         <div className="ordenacao-wrapper">
 
@@ -570,12 +662,15 @@ function ListaPacientes({
               {nomeOrdenacao()}
             </span>
 
+
             <span className="ordenacao-seta">
+
               {
                 menuOrdenacao
                   ? "⌃"
                   : "⌄"
               }
+
             </span>
 
           </button>
@@ -585,18 +680,28 @@ function ListaPacientes({
 
             <div className="ordenacao-menu">
 
+
+              {/* ================================================= */}
+              {/* NOME A-Z                                         */}
+              {/* ================================================= */}
+
               <button
                 type="button"
                 className={
-                  ordenacao === "nome-az"
+                  ordenacao ===
+                    "nome-az"
                     ? "ativo"
                     : ""
                 }
                 onClick={() => {
 
-                  setOrdenacao("nome-az")
+                  setOrdenacao(
+                    "nome-az"
+                  )
 
-                  setMenuOrdenacao(false)
+                  setMenuOrdenacao(
+                    false
+                  )
 
                 }}
               >
@@ -604,6 +709,7 @@ function ListaPacientes({
                 <span>
                   Nome
                 </span>
+
 
                 <strong>
                   A–Z
@@ -612,18 +718,27 @@ function ListaPacientes({
               </button>
 
 
+              {/* ================================================= */}
+              {/* NOME Z-A                                         */}
+              {/* ================================================= */}
+
               <button
                 type="button"
                 className={
-                  ordenacao === "nome-za"
+                  ordenacao ===
+                    "nome-za"
                     ? "ativo"
                     : ""
                 }
                 onClick={() => {
 
-                  setOrdenacao("nome-za")
+                  setOrdenacao(
+                    "nome-za"
+                  )
 
-                  setMenuOrdenacao(false)
+                  setMenuOrdenacao(
+                    false
+                  )
 
                 }}
               >
@@ -632,6 +747,7 @@ function ListaPacientes({
                   Nome
                 </span>
 
+
                 <strong>
                   Z–A
                 </strong>
@@ -639,18 +755,27 @@ function ListaPacientes({
               </button>
 
 
+              {/* ================================================= */}
+              {/* TAG CRESCENTE                                   */}
+              {/* ================================================= */}
+
               <button
                 type="button"
                 className={
-                  ordenacao === "tag-crescente"
+                  ordenacao ===
+                    "tag-crescente"
                     ? "ativo"
                     : ""
                 }
                 onClick={() => {
 
-                  setOrdenacao("tag-crescente")
+                  setOrdenacao(
+                    "tag-crescente"
+                  )
 
-                  setMenuOrdenacao(false)
+                  setMenuOrdenacao(
+                    false
+                  )
 
                 }}
               >
@@ -658,6 +783,7 @@ function ListaPacientes({
                 <span>
                   Tag
                 </span>
+
 
                 <strong>
                   ↑
@@ -666,18 +792,27 @@ function ListaPacientes({
               </button>
 
 
+              {/* ================================================= */}
+              {/* TAG DECRESCENTE                                 */}
+              {/* ================================================= */}
+
               <button
                 type="button"
                 className={
-                  ordenacao === "tag-decrescente"
+                  ordenacao ===
+                    "tag-decrescente"
                     ? "ativo"
                     : ""
                 }
                 onClick={() => {
 
-                  setOrdenacao("tag-decrescente")
+                  setOrdenacao(
+                    "tag-decrescente"
+                  )
 
-                  setMenuOrdenacao(false)
+                  setMenuOrdenacao(
+                    false
+                  )
 
                 }}
               >
@@ -686,11 +821,13 @@ function ListaPacientes({
                   Tag
                 </span>
 
+
                 <strong>
                   ↓
                 </strong>
 
               </button>
+
 
             </div>
 
@@ -699,7 +836,9 @@ function ListaPacientes({
         </div>
 
 
-        {/* LIMPAR */}
+        {/* ================================================= */}
+        {/* LIMPAR                                            */}
+        {/* ================================================= */}
 
         <button
           type="button"
@@ -720,6 +859,10 @@ function ListaPacientes({
       <section className="pacientes-lista">
 
 
+        {/* ================================================= */}
+        {/* NENHUM PACIENTE                                  */}
+        {/* ================================================= */}
+
         {pacientes.length === 0 ? (
 
           <div className="pacientes-vazio">
@@ -729,13 +872,16 @@ function ListaPacientes({
               alt="Dentaline"
             />
 
+
             <h2>
               Nenhum paciente cadastrado
             </h2>
 
+
             <p>
               Cadastre o primeiro paciente para começar.
             </p>
+
 
             <button
               type="button"
@@ -749,22 +895,36 @@ function ListaPacientes({
 
         ) : pacientesFiltrados.length === 0 ? (
 
-          <div className="
-            pacientes-vazio
-            pacientes-sem-resultado
-          ">
 
-            <div className="sem-resultado-icon">
+          /* ============================================== */
+          /* NENHUM RESULTADO                               */
+          /* ============================================== */
+
+          <div
+            className="
+              pacientes-vazio
+              pacientes-sem-resultado
+            "
+          >
+
+            <div
+              className="
+                sem-resultado-icon
+              "
+            >
               🔎
             </div>
+
 
             <h2>
               Nenhum paciente encontrado
             </h2>
 
+
             <p>
               Tente alterar os filtros utilizados.
             </p>
+
 
             <button
               type="button"
@@ -778,12 +938,19 @@ function ListaPacientes({
 
         ) : (
 
+
+          /* ============================================== */
+          /* PACIENTES                                       */
+          /* ============================================== */
+
           pacientesFiltrados.map(
             (paciente) => (
 
               <article
                 key={paciente.id}
+
                 className="paciente-card"
+
                 onClick={() =>
                   abrirPerfil(
                     paciente,
@@ -792,7 +959,10 @@ function ListaPacientes({
                 }
               >
 
-                {/* FOTO */}
+
+                {/* ================================================= */}
+                {/* FOTO                                              */}
+                {/* ================================================= */}
 
                 <div className="paciente-foto">
 
@@ -804,9 +974,12 @@ function ListaPacientes({
                 </div>
 
 
-                {/* INFORMAÇÕES */}
+                {/* ================================================= */}
+                {/* INFORMAÇÕES                                      */}
+                {/* ================================================= */}
 
                 <div className="paciente-info">
+
 
                   <div className="paciente-nome-area">
 
@@ -815,6 +988,7 @@ function ListaPacientes({
                       <h2>
                         {paciente.nome}
                       </h2>
+
 
                       <span className="paciente-tag">
                         {paciente.tag || "#—"}
@@ -825,42 +999,51 @@ function ListaPacientes({
                   </div>
 
 
+                  {/* ================================================= */}
+                  {/* DETALHES                                          */}
+                  {/* ================================================= */}
+
                   <div className="paciente-detalhes">
+
+
+                    {/* TELEFONE */}
 
                     <p>
 
                       <span>
-                        Data de nascimento:
+                        Telefone:
                       </span>
 
                       {" "}
 
                       {
-                        formatarDataNascimento(
-                          paciente.dataNascimento ||
-                          paciente.nascimento ||
-                          paciente.dataNasc
+                        encontrarTelefone(
+                          paciente
                         )
                       }
 
                     </p>
 
 
+                    {/* APELIDO */}
+
                     <p>
 
                       <span>
-                        Próxima consulta:
+                        Apelido:
                       </span>
 
                       {" "}
 
                       {
-                        paciente.proxConsulta ||
-                        "Não definida"
+                        paciente.apelido ||
+                        "Não definido"
                       }
 
                     </p>
 
+
+                    {/* OBSERVAÇÕES */}
 
                     <p>
 
@@ -877,39 +1060,57 @@ function ListaPacientes({
 
                     </p>
 
+
                   </div>
 
                 </div>
 
 
-                {/* LATERAL */}
+                {/* ================================================= */}
+                {/* LATERAL                                           */}
+                {/* ================================================= */}
 
                 <div className="paciente-lateral">
 
-                  <span className="paciente-lateral-label">
+                  <span
+                    className="
+                      paciente-lateral-label
+                    "
+                  >
                     RESPONSÁVEL
                   </span>
 
+
                   <strong>
+
                     {
                       encontrarResponsavel(
                         paciente
                       )
                     }
+
                   </strong>
 
-                  <span className="paciente-lateral-tag">
+
+                  <span
+                    className="
+                      paciente-lateral-tag
+                    "
+                  >
                     {paciente.tag || "#—"}
                   </span>
 
                 </div>
 
 
-                {/* SETA */}
+                {/* ================================================= */}
+                {/* SETA                                              */}
+                {/* ================================================= */}
 
                 <div className="paciente-seta">
                   →
                 </div>
+
 
               </article>
 
@@ -931,6 +1132,7 @@ function ListaPacientes({
           Dentaline
         </span>
 
+
         <span>
           {pacientesFiltrados.length} de {pacientes.length} paciente(s)
         </span>
@@ -941,6 +1143,7 @@ function ListaPacientes({
     </main>
 
   )
+
 }
 
 

@@ -3,394 +3,280 @@ import {
   useState
 } from "react"
 
+import {
+  doc,
+  updateDoc
+} from "firebase/firestore"
+
+import { db } from "../services/firebase"
 
 function AgendaModal({
-
   selecionada,
   pacientes,
   obsEditando,
   setObsEditando,
   salvarObs,
-
   formaPagamento,
   setFormaPagamento,
-
   valorPago,
   setValorPago,
-
-  parcelas,
-  setParcelas,
-
   salvarPagamento,
-
   removerValor,
   mudarStatus,
-
   abrirPerfil,
   remover,
-
   setSelecionada,
-
   pagamentoAberto,
-  setPagamentoAberto
-
+  setPagamentoAberto,
+  removerAgendamentosFuturos
 }) {
-
-
   const [
     mostrarPagamento,
     setMostrarPagamento
-  ] = useState(
-    selecionada?.status === "pagou"
-  )
+  ] = useState(false)
 
+  const [
+    editandoData,
+    setEditandoData
+  ] = useState(false)
 
-  /* ===================================================== */
-  /* ABRIR PAGAMENTO AUTOMATICAMENTE                       */
-  /* ===================================================== */
+  const [
+    editandoHora,
+    setEditandoHora
+  ] = useState(false)
 
-  useEffect(() => {
+  const [
+    salvandoDataHora,
+    setSalvandoDataHora
+  ] = useState(false)
 
-    if (!selecionada) {
-      return
-    }
-
-
-    if (
-      selecionada.status === "pagou"
-    ) {
-
-      setMostrarPagamento(true)
-
-      if (
-        setPagamentoAberto
-      ) {
-
-        setPagamentoAberto(true)
-
-      }
-
-    }
-
-  }, [
-    selecionada,
-    setPagamentoAberto
-  ])
-
+  const [
+    confirmandoExclusaoFuturos,
+    setConfirmandoExclusaoFuturos
+  ] = useState(false)
 
   if (!selecionada) {
     return null
   }
 
-
-  /* ===================================================== */
-  /* PACIENTE                                             */
-  /* ===================================================== */
-
   const pacienteModal =
     pacientes.find(
-      p =>
+      (p) =>
         p.id ===
         selecionada.pacienteId
     )
 
+  const horarios = []
 
-  /* ===================================================== */
-  /* DATA                                                 */
-  /* ===================================================== */
-
-  function formatarData(
-    data
+  for (
+    let hora = 8;
+    hora <= 19;
+    hora++
   ) {
+    horarios.push(
+      `${String(hora).padStart(2, "0")}:00`
+    )
 
+    if (hora < 19) {
+      horarios.push(
+        `${String(hora).padStart(2, "0")}:30`
+      )
+    }
+  }
+
+  useEffect(() => {
+    setEditandoData(false)
+    setEditandoHora(false)
+    setConfirmandoExclusaoFuturos(false)
+  }, [selecionada.id])
+
+  function formatarData(data) {
     if (!data) {
       return "Data não informada"
     }
 
+    const dataObj =
+      new Date(data + "T00:00:00")
+
+    if (isNaN(dataObj.getTime())) {
+      return "Data não informada"
+    }
+
+    return dataObj.toLocaleDateString("pt-BR")
+  }
+
+  const proximaConsulta =
+    pacienteModal?.proxConsulta || ""
+
+  const mostrarProximaConsulta =
+    Boolean(
+      proximaConsulta &&
+      proximaConsulta !== selecionada.data
+    )
+
+  function descobrirDiaSemana(data) {
+    if (!data) {
+      return ""
+    }
 
     const dataObj =
-      new Date(
-        data +
-        "T00:00:00"
-      )
+      new Date(`${data}T00:00:00`)
 
-
-    if (
-      isNaN(
-        dataObj.getTime()
-      )
-    ) {
-
-      return "Data não informada"
-
+    if (Number.isNaN(dataObj.getTime())) {
+      return ""
     }
 
+    const diasSemana = [
+      "Domingo",
+      "Segunda",
+      "Terça",
+      "Quarta",
+      "Quinta",
+      "Sexta",
+      "Sábado"
+    ]
 
-    return dataObj.toLocaleDateString(
-      "pt-BR"
-    )
-
+    return diasSemana[dataObj.getDay()] || ""
   }
 
+  async function alterarDataHora(novaData, novaHora) {
+    if (
+      !selecionada?.id ||
+      !novaData ||
+      !novaHora
+    ) {
+      return
+    }
 
-  /* ===================================================== */
-  /* ABRIR PAGAMENTO                                      */
-  /* ===================================================== */
+    const dia = descobrirDiaSemana(novaData)
+
+    if (!dia) {
+      return
+    }
+
+    try {
+      setSalvandoDataHora(true)
+
+      await updateDoc(
+        doc(db, "agenda", selecionada.id),
+        {
+          data: novaData,
+          hora: novaHora,
+          dia
+        }
+      )
+
+      if (
+        pacienteModal?.id &&
+        pacienteModal?.proxConsulta === selecionada.data
+      ) {
+        await updateDoc(
+          doc(db, "pacientes", pacienteModal.id),
+          {
+            proxConsulta: novaData
+          }
+        )
+      }
+
+      setSelecionada({
+        ...selecionada,
+        data: novaData,
+        hora: novaHora,
+        dia
+      })
+
+      setEditandoData(false)
+      setEditandoHora(false)
+    } catch (erro) {
+      console.error(
+        "Erro ao alterar data/horário:",
+        erro
+      )
+
+      alert(
+        "Não foi possível alterar a data ou o horário."
+      )
+    } finally {
+      setSalvandoDataHora(false)
+    }
+  }
+
+  async function alterarData(novaData) {
+    await alterarDataHora(
+      novaData,
+      selecionada.hora || "08:00"
+    )
+  }
+
+  async function alterarHora(novaHora) {
+    await alterarDataHora(
+      selecionada.data,
+      novaHora
+    )
+  }
 
   function abrirPagamento() {
+    setMostrarPagamento(true)
 
-    /*
-     * Se a consulta já possui pagamento,
-     * garante que os campos estejam preenchidos.
-     */
-
-    if (
-      selecionada.status === "pagou"
-    ) {
-
-      setValorPago(
-        selecionada.valorPago !== undefined &&
-        selecionada.valorPago !== null
-          ? String(
-              selecionada.valorPago
-            )
-          : ""
-      )
-
-
-      setFormaPagamento(
-        selecionada.formaPagamento ||
-        ""
-      )
-
-
-      setParcelas(
-        selecionada.parcelas
-          ? String(
-              selecionada.parcelas
-            )
-          : ""
-      )
-
+    if (setPagamentoAberto) {
+      setPagamentoAberto(true)
     }
-
-
-    setMostrarPagamento(
-      true
-    )
-
-
-    if (
-      setPagamentoAberto
-    ) {
-
-      setPagamentoAberto(
-        true
-      )
-
-    }
-
   }
-
-
-  /* ===================================================== */
-  /* CANCELAR PAGAMENTO                                   */
-  /* ===================================================== */
 
   function cancelarPagamento() {
+    setMostrarPagamento(false)
+    setFormaPagamento("")
+    setValorPago("")
 
-    /*
-     * Se já existe um pagamento salvo,
-     * não apagamos os dados só por fechar
-     * a aba.
-     */
-
-    if (
-      selecionada.status !== "pagou"
-    ) {
-
-      setFormaPagamento("")
-      setValorPago("")
-      setParcelas("")
-
+    if (setPagamentoAberto) {
+      setPagamentoAberto(false)
     }
-    else {
-
-      setValorPago(
-        selecionada.valorPago !== undefined &&
-        selecionada.valorPago !== null
-          ? String(
-              selecionada.valorPago
-            )
-          : ""
-      )
-
-      setFormaPagamento(
-        selecionada.formaPagamento ||
-        ""
-      )
-
-      setParcelas(
-        selecionada.parcelas
-          ? String(
-              selecionada.parcelas
-            )
-          : ""
-      )
-
-    }
-
-
-    setMostrarPagamento(
-      false
-    )
-
-
-    if (
-      setPagamentoAberto
-    ) {
-
-      setPagamentoAberto(
-        false
-      )
-
-    }
-
   }
-
-
-  /* ===================================================== */
-  /* CONFIRMAR PAGAMENTO                                  */
-  /* ===================================================== */
 
   async function confirmarPagamento() {
-
     if (!formaPagamento) {
-
-      alert(
-        "Selecione a forma de pagamento"
-      )
-
+      alert("Selecione a forma de pagamento")
       return
-
     }
-
 
     if (!valorPago) {
-
-      alert(
-        "Informe o valor pago"
-      )
-
+      alert("Informe o valor pago")
       return
-
     }
-
-
-    if (
-      formaPagamento ===
-      "Crédito parcelado" &&
-      !parcelas
-    ) {
-
-      alert(
-        "Selecione a quantidade de parcelas"
-      )
-
-      return
-
-    }
-
 
     await salvarPagamento()
+    setMostrarPagamento(false)
 
-
-    setMostrarPagamento(
-      false
-    )
-
-
-    if (
-      setPagamentoAberto
-    ) {
-
-      setPagamentoAberto(
-        false
-      )
-
+    if (setPagamentoAberto) {
+      setPagamentoAberto(false)
     }
-
   }
-
-
-  /* ===================================================== */
-  /* FECHAR MODAL                                         */
-  /* ===================================================== */
 
   function fecharModal() {
+    setMostrarPagamento(false)
 
-    setMostrarPagamento(
-      false
-    )
-
-
-    if (
-      setPagamentoAberto
-    ) {
-
-      setPagamentoAberto(
-        false
-      )
-
+    if (setPagamentoAberto) {
+      setPagamentoAberto(false)
     }
 
-
-    setSelecionada(
-      null
-    )
-
+    setSelecionada(null)
   }
-
-
-  /* ===================================================== */
-  /* VER PERFIL                                           */
-  /* ===================================================== */
 
   function verPerfil() {
-
     const paciente =
       pacientes.find(
-        p =>
-          p.id ===
-          selecionada.pacienteId
+        (p) => p.id === selecionada.pacienteId
       )
-
 
     if (paciente) {
-
-      abrirPerfil(
-        paciente,
-        "agenda"
-      )
-
+      abrirPerfil(paciente, "agenda")
     }
-
   }
 
-
-  /* ===================================================== */
-  /* NOME                                                */
-  /* ===================================================== */
-
-const nomePaciente =
-  pacienteModal?.nome ||
-  selecionada.nome ||
-  "Paciente"
-
-
-  /* ===================================================== */
-  /* TELEFONE DO PACIENTE                                */
-  /* ===================================================== */
+  const nomePaciente =
+    pacienteModal?.nome ||
+    selecionada.nome ||
+    "Paciente"
 
   const telefonePaciente =
     pacienteModal?.tel ||
@@ -398,11 +284,6 @@ const nomePaciente =
     selecionada.tel ||
     selecionada.telefone ||
     ""
-
-
-  /* ===================================================== */
-  /* TELEFONE DO RESPONSÁVEL                             */
-  /* ===================================================== */
 
   const telefoneResponsavel =
     pacienteModal?.telefoneResponsavel ||
@@ -414,11 +295,6 @@ const nomePaciente =
     pacienteModal?.telefone_do_responsavel ||
     ""
 
-
-  /* ===================================================== */
-  /* TAG                                                 */
-  /* ===================================================== */
-
   const tagBruta =
     pacienteModal?.tag ??
     pacienteModal?.tags ??
@@ -426,587 +302,366 @@ const nomePaciente =
     selecionada.tags ??
     ""
 
-
   const tagPaciente =
     Array.isArray(tagBruta)
       ? tagBruta[0]
       : tagBruta
 
-
   const tagFormatada =
     tagPaciente !== null &&
     tagPaciente !== undefined &&
-    String(
-      tagPaciente
-    ).trim() !== ""
-      ? `#${String(
-          tagPaciente
-        ).replace(
-          /^#/,
-          ""
-        )}`
+    String(tagPaciente).trim() !== ""
+      ? `#${String(tagPaciente).replace(/^#/, "")}`
       : ""
 
-
   return (
-
     <div className="modal-bg">
-
       <div className="pagamento-layout">
-
-
-        {/* ================================================= */}
-        {/* MODAL PRINCIPAL                                   */}
-        {/* ================================================= */}
-
-        <div
-          className="
-            modal-box
-            modal-box-principal
-          "
-        >
-
-
-          {/* ================================================= */}
-          {/* CABEÇALHO                                        */}
-          {/* ================================================= */}
-
+        <div className="modal-box modal-box-principal">
           <div className="modal-paciente-cabecalho">
-
-
-            <h2>
-              Paciente Agendado
-            </h2>
-
-
-            {/* NOME */}
+            <h2>Paciente Agendado</h2>
 
             <div className="modal-paciente-nome-linha">
-
-              <h3>
-                {nomePaciente}
-              </h3>
-
+              <h3>{nomePaciente}</h3>
             </div>
 
-
-            {/* TAG */}
-
             {tagFormatada && (
-
               <div className="modal-paciente-tag-linha">
-
                 <span className="modal-paciente-tag">
                   {tagFormatada}
                 </span>
-
               </div>
-
             )}
 
+            <div className="modal-telefones">
+              <div className="modal-telefone-item">
+                <span className="modal-telefone-label">
+                  Telefone
+                </span>
 
-            {/* ================================================= */}
-            {/* INFORMAÇÕES DA CONSULTA                         */}
-            {/* ================================================= */}
+                <span className="modal-telefone-valor">
+                  {telefonePaciente || "-"}
+                </span>
+              </div>
 
+              <div className="modal-telefone-item">
+                <span className="modal-telefone-label">
+                  Telefone do responsável
+                </span>
+
+                <span className="modal-telefone-valor">
+                  {telefoneResponsavel || "-"}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="modal-consulta-info-area">
             <div className="modal-consulta-info">
-
-
               <p>
-
                 <span className="modal-info-icone">
                   📅
                 </span>
 
-                <strong>
-                  {
-                    selecionada.dia ||
-                    "Dia não informado"
-                  }
-                </strong>
+                {editandoData ? (
+                  <input
+                    className="modal-data-input"
+                    type="date"
+                    value={selecionada.data || ""}
+                    disabled={salvandoDataHora}
+                    autoFocus
+                    onChange={(e) =>
+                      alterarData(e.target.value)
+                    }
+                    onBlur={() =>
+                      setEditandoData(false)
+                    }
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    className="modal-info-editavel"
+                    onClick={() => setEditandoData(true)}
+                    disabled={salvandoDataHora}
+                    title="Clique para alterar a data"
+                  >
+                    <strong>
+                      {selecionada.dia || "Dia não informado"}
+                    </strong>
 
-                <span>
-                  •
-                </span>
+                    <span>•</span>
 
-                <span>
-                  {
-                    formatarData(
-                      selecionada.data
-                    )
-                  }
-                </span>
-
+                    <span>
+                      {formatarData(selecionada.data)}
+                    </span>
+                  </button>
+                )}
               </p>
 
-
               <p>
-
                 <span className="modal-info-icone">
                   ⏰
                 </span>
 
-                <span>
-                  {
-                    selecionada.hora ||
-                    "Horário não informado"
-                  }
-                </span>
-
+                {editandoHora ? (
+                  <select
+                    className="modal-hora-select"
+                    value={selecionada.hora || "08:00"}
+                    disabled={salvandoDataHora}
+                    autoFocus
+                    onChange={(e) =>
+                      alterarHora(e.target.value)
+                    }
+                    onBlur={() =>
+                      setEditandoHora(false)
+                    }
+                  >
+                    {horarios.map((hora) => (
+                      <option key={hora} value={hora}>
+                        {hora}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <button
+                    type="button"
+                    className="modal-info-editavel"
+                    onClick={() => setEditandoHora(true)}
+                    disabled={salvandoDataHora}
+                    title="Clique para alterar o horário"
+                  >
+                    <span>
+                      {selecionada.hora || "Horário não informado"}
+                    </span>
+                  </button>
+                )}
               </p>
 
-
-              {selecionada.status === "pagou" &&
-                selecionada.formaPagamento && (
-
+              {selecionada.formaPagamento && (
                 <p>
-
                   <span className="modal-info-icone">
                     💳
                   </span>
 
                   <span>
                     {selecionada.formaPagamento}
-
-                    {
-                      selecionada.formaPagamento ===
-                        "Crédito parcelado" &&
-                      selecionada.parcelas
-                        ? ` • ${selecionada.parcelas}x`
-                        : ""
-                    }
-
                   </span>
-
                 </p>
-
               )}
 
-
-              {Number(
-                selecionada.valorPago
-              ) > 0 && (
-
+              {selecionada.valorPago > 0 && (
                 <p>
-
                   <span className="modal-info-icone">
                     💰
                   </span>
 
                   <span>
                     Valor pago: R${" "}
-
-                    {Number(
-                      selecionada.valorPago
-                    )
+                    {Number(selecionada.valorPago)
                       .toFixed(2)
-                      .replace(
-                        ".",
-                        ","
-                      )}
-
+                      .replace(".", ",")}
                   </span>
-
                 </p>
-
               )}
-
-
             </div>
 
+            <div className="modal-proxima-consulta">
+              <span className="modal-proxima-label">
+                PRÓXIMA CONSULTA
+              </span>
 
-            {/* ================================================= */}
-            {/* TELEFONES                                       */}
-            {/* ================================================= */}
-
-            <div className="modal-telefones">
-
-
-              <div className="modal-telefone-item">
-
-                <span className="modal-telefone-label">
-                  Telefone
-                </span>
-
-                <span className="modal-telefone-valor">
-                  {
-                    telefonePaciente ||
-                    "-"
-                  }
-                </span>
-
-              </div>
-
-
-              <div className="modal-telefone-item">
-
-                <span className="modal-telefone-label">
-                  Telefone do responsável
-                </span>
-
-                <span className="modal-telefone-valor">
-                  {
-                    telefoneResponsavel ||
-                    "-"
-                  }
-                </span>
-
-              </div>
-
-
+              <strong>
+                {mostrarProximaConsulta
+                  ? formatarData(proximaConsulta)
+                  : "Não agendada"}
+              </strong>
             </div>
-
-
           </div>
 
-
-          {/* ================================================= */}
-          {/* OBSERVAÇÕES                                      */}
-          {/* ================================================= */}
-
           <div className="modal-observacao">
-
-            <label>
-              Observações
-            </label>
-
+            <label>Observações</label>
 
             <textarea
               className="valor-input"
               rows="4"
               placeholder="Observações da consulta..."
-              value={
-                obsEditando
-              }
-
+              value={obsEditando}
               onChange={(e) =>
-                setObsEditando(
-                  e.target.value
-                )
+                setObsEditando(e.target.value)
               }
-
               onBlur={() => {
-
-                if (
-                  typeof salvarObs ===
-                  "function"
-                ) {
-
+                if (typeof salvarObs === "function") {
                   salvarObs()
-
                 }
-
               }}
-
             />
-
           </div>
 
-
-          {/* ================================================= */}
-          {/* BOTÕES                                            */}
-          {/* ================================================= */}
-
           <div className="modal-botoes">
-
-
             <button
               type="button"
               className="btn-perfil"
-              onClick={
-                verPerfil
-              }
+              onClick={verPerfil}
             >
               Ver Perfil
             </button>
 
-
             <button
               type="button"
               className="btn-confirmado"
-              onClick={() =>
-                mudarStatus(
-                  "confirmado"
-                )
-              }
+              onClick={() => mudarStatus("confirmado")}
             >
               Confirmado
             </button>
 
-
             <button
               type="button"
               className="btn-pago"
-              onClick={
-                abrirPagamento
-              }
+              onClick={abrirPagamento}
             >
               Pago
             </button>
 
-
             <button
               type="button"
               className="btn-debito"
-              onClick={() =>
-                mudarStatus(
-                  "pendente"
-                )
-              }
+              onClick={() => mudarStatus("pendente")}
             >
               Pagamento Pendente
             </button>
 
-
             <button
               type="button"
               className="btn-faltou"
-              onClick={() =>
-                mudarStatus(
-                  "faltou"
-                )
-              }
+              onClick={() => mudarStatus("faltou")}
             >
               Faltou
             </button>
 
-
             <button
               type="button"
               className="btn-agendado"
-              onClick={() =>
-                mudarStatus(
-                  "agendado"
-                )
-              }
+              onClick={() => mudarStatus("agendado")}
             >
               Agendado
             </button>
 
+            {Number(selecionada.valorPago) > 0 && (
+              <button
+                type="button"
+                className="remover-valor-btn"
+                onClick={removerValor}
+              >
+                Remover Valor
+              </button>
+            )}
 
-            {
-              Number(
-                selecionada.valorPago
-              ) > 0 && (
+            {selecionada.serieReagendamentoId && (
+              <div className="excluir-futuros-box">
+                {!confirmandoExclusaoFuturos ? (
+                  <button
+                    type="button"
+                    className="remover-futuros-btn"
+                    onClick={() =>
+                      setConfirmandoExclusaoFuturos(true)
+                    }
+                  >
+                    Excluir próximos agendamentos
+                  </button>
+                ) : (
+                  <div className="confirmar-exclusao-futuros">
+                    <span>
+                      Excluir todas as consultas futuras desta sequência?
+                    </span>
 
-                <button
-                  type="button"
-                  className="remover-valor-btn"
-                  onClick={
-                    removerValor
-                  }
-                >
-                  Remover Valor
-                </button>
+                    <div>
+                      <button
+                        type="button"
+                        className="confirmar-remover-futuros-btn"
+                        onClick={async () => {
+                          try {
+                            const quantidade =
+                              await removerAgendamentosFuturos()
 
-              )
-            }
+                            setConfirmandoExclusaoFuturos(false)
 
+                            alert(
+                              quantidade > 0
+                                ? `${quantidade} consulta(s) futura(s) excluída(s).`
+                                : "Não havia consultas futuras para excluir."
+                            )
+                          } catch (erro) {
+                            console.error(
+                              "Erro ao excluir consultas futuras:",
+                              erro
+                            )
+
+                            alert(
+                              "Não foi possível excluir as consultas futuras."
+                            )
+                          }
+                        }}
+                      >
+                        Sim, excluir
+                      </button>
+
+                      <button
+                        type="button"
+                        className="cancelar-remover-futuros-btn"
+                        onClick={() =>
+                          setConfirmandoExclusaoFuturos(false)
+                        }
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
 
             <button
               type="button"
               className="remover-btn"
-              onClick={
-                remover
-              }
+              onClick={remover}
             >
               Remover
             </button>
 
-
             <button
               type="button"
               className="fechar-modal-btn"
-              onClick={
-                fecharModal
-              }
+              onClick={fecharModal}
             >
               ✕ Fechar
             </button>
-
-
           </div>
-
-
         </div>
 
-
-        {/* ================================================= */}
-        {/* PAGAMENTO                                        */}
-        {/* ================================================= */}
-
         {mostrarPagamento && (
-
           <div className="pagamento-box">
+            <h3>Registrar Pagamento</h3>
 
-
-            <h3>
-              Registrar Pagamento
-            </h3>
-
-
-            {/* ================================================= */}
-            {/* FORMA DE PAGAMENTO                              */}
-            {/* ================================================= */}
-
-            <label>
-              Forma de pagamento
-            </label>
-
+            <label>Forma de pagamento</label>
 
             <select
-              value={
-                formaPagamento
+              value={formaPagamento}
+              onChange={(e) =>
+                setFormaPagamento(e.target.value)
               }
-
-              onChange={(e) => {
-
-                const novaForma =
-                  e.target.value
-
-                setFormaPagamento(
-                  novaForma
-                )
-
-
-                /*
-                 * Se não for parcelado,
-                 * não precisamos manter parcelas.
-                 */
-
-                if (
-                  novaForma !==
-                  "Crédito parcelado"
-                ) {
-
-                  setParcelas("")
-
-                }
-
-                /*
-                 * Crédito à vista sempre
-                 * representa 1 parcela.
-                 */
-
-                if (
-                  novaForma ===
-                  "Crédito à vista"
-                ) {
-
-                  setParcelas("1")
-
-                }
-
-              }}
-
             >
-
-              <option value="">
-                Selecione...
+              <option value="">Selecione...</option>
+              <option value="Pix">Pix</option>
+              <option value="Dinheiro">Dinheiro</option>
+              <option value="Cartão de Débito">
+                Cartão de Débito
               </option>
-
-
-              <option value="Pix">
-                Pix
+              <option value="Cartão de Crédito">
+                Cartão de Crédito
               </option>
-
-
-              <option value="Dinheiro">
-                Dinheiro
-              </option>
-
-
-              <option value="Débito">
-                Débito
-              </option>
-
-
-              <option value="Crédito à vista">
-                Crédito à vista
-              </option>
-
-
-              <option value="Crédito parcelado">
-                Crédito parcelado
-              </option>
-
-
             </select>
 
-
-            {/* ================================================= */}
-            {/* PARCELAS                                         */}
-            {/* ================================================= */}
-
-            {
-              formaPagamento ===
-              "Crédito parcelado" && (
-
-                <>
-
-                  <label>
-                    Quantidade de parcelas
-                  </label>
-
-
-                  <select
-                    value={
-                      parcelas
-                    }
-
-                    onChange={(e) =>
-                      setParcelas(
-                        e.target.value
-                      )
-                    }
-
-                  >
-
-                    <option value="">
-                      Selecione...
-                    </option>
-
-
-                    <option value="2">
-                      2x
-                    </option>
-
-
-                    <option value="3">
-                      3x
-                    </option>
-
-
-                    <option value="4">
-                      4x
-                    </option>
-
-
-                    <option value="5">
-                      5x
-                    </option>
-
-
-                    <option value="6">
-                      6x
-                    </option>
-
-                  </select>
-
-                </>
-
-              )
-            }
-
-
-            {/* ================================================= */}
-            {/* VALOR                                            */}
-            {/* ================================================= */}
-
-            <label>
-              Valor pago
-            </label>
-
+            <label>Valor pago</label>
 
             <input
               className="valor-input"
@@ -1014,57 +669,32 @@ const nomePaciente =
               min="0"
               step="0.01"
               placeholder="R$ 0,00"
-              value={
-                valorPago
-              }
-
+              value={valorPago}
               onChange={(e) =>
-                setValorPago(
-                  e.target.value
-                )
+                setValorPago(e.target.value)
               }
-
             />
-
-
-            {/* ================================================= */}
-            {/* CONFIRMAR                                        */}
-            {/* ================================================= */}
 
             <button
               type="button"
               className="enviar-valor-btn"
-              onClick={
-                confirmarPagamento
-              }
+              onClick={confirmarPagamento}
             >
               💰 Confirmar Pagamento
             </button>
 
-
             <button
               type="button"
               className="cancelar-pagamento-btn"
-              onClick={
-                cancelarPagamento
-              }
+              onClick={cancelarPagamento}
             >
               Cancelar
             </button>
-
-
           </div>
-
         )}
-
-
       </div>
-
     </div>
-
   )
-
 }
-
 
 export default AgendaModal

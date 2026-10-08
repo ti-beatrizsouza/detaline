@@ -87,6 +87,12 @@ function NovoAgendamentoModal({
   ] = useState("mes")
 
 
+  const [
+    repetirAte,
+    setRepetirAte
+  ] = useState("")
+
+
   /* ===================================================== */
   /* ABERTURA DO MODAL                                     */
   /* ===================================================== */
@@ -116,6 +122,9 @@ function NovoAgendamentoModal({
     setPersonalizadoTipo(
       "mes"
     )
+
+
+    setRepetirAte("")
 
 
     setValorPago("")
@@ -150,12 +159,11 @@ function NovoAgendamentoModal({
 
 
     /*
-     * O tipo de paciente fica salvo
-     * exclusivamente no perfil.
+     * Pacientes de Ortodontia
+     * recebem 1 mês como sugestão.
      *
-     * Aqui ele é apenas consultado
-     * para sugerir o período de
-     * reagendamento.
+     * A doutora pode alterar
+     * manualmente depois.
      */
 
     if (
@@ -164,12 +172,6 @@ function NovoAgendamentoModal({
 
       setReagendamento(
         "1-mes"
-      )
-
-    } else {
-
-      setReagendamento(
-        "nenhum"
       )
 
     }
@@ -541,7 +543,7 @@ function NovoAgendamentoModal({
 
 
   /* ===================================================== */
-  /* FORMATAR DATA                                        */
+  /* FORMATAR DATA                                         */
   /* ===================================================== */
 
   function formatarData(
@@ -626,8 +628,6 @@ function NovoAgendamentoModal({
     }
 
 
-    /* DIAS */
-
     if (
       tipo === "dia"
     ) {
@@ -640,8 +640,6 @@ function NovoAgendamentoModal({
     }
 
 
-    /* SEMANAS */
-
     if (
       tipo === "semana"
     ) {
@@ -653,8 +651,6 @@ function NovoAgendamentoModal({
 
     }
 
-
-    /* MESES */
 
     if (
       tipo === "mes"
@@ -846,13 +842,6 @@ function NovoAgendamentoModal({
     )
 
 
-    /*
-     * O tipo é consultado somente
-     * para definir a sugestão inicial.
-     *
-     * Ele não é exibido no modal.
-     */
-
     const tipo =
       String(
         paciente.tipoPaciente ||
@@ -945,11 +934,6 @@ function NovoAgendamentoModal({
 
       <div className="modal-box novo-agendamento-modal">
 
-
-        {/* ================================================= */}
-        {/* CABEÇALHO                                         */}
-        {/* ================================================= */}
-
         <div className="novo-agendamento-cabecalho">
 
           <h2>
@@ -989,27 +973,28 @@ function NovoAgendamentoModal({
 
 
         {/* ================================================= */}
-        {/* DUAS COLUNAS                                      */}
+        {/* TRÊS PARTES                                       */}
         {/* ================================================= */}
 
         <div className="novo-agendamento-colunas">
 
 
-          {/* =============================================== */}
-          {/* ESQUERDA                                        */}
-          {/* =============================================== */}
+          {/* ================================================= */}
+          {/* CONSULTA                                           */}
+          {/* ================================================= */}
 
-          <div className="novo-agendamento-esquerda">
+          <div className="novo-agendamento-consulta">
 
+            <div className="novo-agendamento-coluna-titulo">
+              Consulta
+            </div>
 
-            {/* DATA */}
 
             <div className="novo-agendamento-secao">
 
               <label className="novo-agendamento-label">
                 Data da consulta
               </label>
-
 
               <input
                 type="date"
@@ -1030,14 +1015,11 @@ function NovoAgendamentoModal({
             </div>
 
 
-            {/* HORÁRIO */}
-
             <div className="novo-agendamento-secao">
 
               <label className="novo-agendamento-label">
                 Horário
               </label>
-
 
               <select
                 className="valor-input"
@@ -1073,14 +1055,11 @@ function NovoAgendamentoModal({
             </div>
 
 
-            {/* STATUS */}
-
             <div className="novo-agendamento-status-box">
 
               <label className="novo-agendamento-label">
                 Status da consulta
               </label>
-
 
               <select
                 className="valor-input"
@@ -1120,8 +1099,6 @@ function NovoAgendamentoModal({
             </div>
 
 
-            {/* PAGAMENTO */}
-
             {
               statusConsulta ===
               "pagou" && (
@@ -1129,7 +1106,7 @@ function NovoAgendamentoModal({
                 <div className="novo-agendamento-pagamento">
 
                   <div className="novo-agendamento-pagamento-titulo">
-                    💰 Registrar pagamento
+                    Registrar pagamento
                   </div>
 
 
@@ -1209,7 +1186,6 @@ function NovoAgendamentoModal({
                           Número de parcelas
                         </label>
 
-
                         <select
                           value={
                             parcelas || "2"
@@ -1255,8 +1231,6 @@ function NovoAgendamentoModal({
             }
 
 
-            {/* ÚLTIMO PACIENTE */}
-
             <div className="ultimo-paciente-box">
 
               <div className="ultimo-paciente-titulo">
@@ -1295,13 +1269,11 @@ function NovoAgendamentoModal({
                         }
                       </span>
 
-
                       <span className="ultimo-paciente-nome">
                         {
                           ultimoPacienteVisto.nome
                         }
                       </span>
-
 
                       <span className="ultimo-paciente-acao">
                         Selecionar
@@ -1321,160 +1293,17 @@ function NovoAgendamentoModal({
 
             </div>
 
-
-            {/* REAGENDAMENTO */}
-
-            <div className="reagendamento-box">
-
-              <div className="reagendamento-titulo">
-                Reagendamento automático
-              </div>
-
-
-              <p className="reagendamento-descricao">
-                Criar uma próxima consulta no mesmo horário.
-              </p>
-
-
-              <select
-                className="valor-input"
-                value={
-                  reagendamento
-                }
-                onChange={
-                  e =>
-                    setReagendamento(
-                      e.target.value
-                    )
-                }
-              >
-
-                <option value="nenhum">
-                  Não reagendar
-                </option>
-
-                <option value="1-mes">
-                  1 mês
-                </option>
-
-                <option value="4-meses">
-                  4 meses
-                </option>
-
-                <option value="6-meses">
-                  6 meses
-                </option>
-
-                <option value="personalizado">
-                  Personalizado
-                </option>
-
-              </select>
-
-
-              {/* PERSONALIZADO */}
-
-              {
-                reagendamento ===
-                "personalizado" && (
-
-                  <div className="reagendamento-personalizado">
-
-                    <input
-                      type="number"
-                      min="1"
-                      step="1"
-                      placeholder="Valor"
-                      value={
-                        personalizadoValor
-                      }
-                      onChange={
-                        e =>
-                          setPersonalizadoValor(
-                            e.target.value
-                          )
-                      }
-                    />
-
-
-                    <select
-                      value={
-                        personalizadoTipo
-                      }
-                      onChange={
-                        e =>
-                          setPersonalizadoTipo(
-                            e.target.value
-                          )
-                      }
-                    >
-
-                      <option value="dia">
-                        Dia
-                      </option>
-
-                      <option value="semana">
-                        Semana
-                      </option>
-
-                      <option value="mes">
-                        Mês
-                      </option>
-
-                    </select>
-
-                  </div>
-
-                )
-              }
-
-
-              {/* PRÉVIA */}
-
-              {
-                dataProxima && (
-
-                  <div className="reagendamento-preview">
-
-                    <span>
-                      Próxima consulta
-                    </span>
-
-
-                    <strong>
-
-                      {
-                        formatarData(
-                          dataProxima
-                        )
-                      }
-
-                      {" às "}
-
-                      {
-                        novoAgendamento.hora
-                      }
-
-                    </strong>
-
-                  </div>
-
-                )
-              }
-
-            </div>
-
           </div>
 
 
-          {/* =============================================== */}
-          {/* DIREITA                                          */}
-          {/* =============================================== */}
+          {/* ================================================= */}
+          {/* PACIENTE                                           */}
+          {/* ================================================= */}
 
-          <div className="novo-agendamento-direita">
+          <div className="novo-agendamento-paciente">
 
-            <div className="lista-pacientes-titulo">
-              Pacientes
+            <div className="novo-agendamento-coluna-titulo">
+              Paciente
             </div>
 
 
@@ -1574,7 +1403,42 @@ function NovoAgendamentoModal({
             </div>
 
 
-            {/* LISTA */}
+            <div className="paciente-escolhido-box">
+
+              {
+                pacienteSelecionado
+                  ? (
+
+                    <div className="paciente-escolhido">
+
+                      <span className="paciente-escolhido-tag">
+                        {
+                          formatarTag(
+                            pacienteSelecionado
+                          )
+                        }
+                      </span>
+
+                      <strong>
+                        {
+                          pacienteSelecionado.nome
+                        }
+                      </strong>
+
+                    </div>
+
+                  )
+                  : (
+
+                    <div className="paciente-escolhido-vazio">
+                      Selecione um paciente
+                    </div>
+
+                  )
+              }
+
+            </div>
+
 
             <div className="lista-pacientes-agendamento">
 
@@ -1649,8 +1513,6 @@ function NovoAgendamentoModal({
             </div>
 
 
-            {/* CADASTRAR */}
-
             <button
               type="button"
               className="cadastrar-paciente-agendamento"
@@ -1660,6 +1522,201 @@ function NovoAgendamentoModal({
             >
               ＋ Cadastrar novo paciente
             </button>
+
+          </div>
+
+
+          {/* ================================================= */}
+          {/* REAGENDAMENTO                                      */}
+          {/* ================================================= */}
+
+          <div className="novo-agendamento-reagendamento">
+
+            <div className="novo-agendamento-coluna-titulo">
+              Reagendamento
+            </div>
+
+
+            <div className="reagendamento-box">
+
+              <div className="reagendamento-titulo">
+                Reagendamento automático
+              </div>
+
+
+              <p className="reagendamento-descricao">
+                Criar próximas consultas no mesmo horário.
+              </p>
+
+
+              <select
+                className="valor-input"
+                value={
+                  reagendamento
+                }
+                onChange={
+                  e =>
+                    setReagendamento(
+                      e.target.value
+                    )
+                }
+              >
+
+                <option value="nenhum">
+                  Não reagendar
+                </option>
+
+                <option value="1-mes">
+                  1 mês
+                </option>
+
+                <option value="4-meses">
+                  4 meses
+                </option>
+
+                <option value="6-meses">
+                  6 meses
+                </option>
+
+                <option value="personalizado">
+                  Personalizado
+                </option>
+
+              </select>
+
+
+              {
+                reagendamento ===
+                "personalizado" && (
+
+                  <div className="reagendamento-personalizado">
+
+                    <input
+                      type="number"
+                      min="1"
+                      step="1"
+                      placeholder="Valor"
+                      value={
+                        personalizadoValor
+                      }
+                      onChange={
+                        e =>
+                          setPersonalizadoValor(
+                            e.target.value
+                          )
+                      }
+                    />
+
+
+                    <select
+                      value={
+                        personalizadoTipo
+                      }
+                      onChange={
+                        e =>
+                          setPersonalizadoTipo(
+                            e.target.value
+                          )
+                      }
+                    >
+
+                      <option value="dia">
+                        Dia
+                      </option>
+
+                      <option value="semana">
+                        Semana
+                      </option>
+
+                      <option value="mes">
+                        Mês
+                      </option>
+
+                    </select>
+
+                  </div>
+
+                )
+              }
+
+
+              {
+                reagendamento !==
+                "nenhum" && (
+
+                  <div className="reagendamento-ate">
+
+                    <label>
+                      Repetir até
+                    </label>
+
+
+                    <input
+                      type="date"
+                      value={
+                        repetirAte
+                      }
+                      min={
+                        dataConsulta ||
+                        novoAgendamento.data ||
+                        ""
+                      }
+                      onChange={
+                        e =>
+                          setRepetirAte(
+                            e.target.value
+                          )
+                      }
+                    />
+
+                  </div>
+
+                )
+              }
+
+
+              {
+                dataProxima && (
+
+                  <div className="reagendamento-preview">
+
+                    <span>
+                      Próxima consulta
+                    </span>
+
+
+                    <strong>
+                      {
+                        formatarData(
+                          dataProxima
+                        )
+                      }
+
+                      {" às "}
+
+                      {
+                        novoAgendamento.hora
+                      }
+
+                    </strong>
+
+
+                    {
+                      repetirAte && (
+
+                        <small>
+                          Até {formatarData(repetirAte)}
+                        </small>
+
+                      )
+                    }
+
+                  </div>
+
+                )
+              }
+
+            </div>
 
           </div>
 
@@ -1685,7 +1742,12 @@ function NovoAgendamentoModal({
                     formaPagamento,
                     parcelas,
                     personalizadoValor,
-                    personalizadoTipo
+                    personalizadoTipo,
+                    repetirAte,
+                    reagendamentoPersonalizado:
+                      reagendamento === "personalizado"
+                        ? `personalizado-${personalizadoValor}-${personalizadoTipo}`
+                        : ""
                   }
                 )
             }

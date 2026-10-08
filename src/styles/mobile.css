@@ -51,7 +51,7 @@
   input,
   select,
   textarea {
-    font-size: 16px;
+    font-size: 15px;
   }
 
 }
@@ -67,10 +67,11 @@
   input,
   select,
   textarea {
-    font-size: 15px;
+    font-size: 14px;
   }
 
 }
+
 
 /* ========================================================= */
 /* DASHBOARD - MOBILE                                        */
@@ -78,13 +79,19 @@
 
 @media (max-width: 600px) {
 
-.dashboard-container {
-  min-height: 100vh;
+  .dashboard-container {
+    width: 100%;
+    min-height: 100vh;
 
-  padding: 24px 16px 20px;
+    padding: 16px 10px 75px;
 
-  overflow: hidden;
-}
+    overflow: hidden;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+  }
 
 
   /* ======================================================= */
@@ -92,35 +99,72 @@
   /* ======================================================= */
 
   .wonderland-decoracao {
-    opacity: .55;
+    position: absolute;
+
+    pointer-events: none;
+
+    z-index: 1;
+
+    opacity: .34;
   }
 
+  /*
+    Relógio:
+    fica acompanhando o lado esquerdo do cabeçalho,
+    sem entrar atrás do título.
+  */
   .decor-relogio {
-    width: 90px;
+    width: 100px;
 
-    top: 70px;
-    right: -25px;
+    top: 82px;
+    left: -38px;
+
+    right: auto;
+    bottom: auto;
   }
 
+  /*
+    Cartas:
+    ficam no lado direito, alinhadas com a região
+    do título, criando equilíbrio com o relógio.
+  */
   .decor-cartas {
-    width: 75px;
+    width: 86px;
 
-    left: -22px;
-    bottom: 90px;
+    top: 108px;
+    right: -27px;
+
+    left: auto;
+    bottom: auto;
   }
 
+  /*
+    Xícara:
+    decoração inferior direita, próxima ao final
+    dos cards, mas sem cobrir conteúdo.
+  */
   .decor-xicara {
-    width: 80px;
+    width: 88px;
 
-    right: -25px;
-    bottom: 20px;
+    right: -27px;
+    bottom: 95px;
+
+    left: auto;
+    top: auto;
   }
 
+  /*
+    Xadrez:
+    decoração inferior esquerda.
+  */
   .decor-xadrez {
-    width: 70px;
+    width: 78px;
 
-    left: -20px;
-    top: 150px;
+    left: -28px;
+    bottom: 32px;
+
+    right: auto;
+    top: auto;
   }
 
 
@@ -128,39 +172,126 @@
   /* TOPO                                                    */
   /* ======================================================= */
 
+  /*
+    No mobile, o topo deixa de ocupar uma linha própria.
+    Isso permite reorganizar visualmente os elementos sem
+    prender o botão Sair ao cabeçalho.
+  */
   .dashboard-topo {
     width: 100%;
 
-    min-height: 55px;
+    min-height: 0;
 
-    margin-bottom: 25px;
+    margin: 0;
+
+    padding: 0;
+
+    position: static;
+
+    display: contents;
   }
 
 
-  .dashboard-logo {
-    width: 100px;
-    height: auto;
+  /* ======================================================= */
+  /* BOTÃO VOLTAR                                            */
+  /* ======================================================= */
+
+  .dashboard-topo-esquerda {
+    position: absolute;
+
+    top: 36px;
+    left: 10px;
+
+    width: auto;
+
+    margin: 0;
+
+    padding: 0;
+
+    z-index: 30;
   }
 
+  .dashboard-voltar {
+    width: 37px;
+    height: 37px;
+
+    min-height: 37px;
+
+    padding: 0;
+
+    margin: 0;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 0;
+
+    line-height: 1;
+
+    background: #ffffff;
+
+    color: #a9007d;
+
+    box-shadow:
+      0 5px 12px
+      rgba(50, 0, 40, .12);
+  }
+
+  .dashboard-voltar::before {
+    content: "←";
+
+    display: block;
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+    line-height: 1;
+  }
+
+  .dashboard-voltar:hover {
+    background: #f7eaf4;
+
+    transform: translateY(-1px);
+  }
+
+
+  /* ======================================================= */
+  /* ÁREA DO HEADER                                          */
+  /* ======================================================= */
 
   .dashboard-topo-direita {
-    gap: 8px;
+    display: contents;
   }
-
 
   .dashboard-usuario {
     display: none;
   }
 
 
-  .sair-btn {
-    height: 38px;
+  /* ======================================================= */
+  /* LOGO CENTRALIZADA                                       */
+  /* ======================================================= */
 
-    padding: 0 14px;
+  .dashboard-logo {
+    position: absolute;
 
-    border-radius: 10px;
+    top: 27px;
+    left: 50%;
 
-    font-size: .72rem;
+    width: 100px;
+    height: auto;
+
+    display: block;
+
+    transform: translateX(-50%);
+
+    z-index: 25;
   }
 
 
@@ -173,29 +304,34 @@
 
     padding: 0;
 
+    margin: 91px 0 0;
+
+    position: relative;
+
+    z-index: 5;
+
     display: flex;
 
     flex-direction: column;
 
     align-items: center;
-  }
 
+    order: 1;
+  }
 
   .dashboard-boas-vindas {
     width: 100%;
 
     text-align: center;
 
-    margin-bottom: 24px;
+    margin: 0 0 24px;
   }
-
 
   .dashboard-eyebrow {
     font-size: .62rem;
 
     letter-spacing: .12em;
   }
-
 
   .dashboard-boas-vindas h1 {
     margin: 7px 0 8px;
@@ -204,7 +340,6 @@
 
     line-height: 1;
   }
-
 
   .dashboard-boas-vindas p {
     max-width: 300px;
@@ -233,7 +368,6 @@
     margin: 0;
   }
 
-
   .dashboard-card {
     width: 100%;
 
@@ -248,7 +382,6 @@
     text-align: left;
   }
 
-
   .dashboard-card-icone {
     width: 43px;
     height: 43px;
@@ -260,13 +393,11 @@
     font-size: 1.25rem;
   }
 
-
   .dashboard-card-conteudo {
     min-width: 0;
 
     flex: 1;
   }
-
 
   .dashboard-card-label {
     font-size: .55rem;
@@ -274,13 +405,11 @@
     letter-spacing: .08em;
   }
 
-
   .dashboard-card-conteudo h2 {
     margin: 3px 0 4px;
 
     font-size: 1.05rem;
   }
-
 
   .dashboard-card-conteudo p {
     margin: 0;
@@ -289,7 +418,6 @@
 
     line-height: 1.35;
   }
-
 
   .dashboard-card-seta {
     width: 30px;
@@ -302,49 +430,851 @@
 
 
   /* ======================================================= */
+  /* SAIR                                                    */
+  /* ======================================================= */
+
+  /*
+    O botão passa a aparecer DEPOIS do conteúdo.
+    Como .dashboard-topo e .dashboard-topo-direita usam
+    display: contents, o botão participa do flex principal
+    do dashboard-container.
+  */
+  .sair-btn {
+    position: static;
+
+    order: 2;
+
+    width: 64px;
+    height: 36px;
+
+    min-height: 36px;
+
+    padding: 0;
+
+    margin: 16px auto 0;
+
+    border-radius: 11px;
+
+    transform: none;
+
+    font-size: .72rem;
+
+    z-index: 20;
+  }
+
+  .sair-btn:hover {
+    transform: translateY(-1px);
+  }
+
+
+  /* ======================================================= */
   /* RODAPÉ                                                  */
   /* ======================================================= */
 
   .dashboard-footer {
     width: 100%;
 
-    margin-top: 22px;
+    margin-top: auto;
 
     padding: 0 3px;
 
     font-size: .58rem;
+
+    position: relative;
+
+    z-index: 5;
+
+    order: 3;
   }
 
 }
 
 
 /* ========================================================= */
-/* CELULARES PEQUENOS                                        */
+/* LISTA DE PACIENTES - MOBILE                               */
+/* ========================================================= */
+
+@media (max-width: 600px) {
+
+  .pacientes-container {
+    width: 100%;
+    min-height: 100vh;
+
+    padding: 9px 10px 18px;
+
+    overflow-x: hidden;
+  }
+
+
+  /* ======================================================= */
+  /* BRILHOS                                                 */
+  /* ======================================================= */
+
+  .pacientes-brilho {
+    pointer-events: none;
+  }
+
+
+  /* ======================================================= */
+  /* TOPO                                                    */
+  /* ======================================================= */
+
+  .pacientes-topo {
+    width: 100%;
+
+    min-height: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 4px;
+
+    margin-bottom: 4px;
+
+    position: relative;
+  }
+
+
+  /* ======================================================= */
+  /* BOTÃO VOLTAR                                            */
+  /* ======================================================= */
+
+  .pacientes-topo-esquerda {
+    width: auto;
+
+    display: flex;
+
+    justify-content: flex-start;
+
+    margin: 0;
+
+    position: absolute;
+
+    top: 5px;
+
+    left: 1px;
+
+    z-index: 10;
+  }
+
+  .pacientes-voltar {
+    width: 37px;
+    height: 37px;
+
+    min-height: 37px;
+
+    padding: 0;
+
+    margin: 0;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 0;
+
+    line-height: 1;
+
+    background: #ffffff;
+
+    color: #a9007d;
+
+    box-shadow:
+      0 5px 12px
+      rgba(50, 0, 40, .12);
+  }
+
+  .pacientes-voltar::before {
+    content: "←";
+
+    display: block;
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+    line-height: 1;
+  }
+
+  .pacientes-voltar:hover {
+    background: #f7eaf4;
+
+    transform: translateY(-1px);
+  }
+
+
+  /* ======================================================= */
+  /* MARCA / HEADER                                          */
+  /* ======================================================= */
+
+  .pacientes-marca {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin: 0;
+
+    padding: 5px 3px 0;
+
+    text-align: left;
+  }
+
+  .pacientes-titulo {
+    min-width: 0;
+
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+  }
+
+  .pacientes-titulo span {
+    margin: 0 0 2px;
+
+    color: rgba(255, 255, 255, .68);
+
+    font-size: .6rem;
+
+    font-weight: 800;
+
+    letter-spacing: .15em;
+  }
+
+  .pacientes-titulo h1 {
+    margin: 0 0 4px;
+
+    color: #ffffff;
+
+    font-size: 1.95rem;
+
+    font-weight: 400;
+
+    line-height: .95;
+
+    letter-spacing: -.02em;
+
+    font-family:
+      "AliceWonderland",
+      "Alice in Wonderland",
+      Georgia,
+      serif;
+  }
+
+  .pacientes-titulo p {
+    max-width: 240px;
+
+    margin: 0;
+
+    color: rgba(255, 255, 255, .82);
+
+    font-size: .68rem;
+
+    line-height: 1.3;
+  }
+
+  .pacientes-logo {
+    width: 80px;
+    height: 53px;
+
+    flex-shrink: 0;
+
+    object-fit: contain;
+
+    filter:
+      drop-shadow(
+        0 5px 11px
+        rgba(50, 0, 40, .16)
+      );
+  }
+
+
+  /* ======================================================= */
+  /* BOTÃO DE NOVO PACIENTE                                  */
+  /* ======================================================= */
+
+  .pacientes-topo-centro {
+    display: none;
+  }
+
+
+  /* ======================================================= */
+  /* RESUMO                                                  */
+  /* ======================================================= */
+
+  .pacientes-resumo {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+
+    gap: 7px;
+
+    margin-top: 9px;
+  }
+
+  .pacientes-resumo-card {
+    min-width: 0;
+
+    min-height: 51px;
+
+    height: 51px;
+
+    padding: 7px 10px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 5px;
+  }
+
+  .pacientes-resumo-card span {
+    min-width: 0;
+
+    font-size: .63rem;
+
+    line-height: 1.15;
+  }
+
+  .pacientes-resumo-card strong {
+    flex-shrink: 0;
+
+    font-size: 1.2rem;
+  }
+
+
+  /* ======================================================= */
+  /* BOTÃO CADASTRAR                                         */
+  /* ======================================================= */
+
+  .pacientes-resumo-centro {
+    grid-column: 1 / -1;
+
+    grid-row: 2;
+
+    width: 100%;
+
+    min-height: 0;
+
+    margin: 0;
+
+    display: flex;
+
+    justify-content: center;
+  }
+
+  .pacientes-resumo-centro .novo-paciente-btn {
+    width: 100%;
+
+    min-height: 39px;
+
+    height: 39px;
+
+    padding: 0 15px;
+
+    border-radius: 11px;
+
+    font-size: .74rem;
+
+    line-height: 1.1;
+  }
+
+
+  /* ======================================================= */
+  /* FILTROS                                                 */
+  /* ======================================================= */
+
+  .pacientes-filtros {
+    width: 100%;
+
+    margin-top: 3px;
+
+    padding: 9px;
+
+    display: flex;
+
+    flex-direction: row;
+
+    flex-wrap: wrap;
+
+    align-items: flex-end;
+
+    gap: 6px;
+
+    border-radius: 14px;
+  }
+
+
+  /* ======================================================= */
+  /* GRUPOS                                                  */
+  /* ======================================================= */
+
+  .filtro-grupo {
+    width: 100%;
+
+    flex: 0 0 100%;
+
+    min-width: 0;
+  }
+
+  .filtro-tag-grupo,
+  .ordenacao-wrapper {
+    width: calc(50% - 3px);
+
+    flex: 0 0 calc(50% - 3px);
+
+    min-width: 0;
+  }
+
+  .filtro-grupo label,
+  .filtro-tag-grupo label,
+  .ordenacao-wrapper label {
+    display: block;
+
+    margin: 0 0 3px;
+
+    color: #6e6470;
+
+    font-size: .57rem;
+
+    line-height: 1.1;
+  }
+
+
+  /* ======================================================= */
+  /* BUSCA                                                   */
+  /* ======================================================= */
+
+  .filtro-input-wrapper {
+    width: 100%;
+
+    height: 35px;
+
+    display: flex;
+
+    align-items: center;
+  }
+
+  .filtro-input-wrapper span {
+    font-size: .75rem;
+  }
+
+  .filtro-input-wrapper input {
+    width: 100%;
+
+    height: 35px;
+
+    min-height: 35px;
+
+    padding: 0 9px;
+
+    font-size: 13.5px;
+  }
+
+
+  /* ======================================================= */
+  /* TAG                                                     */
+  /* ======================================================= */
+
+  .filtro-tag-grupo input {
+    width: 100%;
+
+    height: 35px;
+
+    min-height: 35px;
+
+    padding: 0 9px;
+
+    font-size: 13.5px;
+  }
+
+
+  /* ======================================================= */
+  /* ORDENAÇÃO                                                */
+  /* ======================================================= */
+
+  .ordenacao-btn {
+    width: 100%;
+
+    height: 35px;
+
+    min-height: 35px;
+
+    padding: 0 9px;
+
+    font-size: .68rem;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+  }
+
+
+  /* ======================================================= */
+  /* LIMPAR FILTROS                                           */
+  /* ======================================================= */
+
+  .limpar-filtros-btn {
+    width: 100%;
+
+    flex: 0 0 100%;
+
+    height: 33px;
+
+    min-height: 33px;
+
+    margin: 0;
+
+    border-radius: 9px;
+
+    font-size: .68rem;
+  }
+
+
+  /* ======================================================= */
+  /* LISTA                                                    */
+  /* ======================================================= */
+
+  .pacientes-lista {
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-top: 3px;
+  }
+
+
+  /* ======================================================= */
+  /* CARD DO PACIENTE                                         */
+  /* ======================================================= */
+
+  .paciente-card {
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 9px;
+
+    display: grid;
+
+    grid-template-columns:
+      43px
+      minmax(0, 1fr);
+
+    grid-template-rows:
+      auto
+      auto;
+
+    column-gap: 8px;
+
+    row-gap: 6px;
+
+    align-items: start;
+
+    border-radius: 13px;
+
+    overflow: hidden;
+  }
+
+
+  /* ======================================================= */
+  /* FOTO                                                     */
+  /* ======================================================= */
+
+  .paciente-foto {
+    width: 43px;
+    height: 43px;
+
+    grid-column: 1;
+    grid-row: 1;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    font-size: .95rem;
+  }
+
+
+  /* ======================================================= */
+  /* INFORMAÇÕES                                              */
+  /* ======================================================= */
+
+  .paciente-info {
+    width: 100%;
+
+    min-width: 0;
+
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .paciente-nome-area {
+    width: 100%;
+
+    min-width: 0;
+
+    margin: 0;
+  }
+
+  .paciente-nome-area > div {
+    min-width: 0;
+  }
+
+  .paciente-info h2 {
+    width: 100%;
+
+    margin: 0 0 2px;
+
+    font-size: .9rem;
+
+    line-height: 1.15;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+  }
+
+  .paciente-tag {
+    font-size: .58rem;
+  }
+
+
+  /* ======================================================= */
+  /* DETALHES                                                 */
+  /* ======================================================= */
+
+  .paciente-detalhes {
+    width: 100%;
+
+    min-width: 0;
+
+    margin-top: 5px;
+  }
+
+  .paciente-detalhes p {
+    width: 100%;
+
+    margin: 0 0 3px;
+
+    font-size: .64rem;
+
+    line-height: 1.3;
+
+    overflow-wrap: anywhere;
+  }
+
+  .paciente-detalhes p:last-child {
+    margin-bottom: 0;
+  }
+
+  .paciente-detalhes p span {
+    font-weight: 600;
+  }
+
+
+  /* ======================================================= */
+  /* RESPONSÁVEL                                              */
+  /* ======================================================= */
+
+  .paciente-lateral {
+    width: 100%;
+
+    min-width: 0;
+
+    margin: 0;
+
+    padding: 6px 0 0;
+
+    grid-column: 1 / -1;
+    grid-row: 2;
+
+    border-left: none;
+
+    border-top:
+      1px solid
+      rgba(120, 80, 110, .12);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 1px;
+  }
+
+  .paciente-lateral-label {
+    font-size: .5rem;
+  }
+
+  .paciente-lateral strong {
+    max-width: 100%;
+
+    font-size: .65rem;
+
+    text-align: left;
+
+    overflow-wrap: anywhere;
+  }
+
+  .paciente-lateral-tag {
+    display: none;
+  }
+
+
+  /* ======================================================= */
+  /* SETA                                                     */
+  /* ======================================================= */
+
+  .paciente-seta {
+    display: none;
+  }
+
+
+  /* ======================================================= */
+  /* ESTADO VAZIO                                              */
+  /* ======================================================= */
+
+  .pacientes-vazio {
+    width: 100%;
+
+    padding: 19px 13px;
+
+    border-radius: 15px;
+
+    text-align: center;
+  }
+
+  .pacientes-vazio img {
+    width: 78px;
+
+    max-width: 45%;
+
+    height: auto;
+  }
+
+  .pacientes-vazio h2 {
+    margin: 9px 0 5px;
+
+    font-size: .98rem;
+  }
+
+  .pacientes-vazio p {
+    font-size: .68rem;
+
+    line-height: 1.35;
+  }
+
+  .pacientes-vazio button {
+    width: 100%;
+
+    min-height: 38px;
+
+    margin-top: 10px;
+  }
+
+  .sem-resultado-icon {
+    font-size: 1.45rem;
+  }
+
+
+  /* ======================================================= */
+  /* RODAPÉ                                                   */
+  /* ======================================================= */
+
+  .pacientes-footer {
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 0 2px;
+
+    font-size: .55rem;
+  }
+
+}
+
+
+/* ========================================================= */
+/* CELULAR PEQUENO - DASHBOARD                                */
 /* ========================================================= */
 
 @media (max-width: 380px) {
 
   .dashboard-container {
-    padding: 16px 13px;
+    padding:
+      12px
+      9px
+      70px;
   }
 
+  .dashboard-topo-esquerda {
+    top: 33px;
+    left: 9px;
+  }
+
+  .dashboard-voltar {
+    width: 35px;
+    height: 35px;
+
+    min-height: 35px;
+  }
+
+  .dashboard-voltar::before {
+    font-size: .95rem;
+  }
 
   .dashboard-logo {
-    width: 90px;
+    width: 92px;
+
+    top: 24px;
   }
 
+  .dashboard-conteudo {
+    margin-top: 84px;
+  }
 
   .dashboard-boas-vindas h1 {
     font-size: 2.2rem;
   }
-
 
   .dashboard-card {
     min-height: 100px;
 
     padding: 14px;
   }
-
 
   .dashboard-card-icone {
     width: 39px;
@@ -353,14 +1283,202 @@
     font-size: 1.1rem;
   }
 
-
   .dashboard-card-conteudo h2 {
     font-size: .98rem;
   }
 
-
   .dashboard-card-conteudo p {
     font-size: .63rem;
+  }
+
+  .sair-btn {
+    width: 62px;
+    height: 35px;
+
+    min-height: 35px;
+
+    margin-top: 14px;
+
+    font-size: .68rem;
+  }
+
+
+  /* ------------------------------------------------------- */
+  /* DECORAÇÕES PEQUENAS                                    */
+  /* ------------------------------------------------------- */
+
+  .decor-relogio {
+    width: 92px;
+
+    top: 78px;
+    left: -35px;
+  }
+
+  .decor-cartas {
+    width: 78px;
+
+    top: 104px;
+    right: -27px;
+  }
+
+  .decor-xicara {
+    width: 80px;
+
+    right: -25px;
+    bottom: 88px;
+  }
+
+  .decor-xadrez {
+    width: 70px;
+
+    left: -24px;
+    bottom: 23px;
+  }
+
+}
+
+
+/* ========================================================= */
+/* CELULAR PEQUENO - PACIENTES                                */
+/* ========================================================= */
+
+@media (max-width: 380px) {
+
+  .pacientes-container {
+    padding: 7px 9px 16px;
+  }
+
+  .pacientes-topo-esquerda {
+    top: 4px;
+    left: 0;
+  }
+
+  .pacientes-voltar {
+    width: 35px;
+    height: 35px;
+
+    min-height: 35px;
+  }
+
+  .pacientes-voltar::before {
+    font-size: .95rem;
+  }
+
+  .pacientes-marca {
+    gap: 8px;
+
+    padding: 5px 2px 0;
+  }
+
+  .pacientes-logo {
+    width: 72px;
+    height: 48px;
+  }
+
+  .pacientes-titulo h1 {
+    font-size: 1.8rem;
+  }
+
+  .pacientes-titulo p {
+    font-size: .63rem;
+  }
+
+  .pacientes-titulo span {
+    font-size: .55rem;
+  }
+
+  .pacientes-resumo {
+    gap: 6px;
+
+    margin-top: 7px;
+  }
+
+  .pacientes-resumo-card {
+    min-height: 49px;
+
+    height: 49px;
+
+    padding: 7px 9px;
+  }
+
+  .pacientes-resumo-card span {
+    font-size: .60rem;
+  }
+
+  .pacientes-resumo-card strong {
+    font-size: 1.08rem;
+  }
+
+  .pacientes-resumo-centro .novo-paciente-btn {
+    height: 37px;
+
+    min-height: 37px;
+
+    font-size: .68rem;
+  }
+
+  .pacientes-filtros {
+    margin-top: 3px;
+
+    padding: 8px;
+
+    gap: 6px;
+
+    border-radius: 13px;
+  }
+
+  .filtro-grupo label,
+  .filtro-tag-grupo label,
+  .ordenacao-wrapper label {
+    font-size: .53rem;
+  }
+
+  .filtro-input-wrapper,
+  .filtro-input-wrapper input,
+  .filtro-tag-grupo input,
+  .ordenacao-btn {
+    height: 33px;
+
+    min-height: 33px;
+  }
+
+  .limpar-filtros-btn {
+    height: 32px;
+
+    min-height: 32px;
+  }
+
+  .pacientes-lista {
+    margin-top: 3px;
+  }
+
+  .paciente-card {
+    padding: 9px;
+
+    grid-template-columns:
+      42px
+      minmax(0, 1fr);
+
+    column-gap: 8px;
+  }
+
+  .paciente-foto {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 10px;
+  }
+
+  .paciente-info h2 {
+    font-size: .86rem;
+  }
+
+  .paciente-detalhes p {
+    font-size: .6rem;
+  }
+
+  .paciente-lateral strong {
+    font-size: .62rem;
   }
 
 }

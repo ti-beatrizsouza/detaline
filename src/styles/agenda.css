@@ -4,16 +4,18 @@
 
 @font-face {
   font-family: "AliceWonderland";
-  src: url("../assets/fonts/Alice_in_Wonderland.ttf")
-    format("truetype");
+  src: url("../assets/fonts/Alice_in_Wonderland.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* ========================================================= */
-/* CONTAINER                                                 */
-/* ========================================================= */
+/* CONTAINER */
 
 .agenda-container {
   width: 100%;
@@ -25,26 +27,11 @@
   flex-direction: column;
   position: relative;
   overflow: hidden;
-
   background:
-    radial-gradient(
-      circle at 92% 0%,
-      rgba(255,255,255,.18),
-      transparent 25%
-    ),
-    radial-gradient(
-      circle at 0% 100%,
-      rgba(255,255,255,.08),
-      transparent 28%
-    ),
-    linear-gradient(
-      135deg,
-      #ad0082 0%,
-      #b00083 48%,
-      #df58c0 100%
-    );
+    radial-gradient(circle at 92% 0%, rgba(255,255,255,.18), transparent 25%),
+    radial-gradient(circle at 0% 100%, rgba(255,255,255,.08), transparent 28%),
+    linear-gradient(135deg, #ad0082 0%, #b00083 48%, #df58c0 100%);
 }
-
 
 .agenda-container::before {
   content: "";
@@ -59,7 +46,6 @@
   z-index: 0;
 }
 
-
 .agenda-container::after {
   content: "";
   position: absolute;
@@ -73,10 +59,7 @@
   z-index: 0;
 }
 
-
-/* ========================================================= */
-/* TOPO                                                      */
-/* ========================================================= */
+/* TOPO */
 
 .agenda-topo {
   width: 100%;
@@ -91,14 +74,12 @@
   z-index: 20;
 }
 
-
 .agenda-topo-esquerda {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 9px;
 }
-
 
 .agenda-voltar {
   height: 42px;
@@ -116,16 +97,10 @@
   transition: background .18s ease, transform .18s ease;
 }
 
-
 .agenda-voltar:hover {
   background: #fff7fc;
   transform: translateY(-1px);
 }
-
-
-/* ========================================================= */
-/* CENTRO                                                     */
-/* ========================================================= */
 
 .agenda-topo-centro {
   display: flex;
@@ -134,10 +109,7 @@
   gap: 8px;
 }
 
-
-/* ========================================================= */
-/* NAVEGAÇÃO                                                  */
-/* ========================================================= */
+/* NAVEGAÇÃO */
 
 .agenda-navegacao {
   display: flex;
@@ -151,7 +123,6 @@
   border-radius: 14px;
   box-shadow: 0 5px 18px rgba(70,0,55,.10);
 }
-
 
 .agenda-navegacao > button {
   height: 39px;
@@ -168,16 +139,12 @@
   transition: background .15s ease, transform .15s ease;
 }
 
-
 .agenda-navegacao > button:hover {
   background: #fff7fc;
   transform: translateY(-1px);
 }
 
-
-/* ========================================================= */
-/* DATA                                                      */
-/* ========================================================= */
+/* PESQUISA DE DATA */
 
 .pesquisar-data-topo {
   height: 39px;
@@ -185,7 +152,6 @@
   align-items: center;
   gap: 3px;
 }
-
 
 .pesquisar-data-topo input {
   width: 116px;
@@ -201,12 +167,10 @@
   outline: none;
 }
 
-
 .pesquisar-data-topo input:focus {
   border-color: #b00083;
   box-shadow: 0 0 0 2px rgba(176,0,131,.10);
 }
-
 
 .pesquisar-data-topo button {
   width: 37px;
@@ -224,16 +188,12 @@
   transition: background .18s ease, transform .18s ease;
 }
 
-
 .pesquisar-data-topo button:hover {
   background: #dd3ab5;
   transform: translateY(-1px);
 }
 
-
-/* ========================================================= */
-/* NOVO AGENDAMENTO NO TOPO                                  */
-/* ========================================================= */
+/* NOVO AGENDAMENTO NO TOPO */
 
 .novo-agendamento-topo-btn {
   height: 42px;
@@ -251,16 +211,12 @@
   transition: background .18s ease, transform .18s ease;
 }
 
-
 .novo-agendamento-topo-btn:hover {
   background: #dd3ab5;
   transform: translateY(-1px);
 }
 
-
-/* ========================================================= */
-/* MARCA                                                      */
-/* ========================================================= */
+/* MARCA */
 
 .agenda-topo-marca {
   display: flex;
@@ -269,13 +225,11 @@
   gap: 10px;
 }
 
-
 .agenda-titulo {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
-
 
 .agenda-titulo span {
   color: rgba(255,255,255,.62);
@@ -284,7 +238,6 @@
   font-weight: 800;
   letter-spacing: .17em;
 }
-
 
 .agenda-titulo h1 {
   margin: 1px 0 0;
@@ -295,7 +248,6 @@
   line-height: .9;
 }
 
-
 .agenda-logo-cantinho {
   width: 82px;
   height: 57px;
@@ -303,10 +255,7 @@
   filter: drop-shadow(0 5px 12px rgba(50,0,40,.18));
 }
 
-
-/* ========================================================= */
-/* ÁREA                                                       */
-/* ========================================================= */
+/* ÁREA E SCROLL */
 
 .agenda-area {
   width: 100%;
@@ -315,11 +264,6 @@
   position: relative;
   z-index: 2;
 }
-
-
-/* ========================================================= */
-/* SCROLL                                                     */
-/* ========================================================= */
 
 .agenda-scroll {
   width: 100%;
@@ -332,27 +276,21 @@
   scrollbar-color: #a9007d #e8e1e6;
 }
 
-
 .agenda-scroll::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 
-
 .agenda-scroll::-webkit-scrollbar-track {
   background: #e8e1e6;
 }
-
 
 .agenda-scroll::-webkit-scrollbar-thumb {
   background: #a9007d;
   border-radius: 10px;
 }
 
-
-/* ========================================================= */
-/* GRID                                                       */
-/* ========================================================= */
+/* GRID */
 
 .agenda-grid {
   position: relative;
@@ -368,10 +306,7 @@
   background: #ffffff;
 }
 
-
-/* ========================================================= */
-/* MARCA D'ÁGUA                                               */
-/* ========================================================= */
+/* MARCA D'ÁGUA */
 
 .agenda-marca-agua {
   position: absolute;
@@ -379,20 +314,13 @@
   left: 74px;
   right: 0;
   bottom: 84px;
-  background:
-    url("../assets/logor.png")
-    center center
-    / 480px auto
-    no-repeat;
+  background: url("../assets/logor.png") center center / 480px auto no-repeat;
   opacity: .085;
   pointer-events: none;
   z-index: 1;
 }
 
-
-/* ========================================================= */
-/* CABEÇALHO                                                  */
-/* ========================================================= */
+/* CABEÇALHO DOS DIAS */
 
 .agenda-header {
   min-height: 50px;
@@ -415,14 +343,12 @@
   z-index: 3;
 }
 
-
 .agenda-dia-semana {
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-size: .8rem;
   font-weight: 600;
   line-height: 1.1;
 }
-
 
 .agenda-data {
   display: block;
@@ -434,10 +360,7 @@
   line-height: 1;
 }
 
-
-/* ========================================================= */
-/* HORÁRIOS                                                   */
-/* ========================================================= */
+/* HORÁRIOS */
 
 .hora-cell {
   display: flex;
@@ -452,13 +375,11 @@
   z-index: 3;
 }
 
-
 .hora-inteira {
   background: #ffffff;
   border-right: 1px solid #d8d2d7;
   border-bottom: 1px solid #d8d2d7;
 }
-
 
 .hora-meia {
   background: #f3f0f3;
@@ -466,10 +387,7 @@
   border-bottom: 1px solid #d8d2d7;
 }
 
-
-/* ========================================================= */
-/* SLOTS                                                      */
-/* ========================================================= */
+/* SLOTS */
 
 .agenda-slot {
   min-width: 0;
@@ -484,44 +402,35 @@
   transition: background .12s ease;
 }
 
-
 .agenda-slot.linha-inteira {
   background: rgba(255,255,255,.90);
   border-bottom: 1px solid #d8d2d7;
 }
-
 
 .agenda-slot.linha-meia {
   background: rgba(230,227,230,.94);
   border-bottom: 1px solid #d8d2d7;
 }
 
-
 .agenda-slot:hover {
   background: rgba(249,232,246,.78);
 }
-
 
 .agenda-slot.slot-passado.linha-inteira {
   background: rgba(228,224,228,.94) !important;
   border-bottom: 1px solid #ccc5cb;
 }
 
-
 .agenda-slot.slot-passado.linha-meia {
   background: rgba(219,217,219,.94) !important;
   border-bottom: 1px solid #d2cbd1;
 }
 
-
 .agenda-slot.slot-atual {
   background: rgba(255,248,253,.95);
 }
 
-
-/* ========================================================= */
-/* SLOT VAZIO                                                 */
-/* ========================================================= */
+/* SLOT VAZIO */
 
 .slot-vazio {
   width: 100%;
@@ -540,16 +449,12 @@
   transition: background .12s ease, color .12s ease;
 }
 
-
 .slot-vazio:hover {
   color: #a9007d;
   background: rgba(169,0,125,.045);
 }
 
-
-/* ========================================================= */
-/* CONSULTA                                                   */
-/* ========================================================= */
+/* CONSULTA */
 
 .consulta-btn {
   width: 100%;
@@ -571,11 +476,9 @@
   transition: filter .12s ease;
 }
 
-
 .consulta-btn:hover {
   filter: brightness(.96);
 }
-
 
 .consulta-info {
   width: 100%;
@@ -588,7 +491,6 @@
   overflow: hidden;
 }
 
-
 .consulta-info span {
   display: block;
   color: #ffffff;
@@ -598,93 +500,76 @@
   text-overflow: ellipsis;
 }
 
-
 .consulta-tag {
   flex: 0 0 auto;
   width: auto !important;
-  color: rgba(248,231,244,.9) !important;
+  color: rgba(2, 2, 2, 0.9) !important;
   font-size: .7rem;
-  font-weight: 400;
+  font-weight: 800;
 }
-
 
 .consulta-nome {
   min-width: 0;
   flex: 1 1 auto;
-  color: #ffffff !important;
+  color: #080808 !important;
   font-size: .72rem;
-  font-weight: 400;
+  font-weight: 800;
   text-align: left;
 }
 
-
-/* ========================================================= */
-/* CORES                                                      */
-/* ========================================================= */
+/* CORES DOS STATUS */
 
 .cinza .consulta-btn,
 .btn-agendado {
   background: #b6b6bd !important;
 }
 
-
 .azul .consulta-btn,
 .btn-confirmado {
   background: #91b5f0 !important;
 }
-
 
 .verde .consulta-btn,
 .btn-pago {
   background: #82cea0 !important;
 }
 
-
 .rosa .consulta-btn,
 .btn-debito {
   background: #eb9bc0 !important;
 }
-
 
 .amarelo .consulta-btn,
 .btn-faltou {
   background: #efd16d !important;
 }
 
-
 .cinza .consulta-btn:hover,
 .btn-agendado:hover {
   background: #a8a8b0 !important;
 }
-
 
 .azul .consulta-btn:hover,
 .btn-confirmado:hover {
   background: #7fa8eb !important;
 }
 
-
 .verde .consulta-btn:hover,
 .btn-pago:hover {
   background: #6fc28f !important;
 }
-
 
 .rosa .consulta-btn:hover,
 .btn-debito:hover {
   background: #e38aad !important;
 }
 
-
 .amarelo .consulta-btn:hover,
 .btn-faltou:hover {
   background: #e6c85b !important;
 }
 
-
-/* ========================================================= */
-/* GANHO                                                       */
-/* ========================================================= */
+/* GANHO */
 
 .ganho-label {
   display: flex;
@@ -699,7 +584,6 @@
   border-right: 1px solid #d6cfd4;
 }
 
-
 .ganho-cell {
   display: flex;
   align-items: center;
@@ -713,7 +597,6 @@
   border-right: 1px solid #e0d9df;
 }
 
-
 .ganho-semana {
   display: flex;
   align-items: center;
@@ -726,10 +609,7 @@
   border-top: 2px solid #870063;
 }
 
-
-/* ========================================================= */
-/* FUNDO DOS MODAIS                                           */
-/* ========================================================= */
+/* FUNDO DOS MODAIS */
 
 .modal-bg {
   position: fixed;
@@ -744,10 +624,7 @@
   backdrop-filter: blur(5px);
 }
 
-
-/* ========================================================= */
-/* MODAL BASE                                                  */
-/* ========================================================= */
+/* MODAL BASE */
 
 .modal-box {
   width: 500px;
@@ -760,33 +637,21 @@
   box-shadow: 0 25px 70px rgba(30,0,25,.28);
 }
 
-
-/* ========================================================= */
-/* NOVO AGENDAMENTO - MODAL                                   */
-/* ========================================================= */
+/* NOVO AGENDAMENTO */
 
 .novo-agendamento-modal {
-  width: min(900px, calc(100vw - 40px));
-  height: min(690px, calc(100vh - 40px));
-  max-height: calc(100vh - 40px);
-
+  width: min(1120px, calc(100vw - 28px));
+  height: min(720px, calc(100vh - 28px));
+  max-height: calc(100vh - 28px);
   display: flex;
   flex-direction: column;
-
   overflow: hidden;
-
-  padding: 25px 28px 24px;
+  padding: 24px 26px 22px;
 }
-
-
-/* ========================================================= */
-/* TÍTULO                                                       */
-/* ========================================================= */
 
 .novo-agendamento-cabecalho {
   flex-shrink: 0;
 }
-
 
 .novo-agendamento-modal h2 {
   margin: 0 0 8px;
@@ -797,13 +662,11 @@
   line-height: 1;
 }
 
-
 .novo-agendamento-info {
   display: flex;
   gap: 18px;
   margin-bottom: 14px;
 }
-
 
 .novo-agendamento-info p {
   margin: 0;
@@ -812,48 +675,96 @@
   font-size: .825rem;
 }
 
-
 .novo-agendamento-info p span {
   margin-left: 5px;
 }
 
-
-/* ========================================================= */
-/* DUAS COLUNAS                                                */
-/* ========================================================= */
+/* TRÊS COLUNAS */
 
 .novo-agendamento-colunas {
   flex: 1;
   min-height: 0;
-
   display: grid;
-  grid-template-columns: minmax(280px, .82fr) minmax(350px, 1.18fr);
-
-  gap: 18px;
-
+  grid-template-columns: minmax(220px, .9fr) minmax(320px, 1.25fr) minmax(220px, .9fr);
+  gap: 0;
   overflow: hidden;
 }
 
-
-/* ========================================================= */
-/* ESQUERDA                                                    */
-/* ========================================================= */
-
-.novo-agendamento-esquerda {
+.novo-agendamento-consulta {
   min-width: 0;
   min-height: 0;
-
   display: flex;
   flex-direction: column;
-
-  padding-right: 3px;
+  padding-right: 18px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #d5b3cd transparent;
 }
 
+.novo-agendamento-consulta::-webkit-scrollbar,
+.novo-agendamento-reagendamento::-webkit-scrollbar {
+  width: 5px;
+}
+
+.novo-agendamento-consulta::-webkit-scrollbar-track,
+.novo-agendamento-reagendamento::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.novo-agendamento-consulta::-webkit-scrollbar-thumb,
+.novo-agendamento-reagendamento::-webkit-scrollbar-thumb {
+  background: #d5b3cd;
+  border-radius: 10px;
+}
+
+.novo-agendamento-paciente {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0 18px;
+  box-sizing: border-box;
+  border-left: 1px solid #eee4eb;
+  border-right: 1px solid #eee4eb;
+  overflow: hidden;
+}
+
+.novo-agendamento-reagendamento {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-left: 18px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #d5b3cd transparent;
+}
+
+/* TÍTULOS DAS COLUNAS */
+
+.novo-agendamento-coluna-titulo {
+  flex-shrink: 0;
+  margin: 2px 0 12px;
+  color: #8f006c;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+
+/* SEÇÕES */
 
 .novo-agendamento-secao {
   flex-shrink: 0;
 }
 
+.novo-agendamento-consulta .novo-agendamento-secao + .novo-agendamento-secao {
+  margin-top: 2px;
+}
 
 .novo-agendamento-label {
   display: block;
@@ -863,7 +774,6 @@
   font-size: .737rem;
   font-weight: 600;
 }
-
 
 .valor-input {
   width: 100%;
@@ -879,17 +789,80 @@
   outline: none;
 }
 
-
 .valor-input:focus {
   background: #ffffff;
   border-color: #b00083;
   box-shadow: 0 0 0 2px rgba(169,0,125,.10);
 }
 
+/* STATUS */
 
-/* ========================================================= */
-/* ÚLTIMO PACIENTE                                             */
-/* ========================================================= */
+.novo-agendamento-status-box {
+  margin-top: 9px;
+  padding: 11px 12px 12px;
+  border-radius: 13px;
+  background: #faf5f9;
+  border: 1px solid #eadfe7;
+}
+
+.novo-agendamento-status-box .novo-agendamento-label {
+  margin-top: 0;
+}
+
+/* PAGAMENTO DO NOVO AGENDAMENTO */
+
+.novo-agendamento-pagamento {
+  margin-top: 9px;
+  padding: 12px;
+  border-radius: 13px;
+  background: #f8f3f7;
+  border: 1px solid #e4dce3;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.novo-agendamento-pagamento-titulo {
+  margin-bottom: 2px;
+  color: #a9007d;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.novo-agendamento-pagamento label {
+  color: #665b63;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .66rem;
+  font-weight: 600;
+}
+
+.novo-agendamento-pagamento select,
+.novo-agendamento-pagamento input {
+  width: 100%;
+  height: 38px;
+  padding: 0 9px;
+  box-sizing: border-box;
+  border: 1px solid #e4dce2;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #51454e;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .72rem;
+  outline: none;
+}
+
+.novo-agendamento-pagamento select:focus,
+.novo-agendamento-pagamento input:focus {
+  border-color: #b00083;
+  box-shadow: 0 0 0 2px rgba(176,0,131,.08);
+}
+
+.novo-agendamento-pagamento + .ultimo-paciente-box {
+  margin-top: 9px;
+}
+
+/* ÚLTIMO PACIENTE */
 
 .ultimo-paciente-box {
   margin-top: 13px;
@@ -899,7 +872,6 @@
   border: 1px solid #ead7e6;
 }
 
-
 .ultimo-paciente-titulo {
   margin-bottom: 8px;
   color: #8f006c;
@@ -908,35 +880,22 @@
   font-weight: 700;
 }
 
-
 .ultimo-paciente-btn {
   width: 100%;
   min-height: 42px;
-
   padding: 8px 9px;
-
   display: flex;
   align-items: center;
-
   gap: 7px;
-
   border: 1px solid #e7cfe2;
   border-radius: 9px;
-
   background: #ffffff;
   color: #a9007d;
-
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   text-align: left;
-
   cursor: pointer;
-
-  transition:
-    background .15s ease,
-    border-color .15s ease,
-    transform .15s ease;
+  transition: background .15s ease, border-color .15s ease, transform .15s ease;
 }
-
 
 .ultimo-paciente-btn:hover {
   background: #fff7fc;
@@ -944,20 +903,17 @@
   transform: translateY(-1px);
 }
 
-
 .ultimo-paciente-btn.ativo {
   background: #b00083;
   border-color: #b00083;
   color: #ffffff;
 }
 
-
 .ultimo-paciente-tag {
   flex-shrink: 0;
   font-size: .66rem;
   font-weight: 800;
 }
-
 
 .ultimo-paciente-nome {
   min-width: 0;
@@ -969,13 +925,11 @@
   font-weight: 500;
 }
 
-
 .ultimo-paciente-acao {
   flex-shrink: 0;
   font-size: .61rem;
   opacity: .65;
 }
-
 
 .ultimo-paciente-vazio {
   padding: 9px;
@@ -987,153 +941,56 @@
   text-align: center;
 }
 
-
-/* ========================================================= */
-/* PACIENTE SELECIONADO                                       */
-/* ========================================================= */
+/* PACIENTE SELECIONADO */
 
 .paciente-escolhido-box {
-  margin-top: 11px;
+  margin-top: 9px;
+  flex-shrink: 0;
 }
-
 
 .paciente-escolhido {
   min-height: 40px;
   padding: 8px 11px;
-
   display: flex;
   align-items: center;
   gap: 7px;
-
   box-sizing: border-box;
-
   border-radius: 10px;
   background: #f6eaf4;
-
   color: #a9007d;
-
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-size: .75rem;
 }
-
 
 .paciente-escolhido-tag {
   font-weight: 800;
 }
 
-
 .paciente-escolhido-vazio {
   min-height: 40px;
   padding: 10px;
-
   display: flex;
   align-items: center;
-
   box-sizing: border-box;
-
   border-radius: 10px;
   background: #f7f3f7;
-
   color: #9b9098;
-
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-size: .7rem;
 }
 
-
-/* ========================================================= */
-/* REAGENDAMENTO                                               */
-/* ========================================================= */
-
-.reagendamento-box {
-  margin-top: auto;
-  padding: 12px;
-
-  border-radius: 13px;
-
-  background: #faf5f9;
-  border: 1px solid #eadfe7;
-}
-
-
-.reagendamento-titulo {
-  color: #8f006c;
-  font-family: "Poppins", Arial, Helvetica, sans-serif;
-  font-size: .75rem;
-  font-weight: 700;
-}
-
-
-.reagendamento-descricao {
-  margin: 3px 0 8px;
-
-  color: #91858d;
-
-  font-family: "Poppins", Arial, Helvetica, sans-serif;
-  font-size: .64rem;
-}
-
-
-.reagendamento-preview {
-  margin-top: 8px;
-  padding: 8px 9px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-
-  border-radius: 8px;
-
-  background: #f2e2ef;
-}
-
-
-.reagendamento-preview span {
-  color: #8c7b86;
-  font-family: "Poppins", Arial, Helvetica, sans-serif;
-  font-size: .61rem;
-}
-
-
-.reagendamento-preview strong {
-  color: #a9007d;
-  font-family: "Poppins", Arial, Helvetica, sans-serif;
-  font-size: .7rem;
-  font-weight: 600;
-}
-
-
-/* ========================================================= */
-/* DIREITA                                                     */
-/* ========================================================= */
-
-.novo-agendamento-direita {
-  min-width: 0;
-  min-height: 0;
-
-  display: flex;
-  flex-direction: column;
-
-  padding-left: 18px;
-
-  border-left: 1px solid #eee4eb;
-}
-
+/* TÍTULO DA LISTA */
 
 .lista-pacientes-titulo {
+  display: none;
   margin: 4px 0 8px;
-
   color: #746871;
-
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-size: .77rem;
   font-weight: 600;
 }
 
-
-/* ========================================================= */
-/* FILTROS                                                     */
-/* ========================================================= */
+/* FILTROS */
 
 .filtros-pacientes-agendamento {
   display: grid;
@@ -1142,7 +999,6 @@
   margin-top: 7px;
   flex-shrink: 0;
 }
-
 
 .filtros-pacientes-agendamento select {
   width: 100%;
@@ -1159,92 +1015,65 @@
   cursor: pointer;
 }
 
-
 .filtros-pacientes-agendamento select:focus {
   border-color: #b00083;
   box-shadow: 0 0 0 2px rgba(176,0,131,.08);
 }
 
-
-/* ========================================================= */
-/* LISTA                                                       */
-/* ========================================================= */
+/* LISTA DE PACIENTES */
 
 .lista-pacientes-agendamento {
   flex: 1;
   min-height: 0;
-
   overflow-y: auto;
   overflow-x: hidden;
-
-  margin-top: 7px;
-
+  margin-top: 9px;
   padding: 2px 5px 3px 0;
 }
-
 
 .lista-pacientes-agendamento::-webkit-scrollbar {
   width: 6px;
 }
-
 
 .lista-pacientes-agendamento::-webkit-scrollbar-track {
   background: #eee5eb;
   border-radius: 10px;
 }
 
-
 .lista-pacientes-agendamento::-webkit-scrollbar-thumb {
   background: #b00083;
   border-radius: 10px;
 }
 
-
-/* ========================================================= */
-/* PACIENTE                                                    */
-/* ========================================================= */
-
 .paciente-agendamento-btn {
   width: 100%;
   min-height: 39px;
-
   margin-bottom: 6px;
   padding: 0 12px;
-
   border: none;
   border-radius: 9px;
-
   background: #f5e9f3;
   color: #a9007d;
-
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-size: .748rem;
   font-weight: 400;
-
   text-align: left;
   cursor: pointer;
-
   display: flex;
   align-items: center;
   gap: 8px;
-
-  transition:
-    background .14s ease,
-    transform .14s ease;
+  transition: background .14s ease, transform .14s ease;
 }
-
 
 .paciente-agendamento-btn:hover {
   background: #eedced;
   transform: translateX(1px);
 }
 
-
 .paciente-agendamento-btn.paciente-selecionado {
   background: #b00083;
   color: #ffffff;
 }
-
 
 .paciente-tag-lista {
   flex: 0 0 auto;
@@ -1254,12 +1083,9 @@
   font-weight: 800;
 }
 
-
-.paciente-agendamento-btn.paciente-selecionado
-.paciente-tag-lista {
+.paciente-agendamento-btn.paciente-selecionado .paciente-tag-lista {
   color: #ffffff;
 }
-
 
 .paciente-nome-lista {
   min-width: 0;
@@ -1269,11 +1095,6 @@
   font-weight: 400;
 }
 
-
-/* ========================================================= */
-/* NENHUM PACIENTE                                            */
-/* ========================================================= */
-
 .nenhum-paciente {
   padding: 18px;
   text-align: center;
@@ -1282,92 +1103,181 @@
   font-size: .781rem;
 }
 
-
-/* ========================================================= */
-/* CADASTRAR                                                   */
-/* ========================================================= */
+/* CADASTRAR PACIENTE */
 
 .cadastrar-paciente-agendamento {
   flex-shrink: 0;
-
   width: 100%;
   height: 39px;
-
   margin-top: 8px;
-
   border: 2px dashed #c40091;
   border-radius: 10px;
-
   background: #ffffff;
   color: #b00083;
-
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-size: .77rem;
   font-weight: 600;
-
   cursor: pointer;
 }
-
 
 .cadastrar-paciente-agendamento:hover {
   background: #fff5fc;
 }
 
+/* REAGENDAMENTO */
 
-/* ========================================================= */
-/* BOTÕES                                                       */
-/* ========================================================= */
+.reagendamento-box {
+  margin-top: 0;
+  padding: 14px;
+  border-radius: 13px;
+  background: #faf5f9;
+  border: 1px solid #eadfe7;
+}
+
+.reagendamento-titulo {
+  color: #8f006c;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.reagendamento-descricao {
+  margin: 3px 0 8px;
+  color: #91858d;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .64rem;
+}
+
+.reagendamento-personalizado {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.reagendamento-personalizado input,
+.reagendamento-personalizado select {
+  width: 100%;
+  height: 38px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  border: 1px solid #e4dce2;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #51454e;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .72rem;
+  outline: none;
+}
+
+.reagendamento-personalizado input:focus,
+.reagendamento-personalizado select:focus {
+  border-color: #b00083;
+  box-shadow: 0 0 0 2px rgba(176,0,131,.08);
+}
+
+.reagendamento-ate {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eadfe7;
+}
+
+.reagendamento-ate label {
+  display: block;
+  margin-bottom: 5px;
+  color: #746871;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .68rem;
+  font-weight: 600;
+}
+
+.reagendamento-ate input {
+  width: 100%;
+  height: 38px;
+  padding: 0 9px;
+  box-sizing: border-box;
+  border: 1px solid #e4dce2;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #51454e;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .72rem;
+  outline: none;
+}
+
+.reagendamento-ate input:focus {
+  border-color: #b00083;
+  box-shadow: 0 0 0 2px rgba(176,0,131,.08);
+}
+
+.reagendamento-preview {
+  margin-top: 8px;
+  padding: 8px 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 8px;
+  background: #f2e2ef;
+}
+
+.reagendamento-preview span {
+  color: #8c7b86;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .61rem;
+}
+
+.reagendamento-preview strong {
+  color: #a9007d;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .7rem;
+  font-weight: 600;
+}
+
+.reagendamento-preview small {
+  color: #9a8593;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .6rem;
+  font-weight: 500;
+}
+
+/* BOTÕES DO NOVO AGENDAMENTO */
 
 .novo-agendamento-botoes {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 9px;
-
   margin-top: 12px;
-
   flex-shrink: 0;
 }
 
-
 .novo-agendamento-botoes button {
   height: 44px;
-
   border: none;
   border-radius: 11px;
-
   color: #ffffff;
-
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-size: .803rem;
   font-weight: 700;
-
   cursor: pointer;
 }
-
 
 .novo-agendar-btn {
   background: #ce019b;
 }
 
-
 .novo-agendar-btn:hover {
   background: #8f006b;
 }
-
 
 .fechar-modal-btn {
   background: #454545 !important;
 }
 
-
 .fechar-modal-btn:hover {
   background: #303030 !important;
 }
 
-
-/* ========================================================= */
-/* MODAL DE PACIENTE                                           */
-/* ========================================================= */
+/* MODAL DE PACIENTE */
 
 .modal-paciente-cabecalho h2 {
   margin: 0 0 8px;
@@ -1377,13 +1287,11 @@
   font-weight: normal;
 }
 
-
 .modal-paciente-nome-linha {
   display: flex;
   align-items: center;
   gap: 15px;
 }
-
 
 .modal-paciente-cabecalho h3 {
   margin: 0;
@@ -1394,14 +1302,12 @@
   line-height: 1.25;
 }
 
-
 .modal-paciente-tag-linha {
   display: flex;
   align-items: center;
   margin-top: 5px;
   margin-bottom: 3px;
 }
-
 
 .modal-paciente-tag {
   color: #b00083;
@@ -1410,10 +1316,7 @@
   font-weight: 800;
 }
 
-
-/* ========================================================= */
-/* TELEFONES                                                   */
-/* ========================================================= */
+/* TELEFONES */
 
 .modal-telefones {
   display: grid;
@@ -1425,13 +1328,11 @@
   border-top: 1px solid #eee5eb;
 }
 
-
 .modal-telefone-item {
   display: flex;
   flex-direction: column;
   gap: 3px;
 }
-
 
 .modal-telefone-label {
   color: #82767e;
@@ -1440,7 +1341,6 @@
   font-weight: 700;
 }
 
-
 .modal-telefone-valor {
   color: #a9007d;
   font-family: "Poppins", Arial, Helvetica, sans-serif;
@@ -1448,46 +1348,160 @@
   font-weight: 600;
 }
 
+/* INFORMAÇÕES DA CONSULTA */
 
-/* ========================================================= */
-/* INFO MODAL                                                  */
-/* ========================================================= */
-
-.modal-consulta-info {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin: 14px 0;
+.modal-consulta-info-area {
+  width: 100%;
+  margin: 0;
 }
 
+.modal-consulta-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0 0 16px;
+}
 
 .modal-consulta-info p {
+  width: 100%;
+  min-height: 32px;
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   color: #51474e;
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-size: .858rem;
 }
 
-
 .modal-info-icone {
-  width: 18px;
+  flex: 0 0 20px;
+  width: 20px;
   display: inline-flex;
+  align-items: center;
   justify-content: center;
+  line-height: 1;
 }
 
+/* BOTÕES EDITÁVEIS DE DATA E HORA */
 
-/* ========================================================= */
-/* OBSERVAÇÃO                                                  */
-/* ========================================================= */
+.modal-info-editavel {
+  width: auto;
+  min-height: 32px;
+  padding: 5px 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #eadfe7 !important;
+  border-radius: 8px !important;
+  background: #f8f3f7 !important;
+  color: #51474e !important;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .78rem;
+  font-weight: 500;
+  line-height: 1.2;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.modal-info-editavel:hover {
+  background: #f3eaf1 !important;
+  border-color: #d9c5d5 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.modal-info-editavel:disabled {
+  opacity: .7;
+  cursor: default;
+}
+
+.modal-info-editavel strong {
+  color: #51474e;
+  font-weight: 700;
+}
+
+.modal-info-editavel span {
+  color: #51474e;
+  font-weight: 500;
+}
+
+.modal-data-input {
+  width: auto;
+  min-width: 145px;
+  height: 34px;
+  padding: 0 8px;
+  border: 1px solid #e4dce2;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #51474e;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .76rem;
+  outline: none;
+  box-shadow: none;
+}
+
+.modal-hora-select {
+  width: 100px;
+  height: 34px;
+  padding: 0 8px;
+  border: 1px solid #e4dce2;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #51474e;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .76rem;
+  outline: none;
+  box-shadow: none;
+}
+
+.modal-data-input:focus,
+.modal-hora-select:focus {
+  border-color: #b00083;
+  box-shadow: 0 0 0 2px rgba(176,0,131,.08);
+}
+
+/* PRÓXIMA CONSULTA */
+
+.modal-proxima-consulta {
+  width: 100%;
+  margin: 2px 0 16px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: #faf5f9;
+  border: 1px solid #eadfe7;
+}
+
+.modal-proxima-label {
+  display: block;
+  color: #777078;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.modal-proxima-consulta strong {
+  display: block;
+  color: #51474e;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* OBSERVAÇÕES */
 
 .modal-observacao {
   margin-top: 0;
   margin-bottom: 16px;
 }
-
 
 .modal-observacao label {
   display: block;
@@ -1498,16 +1512,12 @@
   font-weight: 600;
 }
 
-
 .modal-observacao .valor-input {
   min-height: 82px;
   resize: vertical;
 }
 
-
-/* ========================================================= */
-/* BOTÕES MODAL                                                */
-/* ========================================================= */
+/* BOTÕES DO MODAL */
 
 .modal-botoes {
   display: grid;
@@ -1515,9 +1525,9 @@
   gap: 9px;
 }
 
-
 .modal-botoes button {
-  height: 44px;
+  min-height: 44px;
+  padding: 8px 10px;
   border: none;
   border-radius: 11px;
   color: #ffffff;
@@ -1527,85 +1537,128 @@
   cursor: pointer;
 }
 
-
 .btn-perfil {
   background: #b00083 !important;
 }
-
 
 .btn-confirmado {
   background: #91b5f0 !important;
 }
 
-
 .btn-pago {
   background: #82cea0 !important;
 }
-
 
 .btn-debito {
   background: #eb9bc0 !important;
 }
 
-
 .btn-faltou {
   background: #efd16d !important;
 }
-
 
 .btn-agendado {
   background: #b6b6bd !important;
 }
 
-
 .remover-valor-btn {
   background: #d58294 !important;
 }
-
 
 .remover-btn {
   background: #df4058 !important;
 }
 
-
 .btn-confirmado:hover {
   background: #7fa8eb !important;
 }
-
 
 .btn-pago:hover {
   background: #6fc28f !important;
 }
 
-
 .btn-debito:hover {
   background: #e38aad !important;
 }
-
 
 .btn-faltou:hover {
   background: #e6c85b !important;
 }
 
-
 .btn-agendado:hover {
   background: #a8a8b0 !important;
 }
-
 
 .remover-valor-btn:hover {
   background: #c87487 !important;
 }
 
-
 .remover-btn:hover {
   background: #d9344d !important;
 }
 
+/* EXCLUSÃO DE AGENDAMENTOS FUTUROS */
 
-/* ========================================================= */
-/* PAGAMENTO                                                  */
-/* ========================================================= */
+.excluir-futuros-box {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.remover-futuros-btn {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 12px;
+  background: #a9007d !important;
+  color: #ffffff;
+  border-radius: 10px;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+.confirmar-exclusao-futuros {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff3f5;
+  border: 1px solid #f0cbd4;
+}
+
+.confirmar-exclusao-futuros > span {
+  color: #70424c;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .76rem;
+  line-height: 1.4;
+}
+
+.confirmar-exclusao-futuros > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.confirmar-remover-futuros-btn,
+.cancelar-remover-futuros-btn {
+  min-height: 38px;
+  padding: 7px 10px;
+  border-radius: 9px;
+  color: #ffffff;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: .72rem;
+  font-weight: 700;
+}
+
+.confirmar-remover-futuros-btn {
+  background: #d9344d !important;
+}
+
+.cancelar-remover-futuros-btn {
+  background: #777078 !important;
+}
+
+/* PAGAMENTO */
 
 .pagamento-layout {
   display: flex;
@@ -1614,11 +1667,9 @@
   gap: 12px;
 }
 
-
 .pagamento-layout .modal-box-principal {
   flex: 0 1 500px;
 }
-
 
 .pagamento-box {
   width: 230px;
@@ -1633,7 +1684,6 @@
   gap: 10px;
 }
 
-
 .pagamento-box h3 {
   margin: 0;
   color: #a9007d;
@@ -1641,14 +1691,12 @@
   font-size: 1.1rem;
 }
 
-
 .pagamento-box label {
   color: #665b63;
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   font-size: .748rem;
   font-weight: 700;
 }
-
 
 .pagamento-box select,
 .pagamento-box input {
@@ -1662,7 +1710,6 @@
   font-family: "Poppins", Arial, Helvetica, sans-serif;
 }
 
-
 .enviar-valor-btn {
   height: 43px;
   border: none;
@@ -1674,11 +1721,9 @@
   cursor: pointer;
 }
 
-
 .enviar-valor-btn:hover {
   background: #6fc28f;
 }
-
 
 .cancelar-pagamento-btn {
   height: 43px;
@@ -1691,13 +1736,9 @@
   cursor: pointer;
 }
 
-
-/* ========================================================= */
-/* RESPONSIVO                                                  */
-/* ========================================================= */
+/* RESPONSIVO - TABLET */
 
 @media (max-width: 1100px) {
-
   .agenda-topo {
     grid-template-columns: auto 1fr auto;
     gap: 9px;
@@ -1724,16 +1765,36 @@
   .agenda-titulo h1 {
     font-size: 2.2rem;
   }
-
-  .novo-agendamento-modal {
-    width: min(820px, calc(100vw - 30px));
-  }
-
 }
 
+/* NOVO AGENDAMENTO ENTRE 901 E 1100 */
+
+@media (max-width: 1100px) and (min-width: 901px) {
+  .novo-agendamento-modal {
+    width: calc(100vw - 28px);
+  }
+
+  .novo-agendamento-colunas {
+    grid-template-columns: minmax(200px, .9fr) minmax(300px, 1.25fr) minmax(200px, .9fr);
+  }
+
+  .novo-agendamento-consulta {
+    padding-right: 14px;
+  }
+
+  .novo-agendamento-paciente {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .novo-agendamento-reagendamento {
+    padding-left: 14px;
+  }
+}
+
+/* RESPONSIVO - 850 */
 
 @media (max-width: 850px) {
-
   .agenda-container {
     padding: 8px;
   }
@@ -1793,14 +1854,52 @@
   .novo-agendamento-modal {
     width: calc(100vw - 24px);
     height: calc(100vh - 24px);
+    max-height: calc(100vh - 24px);
     padding: 22px;
   }
-
 }
 
+/* NOVO AGENDAMENTO EMPILHADO ABAIXO DE 900PX */
+
+@media (max-width: 900px) {
+  .novo-agendamento-colunas {
+    grid-template-columns: 1fr;
+    gap: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 2px;
+  }
+
+  .novo-agendamento-consulta,
+  .novo-agendamento-paciente,
+  .novo-agendamento-reagendamento {
+    overflow: visible;
+    padding-left: 0;
+    padding-right: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .novo-agendamento-consulta,
+  .novo-agendamento-paciente {
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #eee4eb;
+  }
+
+  .novo-agendamento-reagendamento {
+    padding-bottom: 2px;
+  }
+
+  .novo-agendamento-paciente .lista-pacientes-agendamento {
+    min-height: 220px;
+    max-height: 300px;
+  }
+}
+
+/* RESPONSIVO - MOBILE */
 
 @media (max-width: 650px) {
-
   .agenda-topo {
     grid-template-columns: auto 1fr auto;
   }
@@ -1863,12 +1962,8 @@
     gap: 9px;
   }
 
-  /*
-   * No celular, as duas colunas
-   * viram uma coluna.
-   */
   .novo-agendamento-modal {
-    width: 100%;
+    width: calc(100vw - 20px);
     max-width: calc(100vw - 20px);
     height: calc(100vh - 20px);
     max-height: calc(100vh - 20px);
@@ -1879,388 +1974,29 @@
     font-size: 2.35rem;
   }
 
-  .novo-agendamento-colunas {
-    grid-template-columns: 1fr;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 2px;
-  }
-
-  .novo-agendamento-esquerda {
-    min-height: auto;
-  }
-
-  .novo-agendamento-direita {
-    min-height: 330px;
-    padding-left: 0;
-    padding-top: 15px;
-    border-left: none;
-    border-top: 1px solid #eee4eb;
-  }
-
-  .reagendamento-box {
-    margin-top: 12px;
+  .novo-agendamento-paciente .lista-pacientes-agendamento {
+    min-height: 200px;
+    max-height: 260px;
   }
 
   .filtros-pacientes-agendamento {
     grid-template-columns: 1fr 1fr;
   }
 
-}
-
-/* ========================================================= */
-/* STATUS DO NOVO AGENDAMENTO                                */
-/* ========================================================= */
-
-.novo-agendamento-status-box {
-  margin-top: 10px;
-
-  padding: 11px 12px 12px;
-
-  border-radius: 13px;
-
-  background: #faf5f9;
-
-  border: 1px solid #eadfe7;
-}
-
-
-.novo-agendamento-status-box .novo-agendamento-label {
-  margin-top: 0;
-}
-
-
-/* ========================================================= */
-/* PAGAMENTO DO NOVO AGENDAMENTO                             */
-/* ========================================================= */
-
-.novo-agendamento-pagamento {
-  margin-top: 9px;
-
-  padding: 12px;
-
-  border-radius: 13px;
-
-  background: #f8f3f7;
-
-  border: 1px solid #e4dce3;
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 6px;
-}
-
-
-.novo-agendamento-pagamento-titulo {
-  margin-bottom: 2px;
-
-  color: #a9007d;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: .75rem;
-
-  font-weight: 700;
-}
-
-
-.novo-agendamento-pagamento label {
-  color: #665b63;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: .66rem;
-
-  font-weight: 600;
-}
-
-
-.novo-agendamento-pagamento select,
-.novo-agendamento-pagamento input {
-  width: 100%;
-
-  height: 38px;
-
-  padding: 0 9px;
-
-  box-sizing: border-box;
-
-  border:
-    1px solid #e4dce2;
-
-  border-radius: 9px;
-
-  background: #ffffff;
-
-  color: #51454e;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: .72rem;
-
-  outline: none;
-}
-
-
-.novo-agendamento-pagamento select:focus,
-.novo-agendamento-pagamento input:focus {
-  border-color: #b00083;
-
-  box-shadow:
-    0 0 0 2px
-    rgba(176,0,131,.08);
-}
-
-
-/* ========================================================= */
-/* AJUSTE DO LADO ESQUERDO                                  */
-/* ========================================================= */
-
-.novo-agendamento-esquerda {
-  overflow-y: auto;
-
-  overflow-x: hidden;
-
-  scrollbar-width: thin;
-
-  scrollbar-color:
-    #d5b3cd
-    transparent;
-}
-
-
-/* ========================================================= */
-/* QUANDO O PAGAMENTO APARECE                                */
-/* ========================================================= */
-
-.novo-agendamento-pagamento
-+ .ultimo-paciente-box {
-  margin-top: 9px;
-}
-
-
-/* ========================================================= */
-/* RESPONSIVO                                                 */
-/* ========================================================= */
-
-@media (max-width: 650px) {
-
-  .novo-agendamento-status-box {
-    margin-top: 9px;
+  .modal-consulta-info p {
+    align-items: flex-start;
   }
 
+  .modal-info-editavel {
+    max-width: calc(100% - 27px);
+  }
 
+  .modal-proxima-consulta {
+    margin-bottom: 13px;
+  }
+
+  .novo-agendamento-status-box,
   .novo-agendamento-pagamento {
     margin-top: 9px;
   }
-
-
-  .novo-agendamento-esquerda {
-    overflow: visible;
-  }
-
-}
-
-/* ========================================================= */
-/* REAGENDAMENTO PERSONALIZADO                              */
-/* ========================================================= */
-
-.reagendamento-personalizado {
-  display: grid;
-
-  grid-template-columns:
-    1fr
-    1.25fr;
-
-  gap: 7px;
-
-  margin-top: 8px;
-}
-
-
-.reagendamento-personalizado input,
-.reagendamento-personalizado select {
-  width: 100%;
-
-  height: 38px;
-
-  padding:
-    0 10px;
-
-  box-sizing: border-box;
-
-  border:
-    1px solid #e4dce2;
-
-  border-radius: 9px;
-
-  background:
-    #ffffff;
-
-  color:
-    #51454e;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size:
-    .72rem;
-
-  outline: none;
-}
-
-
-.reagendamento-personalizado input:focus,
-.reagendamento-personalizado select:focus {
-  border-color:
-    #b00083;
-
-  box-shadow:
-    0 0 0 2px
-    rgba(176,0,131,.08);
-}
-
-
-/* ========================================================= */
-/* TIPO DE PACIENTE - CADASTRO                              */
-/* ========================================================= */
-
-.campo-tipo-paciente {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 6px;
-}
-
-
-.campo-tipo-paciente label {
-  color:
-    #746871;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size:
-    .72rem;
-
-  font-weight:
-    600;
-}
-
-
-.campo-tipo-paciente select {
-  width: 100%;
-
-  min-height: 43px;
-
-  padding:
-    10px 12px;
-
-  box-sizing: border-box;
-
-  border:
-    1px solid #e4dce2;
-
-  border-radius:
-    11px;
-
-  background:
-    #f7f3f7;
-
-  color:
-    #51454e;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size:
-    .825rem;
-
-  outline: none;
-}
-
-
-.campo-tipo-paciente select:focus {
-  background:
-    #ffffff;
-
-  border-color:
-    #b00083;
-
-  box-shadow:
-    0 0 0 2px
-    rgba(169,0,125,.10);
-}
-
-
-/* ========================================================= */
-/* TIPO DE PACIENTE - PERFIL                                */
-/* ========================================================= */
-
-.perfil-dado select {
-  width: 100%;
-
-  min-height: 34px;
-
-  padding:
-    6px 9px;
-
-  box-sizing: border-box;
-
-  border:
-    1px solid #e4dce2;
-
-  border-radius:
-    8px;
-
-  background:
-    #ffffff;
-
-  color:
-    #51454e;
-
-  font-family:
-    "Poppins",
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size:
-    .76rem;
-
-  outline: none;
-}
-
-
-.perfil-dado select:focus {
-  border-color:
-    #b00083;
-
-  box-shadow:
-    0 0 0 2px
-    rgba(169,0,125,.08);
 }

@@ -58,7 +58,7 @@ function CadastroDentista({
   const [
     tipoPaciente,
     setTipoPaciente
-  ] = useState("Clínica Geral")
+  ] = useState("Clínica geral")
 
 
   const [
@@ -99,55 +99,189 @@ function CadastroDentista({
     valor
   ) {
 
-    valor =
-      valor.replace(
+    const texto =
+      String(
+        valor || ""
+      ).trim()
+
+
+    /*
+     * Se começar com + e NÃO for +55,
+     * preserva o código internacional informado.
+     *
+     * Ex.:
+     * +11...
+     * +1...
+     * +351...
+     *
+     * Não substitui por +55 nem por DDD 92.
+     */
+
+    if (
+      texto.startsWith("+") &&
+      !texto
+        .replace(/\D/g, "")
+        .startsWith("55")
+    ) {
+
+      return texto
+
+    }
+
+
+    let numeros =
+      texto.replace(
         /\D/g,
         ""
       )
 
 
+    /*
+     * Se digitou o código do Brasil,
+     * remove apenas o 55 para depois
+     * reconstruir o padrão.
+     *
+     * Ex.:
+     * 5511992801082
+     * → 11992801082
+     */
+
     if (
-      valor.startsWith("55")
+      numeros.startsWith("55") &&
+      numeros.length > 11
     ) {
 
-      valor =
-        valor.substring(2)
+      numeros =
+        numeros.substring(2)
 
     }
 
 
-    valor =
-      valor.substring(
+    /*
+     * Número completo com DDD.
+     *
+     * NÃO altera o DDD.
+     *
+     * 11992801082 → DDD 11
+     * 31992801082 → DDD 31
+     * 92992801082 → DDD 92
+     */
+
+    if (
+      numeros.length === 11
+    ) {
+
+      // mantém exatamente os 11 dígitos
+
+
+    }
+
+
+    /*
+     * Número de celular sem DDD.
+     *
+     * Nesse caso, e somente nesse caso,
+     * assume DDD 92.
+     */
+
+    else if (
+      numeros.length === 9
+    ) {
+
+      numeros =
+        "92" + numeros
+
+    }
+
+
+    /*
+     * Número fixo sem DDD.
+     *
+     * Nesse caso, e somente nesse caso,
+     * assume DDD 92.
+     */
+
+    else if (
+      numeros.length === 8
+    ) {
+
+      numeros =
+        "92" + numeros
+
+    }
+
+
+    /*
+     * Limita a 11 dígitos.
+     */
+
+    numeros =
+      numeros.substring(
         0,
         11
       )
 
 
+    /*
+     * Campo vazio.
+     */
+
     if (
-      valor.length <= 2
+      numeros.length === 0
+    ) {
+
+      return ""
+
+    }
+
+
+    /*
+     * DDD incompleto.
+     */
+
+    if (
+      numeros.length <= 2
     ) {
 
       return (
-        "+55 (" +
-        valor
+        `+55 (${numeros}`
       )
 
     }
 
 
+    /*
+     * Telefone fixo.
+     *
+     * +55 (92) 3300-1234
+     */
+
     if (
-      valor.length <= 7
+      numeros.length <= 10
     ) {
 
       return (
-        `+55 (${valor.slice(0, 2)}) ${valor.slice(2)}`
+        `+55 (${numeros.slice(0, 2)}) ` +
+        `${numeros.slice(2, 6)}` +
+        (
+          numeros.length > 6
+            ? `-${numeros.slice(6)}`
+            : ""
+        )
       )
 
     }
 
+
+    /*
+     * Celular.
+     *
+     * +55 (92) 99280-1082
+     */
 
     return (
-      `+55 (${valor.slice(0, 2)}) ${valor.slice(2, 7)}-${valor.slice(7)}`
+      `+55 (${numeros.slice(0, 2)}) ` +
+      `${numeros.slice(2, 7)}-${numeros.slice(7)}`
     )
 
   }
@@ -604,6 +738,8 @@ ${error.message}`
                   )
                 )
               }
+              inputMode="numeric"
+              type="tel"
             />
 
 
@@ -647,10 +783,13 @@ ${error.message}`
                   )
                 )
               }
+              inputMode="numeric"
             />
 
 
-            {/* TIPO DE PACIENTE */}
+            {/* ================================================= */}
+            {/* TIPO DE PACIENTE                                  */}
+            {/* ================================================= */}
 
             <select
               value={tipoPaciente}
@@ -718,6 +857,8 @@ ${error.message}`
                   )
                 )
               }
+              inputMode="numeric"
+              type="tel"
             />
 
 
@@ -731,6 +872,7 @@ ${error.message}`
                   )
                 )
               }
+              inputMode="numeric"
             />
 
           </div>
