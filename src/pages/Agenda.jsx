@@ -53,24 +53,20 @@ function Agenda({
     setSelecionada
   ] = useState(null)
 
-
   const [
     novoAgendamento,
     setNovoAgendamento
   ] = useState(null)
-
 
   const [
     offsetSemana,
     setOffsetSemana
   ] = useState(0)
 
-
   const [
     dataPesquisa,
     setDataPesquisa
   ] = useState("")
-
 
   /* ===================================================== */
   /* ÚLTIMO PACIENTE VISTO                                 */
@@ -80,7 +76,6 @@ function Agenda({
     ultimoPacienteVisto,
     setUltimoPacienteVisto
   ] = useState(null)
-
 
   /*
    * Quando uma consulta é aberta,
@@ -106,18 +101,15 @@ function Agenda({
       )
 
     if (paciente) {
-
       setUltimoPacienteVisto(
         paciente
       )
-
     }
 
   }, [
     selecionada,
     pacientes
   ])
-
 
   /* ===================================================== */
   /* PAGAMENTO                                             */
@@ -128,24 +120,20 @@ function Agenda({
     setValorPago
   ] = useState("")
 
-
   const [
     formaPagamento,
     setFormaPagamento
   ] = useState("")
-
 
   const [
     parcelas,
     setParcelas
   ] = useState("")
 
-
   const [
     pagamentoAberto,
     setPagamentoAberto
   ] = useState(false)
-
 
   /* ===================================================== */
   /* OBSERVAÇÕES                                           */
@@ -156,7 +144,6 @@ function Agenda({
     setObsEditando
   ] = useState("")
 
-
   /* ===================================================== */
   /* NOVO AGENDAMENTO                                      */
   /* ===================================================== */
@@ -166,76 +153,15 @@ function Agenda({
     setBuscaPaciente
   ] = useState("")
 
-
   const [
     pacienteSelecionado,
     setPacienteSelecionado
   ] = useState(null)
 
-
   const [
     dataConsulta,
     setDataConsulta
   ] = useState("")
-
-
-  /* ===================================================== */
-  /* MANTER PACIENTE SELECIONADO                           */
-  /* ===================================================== */
-
-  /*
-   * A lista de pacientes pode ser atualizada pelo
-   * Firestore enquanto o modal está aberto.
-   *
-   * Nesse caso, substituímos o objeto selecionado
-   * pela versão mais recente do mesmo paciente.
-   *
-   * IMPORTANTE:
-   * isso NÃO limpa o paciente.
-   *
-   * Portanto:
-   *
-   * paciente selecionado
-   *       ↓
-   * muda a data
-   *       ↓
-   * paciente continua selecionado
-   *
-   * Só muda se a própria seleção mudar.
-   */
-
-  useEffect(() => {
-
-    if (
-      !pacienteSelecionado?.id
-    ) {
-      return
-    }
-
-    const pacienteAtualizado =
-      pacientes.find(
-        paciente =>
-          paciente.id ===
-          pacienteSelecionado.id
-      )
-
-    if (
-      pacienteAtualizado &&
-      pacienteAtualizado !==
-        pacienteSelecionado
-    ) {
-
-      setPacienteSelecionado(
-        pacienteAtualizado
-      )
-
-    }
-
-  }, [
-    pacientes,
-    pacienteSelecionado
-  ])
-
 
   /* ===================================================== */
   /* AGENDAMENTO PELO TOPO                                 */
@@ -246,7 +172,6 @@ function Agenda({
     setPacienteTopo
   ] = useState("")
 
-
   const [
     diaTopo,
     setDiaTopo
@@ -256,18 +181,15 @@ function Agenda({
       .split("T")[0]
   )
 
-
   const [
     horaTopo,
     setHoraTopo
   ] = useState("07:00")
 
-
   const [
     statusTopo,
     setStatusTopo
   ] = useState("agendado")
-
 
   /* ===================================================== */
   /* SINCRONIZAR CONSULTA ABERTA                           */
@@ -285,7 +207,6 @@ function Agenda({
       return
     }
 
-
     if (
       selecionada.status === "pagou"
     ) {
@@ -299,12 +220,10 @@ function Agenda({
           : ""
       )
 
-
       setFormaPagamento(
         selecionada.formaPagamento ||
         ""
       )
-
 
       setParcelas(
         selecionada.parcelas !== undefined &&
@@ -317,7 +236,6 @@ function Agenda({
             )
           : ""
       )
-
 
       setPagamentoAberto(true)
 
@@ -334,7 +252,6 @@ function Agenda({
     selecionada
   ])
 
-
   /* ===================================================== */
   /* RETORNO DO CADASTRO                                   */
   /* ===================================================== */
@@ -347,14 +264,11 @@ function Agenda({
       return
     }
 
-
     const agendamento =
       retornoAgendamento.novoAgendamento
 
-
     const paciente =
       retornoAgendamento.paciente
-
 
     if (
       !agendamento ||
@@ -363,26 +277,21 @@ function Agenda({
       return
     }
 
-
     setNovoAgendamento(
       agendamento
     )
-
 
     setDataConsulta(
       agendamento.data || ""
     )
 
-
     setPacienteSelecionado(
       paciente
     )
 
-
     setBuscaPaciente(
       paciente.nome || ""
     )
-
 
     /*
      * O paciente recém-cadastrado
@@ -394,7 +303,6 @@ function Agenda({
       paciente
     )
 
-
     if (
       agendamento.data
     ) {
@@ -404,26 +312,21 @@ function Agenda({
           agendamento.data
         )
 
-
       setOffsetSemana(
         novoOffset
       )
 
     }
 
-
     if (
       limparRetornoAgendamento
     ) {
-
       limparRetornoAgendamento()
-
     }
 
   }, [
     retornoAgendamento
   ])
-
 
   /* ===================================================== */
   /* IR PARA DATA                                          */
@@ -437,19 +340,15 @@ function Agenda({
       return
     }
 
-
     const novoOffset =
       getOffsetSemanaParaData(
         data
       )
 
-
     setOffsetSemana(
       novoOffset
     )
-
   }
-
 
   /* ===================================================== */
   /* DATA LOCAL                                            */
@@ -460,10 +359,8 @@ function Agenda({
     const hoje =
       new Date()
 
-
     const ano =
       hoje.getFullYear()
-
 
     const mes =
       String(
@@ -473,7 +370,6 @@ function Agenda({
         "0"
       )
 
-
     const dia =
       String(
         hoje.getDate()
@@ -482,13 +378,10 @@ function Agenda({
         "0"
       )
 
-
     return (
       `${ano}-${mes}-${dia}`
     )
-
   }
-
 
   /* ===================================================== */
   /* NOVO AGENDAMENTO                                      */
@@ -499,14 +392,11 @@ function Agenda({
     const dataHoje =
       obterDataHoje()
 
-
     const hoje =
       new Date()
 
-
     const diaSemana =
       hoje.getDay()
-
 
     const nomesDias = [
       "Domingo",
@@ -518,14 +408,11 @@ function Agenda({
       "Sábado"
     ]
 
-
     /*
-     * Ao ABRIR um novo agendamento,
-     * começamos sem paciente selecionado.
-     *
-     * Depois que o paciente for escolhido,
-     * alterar data ou horário NÃO irá
-     * apagá-lo.
+     * O novo agendamento começa
+     * sem paciente selecionado,
+     * mas o último paciente visto
+     * fica disponível no lado esquerdo.
      */
 
     setNovoAgendamento({
@@ -543,19 +430,14 @@ function Agenda({
 
     })
 
-
     setDataConsulta(
       dataHoje
     )
 
-
     setBuscaPaciente("")
 
-
     setPacienteSelecionado(null)
-
   }
-
 
   /* ===================================================== */
   /* AÇÕES                                                 */
@@ -618,7 +500,6 @@ function Agenda({
 
     })
 
-
   /* ===================================================== */
   /* PACIENTE DO MODAL                                     */
   /* ===================================================== */
@@ -629,7 +510,6 @@ function Agenda({
         p.id ===
         selecionada?.pacienteId
     )
-
 
   /* ===================================================== */
   /* RENDER                                                */
@@ -670,7 +550,6 @@ function Agenda({
         }
 
       />
-
 
       <section className="agenda-area">
 
@@ -731,7 +610,6 @@ function Agenda({
         />
 
       </section>
-
 
       {/* ================================================= */}
       {/* MODAL DE CONSULTA                                 */}
@@ -855,7 +733,6 @@ function Agenda({
         )
       }
 
-
       {/* ================================================= */}
       {/* NOVO AGENDAMENTO                                  */}
       {/* ================================================= */}
@@ -909,6 +786,30 @@ function Agenda({
               setDataConsulta
             }
 
+            valorPago={
+              valorPago
+            }
+
+            setValorPago={
+              setValorPago
+            }
+
+            formaPagamento={
+              formaPagamento
+            }
+
+            setFormaPagamento={
+              setFormaPagamento
+            }
+
+            parcelas={
+              parcelas
+            }
+
+            setParcelas={
+              setParcelas
+            }
+
             criarAgendamento={
               actions.criarAgendamento
             }
@@ -939,9 +840,7 @@ function Agenda({
       }
 
     </main>
-
   )
-
 }
 
 export default Agenda
