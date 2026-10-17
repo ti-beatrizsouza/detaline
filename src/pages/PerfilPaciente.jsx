@@ -120,16 +120,14 @@ function formatarTelefone(
     ).trim()
 
 
+  if (!texto) {
+    return ""
+  }
+
+
   /*
-   * Se começar com + e NÃO for +55,
-   * preserva exatamente o código internacional.
-   *
-   * Ex.:
-   * +11...
-   * +1...
-   * +351...
-   *
-   * Não substitui por +55.
+   * Preserva números internacionais
+   * que não usam o código do Brasil.
    */
 
   if (
@@ -152,13 +150,26 @@ function formatarTelefone(
 
 
   /*
-   * Remove somente o código do Brasil.
-   *
-   * 5511992801082
-   * → 11992801082
+   * Remove o código do Brasil do valor
+   * já formatado, inclusive se estiver incompleto.
    */
 
   if (
+    texto.startsWith("+55") &&
+    numeros.startsWith("55")
+  ) {
+
+    numeros =
+      numeros.substring(2)
+
+  }
+
+  /*
+   * Também aceita o código 55 digitado
+   * sem o sinal de + em um número completo.
+   */
+
+  else if (
     numeros.startsWith("55") &&
     numeros.length > 11
   ) {
@@ -170,121 +181,85 @@ function formatarTelefone(
 
 
   /*
-   * Número completo com DDD.
-   *
-   * O DDD existente nunca é substituído.
+   * Não corta silenciosamente números
+   * com quantidade inválida de dígitos.
+   */
+
+  if (numeros.length > 11) {
+    return texto
+  }
+
+
+  /*
+   * Celular completo com DDD.
    */
 
   if (
     numeros.length === 11
   ) {
 
-    // mantém os 11 dígitos
+    return (
+      `+55 (${numeros.slice(0, 2)}) ` +
+      `${numeros.slice(2, 7)}-${numeros.slice(7)}`
+    )
 
+  }
+
+
+  /*
+   * Telefone fixo completo com DDD.
+   */
+
+  if (
+    numeros.length === 10
+  ) {
+
+    return (
+      `+55 (${numeros.slice(0, 2)}) ` +
+      `${numeros.slice(2, 6)}-${numeros.slice(6)}`
+    )
 
   }
 
 
   /*
    * Celular sem DDD.
-   *
-   * Só aqui assume DDD 92.
+   * Não acrescenta DDD automaticamente.
    */
 
-  else if (
+  if (
     numeros.length === 9
   ) {
 
-    numeros =
-      "92" + numeros
+    return (
+      `${numeros.slice(0, 5)}-${numeros.slice(5)}`
+    )
 
   }
 
 
   /*
-   * Fixo sem DDD.
-   *
-   * Só aqui assume DDD 92.
+   * Telefone fixo sem DDD.
+   * Não acrescenta DDD automaticamente.
    */
 
-  else if (
+  if (
     numeros.length === 8
   ) {
 
-    numeros =
-      "92" + numeros
-
-  }
-
-
-  /*
-   * Limita a 11 dígitos.
-   */
-
-  numeros =
-    numeros.substring(
-      0,
-      11
-    )
-
-
-  /*
-   * Campo vazio.
-   */
-
-  if (
-    numeros.length === 0
-  ) {
-
-    return ""
-
-  }
-
-
-  /*
-   * DDD incompleto.
-   */
-
-  if (
-    numeros.length <= 2
-  ) {
-
     return (
-      `+55 (${numeros}`
+      `${numeros.slice(0, 4)}-${numeros.slice(4)}`
     )
 
   }
 
 
   /*
-   * Telefone fixo.
+   * Preserva o texto se estiver incompleto,
+   * para não apagar o que a pessoa digitou.
    */
 
-  if (
-    numeros.length <= 10
-  ) {
-
-    return (
-      `+55 (${numeros.slice(0, 2)}) ` +
-      `${numeros.slice(2, 6)}` +
-      (
-        numeros.length > 6
-          ? `-${numeros.slice(6)}`
-          : ""
-      )
-    )
-
-  }
-
-
-  /*
-   * Celular.
-   */
-
-  return (
-    `+55 (${numeros.slice(0, 2)}) ` +
-    `${numeros.slice(2, 7)}-${numeros.slice(7)}`
-  )
+  return texto
 
 }
 
@@ -423,8 +398,7 @@ function PerfilPaciente({
 
           /*
            * Se algum telefone antigo estiver
-           * sem o padrão +55, atualiza automaticamente
-           * no Firebase.
+           * sem o padrão de exibição, atualiza no Firebase.
            */
 
           if (
@@ -581,14 +555,22 @@ function PerfilPaciente({
   ) {
 
     setDados(
-      atual => ({
+      atual => {
 
-        ...atual,
+        const atualizado = {
+          ...atual,
+          [campo]: valor
+        }
 
-        [campo]:
-          valor
+        if (
+          campo === "tipoPaciente" &&
+          valor !== "PCD"
+        ) {
+          atualizado.tipoPcd = ""
+        }
 
-      })
+        return atualizado
+      }
     )
 
   }
@@ -609,9 +591,7 @@ function PerfilPaciente({
         ...atual,
 
         [campo]:
-          formatarTelefone(
-            valor
-          )
+          valor
 
       })
     )
@@ -742,6 +722,13 @@ function PerfilPaciente({
 
         tipoPaciente:
           dados.tipoPaciente || "Clínica geral",
+
+        tipoPcd:
+          dados.tipoPaciente === "PCD"
+            ? String(
+                dados.tipoPcd || ""
+              ).trim()
+            : "",
 
         responsavel:
           dados.responsavel || "",
@@ -1318,6 +1305,10 @@ function PerfilPaciente({
                   Clínica geral
                 </option>
 
+                <option value="PCD">
+                  PCD
+                </option>
+
                 <option value="Outro">
                   Outro
                 </option>
@@ -1333,6 +1324,42 @@ function PerfilPaciente({
             )}
 
           </div>
+
+
+          {dados.tipoPaciente === "PCD" && (
+            <div className="perfil-dado">
+
+              <span>
+                Tipo de PCD
+              </span>
+
+
+              {editando ? (
+
+                <input
+                  type="text"
+                  value={
+                    dados.tipoPcd || ""
+                  }
+                  onChange={(e) =>
+                    alterarCampo(
+                      "tipoPcd",
+                      e.target.value
+                    )
+                  }
+                  placeholder="Informe o tipo de PCD"
+                />
+
+              ) : (
+
+                <strong>
+                  {dados.tipoPcd || "Não informado"}
+                </strong>
+
+              )}
+
+            </div>
+          )}
 
 
           {/* IDADE / DATA DE NASCIMENTO */}

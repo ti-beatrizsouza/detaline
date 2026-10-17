@@ -75,6 +75,9 @@ export function getCor(status) {
     case "faltou":
       return "amarelo"
 
+    case "checkup":
+      return "laranja"
+
     default:
       return "cinza"
 

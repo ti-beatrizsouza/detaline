@@ -262,6 +262,11 @@ function AgendaModal({
     setSelecionada(null)
   }
 
+  async function alterarStatusEFechar(status) {
+    await mudarStatus(status)
+    fecharModal()
+  }
+
   function verPerfil() {
     const paciente =
       pacientes.find(
@@ -509,7 +514,9 @@ function AgendaModal({
             <button
               type="button"
               className="btn-confirmado"
-              onClick={() => mudarStatus("confirmado")}
+              onClick={() =>
+                alterarStatusEFechar("confirmado")
+              }
             >
               Confirmado
             </button>
@@ -524,8 +531,20 @@ function AgendaModal({
 
             <button
               type="button"
+              className="btn-checkup"
+              onClick={() =>
+                alterarStatusEFechar("checkup")
+              }
+            >
+              Check-up
+            </button>
+
+            <button
+              type="button"
               className="btn-debito"
-              onClick={() => mudarStatus("pendente")}
+              onClick={() =>
+                alterarStatusEFechar("pendente")
+              }
             >
               Pagamento Pendente
             </button>
@@ -533,7 +552,9 @@ function AgendaModal({
             <button
               type="button"
               className="btn-faltou"
-              onClick={() => mudarStatus("faltou")}
+              onClick={() =>
+                alterarStatusEFechar("faltou")
+              }
             >
               Faltou
             </button>
@@ -541,7 +562,9 @@ function AgendaModal({
             <button
               type="button"
               className="btn-agendado"
-              onClick={() => mudarStatus("agendado")}
+              onClick={() =>
+                alterarStatusEFechar("agendado")
+              }
             >
               Agendado
             </button>

@@ -62,6 +62,12 @@ function CadastroDentista({
 
 
   const [
+    tipoPcd,
+    setTipoPcd
+  ] = useState("")
+
+
+  const [
     nomeResponsavel,
     setNomeResponsavel
   ] = useState("")
@@ -105,16 +111,14 @@ function CadastroDentista({
       ).trim()
 
 
+    if (!texto) {
+      return ""
+    }
+
+
     /*
-     * Se começar com + e NÃO for +55,
-     * preserva o código internacional informado.
-     *
-     * Ex.:
-     * +11...
-     * +1...
-     * +351...
-     *
-     * Não substitui por +55 nem por DDD 92.
+     * Preserva números internacionais
+     * que não usam o código do Brasil.
      */
 
     if (
@@ -137,16 +141,27 @@ function CadastroDentista({
 
 
     /*
-     * Se digitou o código do Brasil,
-     * remove apenas o 55 para depois
-     * reconstruir o padrão.
-     *
-     * Ex.:
-     * 5511992801082
-     * → 11992801082
+     * Remove o código do Brasil do valor
+     * já formatado, mesmo se o número estiver
+     * incompleto durante uma edição.
      */
 
     if (
+      texto.startsWith("+55") &&
+      numeros.startsWith("55")
+    ) {
+
+      numeros =
+        numeros.substring(2)
+
+    }
+
+    /*
+     * Também aceita o código 55 digitado
+     * sem o sinal de + em um número completo.
+     */
+
+    else if (
       numeros.startsWith("55") &&
       numeros.length > 11
     ) {
@@ -158,131 +173,85 @@ function CadastroDentista({
 
 
     /*
-     * Número completo com DDD.
-     *
-     * NÃO altera o DDD.
-     *
-     * 11992801082 → DDD 11
-     * 31992801082 → DDD 31
-     * 92992801082 → DDD 92
+     * Não corta silenciosamente números
+     * com quantidade inválida de dígitos.
+     */
+
+    if (numeros.length > 11) {
+      return texto
+    }
+
+
+    /*
+     * Telefone celular completo com DDD.
      */
 
     if (
       numeros.length === 11
     ) {
 
-      // mantém exatamente os 11 dígitos
-
-
-    }
-
-
-    /*
-     * Número de celular sem DDD.
-     *
-     * Nesse caso, e somente nesse caso,
-     * assume DDD 92.
-     */
-
-    else if (
-      numeros.length === 9
-    ) {
-
-      numeros =
-        "92" + numeros
-
-    }
-
-
-    /*
-     * Número fixo sem DDD.
-     *
-     * Nesse caso, e somente nesse caso,
-     * assume DDD 92.
-     */
-
-    else if (
-      numeros.length === 8
-    ) {
-
-      numeros =
-        "92" + numeros
-
-    }
-
-
-    /*
-     * Limita a 11 dígitos.
-     */
-
-    numeros =
-      numeros.substring(
-        0,
-        11
-      )
-
-
-    /*
-     * Campo vazio.
-     */
-
-    if (
-      numeros.length === 0
-    ) {
-
-      return ""
-
-    }
-
-
-    /*
-     * DDD incompleto.
-     */
-
-    if (
-      numeros.length <= 2
-    ) {
-
       return (
-        `+55 (${numeros}`
+        `+55 (${numeros.slice(0, 2)}) ` +
+        `${numeros.slice(2, 7)}-${numeros.slice(7)}`
       )
 
     }
 
 
     /*
-     * Telefone fixo.
-     *
-     * +55 (92) 3300-1234
+     * Telefone fixo completo com DDD.
      */
 
     if (
-      numeros.length <= 10
+      numeros.length === 10
     ) {
 
       return (
         `+55 (${numeros.slice(0, 2)}) ` +
-        `${numeros.slice(2, 6)}` +
-        (
-          numeros.length > 6
-            ? `-${numeros.slice(6)}`
-            : ""
-        )
+        `${numeros.slice(2, 6)}-${numeros.slice(6)}`
       )
 
     }
 
 
     /*
-     * Celular.
-     *
-     * +55 (92) 99280-1082
+     * Celular sem DDD.
+     * Não acrescenta DDD automaticamente.
      */
 
-    return (
-      `+55 (${numeros.slice(0, 2)}) ` +
-      `${numeros.slice(2, 7)}-${numeros.slice(7)}`
-    )
+    if (
+      numeros.length === 9
+    ) {
+
+      return (
+        `${numeros.slice(0, 5)}-${numeros.slice(5)}`
+      )
+
+    }
+
+
+    /*
+     * Telefone fixo sem DDD.
+     * Não acrescenta DDD automaticamente.
+     */
+
+    if (
+      numeros.length === 8
+    ) {
+
+      return (
+        `${numeros.slice(0, 4)}-${numeros.slice(4)}`
+      )
+
+    }
+
+
+    /*
+     * Preserva o texto se estiver incompleto,
+     * para não apagar o que a pessoa digitou.
+     */
+
+    return texto
 
   }
 
@@ -477,16 +446,25 @@ function CadastroDentista({
           ),
 
         tel:
-          telefone,
+          formatarTelefone(
+            telefone
+          ),
 
         tipoPaciente:
           tipoPaciente || "Clínica geral",
+
+        tipoPcd:
+          tipoPaciente === "PCD"
+            ? tipoPcd.trim()
+            : "",
 
         responsavel:
           nomeResponsavel,
 
         telResponsavel:
-          telefoneResponsavel,
+          formatarTelefone(
+            telefoneResponsavel
+          ),
 
         cpfResponsavel,
 
@@ -733,9 +711,7 @@ ${error.message}`
               value={telefone}
               onChange={(e) =>
                 setTelefone(
-                  formatarTelefone(
-                    e.target.value
-                  )
+                  e.target.value
                 )
               }
               inputMode="numeric"
@@ -793,11 +769,18 @@ ${error.message}`
 
             <select
               value={tipoPaciente}
-              onChange={(e) =>
-                setTipoPaciente(
+              onChange={(e) => {
+                const novoTipo =
                   e.target.value
+
+                setTipoPaciente(
+                  novoTipo
                 )
-              }
+
+                if (novoTipo !== "PCD") {
+                  setTipoPcd("")
+                }
+              }}
             >
 
               <option value="Ortodontia">
@@ -812,11 +795,29 @@ ${error.message}`
                 Clínica geral
               </option>
 
+              <option value="PCD">
+                PCD
+              </option>
+
               <option value="Outro">
                 Outro
               </option>
 
             </select>
+
+
+            {tipoPaciente === "PCD" && (
+              <input
+                type="text"
+                placeholder="Tipo de PCD"
+                value={tipoPcd}
+                onChange={(e) =>
+                  setTipoPcd(
+                    e.target.value
+                  )
+                }
+              />
+            )}
 
           </div>
 
@@ -852,9 +853,7 @@ ${error.message}`
               value={telefoneResponsavel}
               onChange={(e) =>
                 setTelefoneResponsavel(
-                  formatarTelefone(
-                    e.target.value
-                  )
+                  e.target.value
                 )
               }
               inputMode="numeric"
