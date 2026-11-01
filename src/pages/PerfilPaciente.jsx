@@ -24,6 +24,38 @@ import cogumelo from "../assets/cogumelo.png"
 import "../styles/perfilPaciente.css"
 
 
+function criarLinkWhatsApp(telefone) {
+  const texto = String(telefone || "").trim()
+
+  if (!texto) {
+    return ""
+  }
+
+  const digitos = texto.replace(/\D/g, "")
+
+  if (texto.startsWith("+")) {
+    if (digitos.length < 8 || digitos.length > 15) {
+      return ""
+    }
+
+    return `https://wa.me/${digitos}`
+  }
+
+  if (digitos.length === 10 || digitos.length === 11) {
+    return `https://wa.me/55${digitos}`
+  }
+
+  if (
+    digitos.startsWith("55") &&
+    (digitos.length === 12 || digitos.length === 13)
+  ) {
+    return `https://wa.me/${digitos}`
+  }
+
+  return ""
+}
+
+
 /* ========================================================= */
 /* CALCULAR IDADE                                             */
 /* ========================================================= */
@@ -1469,9 +1501,20 @@ function PerfilPaciente({
 
             ) : (
 
-              <strong>
-                {dados.tel || "Não informado"}
-              </strong>
+              criarLinkWhatsApp(dados.tel) ? (
+                <a
+                  href={criarLinkWhatsApp(dados.tel)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "inherit" }}
+                >
+                  {dados.tel}
+                </a>
+              ) : (
+                <strong>
+                  {dados.tel || "Não informado"}
+                </strong>
+              )
 
             )}
 
@@ -1545,12 +1588,23 @@ function PerfilPaciente({
 
             ) : (
 
-              <strong>
-                {
-                  dados.telResponsavel ||
-                  "Não informado"
-                }
-              </strong>
+              criarLinkWhatsApp(dados.telResponsavel) ? (
+                <a
+                  href={criarLinkWhatsApp(dados.telResponsavel)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "inherit" }}
+                >
+                  {dados.telResponsavel}
+                </a>
+              ) : (
+                <strong>
+                  {
+                    dados.telResponsavel ||
+                    "Não informado"
+                  }
+                </strong>
+              )
 
             )}
 

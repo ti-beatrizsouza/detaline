@@ -10,6 +10,38 @@ import logob from "../assets/logob.png"
 import usePacientes from "../hooks/usePacientes"
 
 
+function criarLinkWhatsApp(telefone) {
+  const texto = String(telefone || "").trim()
+
+  if (!texto) {
+    return ""
+  }
+
+  const digitos = texto.replace(/\D/g, "")
+
+  if (texto.startsWith("+")) {
+    if (digitos.length < 8 || digitos.length > 15) {
+      return ""
+    }
+
+    return `https://wa.me/${digitos}`
+  }
+
+  if (digitos.length === 10 || digitos.length === 11) {
+    return `https://wa.me/55${digitos}`
+  }
+
+  if (
+    digitos.startsWith("55") &&
+    (digitos.length === 12 || digitos.length === 13)
+  ) {
+    return `https://wa.me/${digitos}`
+  }
+
+  return ""
+}
+
+
 function ListaPacientes({
 
   voltar,
@@ -944,55 +976,131 @@ function ListaPacientes({
           /* ============================================== */
 
           pacientesFiltrados.map(
-            (paciente) => (
+            (paciente) => {
+              const telefone = encontrarTelefone(paciente)
+              const linkWhatsApp = criarLinkWhatsApp(telefone)
 
-              <article
-                key={paciente.id}
-
-                className="paciente-card"
-
-                onClick={() =>
-                  abrirPerfil(
-                    paciente,
-                    "pacientes"
-                  )
-                }
-              >
-
-
-                {/* ================================================= */}
-                {/* FOTO                                              */}
-                {/* ================================================= */}
-
-                <div className="paciente-foto">
-
-                  {
-                    paciente.nome?.[0]
-                      ?.toUpperCase()
+              return (
+                <article
+                  key={paciente.id}
+                  className="paciente-card"
+                  onClick={() =>
+                    abrirPerfil(
+                      paciente,
+                      "pacientes"
+                    )
                   }
-
-                </div>
-
-
-                {/* ================================================= */}
-                {/* INFORMAÇÕES                                      */}
-                {/* ================================================= */}
-
-                <div className="paciente-info">
+                >
 
 
-                  <div className="paciente-nome-area">
+                  {/* ================================================= */}
+                  {/* FOTO                                              */}
+                  {/* ================================================= */}
 
-                    <div>
+                  <div className="paciente-foto">
 
-                      <h2>
-                        {paciente.nome}
-                      </h2>
+                    {
+                      paciente.nome?.[0]
+                        ?.toUpperCase()
+                    }
+
+                  </div>
 
 
-                      <span className="paciente-tag">
-                        {paciente.tag || "#—"}
-                      </span>
+                  {/* ================================================= */}
+                  {/* INFORMAÇÕES                                      */}
+                  {/* ================================================= */}
+
+                  <div className="paciente-info">
+
+
+                    <div className="paciente-nome-area">
+
+                      <div>
+
+                        <h2>
+                          {paciente.nome}
+                        </h2>
+
+
+                        <span className="paciente-tag">
+                          {paciente.tag || "#—"}
+                        </span>
+
+                      </div>
+
+                    </div>
+
+
+                    {/* ================================================= */}
+                    {/* DETALHES                                          */}
+                    {/* ================================================= */}
+
+                    <div className="paciente-detalhes">
+
+
+                      {/* TELEFONE */}
+
+                      <p>
+
+                        <span>
+                          Telefone:
+                        </span>
+
+                        {" "}
+
+                        {linkWhatsApp ? (
+                          <a
+                            href={linkWhatsApp}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            style={{ color: "inherit" }}
+                          >
+                            {telefone}
+                          </a>
+                        ) : (
+                          telefone
+                        )}
+
+                      </p>
+
+
+                      {/* APELIDO */}
+
+                      <p>
+
+                        <span>
+                          Apelido:
+                        </span>
+
+                        {" "}
+
+                        {
+                          paciente.apelido ||
+                          "Não definido"
+                        }
+
+                      </p>
+
+
+                      {/* OBSERVAÇÕES */}
+
+                      <p>
+
+                        <span>
+                          Observações:
+                        </span>
+
+                        {" "}
+
+                        {
+                          paciente.obs ||
+                          "Sem observações"
+                        }
+
+                      </p>
+
 
                     </div>
 
@@ -1000,121 +1108,54 @@ function ListaPacientes({
 
 
                   {/* ================================================= */}
-                  {/* DETALHES                                          */}
+                  {/* LATERAL                                           */}
                   {/* ================================================= */}
 
-                  <div className="paciente-detalhes">
+                  <div className="paciente-lateral">
+
+                    <span
+                      className="
+                        paciente-lateral-label
+                      "
+                    >
+                      RESPONSÁVEL
+                    </span>
 
 
-                    {/* TELEFONE */}
-
-                    <p>
-
-                      <span>
-                        Telefone:
-                      </span>
-
-                      {" "}
+                    <strong>
 
                       {
-                        encontrarTelefone(
+                        encontrarResponsavel(
                           paciente
                         )
                       }
 
-                    </p>
+                    </strong>
 
 
-                    {/* APELIDO */}
-
-                    <p>
-
-                      <span>
-                        Apelido:
-                      </span>
-
-                      {" "}
-
-                      {
-                        paciente.apelido ||
-                        "Não definido"
-                      }
-
-                    </p>
-
-
-                    {/* OBSERVAÇÕES */}
-
-                    <p>
-
-                      <span>
-                        Observações:
-                      </span>
-
-                      {" "}
-
-                      {
-                        paciente.obs ||
-                        "Sem observações"
-                      }
-
-                    </p>
-
+                    <span
+                      className="
+                        paciente-lateral-tag
+                      "
+                    >
+                      {paciente.tag || "#—"}
+                    </span>
 
                   </div>
 
-                </div>
+
+                  {/* ================================================= */}
+                  {/* SETA                                              */}
+                  {/* ================================================= */}
+
+                  <div className="paciente-seta">
+                    →
+                  </div>
 
 
-                {/* ================================================= */}
-                {/* LATERAL                                           */}
-                {/* ================================================= */}
-
-                <div className="paciente-lateral">
-
-                  <span
-                    className="
-                      paciente-lateral-label
-                    "
-                  >
-                    RESPONSÁVEL
-                  </span>
-
-
-                  <strong>
-
-                    {
-                      encontrarResponsavel(
-                        paciente
-                      )
-                    }
-
-                  </strong>
-
-
-                  <span
-                    className="
-                      paciente-lateral-tag
-                    "
-                  >
-                    {paciente.tag || "#—"}
-                  </span>
-
-                </div>
-
-
-                {/* ================================================= */}
-                {/* SETA                                              */}
-                {/* ================================================= */}
-
-                <div className="paciente-seta">
-                  →
-                </div>
-
-
-              </article>
-
-            )
+                </article>
+              )
+            }
           )
 
         )}

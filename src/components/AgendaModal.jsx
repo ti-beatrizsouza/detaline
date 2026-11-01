@@ -10,6 +10,37 @@ import {
 
 import { db } from "../services/firebase"
 
+function criarLinkWhatsApp(telefone) {
+  const texto = String(telefone || "").trim()
+
+  if (!texto) {
+    return ""
+  }
+
+  const digitos = texto.replace(/\D/g, "")
+
+  if (texto.startsWith("+")) {
+    if (digitos.length < 8 || digitos.length > 15) {
+      return ""
+    }
+
+    return `https://wa.me/${digitos}`
+  }
+
+  if (digitos.length === 10 || digitos.length === 11) {
+    return `https://wa.me/55${digitos}`
+  }
+
+  if (
+    digitos.startsWith("55") &&
+    (digitos.length === 12 || digitos.length === 13)
+  ) {
+    return `https://wa.me/${digitos}`
+  }
+
+  return ""
+}
+
 function AgendaModal({
   selecionada,
   pacientes,
@@ -319,6 +350,12 @@ function AgendaModal({
       ? `#${String(tagPaciente).replace(/^#/, "")}`
       : ""
 
+  const linkWhatsAppPaciente =
+    criarLinkWhatsApp(telefonePaciente)
+
+  const linkWhatsAppResponsavel =
+    criarLinkWhatsApp(telefoneResponsavel)
+
   return (
     <div className="modal-bg">
       <div className="pagamento-layout">
@@ -344,9 +381,21 @@ function AgendaModal({
                   Telefone
                 </span>
 
-                <span className="modal-telefone-valor">
-                  {telefonePaciente || "-"}
-                </span>
+                {linkWhatsAppPaciente ? (
+                  <a
+                    className="modal-telefone-valor"
+                    href={linkWhatsAppPaciente}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: "none" }}
+                  >
+                    {telefonePaciente}
+                  </a>
+                ) : (
+                  <span className="modal-telefone-valor">
+                    {telefonePaciente || "-"}
+                  </span>
+                )}
               </div>
 
               <div className="modal-telefone-item">
@@ -354,9 +403,21 @@ function AgendaModal({
                   Telefone do responsável
                 </span>
 
-                <span className="modal-telefone-valor">
-                  {telefoneResponsavel || "-"}
-                </span>
+                {linkWhatsAppResponsavel ? (
+                  <a
+                    className="modal-telefone-valor"
+                    href={linkWhatsAppResponsavel}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: "none" }}
+                  >
+                    {telefoneResponsavel}
+                  </a>
+                ) : (
+                  <span className="modal-telefone-valor">
+                    {telefoneResponsavel || "-"}
+                  </span>
+                )}
               </div>
             </div>
           </div>

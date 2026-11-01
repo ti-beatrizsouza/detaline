@@ -1948,3 +1948,534 @@
     border-radius: 0 0 20px 20px;
   }
 }
+
+/* ========================================================= */
+/* PÁGINA INICIAL - MOBILE                                   */
+/* ========================================================= */
+
+@media (max-width: 700px) {
+  .home-container {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow-x: hidden;
+  }
+
+  .home-header {
+    width: 100%;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+
+  .home-logo-topo {
+    width: clamp(90px, 28vw, 125px);
+    height: auto;
+    flex: 0 1 auto;
+  }
+
+  .home-botoes-topo {
+    flex: 0 0 auto;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .home-botoes-topo button {
+    width: auto;
+    min-width: 0;
+    height: 39px;
+    padding: 0 12px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+
+  .home-hero {
+    min-height: 66vh;
+    min-height: 66svh;
+    justify-content: center;
+    padding: 42px 22px 50px;
+    text-align: center;
+  }
+
+  .home-textos {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .home-textos h1 {
+    margin-bottom: 16px;
+    font-size: clamp(3.2rem, 14vw, 4.5rem);
+    line-height: 0.98;
+    overflow-wrap: anywhere;
+  }
+
+  .home-textos p {
+    max-width: 440px;
+    margin: 0 auto 24px;
+    font-size: clamp(0.95rem, 4vw, 1.08rem);
+    line-height: 1.6;
+  }
+
+  .home-textos button {
+    width: min(100%, 230px);
+    height: 54px;
+    border-radius: 15px;
+    font-size: 0.95rem;
+  }
+
+  .sobre-container {
+    padding: 38px 22px 46px;
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
+  }
+
+  .sobre-container h2 {
+    margin-bottom: 13px;
+    font-size: 1.65rem;
+    line-height: 1.2;
+  }
+
+  .sobre-container p {
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+}
+
+@media (max-width: 380px) {
+  .home-header {
+    padding: 12px;
+    gap: 7px;
+  }
+
+  .home-logo-topo {
+    width: 88px;
+  }
+
+  .home-botoes-topo {
+    gap: 6px;
+  }
+
+  .home-botoes-topo button {
+    height: 36px;
+    padding: 0 9px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+  }
+
+  .home-hero {
+    min-height: 64vh;
+    min-height: 64svh;
+    padding: 36px 18px 42px;
+  }
+
+  .home-textos h1 {
+    font-size: clamp(2.9rem, 14vw, 3.5rem);
+  }
+
+  .sobre-container {
+    padding: 32px 18px 40px;
+  }
+}
+
+/* ========================================================= */
+/* HOME ATUAL - MOBILE                                       */
+/* ========================================================= */
+
+@media (max-width: 700px) {
+  .home-container {
+    min-height: 100svh;
+    padding: 14px 16px 18px;
+    overflow: hidden;
+  }
+
+  .home-header {
+    min-height: 0;
+    margin-bottom: 12px;
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .home-marca {
+    justify-content: center;
+    gap: 10px;
+    text-align: left;
+  }
+
+  .home-titulo-marca {
+    align-items: flex-start;
+  }
+
+  .home-titulo-marca > span {
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+  }
+
+  .home-titulo-marca h1 {
+    margin: 3px 0;
+    font-size: clamp(1.55rem, 7vw, 2rem);
+    line-height: 1;
+  }
+
+  .home-titulo-marca p {
+    font-size: 0.75rem;
+  }
+
+  .home-logo-topo {
+    width: 78px;
+    height: 58px;
+  }
+
+  .home-acoes-topo {
+    justify-content: center;
+    gap: 9px;
+  }
+
+  .home-acoes-topo button {
+    height: 40px;
+    flex: 1;
+    padding: 0 12px;
+    font-size: 0.78rem;
+  }
+
+  .home-hero {
+    width: 100%;
+    min-height: 0;
+    margin: 0 auto 18px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .home-textos {
+    max-width: none;
+    padding: 12px 2px 0;
+    text-align: center;
+  }
+
+  .home-selo,
+  .home-secao-selo {
+    padding: 7px 11px;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+  }
+
+  .home-textos h2 {
+    margin: 14px 0 12px;
+    font-size: clamp(2.9rem, 13vw, 4.2rem);
+    line-height: 0.98;
+  }
+
+  .home-textos > p {
+    max-width: 480px;
+    margin: 0 auto;
+    font-size: 0.91rem;
+    line-height: 1.6;
+  }
+
+  .home-entrar-btn {
+    width: min(100%, 260px);
+    min-width: 0;
+    height: 46px;
+    margin-top: 17px;
+    font-size: 0.8rem;
+  }
+
+  .home-visual {
+    min-height: 0;
+  }
+
+  .home-foto-stage {
+    width: min(100%, 360px);
+    height: min(112vw, 430px);
+    min-height: 310px;
+    border-width: 5px;
+    border-radius: 150px 150px 22px 22px;
+  }
+
+  .home-foto-doutora {
+    object-position: center 42%;
+  }
+
+  .home-cartas {
+    width: 31px;
+    height: 31px;
+  }
+
+  .home-xicara {
+    width: 29px;
+    height: 29px;
+  }
+
+  .home-chapeu {
+    width: 33px;
+    height: 33px;
+  }
+
+  .home-pocao {
+    width: 27px;
+    height: 27px;
+  }
+
+  .home-foto-legenda {
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    min-height: 34px;
+    padding: 0 9px;
+    font-size: 0.66rem;
+  }
+
+  .home-apresentacao {
+    width: 100%;
+    margin: 0 auto 14px;
+    padding: 18px 15px;
+    border-radius: 17px;
+  }
+
+  .home-apresentacao-topo {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    padding: 0 0 17px;
+  }
+
+  .home-apresentacao-texto h2 {
+    margin: 11px 0 8px;
+    font-size: clamp(2rem, 9vw, 2.6rem);
+    line-height: 1.05;
+  }
+
+  .home-apresentacao-texto p {
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+
+  .home-contatos {
+    margin-top: 15px;
+    gap: 9px;
+  }
+
+  .home-contato-item {
+    padding: 10px;
+    gap: 9px;
+  }
+
+  .home-contato-icone {
+    width: 31px;
+    height: 31px;
+    flex-basis: 31px;
+  }
+
+  .home-contato-label {
+    font-size: 0.67rem;
+  }
+
+  .home-contato-item a {
+    font-size: 0.76rem;
+    overflow-wrap: anywhere;
+  }
+
+  .home-apresentacao-destaque {
+    min-height: 88px;
+    padding: 14px;
+  }
+
+  .home-galeria {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .home-foto-apresentacao {
+    height: min(62vw, 280px);
+    min-height: 190px;
+  }
+
+  .home-foto-apresentacao figcaption {
+    font-size: 0.76rem;
+  }
+
+  .home-destaques {
+    width: 100%;
+    margin: 0 auto 12px;
+    padding: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+  }
+
+  .home-destaque {
+    min-height: 70px;
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .home-destaque h3 {
+    font-size: 0.82rem;
+  }
+
+  .home-destaque p {
+    font-size: 0.72rem;
+  }
+
+  .home-footer {
+    padding: 8px 2px 0;
+    gap: 10px;
+    font-size: 0.62rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .home-container {
+    padding: 12px 12px 16px;
+  }
+
+  .home-logo-topo {
+    width: 68px;
+    height: 52px;
+  }
+
+  .home-titulo-marca h1 {
+    font-size: 1.45rem;
+  }
+
+  .home-textos h2 {
+    font-size: 2.8rem;
+  }
+
+  .home-foto-stage {
+    min-height: 285px;
+  }
+
+  .home-apresentacao {
+    padding: 15px 12px;
+  }
+
+  .home-foto-apresentacao {
+    min-height: 175px;
+  }
+}
+
+
+/* ========================================================= */
+/* LOGIN - MOBILE                                            */
+/* ========================================================= */
+
+@media (max-width: 700px) {
+  .login-container {
+    min-height: 100svh;
+    padding: 14px 12px;
+    overflow: hidden;
+  }
+
+  .login-header {
+    top: 12px;
+    right: 12px;
+    left: 12px;
+  }
+
+  .login-voltar {
+    min-height: 38px;
+    padding: 0 12px;
+    font-size: 0.72rem;
+  }
+
+  .login-marca {
+    gap: 6px;
+  }
+
+  .login-marca span {
+    font-size: 0.82rem;
+  }
+
+  .login-marca img {
+    width: 58px;
+    height: 48px;
+  }
+
+  .login-box {
+    width: min(100%, 460px);
+    min-height: 0;
+    margin: 66px auto 48px;
+    grid-template-columns: minmax(0, 1fr);
+    border-radius: 20px;
+  }
+
+  .login-lateral {
+    min-height: 205px;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .login-lateral-texto {
+    padding: 18px;
+  }
+
+  .login-lateral-texto h2 {
+    margin: 8px 0;
+    font-size: clamp(1.8rem, 8vw, 2.4rem);
+  }
+
+  .login-lateral-texto p {
+    max-width: 320px;
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .login-formulario {
+    padding: 23px 20px 24px;
+  }
+
+  .login-formulario h1 {
+    font-size: 2rem;
+  }
+
+  .login-formulario > p {
+    font-size: 0.84rem;
+  }
+
+  .login-formulario input {
+    min-width: 0;
+    font-size: 0.9rem;
+  }
+
+  .login-footer {
+    right: 12px;
+    bottom: 8px;
+    left: 12px;
+    font-size: 0.6rem;
+  }
+
+  .login-mostrar-senha {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    transition: color 0.2s ease;
+  }
+
+  .login-mostrar-senha:hover,
+  .login-mostrar-senha:focus-visible {
+    transform: translateY(-50%);
+  }
+}
+
+@media (max-width: 380px) {
+  .login-container {
+    padding: 10px;
+  }
+
+  .login-box {
+    margin-top: 60px;
+    margin-bottom: 42px;
+  }
+
+  .login-lateral {
+    min-height: 180px;
+  }
+
+  .login-formulario {
+    padding: 19px 15px 20px;
+  }
+
+  .login-footer {
+    font-size: 0.55rem;
+  }
+}

@@ -1,0 +1,240 @@
+@font-face {
+  font-family: "AliceWonderland";
+  src: url("../assets/fonts/Alice_in_Wonderland.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.cadastro-paciente-container {
+  min-height: 100vh;
+  padding: 112px 28px 68px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  background:
+    radial-gradient(
+      circle at 90% 5%,
+      rgba(255, 255, 255, 0.14),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 0% 80%,
+      rgba(255, 255, 255, 0.08),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #8f006b 0%,
+      #ae007f 38%,
+      #ce32ad 72%,
+      #e66bce 100%
+    );
+}
+
+.cadastro-paciente-container::before,
+.cadastro-paciente-container::after {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  content: "";
+  pointer-events: none;
+}
+
+.cadastro-paciente-container::before {
+  width: 500px;
+  height: 500px;
+  top: -360px;
+  right: -150px;
+}
+
+.cadastro-paciente-container::after {
+  width: 330px;
+  height: 330px;
+  bottom: -255px;
+  left: -125px;
+}
+
+.cadastro-paciente-topo {
+  position: absolute;
+  top: 24px;
+  right: 36px;
+  left: 36px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cadastro-paciente-voltar {
+  min-height: 44px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #a9007d;
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 7px 18px rgba(50, 0, 40, 0.14);
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cadastro-paciente-voltar:hover {
+  transform: translateY(-2px);
+  background: white;
+  box-shadow: 0 10px 22px rgba(50, 0, 40, 0.2);
+}
+
+.cadastro-paciente-voltar span {
+  font-size: 1rem;
+}
+
+.cadastro-paciente-marca {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: white;
+  font-family: "AliceWonderland", Georgia, serif;
+  font-size: 1.65rem;
+  text-shadow: 0 3px 12px rgba(65, 0, 55, 0.2);
+}
+
+.cadastro-paciente-marca img {
+  width: 118px;
+  height: 72px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 18px rgba(50, 0, 40, 0.18));
+}
+
+.cadastro-paciente-card {
+  width: min(600px, 100%);
+  padding: 48px 44px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.98);
+  color: #51454e;
+  text-align: center;
+  box-shadow:
+    0 28px 75px rgba(65, 0, 55, 0.24),
+    0 7px 20px rgba(65, 0, 55, 0.12);
+}
+
+.cadastro-paciente-icone {
+  width: 58px;
+  height: 58px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 17px;
+  background: #f7e7f4;
+  color: #a9007d;
+  font-size: 1.7rem;
+}
+
+.cadastro-paciente-etiqueta {
+  color: #a8879e;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.cadastro-paciente-card h1 {
+  margin: 12px 0;
+  color: #a9007d;
+  font-family: "AliceWonderland", Georgia, serif;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: normal;
+  line-height: 1.05;
+}
+
+.cadastro-paciente-card > p {
+  margin: 5px 0 0;
+  color: #574a54;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.cadastro-paciente-card .cadastro-paciente-detalhe {
+  max-width: 440px;
+  margin-top: 8px;
+  color: #827681;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.cadastro-paciente-rodape {
+  position: absolute;
+  right: 36px;
+  bottom: 18px;
+  left: 36px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 0.72rem;
+}
+
+@media (max-width: 720px) {
+  .cadastro-paciente-container {
+    padding: 106px 14px 54px;
+  }
+
+  .cadastro-paciente-topo {
+    top: 14px;
+    right: 14px;
+    left: 14px;
+  }
+
+  .cadastro-paciente-voltar {
+    min-height: 40px;
+    padding: 0 14px;
+  }
+
+  .cadastro-paciente-marca {
+    gap: 7px;
+    font-size: 0.95rem;
+  }
+
+  .cadastro-paciente-marca img {
+    width: 72px;
+    height: 48px;
+  }
+
+  .cadastro-paciente-card {
+    padding: 36px 24px;
+  }
+
+  .cadastro-paciente-rodape {
+    right: 14px;
+    bottom: 14px;
+    left: 14px;
+    font-size: 0.62rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cadastro-paciente-voltar {
+    transition: none;
+  }
+}
